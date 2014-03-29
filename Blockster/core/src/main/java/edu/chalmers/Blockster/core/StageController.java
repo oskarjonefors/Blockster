@@ -22,8 +22,14 @@ public class StageController extends InputAdapter implements Disposable {
 	private final static int MENU_BUTTON_UP_FLAG = 1 << 4;
 	private final static int SWITCH_CHARACTER_BUTTON_UP_FLAG = 1 << 5;
 	
+	private Stage stage;
+	
 	public StageController() {
 		
+	}
+	
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 	
 	@Override
@@ -67,6 +73,7 @@ public class StageController extends InputAdapter implements Disposable {
 			// Switching active character
 			
 		}
+		stage.update(deltaTime);
 	}
 	
 	@Override

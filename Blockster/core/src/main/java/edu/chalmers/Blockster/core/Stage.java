@@ -17,4 +17,8 @@ public class Stage {
 	public TiledMap getMap() {
 		return map;
 	}
+	
+	public void update(float deltaTime) {
+		//Set animation state etc
+	}
 }
