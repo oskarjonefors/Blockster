@@ -85,8 +85,9 @@ public class Stage {
 		//TODO
 	}
 	
-	public void stopGrabbingBlock() {
+	public void stopProcessingBlock() {
 		//TODO
+		processedBlock = null;
 	}
 	
 	public void update(float deltaTime) {
