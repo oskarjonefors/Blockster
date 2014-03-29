@@ -97,7 +97,7 @@ public class StageController extends InputAdapter implements Disposable {
 			}
 			if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
 				// Character is moving right
-				stage.moveCharacter(LEFT, distanceMoved);
+				stage.moveCharacter(RIGHT, distanceMoved);
 			}
 		}
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
