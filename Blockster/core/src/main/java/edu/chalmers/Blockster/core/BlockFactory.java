@@ -18,7 +18,9 @@ public class BlockFactory {
 
 	private final static File relBlockDirectory = new File("");
 	
-	private final static HashMap<Integer, BlockProperties> blockDefinitions 
+	/* Bypassed for the time being, we only need one block for the test.
+	 * 
+	 * private final static HashMap<Integer, BlockProperties> blockDefinitions 
 		= new HashMap<Integer, BlockProperties>();
 	
 	static {
@@ -26,17 +28,20 @@ public class BlockFactory {
 			defineBlocks();
 		} catch (IOException |ParserConfigurationException | SAXException e) {
 		}
-	}
+	}*/
 	
 	
 	public static Block createBlock(int RGB) {
-		return createBlock(blockDefinitions.get(RGB));
+		return null;
+		//return new Block(); Use this one as soon as Block is a proper class with set default values;
+		//return createBlock(blockDefinitions.get(RGB)); Use this one for the final product
 	}
 	
 	public static Block createBlock(BlockProperties p) {
 		return null;
 	}
 	
+	@SuppressWarnings("unused")
 	private static void defineBlocks() throws IOException, ParserConfigurationException, SAXException {
 		File blockFile = new File(relBlockDirectory,"blocks.xml");
 		
