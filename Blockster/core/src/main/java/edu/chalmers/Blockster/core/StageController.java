@@ -1,5 +1,7 @@
 package edu.chalmers.Blockster.core;
 
+import static edu.chalmers.Blockster.core.Direction.*;
+
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
@@ -25,6 +27,9 @@ public class StageController extends InputAdapter implements Disposable {
 	private final static int SWITCH_CHARACTER_BUTTON_UP_FLAG = 1 << 5;
 	
 	private Stage stage;
+	
+	private Direction lastDirection = NONE;
+	private boolean hasMovedBlock = false;
 	
 	private final ArrayList<StageListener> stageListenerList = new ArrayList<StageListener>();
 	
@@ -60,22 +65,49 @@ public class StageController extends InputAdapter implements Disposable {
 	 */
 	public void update(float deltaTime) {
 		float distanceMoved = deltaTime * VELOCITY;
-		
-		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
-			// Character is moving left
-			
-		}
-		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
-			// Character is moving right
-			
-		}
+		Block processedBlock = stage.getProcessedBlock();
+		Block adjacentBlock = stage.getAdjacentBlock(lastDirection);
+
 		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
 			// Character is grabbing a block
-			
+			if (processedBlock == null && adjacentBlock != null) {
+				//There was no previous grabbed block
+				//There is an adjacent block, try to grab it.
+				stage.grabBlock(adjacentBlock);
+			} else if (processedBlock != null) {
+				
+				if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
+					// Character is moving left
+					stage.moveBlock(LEFT);
+					stage.moveCharacter(LEFT, distanceMoved);
+					hasMovedBlock = true;
+				}
+				if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
+					// Character is moving right
+					stage.moveBlock(RIGHT);
+					stage.moveCharacter(RIGHT, distanceMoved);
+					hasMovedBlock = true;
+				}
+			}
+		} else {
+			//Character is not grabbing a block
+			if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
+				// Character is moving left
+				stage.moveCharacter(LEFT, distanceMoved);
+			}
+			if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
+				// Character is moving right
+				stage.moveCharacter(LEFT, distanceMoved);
+			}
 		}
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
-			// Character is lifting a block
 			
+			if (processedBlock != null && !hasMovedBlock) {
+				stage.liftBlock();
+			} else if (hasMovedBlock){
+				stage.stopGrabbingBlock();
+			}
+			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
 		}
 		if ((keyFlags & MENU_BUTTON_UP_FLAG) != 0) {
 			// Opening the level menu
@@ -87,6 +119,8 @@ public class StageController extends InputAdapter implements Disposable {
 		}
 	}
 	
+	
+	
 	@Override
 	public boolean keyDown(int keyCode) {
 		if (keyCode == Keys.LEFT) {
@@ -97,6 +131,9 @@ public class StageController extends InputAdapter implements Disposable {
 		
 		if (keyCode == Keys.RIGHT) {
 			/* Try to go right. If block is grabbed, try to push or pull it */
+			
+			//Override leftwards movement. Can only move one direction at a time
+			keyFlags &= ~LEFT_BUTTON_DOWN_FLAG; 
 			keyFlags |= RIGHT_BUTTON_DOWN_FLAG;
 		}
 		
@@ -123,11 +160,8 @@ public class StageController extends InputAdapter implements Disposable {
 		if (keyCode == Keys.SPACE) {
 			//If block is grabbed and no other keys are pushed down, lift the block.
 			keyFlags &= ~GRAB_BUTTON_DOWN_FLAG;
+			keyFlags |= GRAB_BUTTON_UP_FLAG;
 			
-			//TODO: check if a block is grabbed
-			if (keyFlags == 0) { //No keys are being pushed down
-				keyFlags |= GRAB_BUTTON_UP_FLAG;
-			}
 		}
 		
 		if (keyCode == Keys.ESCAPE){
@@ -142,4 +176,6 @@ public class StageController extends InputAdapter implements Disposable {
 		
 		return false;
 	}
+	
+
 }
