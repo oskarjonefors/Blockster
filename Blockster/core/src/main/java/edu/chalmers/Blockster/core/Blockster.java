@@ -8,7 +8,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
-public class Blockster extends Game implements ApplicationListener {
+public class Blockster extends Game implements ApplicationListener, StageListener {
 	
 	//Constant useful for logging.
 	public static final String LOG = Blockster.class.getSimpleName();
@@ -17,6 +17,7 @@ public class Blockster extends Game implements ApplicationListener {
 	private FPSLogger fpsLogger;
 	private StageController controller;
 	private StageView view;
+	private Stage stage;
 	
 	@Override
 	public void create () {
@@ -57,5 +58,10 @@ public class Blockster extends Game implements ApplicationListener {
 	@Override
 	public void dispose () {
 		Gdx.app.log(Blockster.LOG,  "Disposing game");
+	}
+	
+	@Override
+	public void stageChanged(Stage stage) {
+		this.stage = stage;
 	}
 }

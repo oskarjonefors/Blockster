@@ -1,5 +1,7 @@
 package edu.chalmers.Blockster.core;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
@@ -24,12 +26,22 @@ public class StageController extends InputAdapter implements Disposable {
 	
 	private Stage stage;
 	
+	private final ArrayList<StageListener> stageListenerList = new ArrayList<StageListener>();
+	
+	
 	public StageController() {
 		
 	}
 	
+	public void addStageListener(StageListener sl) {
+		stageListenerList.add(sl);
+	}
+	
 	public void setStage(Stage stage) {
 		this.stage = stage;
+		for (StageListener sl : stageListenerList) {
+			sl.stageChanged(stage);
+		}
 	}
 	
 	@Override
@@ -73,7 +85,6 @@ public class StageController extends InputAdapter implements Disposable {
 			// Switching active character
 			
 		}
-		stage.update(deltaTime);
 	}
 	
 	@Override
