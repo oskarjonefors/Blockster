@@ -37,6 +37,11 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 			elapsed between the last two frames. */ 
 		controller.update(Gdx.graphics.getDeltaTime());
 		
+		/* Update the model with the time elapsed between
+		 * the last two frames.
+		 */
+		stage.update(Gdx.graphics.getDeltaTime());
+		
 		/* Clear screen */
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
