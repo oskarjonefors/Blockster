@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
-public class Blockster implements ApplicationListener {
+public class Blockster extends Game implements ApplicationListener {
 	Texture texture;
 	SpriteBatch batch;
 	float elapsed;
@@ -23,6 +24,8 @@ public class Blockster implements ApplicationListener {
 		Gdx.app.log(Blockster.LOG, "Creating game");
 		texture = new Texture(Gdx.files.internal("libgdx-logo.png"));
 		batch = new SpriteBatch();
+		StageController controller = new StageController();
+		StageView view = new StageView(controller);
 	}
 
 	@Override

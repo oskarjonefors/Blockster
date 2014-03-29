@@ -9,9 +9,9 @@ public class StageView implements Disposable {
 
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private BlocksterController controller;
+	private StageController controller;
 	
-	public StageView(BlocksterController controller) {
+	public StageView(StageController controller) {
 		this.controller = controller;
 	}
 	

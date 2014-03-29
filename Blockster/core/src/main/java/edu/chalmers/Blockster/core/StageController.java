@@ -10,9 +10,9 @@ import com.badlogic.gdx.utils.Disposable;
  * @author Oskar Jönefors
  *
  */
-public class BlocksterController extends InputAdapter implements Disposable {
+public class StageController extends InputAdapter implements Disposable {
 
-	public BlocksterController() {
+	public StageController() {
 		
 	}
 	
