@@ -39,7 +39,7 @@ public class PlayerController implements InputProcessor {
 		Vector2 playerVelocity = player.getVelocity();
 	
 		/**
-		 * add the gravity to the player and check´s that the speed wont reach infinity
+		 * add the gravity to the player and checkï¿½s that the speed wont reach infinity
 		 */
 		playerVelocity.y -= gravity * delta;
 		
@@ -150,6 +150,7 @@ public class PlayerController implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
+		//TODO: Use StageController instead.
 		switch(keycode){
 		case Keys.W:
 			break;
