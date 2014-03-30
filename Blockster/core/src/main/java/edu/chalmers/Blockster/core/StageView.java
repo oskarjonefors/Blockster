@@ -8,6 +8,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
 
+/**
+ * @author Joel Tegman
+ */
 public class StageView implements Disposable {
 
 	private OrthographicCamera camera;

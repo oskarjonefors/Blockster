@@ -20,7 +20,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-
+/**
+ * 
+ * @author Oskar Jönefors, Eric Bjuhr
+ *
+ */
 public class Blockster extends Game implements ApplicationListener, StageListener {
 	
 	//Constant useful for logging.

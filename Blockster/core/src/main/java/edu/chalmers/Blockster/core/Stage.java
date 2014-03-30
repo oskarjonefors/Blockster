@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 
 /**
  * A class to represent a stage.
- * @author Oskar Jönefors
+ * @author Oskar Jönefors, Eric Bjuhr
  * 
  */
 public class Stage {

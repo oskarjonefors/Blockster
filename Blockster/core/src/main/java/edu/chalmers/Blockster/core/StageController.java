@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 /**
  * Class to handle input and updating the model.
- * @author Oskar JÃ¶nefors
+ * @author Eric Bjuhr, Oskar Jönefors
  *
  */
 public class StageController extends InputAdapter implements Disposable {
