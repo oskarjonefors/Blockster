@@ -94,7 +94,7 @@ public class StageController extends InputAdapter implements Disposable {
 			//Grab button was released
 			if (!hasMovedBlock) {
 				stage.liftBlock();
-			} else if (hasMovedBlock){
+			} else {
 				stage.stopProcessingBlock();
 			}
 			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
