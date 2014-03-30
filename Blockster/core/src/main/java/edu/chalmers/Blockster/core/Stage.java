@@ -64,6 +64,10 @@ public class Stage {
 		return processedBlock;
 	}
 	
+	public StageView getStageView() {
+		return stageView;
+	}
+	
 	public void grabBlock(Block block) {
 		
 		if (canGrabBlock(block)) {

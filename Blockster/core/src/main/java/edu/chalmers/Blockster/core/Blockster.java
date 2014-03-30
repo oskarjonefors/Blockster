@@ -1,6 +1,11 @@
 package edu.chalmers.Blockster.core;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -26,27 +31,58 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	private StageController controller;
 	private StageView viewer;
 	private Stage stage;
-	private TiledMap map;
+	private List<Stage> stageList;
 	
 	@Override
 	public void create () {
 		Gdx.app.log(Blockster.LOG, "Creating game");
 
 		controller = new StageController();
+		controller.addStageListener(this);
+		try {
+
+			Gdx.app.log(Blockster.LOG, "Loading stages");
+			loadStages();
+
+			Gdx.app.log(Blockster.LOG, "Setting stage");
+			controller.setStage(stageList.get(0));
+		} catch (SecurityException | IOException e) {
+			Gdx.app.log(Blockster.LOG, e.getClass().getName());
+		}
+	}
+	
+	private void loadStages() throws SecurityException, IOException {
 		
-		/**
-		 *  **Temporary** Loading the tmx-file and create a map
-		 */
+		ArrayList<Stage> stages = new ArrayList<Stage>();
+		addStagesToList(stages, listFilesInDirectory(new File("assets/maps/"), ".tmx"));
+		stageList = Collections.synchronizedList(stages);
+	}
+	
+	private void addStagesToList(List<Stage> list, File[] maps) {
 		TmxMapLoader loader = new TmxMapLoader();
-		map = loader.load("maps/Block-floor.tmx");
-		stage = new Stage(map);
+		for (File mapFile : maps) {
+			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
+			TiledMap map = loader.load("maps/"+mapFile.getName());
+			Stage stage = new Stage(map);
+			
+			StageView view = new StageView(controller);
+			view.init(map);
+			stage.setStageView(view);
+			
+			list.add(stage);
+		}
+	}
+	
+	private File[] listFilesInDirectory(File directory, final String fileEnding) {
 		
-		controller.setStage(stage);
+		FileFilter ff = new FileFilter() {
+			@Override
+			public boolean accept(File f) {
+				return f.getName().endsWith(fileEnding);
+			}
+		};
 		
-		viewer = new StageView(controller);
-		viewer.init(map);
-		
-		stage.setStageView(viewer);
+		return directory.listFiles(ff);
 	}
 
 	@Override
@@ -98,5 +134,7 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	@Override
 	public void stageChanged(Stage stage) {
 		this.stage = stage;
+		viewer = stage.getStageView();
+		Gdx.app.log(Blockster.LOG, "Recieved a stage changed event");
 	}
 }
