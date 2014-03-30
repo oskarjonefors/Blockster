@@ -45,6 +45,8 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		
 		viewer = new StageView(controller);
 		viewer.init(map);
+		
+		stage.setStageView(viewer);
 	}
 
 	@Override
@@ -66,7 +68,7 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		/* Update the model with the time elapsed between
 		 * the last two frames.
 		 */
-		//stage.update(Gdx.graphics.getDeltaTime());
+		stage.update(Gdx.graphics.getDeltaTime());
 		
 		/* Clear screen */
 		Gdx.gl.glClearColor(0, 0, 0, 0);
