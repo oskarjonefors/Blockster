@@ -32,15 +32,15 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	@Override
 	public void create () {
 		Gdx.app.log(Blockster.LOG, "Creating game");
-
-		StageController controller = new StageController();
-		playerController = new PlayerController();
 		
 		/**
 		 *  **Temporary** Loading the tmx-file and create a map
 		 */
 		TmxMapLoader loader = new TmxMapLoader();
 		map = loader.load("maps/Block-floor.tmx");
+		
+		StageController controller = new StageController();
+		playerController = new PlayerController(map.getLayers());
 		
 		viewer = new StageView(controller, playerController);
 		viewer.init(map);
