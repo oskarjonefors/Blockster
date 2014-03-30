@@ -41,13 +41,6 @@ public class StageController extends InputAdapter implements Disposable {
 		stageListenerList.add(sl);
 	}
 	
-	public void setStage(Stage stage) {
-		this.stage = stage;
-		for (StageListener sl : stageListenerList) {
-			sl.stageChanged(stage);
-		}
-	}
-	
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
@@ -57,65 +50,6 @@ public class StageController extends InputAdapter implements Disposable {
 	private void init() {
 		Gdx.input.setInputProcessor(this);
 	}
-	
-	/**
-	 * Updates the game flow.
-	 * @param deltaTime The time between the current frame and the last one.
-	 */
-	public void update(float deltaTime) {
-		float distanceMoved = deltaTime * stage.getActivePlayerVelocity();
-		Block adjacentBlock = stage.getAdjacentBlock(lastDirection);
-		
-		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
-			//Try to grab the adjacent block if possible and there is one.
-			stage.grabBlock(adjacentBlock);
-
-		} 
-		
-		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
-			// Character is moving left
-
-			stage.moveCharacter(LEFT, distanceMoved);
-			if (stage.moveBlock(LEFT)) {
-				hasMovedBlock = true;
-			}
-		}
-		
-		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
-			// Character is moving right
-			stage.moveCharacter(RIGHT, distanceMoved);
-			if (stage.moveBlock(RIGHT)) {
-				hasMovedBlock = true;
-			}
-		}
-		
-		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
-			//Grab button was released
-			if (!hasMovedBlock) {
-				stage.liftBlock();
-			} else {
-				stage.stopProcessingBlock();
-			}
-			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
-			System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
-		}
-		
-		if ((keyFlags & MENU_BUTTON_UP_FLAG) != 0) {
-			// Opening the level menu
-			keyFlags &= ~MENU_BUTTON_UP_FLAG;
-			System.out.println("Removing flag: "+MENU_BUTTON_UP_FLAG);
-		}
-		
-		if ((keyFlags & SWITCH_CHARACTER_BUTTON_UP_FLAG) != 0) {
-			// Switching active character
-			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;
-			System.out.println("Removing flag: "+SWITCH_CHARACTER_BUTTON_UP_FLAG);
-			stage.nextPlayer();
-		}
-		
-	}
-	
-	
 	
 	@Override
 	public boolean keyDown(int keyCode) {
@@ -182,6 +116,72 @@ public class StageController extends InputAdapter implements Disposable {
 		}
 		System.out.println("\tCurrent flags: "+Integer.toBinaryString(keyFlags));
 		return false;
+	}
+	
+	
+	
+	public void setStage(Stage stage) {
+		this.stage = stage;
+		for (StageListener sl : stageListenerList) {
+			sl.stageChanged(stage);
+		}
+	}
+	
+	/**
+	 * Updates the game flow.
+	 * @param deltaTime The time between the current frame and the last one.
+	 */
+	public void update(float deltaTime) {
+		float distanceMoved = deltaTime * stage.getActivePlayerVelocity();
+		Block adjacentBlock = stage.getAdjacentBlock(lastDirection);
+		
+		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
+			//Try to grab the adjacent block if possible and there is one.
+			stage.grabBlock(adjacentBlock);
+
+		} 
+		
+		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
+			// Character is moving left
+
+			stage.moveCharacter(LEFT, distanceMoved);
+			if (stage.moveBlock(LEFT)) {
+				hasMovedBlock = true;
+			}
+		}
+		
+		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
+			// Character is moving right
+			stage.moveCharacter(RIGHT, distanceMoved);
+			if (stage.moveBlock(RIGHT)) {
+				hasMovedBlock = true;
+			}
+		}
+		
+		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
+			//Grab button was released
+			if (!hasMovedBlock) {
+				stage.liftBlock();
+			} else {
+				stage.stopProcessingBlock();
+			}
+			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
+			System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
+		}
+		
+		if ((keyFlags & MENU_BUTTON_UP_FLAG) != 0) {
+			// Opening the level menu
+			keyFlags &= ~MENU_BUTTON_UP_FLAG;
+			System.out.println("Removing flag: "+MENU_BUTTON_UP_FLAG);
+		}
+		
+		if ((keyFlags & SWITCH_CHARACTER_BUTTON_UP_FLAG) != 0) {
+			// Switching active character
+			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;
+			System.out.println("Removing flag: "+SWITCH_CHARACTER_BUTTON_UP_FLAG);
+			stage.nextPlayer();
+		}
+		
 	}
 	
 
