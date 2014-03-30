@@ -80,6 +80,10 @@ public class Stage {
 		}
 	}
 	
+	public void nextPlayer() {
+		
+	}
+	
 	public void moveBlock(Direction dir) {
 		if (processedBlock != null && !isMovingBlockAnimation 
 				&& !isLiftingBlockAnimation && !isGrabbingBlockAnimation) {

@@ -115,7 +115,8 @@ public class StageController extends InputAdapter implements Disposable {
 		}
 		if ((keyFlags & SWITCH_CHARACTER_BUTTON_UP_FLAG) != 0) {
 			// Switching active character
-			
+			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;
+			stage.nextPlayer();
 		}
 	}
 	
