@@ -17,7 +17,6 @@ import com.badlogic.gdx.utils.Disposable;
 public class StageController extends InputAdapter implements Disposable {
 
 	private volatile int keyFlags = 0;
-	public final static int VELOCITY = 4;	
 	
 	private final static int LEFT_BUTTON_DOWN_FLAG = 1 << 0;
 	private final static int RIGHT_BUTTON_DOWN_FLAG = 1 << 1;
@@ -64,7 +63,7 @@ public class StageController extends InputAdapter implements Disposable {
 	 * @param deltaTime The time between the current frame and the last one.
 	 */
 	public void update(float deltaTime) {
-		float distanceMoved = deltaTime * VELOCITY;
+		float distanceMoved = deltaTime * stage.getActivePlayerVelocity();
 		Block adjacentBlock = stage.getAdjacentBlock(lastDirection);
 		
 		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {

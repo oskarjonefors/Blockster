@@ -43,6 +43,10 @@ public class Stage {
 				&& !isLiftingBlockAnimation && !isGrabbingBlockAnimation;
 	}
 	
+	public int getActivePlayerVelocity() {
+		return 1;
+	}
+	
 	public Block getAdjacentBlock(Direction dir) {
 		if (dir != NONE) {
 			//TODO: Get adjacent block from map
