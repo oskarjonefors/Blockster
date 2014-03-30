@@ -9,6 +9,8 @@ import java.util.List;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -59,7 +61,11 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		controller = new StageController();
 		controller.addStageListener(this);
 		try {
-
+			FileHandle fh = new FileHandle(new File(new File("assets"), "gourmet race.mp3"));
+			Music music = Gdx.audio.newMusic(fh);
+			music.play();
+			music.setLooping(true);
+			
 			Gdx.app.log(Blockster.LOG, "Loading stages");
 			loadStages();
 
