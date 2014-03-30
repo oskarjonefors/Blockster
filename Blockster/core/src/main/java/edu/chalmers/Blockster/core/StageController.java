@@ -35,7 +35,7 @@ public class StageController extends InputAdapter implements Disposable {
 	
 	
 	public StageController() {
-		
+		init();
 	}
 	
 	public void addStageListener(StageListener sl) {
@@ -65,55 +65,46 @@ public class StageController extends InputAdapter implements Disposable {
 	 */
 	public void update(float deltaTime) {
 		float distanceMoved = deltaTime * VELOCITY;
-		
-		Block processedBlock = stage.getProcessedBlock();
 		Block adjacentBlock = stage.getAdjacentBlock(lastDirection);
 		
 		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
-			// Character is grabbing a block
-			if (processedBlock == null && adjacentBlock != null) {
-				//There was no previous grabbed block
-				//There is an adjacent block, try to grab it.
-				stage.grabBlock(adjacentBlock);
-			} else if (processedBlock != null) {
-				//There is a grabbed or lifted block.
-				if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
-					// Character is moving left with block
-					stage.moveBlock(LEFT);
-					stage.moveCharacter(LEFT, distanceMoved);
-					hasMovedBlock = true;
-				}
-				if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
-					// Character is moving right with block
-					stage.moveBlock(RIGHT);
-					stage.moveCharacter(RIGHT, distanceMoved);
-					hasMovedBlock = true;
-				}
-			}
-		} else {
-			//Character is not grabbing a block
-			if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
-				// Character is moving left
-				stage.moveCharacter(LEFT, distanceMoved);
-			}
-			if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
-				// Character is moving right
-				stage.moveCharacter(RIGHT, distanceMoved);
+			//Try to grab the adjacent block if possible and there is one.
+			stage.grabBlock(adjacentBlock);
+
+		} 
+		
+		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
+			// Character is moving left
+
+			stage.moveCharacter(LEFT, distanceMoved);
+			if (stage.moveBlock(LEFT)) {
+				hasMovedBlock = true;
 			}
 		}
+		
+		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
+			// Character is moving right
+			stage.moveCharacter(RIGHT, distanceMoved);
+			if (stage.moveBlock(RIGHT)) {
+				hasMovedBlock = true;
+			}
+		}
+		
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
-			
-			if (stage.canLiftBlock(processedBlock) && !hasMovedBlock) {
+			//Grab button was released
+			if (!hasMovedBlock) {
 				stage.liftBlock();
 			} else if (hasMovedBlock){
 				stage.stopProcessingBlock();
 			}
 			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
 		}
+		
 		if ((keyFlags & MENU_BUTTON_UP_FLAG) != 0) {
 			// Opening the level menu
 			
 		}
+		
 		if ((keyFlags & SWITCH_CHARACTER_BUTTON_UP_FLAG) != 0) {
 			// Switching active character
 			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;

@@ -26,14 +26,21 @@ public class Stage {
 	
 	public boolean canGrabBlock(Block block) {
 		//TODO: Add additional tests (type of block etc)
-		return block != null && !isGrabbingBlockAnimation && 
-				!isLiftingBlockAnimation && !isMovingBlockAnimation;
+		return block != null && processedBlock == null 
+				&& !isGrabbingBlockAnimation && !isLiftingBlockAnimation 
+				&& !isMovingBlockAnimation;
 	}
 	
 	public boolean canLiftBlock(Block block) {
 		//TODO: Add additional tests
 		return block != null && isGrabbingBlock && !isGrabbingBlockAnimation &&
 				!isLiftingBlockAnimation && !isMovingBlockAnimation;
+	}
+	
+	public boolean canMoveBlock(Direction dir) {
+		//TODO: Add checks for collision etc
+		return processedBlock != null && !isMovingBlockAnimation 
+				&& !isLiftingBlockAnimation && !isGrabbingBlockAnimation;
 	}
 	
 	public Block getAdjacentBlock(Direction dir) {
@@ -80,21 +87,22 @@ public class Stage {
 		}
 	}
 	
-	public void nextPlayer() {
-		
-	}
-	
-	public void moveBlock(Direction dir) {
-		if (processedBlock != null && !isMovingBlockAnimation 
-				&& !isLiftingBlockAnimation && !isGrabbingBlockAnimation) {
+	public boolean moveBlock(Direction dir) {
+		if (canMoveBlock(dir)) {
 			isMovingBlockAnimation = true;
 			//TODO: set character position, move block in grid, animation, etc
+			return true;
 		}
+		return false;
 	}
 	
 	public void moveCharacter(Direction dir, float distance) {
 		//TODO Move the active playable character
 		//Note: make sure to check if there is a collision beneath the character
+	}
+	
+	public void nextPlayer() {
+		
 	}
 	
 	public void stopProcessingBlock() {
