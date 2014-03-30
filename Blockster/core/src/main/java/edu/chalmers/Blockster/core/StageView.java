@@ -56,4 +56,8 @@ public class StageView implements Disposable {
 		camera.update();
 	}
 	
+	public void setBatch() {
+		//TODO: parameters, body
+	}
+	
 }

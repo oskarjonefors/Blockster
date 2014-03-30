@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 public class Stage {
 	private TiledMap map;
 	private Block processedBlock;
+	private StageView stageView;
 	
 	private boolean isGrabbingBlockAnimation = false; //for animations
 	private boolean isMovingBlockAnimation = false;
@@ -110,6 +111,10 @@ public class Stage {
 		
 	}
 	
+	public void setStageView(StageView stageView) {
+		this.stageView = stageView;
+	}
+	
 	public void stopProcessingBlock() {
 		//TODO put down block animation, etc
 		processedBlock = null;
@@ -130,5 +135,7 @@ public class Stage {
 			//Set the block lifting animation timer to t+deltaTime
 		}
 		
+		//TODO
+		stageView.setBatch();
 	}
 }
