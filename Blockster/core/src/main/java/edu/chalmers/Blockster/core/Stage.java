@@ -44,6 +44,7 @@ public class Stage {
 	}
 	
 	public int getActivePlayerVelocity() {
+		//TODO: check through a list of characters
 		return 1;
 	}
 	

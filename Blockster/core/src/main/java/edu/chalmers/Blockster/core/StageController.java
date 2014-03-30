@@ -152,8 +152,8 @@ public class StageController extends InputAdapter implements Disposable {
 		
 		if (keyCode == Keys.SPACE) {
 			//If block is grabbed and no other keys are pushed down, lift the block.
-			keyFlags &= ~GRAB_BUTTON_DOWN_FLAG;
-			keyFlags |= GRAB_BUTTON_UP_FLAG;
+			keyFlags &= ~GRAB_BUTTON_DOWN_FLAG; //This is how you set the flag to false
+			keyFlags |= GRAB_BUTTON_UP_FLAG; //This is how you set the flag to true
 			
 		}
 		
