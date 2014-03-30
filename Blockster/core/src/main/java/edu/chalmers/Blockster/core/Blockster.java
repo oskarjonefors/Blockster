@@ -32,7 +32,7 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	public void create () {
 		Gdx.app.log(Blockster.LOG, "Creating game");
 
-		StageController controller = new StageController();
+		controller = new StageController();
 		
 		/**
 		 *  **Temporary** Loading the tmx-file and create a map
@@ -61,8 +61,7 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	public void render () {
 		/*Update the world controller with the time
 			elapsed between the last two frames. */ 
-	
-		//controller.update(Gdx.graphics.getDeltaTime());
+		controller.update(Gdx.graphics.getDeltaTime());
 		
 		/* Update the model with the time elapsed between
 		 * the last two frames.
@@ -75,7 +74,6 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		
 		/* Render the new frame */
 		viewer.render();
-		
 	}
 
 	@Override
