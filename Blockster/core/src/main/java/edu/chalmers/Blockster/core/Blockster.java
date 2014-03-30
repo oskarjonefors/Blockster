@@ -24,6 +24,7 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	//A libgdx helper class that logs current FPS each second
 	private FPSLogger fpsLogger;
 	private StageController controller;
+	private PlayerController playerController;
 	private StageView viewer;
 	private Stage stage;
 	private TiledMap map;
@@ -33,6 +34,7 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		Gdx.app.log(Blockster.LOG, "Creating game");
 
 		StageController controller = new StageController();
+		playerController = new PlayerController();
 		
 		/**
 		 *  **Temporary** Loading the tmx-file and create a map
@@ -40,7 +42,7 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		TmxMapLoader loader = new TmxMapLoader();
 		map = loader.load("maps/Block-floor.tmx");
 		
-		viewer = new StageView(controller);
+		viewer = new StageView(controller, playerController);
 		viewer.init(map);
 	}
 
@@ -89,6 +91,7 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	public void dispose () {
 		Gdx.app.log(Blockster.LOG,  "Disposing game");
 		viewer.dispose();
+		playerController.getPlayer().getTexture().dispose();
 	
 	}
 	
