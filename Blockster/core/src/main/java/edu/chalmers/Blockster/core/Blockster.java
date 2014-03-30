@@ -39,6 +39,9 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		 */
 		TmxMapLoader loader = new TmxMapLoader();
 		map = loader.load("maps/Block-floor.tmx");
+		stage = new Stage(map);
+		
+		controller.setStage(stage);
 		
 		viewer = new StageView(controller);
 		viewer.init(map);
