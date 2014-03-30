@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.ApplicationListener;
@@ -37,10 +38,11 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		 *  **Temporary** Loading the tmx-file and create a map
 		 */
 		TmxMapLoader loader = new TmxMapLoader();
-		map = loader.load("maps/Block-floor.tmx");
+		map = loader.load("maps/Block-floor2.tmx");
 		
 		StageController controller = new StageController();
-		playerController = new PlayerController(map.getLayers());
+		playerController = new PlayerController((TiledMapTileLayer)map.getLayers().get(0));
+		
 		
 		viewer = new StageView(controller, playerController);
 		viewer.init(map);
