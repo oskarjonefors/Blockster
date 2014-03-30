@@ -33,6 +33,21 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	private Stage stage;
 	private List<Stage> stageList;
 	
+	private void addStagesToList(List<Stage> list, File[] maps) {
+		TmxMapLoader loader = new TmxMapLoader();
+		for (File mapFile : maps) {
+			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
+			TiledMap map = loader.load("maps/"+mapFile.getName());
+			Stage stage = new Stage(map);
+			
+			StageView view = new StageView(controller);
+			view.init(map);
+			stage.setStageView(view);
+			
+			list.add(stage);
+		}
+	}
+	
 	@Override
 	public void create () {
 		Gdx.app.log(Blockster.LOG, "Creating game");
@@ -51,26 +66,11 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		}
 	}
 	
-	private void loadStages() throws SecurityException, IOException {
-		
-		ArrayList<Stage> stages = new ArrayList<Stage>();
-		addStagesToList(stages, listFilesInDirectory(new File("assets/maps/"), ".tmx"));
-		stageList = Collections.synchronizedList(stages);
-	}
+	@Override
+	public void dispose () {
+		Gdx.app.log(Blockster.LOG,  "Disposing game");
+		viewer.dispose();
 	
-	private void addStagesToList(List<Stage> list, File[] maps) {
-		TmxMapLoader loader = new TmxMapLoader();
-		for (File mapFile : maps) {
-			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
-			TiledMap map = loader.load("maps/"+mapFile.getName());
-			Stage stage = new Stage(map);
-			
-			StageView view = new StageView(controller);
-			view.init(map);
-			stage.setStageView(view);
-			
-			list.add(stage);
-		}
 	}
 	
 	private File[] listFilesInDirectory(File directory, final String fileEnding) {
@@ -85,15 +85,17 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		return directory.listFiles(ff);
 	}
 
-	@Override
-	public void resize (int width, int height) {
-		Gdx.app.log(Blockster.LOG, "Resizing game to: " + width + " x " + height);
+	private void loadStages() throws SecurityException, IOException {
 		
-		/**
-		 * set the camera view according to the new size
-		 */
-		viewer.resize(width, height);
-		}
+		ArrayList<Stage> stages = new ArrayList<Stage>();
+		addStagesToList(stages, listFilesInDirectory(new File("assets/maps/"), ".tmx"));
+		stageList = Collections.synchronizedList(stages);
+	}
+
+	@Override
+	public void pause () {
+		Gdx.app.log(Blockster.LOG, "Pausing game");
+	}
 
 	@Override
 	public void render () {
@@ -115,20 +117,18 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	}
 
 	@Override
-	public void pause () {
-		Gdx.app.log(Blockster.LOG, "Pausing game");
-	}
+	public void resize (int width, int height) {
+		Gdx.app.log(Blockster.LOG, "Resizing game to: " + width + " x " + height);
+		
+		/**
+		 * set the camera view according to the new size
+		 */
+		viewer.resize(width, height);
+		}
 
 	@Override
 	public void resume () {
 		Gdx.app.log(Blockster.LOG, "Resuming game");
-	}
-
-	@Override
-	public void dispose () {
-		Gdx.app.log(Blockster.LOG,  "Disposing game");
-		viewer.dispose();
-	
 	}
 	
 	@Override
