@@ -65,9 +65,10 @@ public class StageController extends InputAdapter implements Disposable {
 	 */
 	public void update(float deltaTime) {
 		float distanceMoved = deltaTime * VELOCITY;
+		
 		Block processedBlock = stage.getProcessedBlock();
 		Block adjacentBlock = stage.getAdjacentBlock(lastDirection);
-
+		
 		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
 			// Character is grabbing a block
 			if (processedBlock == null && adjacentBlock != null) {
@@ -117,6 +118,7 @@ public class StageController extends InputAdapter implements Disposable {
 			// Switching active character
 			
 		}
+		
 	}
 	
 	
