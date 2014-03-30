@@ -76,15 +76,15 @@ public class StageController extends InputAdapter implements Disposable {
 				//There is an adjacent block, try to grab it.
 				stage.grabBlock(adjacentBlock);
 			} else if (processedBlock != null) {
-				
+				//There is a grabbed or lifted block.
 				if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
-					// Character is moving left
+					// Character is moving left with block
 					stage.moveBlock(LEFT);
 					stage.moveCharacter(LEFT, distanceMoved);
 					hasMovedBlock = true;
 				}
 				if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
-					// Character is moving right
+					// Character is moving right with block
 					stage.moveBlock(RIGHT);
 					stage.moveCharacter(RIGHT, distanceMoved);
 					hasMovedBlock = true;
@@ -98,12 +98,12 @@ public class StageController extends InputAdapter implements Disposable {
 			}
 			if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
 				// Character is moving right
-				stage.moveCharacter(LEFT, distanceMoved);
+				stage.moveCharacter(RIGHT, distanceMoved);
 			}
 		}
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
 			
-			if (processedBlock != null && !hasMovedBlock) {
+			if (stage.canLiftBlock(processedBlock) && !hasMovedBlock) {
 				stage.liftBlock();
 			} else if (hasMovedBlock){
 				stage.stopProcessingBlock();
@@ -116,7 +116,8 @@ public class StageController extends InputAdapter implements Disposable {
 		}
 		if ((keyFlags & SWITCH_CHARACTER_BUTTON_UP_FLAG) != 0) {
 			// Switching active character
-			
+			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;
+			stage.nextPlayer();
 		}
 		
 	}
