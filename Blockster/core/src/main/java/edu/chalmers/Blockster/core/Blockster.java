@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.ApplicationListener;
@@ -44,9 +45,11 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		for (File mapFile : maps) {
 			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
 			TiledMap map = loader.load("maps/"+mapFile.getName());
+			PlayerController playerController = new PlayerController(
+					(TiledMapTileLayer)map.getLayers().get(0));
 			Stage stage = new Stage(map);
 			
-			StageView view = new StageView(controller);
+			StageView view = new StageView(controller, playerController);
 			view.init(map);
 			stage.setStageView(view);
 			
@@ -57,7 +60,6 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	@Override
 	public void create () {
 		Gdx.app.log(Blockster.LOG, "Creating game");
-
 		controller = new StageController();
 		controller.addStageListener(this);
 		try {
@@ -70,7 +72,7 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 			loadStages();
 
 			Gdx.app.log(Blockster.LOG, "Setting stage");
-			controller.setStage(stageList.get(0));
+			controller.setStage(stageList.get(1));
 		} catch (SecurityException | IOException e) {
 			Gdx.app.log(Blockster.LOG, e.getClass().getName());
 		}
