@@ -17,8 +17,7 @@ public class StageView implements Disposable {
 
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private StageController controller;
-	private PlayerController pController;
+	private Stage stage;
 	private OrthogonalTiledMapRenderer renderer;
 	private TiledMap map;
 	
@@ -27,9 +26,8 @@ public class StageView implements Disposable {
 	 */
 	private Sprite bg = new Sprite(new Texture("maps/background-11.jpg"));
 	
-	public StageView(StageController controller, PlayerController pController) {
-		this.controller = controller;
-		this.pController = pController;
+	public StageView(Stage stage) {
+		this.stage = stage;
 	}
 	
 	@Override
@@ -49,13 +47,11 @@ public class StageView implements Disposable {
 		
 		
 		
-		/**
-		 * render the player
-		 */
-		pController.update(Gdx.graphics.getDeltaTime());
 		renderer.getSpriteBatch().begin();
 		bg.draw(renderer.getSpriteBatch());
-		pController.getPlayer().draw(renderer.getSpriteBatch());
+		for (Player player : stage.getPlayers()) {
+			player.draw(renderer.getSpriteBatch());
+		}
 		renderer.getSpriteBatch().end();
 		renderer.render();
 	}
@@ -78,10 +74,6 @@ public class StageView implements Disposable {
 		camera.viewportHeight = height*5;
 		camera.viewportWidth = width*5;
 		camera.update();
-	}
-	
-	public void setBatch() {
-		//TODO: parameters, body
 	}
 	
 }

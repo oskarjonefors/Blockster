@@ -45,11 +45,9 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		for (File mapFile : maps) {
 			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
 			TiledMap map = loader.load("maps/"+mapFile.getName());
-			PlayerController playerController = new PlayerController(
-					(TiledMapTileLayer)map.getLayers().get(0));
 			Stage stage = new Stage(map);
 			
-			StageView view = new StageView(controller, playerController);
+			StageView view = new StageView(stage);
 			view.init(map);
 			stage.setStageView(view);
 			
