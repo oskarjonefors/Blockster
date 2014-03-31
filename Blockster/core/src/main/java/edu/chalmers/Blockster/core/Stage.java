@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -53,6 +54,21 @@ public class Stage {
 		activePlayer = players.get(0);
 	}
 	
+	public void setBlocks() {
+		for (MapLayer layer : map.getLayers()) {
+			if (layer instanceof TiledMapTileLayer) {
+				TiledMapTileLayer tileLayer = (TiledMapTileLayer) layer;
+				for (int x = 0; x < tileLayer.getWidth(); x++) {
+					for (int y = 0; y < tileLayer.getHeight(); y++) {
+						TiledMapTile tile = tileLayer.getCell(x, y).getTile();
+						Block block = new Block(tile);
+						tileLayer.getCell(x,y).setTile(block);
+					}
+				}
+			}
+		}
+	}
+	
 	public boolean canGrabBlock(Block block) {
 		//TODO: Add additional tests (type of block etc)
 		return block != null && processedBlock == null 
@@ -73,16 +89,23 @@ public class Stage {
 	}
 	
 	private boolean collisionX(Player player) {
-		
-		if (player.getVelocity().x < 0) {
-			return collisionXAxisLeft(player);
-		} else {
-			return collisionXAxisRight(player);
+		try {
+			if (player.getVelocity().x < 0) {
+				return collisionXAxisLeft(player);
+			} else {
+				return collisionXAxisRight(player);
+			}
+		} catch (Exception e) {
+			return true;
 		}
 	}
 	
 	private boolean collisionXAxisBoth(Player player) {
-		return collisionXAxisLeft(player) && collisionXAxisRight(player);
+		try {
+			return collisionXAxisLeft(player) && collisionXAxisRight(player);
+		} catch (Exception e) {
+			return true;
+		}
 	}
 	
 	private boolean collisionXAxisLeft(Player player) {
@@ -133,10 +156,14 @@ public class Stage {
 	}
 	
 	private boolean collisionY(Player player) {
-		if (player.getVelocity().y < 0) {
-			return collisionYAxisDown(player);
+		try {
+			if (player.getVelocity().y < 0) {
+				return collisionYAxisDown(player);
+			}
+		} catch (Exception e) {
+			return true;
 		}
-
+		
 
 		//TODO: What if blocks are above the character??
 		return false;
@@ -173,21 +200,27 @@ public class Stage {
 	}
 	
 	public Block getAdjacentBlock(Direction dir) {
-		if (dir == LEFT || dir == RIGHT) {
-			float tileWidth = collisionLayer.getTileWidth();
-			float tileHeigth = collisionLayer.getTileHeight();
+		float tileWidth = collisionLayer.getTileWidth();
+		float tileHeigth = collisionLayer.getTileHeight();
+		Block block = null;
+		
+		if (dir == LEFT) {
 			TiledMapTile adjacentTileLeft = collisionLayer.getCell(
 					(int) ((activePlayer.getX() + activePlayer.getWidth()) / 2 / tileWidth),
 					(int) (activePlayer.getY() / tileHeigth)).getTile();
 			
+			block = (Block) adjacentTileLeft;
+		}
+		
+		if (dir == RIGHT) {
 			TiledMapTile adjacentTileRight = collisionLayer.getCell(
 					(int) ((activePlayer.getX() + activePlayer.getWidth()) / tileWidth),
 					(int) ((activePlayer.getY() + activePlayer.getWidth()) / 2 / tileHeigth))
 					.getTile();
-			
-			//TODO: Cast block from tile
+			block = (Block) adjacentTileRight;
 		}
-		return null;
+		
+		return block;
 	}
 	
 	public TiledMap getMap() {
