@@ -95,6 +95,16 @@ public class Stage {
 	public void moveCharacter(Direction dir, float distance) {
 		//TODO Move the active playable character
 		//Note: make sure to check if there is a collision beneath the character
+		/*
+		 * om ej kollision i angiven riktning
+		 * 		om fall
+		 * 			flytta karaktären mha gravitation
+		 * 			dvs. activePlayer.move(dir, getGravitat(activePlayer))
+		 * 		annars
+		 * 			flytta karaktären
+		 * 			dvs activePlayer.move(dir, distance)
+		 * 
+		 */
 	}
 	
 	public void stopProcessingBlock() {
@@ -116,6 +126,8 @@ public class Stage {
 		if (isLiftingBlockAnimation) {
 			//Set the block lifting animation timer to t+deltaTime
 		}
+		
+		//TODO: Gravity on all objects
 		
 	}
 }

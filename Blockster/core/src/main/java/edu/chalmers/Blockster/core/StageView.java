@@ -60,8 +60,8 @@ public class StageView implements Disposable {
 		camera.translate(1600, 900);
 	}
 	public void resize(int width, int height){
-		camera.viewportHeight = height*4;
-		camera.viewportWidth = width*4;
+		camera.viewportHeight = height*5;
+		camera.viewportWidth = width*5;
 		camera.update();
 	}
 	
