@@ -72,10 +72,6 @@ public class Stage {
 				&& !isLiftingBlockAnimation && !isGrabbingBlockAnimation;
 	}
 	
-	private boolean collisionBothXAxis(Player player) {
-		return collisionXAxisLeft(player) && collisionXAxisRight(player);
-	}
-	
 	private boolean collisionX(Player player) {
 		
 		if (player.getVelocity().x < 0) {
@@ -83,6 +79,10 @@ public class Stage {
 		} else {
 			return collisionXAxisRight(player);
 		}
+	}
+	
+	private boolean collisionXAxisBoth(Player player) {
+		return collisionXAxisLeft(player) && collisionXAxisRight(player);
 	}
 	
 	private boolean collisionXAxisLeft(Player player) {
@@ -304,7 +304,7 @@ public class Stage {
 			}
 			
 			player.setY(player.getY() + player.getVelocity().y);
-			if (collisionY(player) || collisionBothXAxis(player)) {
+			if (collisionY(player) || collisionXAxisBoth(player)) {
 				player.setY(previousPosition[1]);
 			}
 			
