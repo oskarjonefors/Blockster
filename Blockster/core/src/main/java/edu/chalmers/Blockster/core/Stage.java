@@ -5,10 +5,10 @@ import static edu.chalmers.Blockster.core.Direction.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 /**
@@ -73,128 +73,98 @@ public class Stage {
 	}
 	
 	private boolean collisionBothXAxis(Player player) {
-		boolean collisionXLeft = false;
-		boolean collisionXRight = false;
+		return collisionXAxisLeft(player) && collisionXAxisRight(player);
+	}
+	
+	private boolean collisionX(Player player) {
+		
+		if (player.getVelocity().x < 0) {
+			return collisionXAxisLeft(player);
+		} else {
+			return collisionXAxisRight(player);
+		}
+	}
+	
+	private boolean collisionXAxisLeft(Player player) {
+		boolean collisionX = false;
 		float tileWidth = collisionLayer.getTileWidth();
 		float tileHeigth = collisionLayer.getTileHeight();;
-		
-		collisionXLeft = collisionLayer.getCell(
+		collisionX = collisionLayer.getCell(
 				(int) (player.getX() / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeigth))
 				.getTile().getProperties().containsKey("Collision");
 
 		// checking the tile to the left of the player
-		collisionXLeft |= collisionLayer.getCell(
+		collisionX |= collisionLayer.getCell(
 				(int) (player.getX() / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / 2 / tileHeigth))
 				.getTile().getProperties().containsKey("Collision");
 
 		// checking the tile to the left and under the player
-		collisionXLeft |= collisionLayer.getCell(
+		collisionX |= collisionLayer.getCell(
 				(int) (player.getX() / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
 				.getProperties().containsKey("Collision");
 
-		collisionXRight = collisionLayer.getCell(
+		return collisionX;
+	}
+	
+	private boolean collisionXAxisRight(Player player) {
+		boolean collisionX = false;
+		float tileWidth = collisionLayer.getTileWidth();
+		float tileHeigth = collisionLayer.getTileHeight();;
+		collisionX = collisionLayer.getCell(
 				(int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeigth))
 				.getTile().getProperties().containsKey("Collision");
 
 		// checking the tile to the right of the player
-		collisionXRight |= collisionLayer.getCell(
+		collisionX |= collisionLayer.getCell(
 				(int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) ((player.getY() + player.getWidth()) / 2 / tileHeigth))
 				.getTile().getProperties().containsKey("Collision");
 
 		// checking the tile to the right and UNDER the player
-		collisionXRight |= collisionLayer.getCell(
+		collisionX |= collisionLayer.getCell(
 				(int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
 				.getProperties().containsKey("Collision");
-		
-		return collisionXLeft && collisionXRight;
-	}
-	
-	private boolean collisionX(Player player) {
-		boolean collisionX = false;
-		float tileWidth = collisionLayer.getTileWidth();
-		float tileHeigth = collisionLayer.getTileHeight();;
-		
-		if (player.getVelocity().x < 0) {
-			//System.out.println("Left");
-
-			// checking the tile to the left and above the player
-			collisionX = collisionLayer.getCell(
-							(int) (player.getX() / tileWidth),
-							(int) ((player.getY() + player.getHeight()) / tileHeigth))
-					.getTile().getProperties().containsKey("Collision");
-
-			// checking the tile to the left of the player
-			collisionX |= collisionLayer.getCell(
-							(int) (player.getX() / tileWidth),
-							(int) ((player.getY() + player.getHeight()) / 2 / tileHeigth))
-					.getTile().getProperties().containsKey("Collision");
-
-			// checking the tile to the left and under the player
-			collisionX |= collisionLayer.getCell(
-							(int) (player.getX() / tileWidth),
-							(int) (player.getY() / tileHeigth)).getTile()
-					.getProperties().containsKey("Collision");
-
-			/*
-			 * Player moving to the right
-			 */
-		} else if (player.getVelocity().x > 0) {
-			//System.out.println("Right");
-
-			// checking the tile to the right and ABOVE the player
-			collisionX = collisionLayer.getCell(
-							(int) ((player.getX() + player.getWidth()) / tileWidth),
-							(int) ((player.getY() + player.getHeight()) / tileHeigth))
-					.getTile().getProperties().containsKey("Collision");
-
-			// checking the tile to the right of the player
-			collisionX |= collisionLayer.getCell(
-							(int) ((player.getX() + player.getWidth()) / tileWidth),
-							(int) ((player.getY() + player.getWidth()) / 2 / tileHeigth))
-					.getTile().getProperties().containsKey("Collision");
-
-			// checking the tile to the right and UNDER the player
-			collisionX |= collisionLayer.getCell(
-							(int) ((player.getX() + player.getWidth()) / tileWidth),
-							(int) (player.getY() / tileHeigth)).getTile()
-					.getProperties().containsKey("Collision");
-		}
 		return collisionX;
 	}
 	
 	private boolean collisionY(Player player) {
+		if (player.getVelocity().y < 0) {
+			return collisionYAxisDown(player);
+		}
+
+
+		//TODO: What if blocks are above the character??
+		return false;
+	}
+	
+	private boolean collisionYAxisDown(Player player) {
 		boolean collisionY = false;
 		float tileWidth = collisionLayer.getTileWidth();
-		float tileHeigth = collisionLayer.getTileHeight();;
-		
+		float tileHeigth = collisionLayer.getTileHeight();
 
+		// checking tile to the left and under player
+		collisionY = collisionLayer.getCell(
+				(int) (player.getX() / tileWidth),
+				(int) (player.getY() / tileHeigth)).getTile()
+				.getProperties().containsKey("Collision");
 
-		if (player.getVelocity().y < 0) {
-			// checking tile to the left and under player
-			collisionY = collisionLayer.getCell(
-							(int) (player.getX() / tileWidth),
-							(int) (player.getY() / tileHeigth)).getTile()
-					.getProperties().containsKey("Collision");
+		// checking tile under player
+		collisionY |= collisionLayer.getCell(
+				(int) ((player.getX() + player.getWidth()) / 2 / tileWidth),
+				(int) (player.getY() / tileHeigth)).getTile()
+				.getProperties().containsKey("Collision");
 
-			// checking tile under player
-			collisionY |= collisionLayer.getCell(
-							(int) ((player.getX() + player.getWidth()) / 2 / tileWidth),
-							(int) (player.getY() / tileHeigth)).getTile()
-					.getProperties().containsKey("Collision");
+		// checking to the right and under the player
+		collisionY |= collisionLayer.getCell(
+				(int) ((player.getX() + player.getWidth()) / tileWidth),
+				(int) (player.getY() / tileHeigth)).getTile()
+				.getProperties().containsKey("Collision");
 
-			// checking to the right and under the player
-			collisionY |= collisionLayer.getCell(
-							(int) ((player.getX() + player.getWidth()) / tileWidth),
-							(int) (player.getY() / tileHeigth)).getTile()
-					.getProperties().containsKey("Collision");
-
-		}
 		return collisionY;
 	}
 	
@@ -203,8 +173,19 @@ public class Stage {
 	}
 	
 	public Block getAdjacentBlock(Direction dir) {
-		if (dir != NONE) {
-			//TODO: Get adjacent block from map
+		if (dir == LEFT || dir == RIGHT) {
+			float tileWidth = collisionLayer.getTileWidth();
+			float tileHeigth = collisionLayer.getTileHeight();
+			TiledMapTile adjacentTileLeft = collisionLayer.getCell(
+					(int) ((activePlayer.getX() + activePlayer.getWidth()) / 2 / tileWidth),
+					(int) (activePlayer.getY() / tileHeigth)).getTile();
+			
+			TiledMapTile adjacentTileRight = collisionLayer.getCell(
+					(int) ((activePlayer.getX() + activePlayer.getWidth()) / tileWidth),
+					(int) ((activePlayer.getY() + activePlayer.getWidth()) / 2 / tileHeigth))
+					.getTile();
+			
+			//TODO: Cast block from tile
 		}
 		return null;
 	}
