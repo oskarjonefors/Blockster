@@ -34,7 +34,6 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	//A libgdx helper class that logs current FPS each second
 	private FPSLogger fpsLogger;
 	private StageController controller;
-	private PlayerController playerController;
 	private StageView viewer;
 	private Stage stage;
 	private List<Stage> stageList;
@@ -44,7 +43,8 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		for (File mapFile : maps) {
 			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
 			TiledMap map = loader.load("maps/"+mapFile.getName());
-			playerController = new PlayerController((TiledMapTileLayer)map.getLayers().get(0));
+			PlayerController playerController = new PlayerController(
+					(TiledMapTileLayer)map.getLayers().get(0));
 			Stage stage = new Stage(map);
 			
 			StageView view = new StageView(controller, playerController);
@@ -58,7 +58,6 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 	@Override
 	public void create () {
 		Gdx.app.log(Blockster.LOG, "Creating game");
-		StageController controller = new StageController();
 		controller = new StageController();
 		controller.addStageListener(this);
 		try {
@@ -67,7 +66,7 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 			loadStages();
 
 			Gdx.app.log(Blockster.LOG, "Setting stage");
-			controller.setStage(stageList.get(0));
+			controller.setStage(stageList.get(1));
 		} catch (SecurityException | IOException e) {
 			Gdx.app.log(Blockster.LOG, e.getClass().getName());
 		}
