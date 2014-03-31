@@ -14,6 +14,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * 
+ * @author Eric Bjuhr
+ *
+ */
 public class BlockFactory {
 
 	private final static File relBlockDirectory = new File("");

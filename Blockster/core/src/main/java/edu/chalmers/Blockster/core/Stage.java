@@ -5,12 +5,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 
 /**
  * A class to represent a stage.
- * @author Oskar Jönefors
+ * @author Oskar Jönefors, Eric Bjuhr
  * 
  */
 public class Stage {
 	private TiledMap map;
 	private Block processedBlock;
+	private StageView stageView;
 	
 	private boolean isGrabbingBlockAnimation = false; //for animations
 	private boolean isMovingBlockAnimation = false;
@@ -26,14 +27,26 @@ public class Stage {
 	
 	public boolean canGrabBlock(Block block) {
 		//TODO: Add additional tests (type of block etc)
-		return block != null && !isGrabbingBlockAnimation && 
-				!isLiftingBlockAnimation && !isMovingBlockAnimation;
+		return block != null && processedBlock == null 
+				&& !isGrabbingBlockAnimation && !isLiftingBlockAnimation 
+				&& !isMovingBlockAnimation;
 	}
 	
 	public boolean canLiftBlock(Block block) {
 		//TODO: Add additional tests
 		return block != null && isGrabbingBlock && !isGrabbingBlockAnimation &&
 				!isLiftingBlockAnimation && !isMovingBlockAnimation;
+	}
+	
+	public boolean canMoveBlock(Direction dir) {
+		//TODO: Add checks for collision etc
+		return processedBlock != null && !isMovingBlockAnimation 
+				&& !isLiftingBlockAnimation && !isGrabbingBlockAnimation;
+	}
+	
+	public int getActivePlayerVelocity() {
+		//TODO: check through a list of characters
+		return 1;
 	}
 	
 	public Block getAdjacentBlock(Direction dir) {
@@ -49,6 +62,10 @@ public class Stage {
 	
 	public Block getProcessedBlock() {
 		return processedBlock;
+	}
+	
+	public StageView getStageView() {
+		return stageView;
 	}
 	
 	public void grabBlock(Block block) {
@@ -80,16 +97,13 @@ public class Stage {
 		}
 	}
 	
-	public void nextPlayer() {
-		
-	}
-	
-	public void moveBlock(Direction dir) {
-		if (processedBlock != null && !isMovingBlockAnimation 
-				&& !isLiftingBlockAnimation && !isGrabbingBlockAnimation) {
+	public boolean moveBlock(Direction dir) {
+		if (canMoveBlock(dir)) {
 			isMovingBlockAnimation = true;
 			//TODO: set character position, move block in grid, animation, etc
+			return true;
 		}
+		return false;
 	}
 	
 	public void moveCharacter(Direction dir, float distance) {
@@ -105,6 +119,14 @@ public class Stage {
 		 * 			dvs activePlayer.move(dir, distance)
 		 * 
 		 */
+	}
+	
+	public void nextPlayer() {
+		
+	}
+	
+	public void setStageView(StageView stageView) {
+		this.stageView = stageView;
 	}
 	
 	public void stopProcessingBlock() {
@@ -128,6 +150,6 @@ public class Stage {
 		}
 		
 		//TODO: Gravity on all objects
-		
+		stageView.setBatch();
 	}
 }

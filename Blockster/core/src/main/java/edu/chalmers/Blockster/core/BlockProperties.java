@@ -1,7 +1,11 @@
 package edu.chalmers.Blockster.core;
 
 
-
+/**
+ * 
+ * @author Eric Bjuhr
+ *
+ */
 public class BlockProperties {
 
 	private String name;
