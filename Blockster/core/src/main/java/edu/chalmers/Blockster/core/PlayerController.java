@@ -119,6 +119,7 @@ public class PlayerController implements InputProcessor {
 		 */
 		if(playerVelocity.y < 0){
 			
+			try{
 			// checking tile to the left and under player
 			collisionY = collisionLayer.getCell((int)(player.getX() / tileWidth), (int)(player.getY() / tileHeigth))
 					.getTile().getProperties().containsKey("Collision");
@@ -132,7 +133,7 @@ public class PlayerController implements InputProcessor {
 			if(!collisionY)
 				collisionY = collisionLayer.getCell((int)((player.getX() + player.getWidth()) / tileWidth), (int)(player.getY() / tileHeigth))
 				.getTile().getProperties().containsKey("Collision");
-			
+			}catch(Exception e){}
 		}
 		
 		/**
