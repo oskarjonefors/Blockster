@@ -2,6 +2,8 @@ package edu.chalmers.Blockster.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -19,6 +21,11 @@ public class StageView implements Disposable {
 	private PlayerController pController;
 	private OrthogonalTiledMapRenderer renderer;
 	private TiledMap map;
+	
+	/**
+	 * test
+	 */
+	private Sprite bg = new Sprite(new Texture("maps/background-11.jpg"));
 	
 	public StageView(StageController controller, PlayerController pController) {
 		this.controller = controller;
@@ -39,15 +46,18 @@ public class StageView implements Disposable {
 		 *  renders the Stage
 		 */
 		renderer.setView(camera);
-		renderer.render();
+		
+		
 		
 		/**
 		 * render the player
 		 */
 		pController.update(Gdx.graphics.getDeltaTime());
 		renderer.getSpriteBatch().begin();
+		bg.draw(renderer.getSpriteBatch());
 		pController.getPlayer().draw(renderer.getSpriteBatch());
 		renderer.getSpriteBatch().end();
+		renderer.render();
 	}
 	
 	/**
@@ -57,6 +67,8 @@ public class StageView implements Disposable {
 		this.map = (TiledMap)map;
 		camera = new OrthographicCamera();
 		renderer = new OrthogonalTiledMapRenderer((TiledMap)map);
+		bg.scale(3);
+		bg.setPosition(1100, 500);
 		
 		
 		//Move the camera to a good start position
