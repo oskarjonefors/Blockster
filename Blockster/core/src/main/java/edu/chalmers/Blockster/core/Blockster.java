@@ -61,7 +61,7 @@ public class Blockster extends Game implements ApplicationListener, StageListene
 		controller = new StageController();
 		controller.addStageListener(this);
 		try {
-			FileHandle fh = new FileHandle(new File(new File("assets"), "gourmet race.mp3"));
+			FileHandle fh = new FileHandle(new File(new File("assets"), "Gourmet Race.mp3"));
 			Music music = Gdx.audio.newMusic(fh);
 			music.play();
 			music.setLooping(true);

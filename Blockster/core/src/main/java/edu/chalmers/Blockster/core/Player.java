@@ -45,7 +45,7 @@ public class Player extends Sprite {
 	
 	public void increaseGravity(float deltaTime) {
 		gravityTime += deltaTime;
-		gravity.y = 10 * gravityTime;
+		gravity.y = 9.82F * gravityTime;
 	}
 	
 	public void resetGravity() {

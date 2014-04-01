@@ -5,12 +5,15 @@ import static edu.chalmers.Blockster.core.Direction.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
+import edu.chalmers.Blockster.core.Block.Animation;
 
 /**
  * A class to represent a stage.
@@ -111,19 +114,16 @@ public class Stage {
 	private boolean collisionXAxisLeft(Player player) {
 		boolean collisionX = false;
 		float tileWidth = collisionLayer.getTileWidth();
-		float tileHeigth = collisionLayer.getTileHeight();;
+		float tileHeigth = collisionLayer.getTileHeight();
+		
+		// checking upper left corner
 		collisionX = collisionLayer.getCell(
 				(int) (player.getX() / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeigth))
 				.getTile().getProperties().containsKey("Collision");
 
-		// checking the tile to the left of the player
-		collisionX |= collisionLayer.getCell(
-				(int) (player.getX() / tileWidth),
-				(int) ((player.getY() + player.getHeight()) / 2 / tileHeigth))
-				.getTile().getProperties().containsKey("Collision");
 
-		// checking the tile to the left and under the player
+		// checking lower left corner
 		collisionX |= collisionLayer.getCell(
 				(int) (player.getX() / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
@@ -135,19 +135,15 @@ public class Stage {
 	private boolean collisionXAxisRight(Player player) {
 		boolean collisionX = false;
 		float tileWidth = collisionLayer.getTileWidth();
-		float tileHeigth = collisionLayer.getTileHeight();;
+		float tileHeigth = collisionLayer.getTileHeight();
+		
+		// checking upper right corner
 		collisionX = collisionLayer.getCell(
 				(int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeigth))
 				.getTile().getProperties().containsKey("Collision");
 
-		// checking the tile to the right of the player
-		collisionX |= collisionLayer.getCell(
-				(int) ((player.getX() + player.getWidth()) / tileWidth),
-				(int) ((player.getY() + player.getWidth()) / 2 / tileHeigth))
-				.getTile().getProperties().containsKey("Collision");
-
-		// checking the tile to the right and UNDER the player
+		// checking lower right corner
 		collisionX |= collisionLayer.getCell(
 				(int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
@@ -307,26 +303,18 @@ public class Stage {
 	}
 	
 	public void update(float deltaTime) {
-		//Set animation state etc
+		//Set animation state etc		
 		
-		if (isGrabbingBlockAnimation) {
-			//Set the block grabbing animation timer to t+deltaTime
-		}
-		
-		if (isMovingBlockAnimation) {
-			//Set the block moving animation timer to t+deltaTime
-		}
-		
-		if (isLiftingBlockAnimation) {
-			//Set the block lifting animation timer to t+deltaTime
+		if (processedBlock != null && processedBlock.getAnimation() != Animation.NONE) {
+			if(AnimationHandler.handleBlockPlayerAnimation(processedBlock, activePlayer, map)) {
+				//TODO: sätt alla animationer av, blocks animationer till none
+			}
 		}
 		
 		for (Player player : players) {
 			if (!collisionY(player)) {
 				player.increaseGravity(deltaTime);
 				player.move(FALL, player.getGravity().y);
-			} else {
-				player.resetGravity();
 			}
 			
 			float[] previousPosition = { player.getX(), player.getY() };
@@ -339,10 +327,21 @@ public class Stage {
 			player.setY(player.getY() + player.getVelocity().y);
 			if (collisionY(player) || collisionXAxisBoth(player)) {
 				player.setY(previousPosition[1]);
+				player.resetGravity();
+				
+				float y2 = player.getY();
+				float tileHeigth = collisionLayer.getTileHeight();
+				
+
+				player.setVelocityY(0);
+				player.move(FALL,  + Math.abs(y2 - ((int) (y2 / tileHeigth)) * tileHeigth));
+				player.setY(player.getY() + player.getVelocity().y);
 			}
 			
-			player.setVelocityX(0);
+
 			player.setVelocityY(0);
+			player.setVelocityX(0);
+			
 		}
 	}
 }
