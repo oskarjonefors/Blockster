@@ -214,14 +214,14 @@ public class Stage {
 		try {
 			if (dir == LEFT) {
 				TiledMapTile adjacentTileLeft = collisionLayer.getCell(
-						(int) (activePlayer.getX() / tileWidth),
+						(int) (activePlayer.getX() / tileWidth) - 1,
 						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / tileHeigth)).getTile();
 				block = (Block) adjacentTileLeft;
 			}
 
 			if (dir == RIGHT) {
 				TiledMapTile adjacentTileRight = collisionLayer.getCell(
-						(int) ((activePlayer.getX() + activePlayer.getWidth()) / tileWidth),
+						(int) ((activePlayer.getX() + activePlayer.getWidth()) / tileWidth) + 1,
 						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / tileHeigth))
 						.getTile();
 
