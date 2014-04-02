@@ -17,7 +17,7 @@ public class Block extends Actor implements TiledMapTile {
 	private boolean solid;
 	private boolean liftable;
 	private boolean movable;
-	private Animation activeAnimation;
+	private Animation activeAnimation = Animation.NONE;
 	private float animationTime;
 	
 	public Block(TiledMapTile tile) {
