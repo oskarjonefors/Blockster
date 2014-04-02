@@ -98,16 +98,16 @@ public class Stage {
 			} else {
 				return collisionXAxisRight(player);
 			}
-		} catch (Exception e) {
-			return true;
+		} catch (NullPointerException e) {
+			return false;
 		}
 	}
 	
 	private boolean collisionXAxisBoth(Player player) {
 		try {
 			return collisionXAxisLeft(player) && collisionXAxisRight(player);
-		} catch (Exception e) {
-			return true;
+		} catch (NullPointerException e) {
+			return false;
 		}
 	}
 	
@@ -128,7 +128,6 @@ public class Stage {
 				(int) (player.getX() / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
 				.getProperties().containsKey("Collision");
-
 		return collisionX;
 	}
 	
@@ -148,6 +147,7 @@ public class Stage {
 				(int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
 				.getProperties().containsKey("Collision");
+
 		return collisionX;
 	}
 	
@@ -156,8 +156,8 @@ public class Stage {
 			if (player.getVelocity().y < 0) {
 				return collisionYAxisDown(player);
 			}
-		} catch (Exception e) {
-			return true;
+		} catch (NullPointerException e) {
+			return false;
 		}
 		
 
@@ -181,6 +181,7 @@ public class Stage {
 				(int) ((player.getX() + player.getWidth()) / 2 / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
 				.getProperties().containsKey("Collision");
+	
 
 		// checking to the right and under the player
 		collisionY |= collisionLayer.getCell(
@@ -229,7 +230,7 @@ public class Stage {
 	
 	private float[][] getPlayerStartingPositions(TiledMap map) {
 		//TODO
-		return new float[][] {{600, 1500}};
+		return new float[][] {{600, 500}};
 	}
 	
 	public Block getProcessedBlock() {
@@ -331,7 +332,6 @@ public class Stage {
 				
 				float y2 = player.getY();
 				float tileHeigth = collisionLayer.getTileHeight();
-				
 
 				player.setVelocityY(0);
 				player.move(FALL,  + Math.abs(y2 - ((int) (y2 / tileHeigth)) * tileHeigth));

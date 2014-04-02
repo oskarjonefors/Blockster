@@ -45,8 +45,6 @@ public class StageView implements Disposable {
 		 */
 		renderer.setView(camera);
 		
-		
-		
 		renderer.getSpriteBatch().begin();
 		bg.draw(renderer.getSpriteBatch());
 		for (Player player : stage.getPlayers()) {
