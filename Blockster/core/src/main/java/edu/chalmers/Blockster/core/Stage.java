@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 
 import edu.chalmers.Blockster.core.Block.Animation;
@@ -57,6 +58,7 @@ public class Stage {
 		}
 		
 		activePlayer = players.get(0);
+		setBlocks();
 	}
 	
 	public void setBlocks() {
@@ -65,9 +67,14 @@ public class Stage {
 				TiledMapTileLayer tileLayer = (TiledMapTileLayer) layer;
 				for (int x = 0; x < tileLayer.getWidth(); x++) {
 					for (int y = 0; y < tileLayer.getHeight(); y++) {
-						TiledMapTile tile = tileLayer.getCell(x, y).getTile();
-						Block block = new Block(tile);
-						tileLayer.getCell(x,y).setTile(block);
+						Cell cell = tileLayer.getCell(x, y);
+						if (cell != null) {
+							TiledMapTile tile = cell.getTile();
+							System.out.println("("+x+", "+y+") from "
+							+tile.getClass().getSimpleName()+" to "+Block.class.getSimpleName());
+							Block block = new Block(tile);
+							tileLayer.getCell(x,y).setTile(block);
+						}
 					}
 				}
 			}
@@ -252,6 +259,8 @@ public class Stage {
 		if (canGrabBlock(block)) {
 			
 			processedBlock = block;
+			
+			
 			isGrabbingBlockAnimation = true;
 			isGrabbingBlock = true;
 			
