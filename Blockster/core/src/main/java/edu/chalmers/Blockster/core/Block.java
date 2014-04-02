@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 /**
  * A block
  * TODO: Add block specific attributes
- * @author Eric Bjuhr
+ * @author Eric Bjuhr, Oskar Jönefors
  * 
  */
 public class Block extends Actor implements TiledMapTile {
@@ -16,6 +16,7 @@ public class Block extends Actor implements TiledMapTile {
 	private TiledMapTile tile;
 	private boolean solid;
 	private boolean liftable;
+	private boolean movable;
 	private Animation activeAnimation;
 	private float animationTime;
 	
@@ -23,8 +24,9 @@ public class Block extends Actor implements TiledMapTile {
 		this.tile = tile;
 		
 		MapProperties props = tile.getProperties();
-		solid = props.containsKey("Collision");
+		solid = props.containsKey("Solid");
 		liftable = !solid && props.containsKey("Liftable");
+		movable = props.containsKey("Movable");
 	}
 	
 
@@ -57,6 +59,10 @@ public class Block extends Actor implements TiledMapTile {
 		return liftable;
 	}
 
+	public boolean isMovable() {
+		return movable;
+	}
+	
 	public boolean isSolid() {
 		return solid;
 	}

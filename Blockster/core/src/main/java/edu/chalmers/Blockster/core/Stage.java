@@ -76,7 +76,7 @@ public class Stage {
 		//TODO: Add additional tests (type of block etc)
 		return block != null && processedBlock == null 
 				&& !isGrabbingBlockAnimation && !isLiftingBlockAnimation 
-				&& !isMovingBlockAnimation;
+				&& !isMovingBlockAnimation && (block.isMovable() || block.isLiftable());
 	}
 	
 	public boolean canLiftBlock(Block block) {
@@ -120,14 +120,14 @@ public class Stage {
 		collisionX = collisionLayer.getCell(
 				(int) (player.getX() / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeigth))
-				.getTile().getProperties().containsKey("Collision");
+				.getTile().getProperties().containsKey("Solid");
 
 
 		// checking lower left corner
 		collisionX |= collisionLayer.getCell(
 				(int) (player.getX() / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
-				.getProperties().containsKey("Collision");
+				.getProperties().containsKey("Solid");
 		return collisionX;
 	}
 	
@@ -140,13 +140,13 @@ public class Stage {
 		collisionX = collisionLayer.getCell(
 				(int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeigth))
-				.getTile().getProperties().containsKey("Collision");
+				.getTile().getProperties().containsKey("Solid");
 
 		// checking lower right corner
 		collisionX |= collisionLayer.getCell(
 				(int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
-				.getProperties().containsKey("Collision");
+				.getProperties().containsKey("Solid");
 
 		return collisionX;
 	}
@@ -174,20 +174,20 @@ public class Stage {
 		collisionY = collisionLayer.getCell(
 				(int) (player.getX() / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
-				.getProperties().containsKey("Collision");
+				.getProperties().containsKey("Solid");
 
 		// checking tile under player
 		collisionY |= collisionLayer.getCell(
 				(int) ((player.getX() + player.getWidth()) / 2 / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
-				.getProperties().containsKey("Collision");
+				.getProperties().containsKey("Solid");
 	
 
 		// checking to the right and under the player
 		collisionY |= collisionLayer.getCell(
 				(int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) (player.getY() / tileHeigth)).getTile()
-				.getProperties().containsKey("Collision");
+				.getProperties().containsKey("Solid");
 
 		return collisionY;
 	}
@@ -248,6 +248,8 @@ public class Stage {
 			processedBlock = block;
 			isGrabbingBlockAnimation = true;
 			isGrabbingBlock = true;
+			
+			Gdx.app.log("Stage", "Can grab block!");
 			//TODO: Start grab animation
 		}
 	}
