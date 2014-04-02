@@ -145,6 +145,8 @@ public class StageController extends InputAdapter implements Disposable {
 			// Character is moving left
 
 			stage.moveActivePlayer(LEFT, distanceMoved);
+			lastDirection = LEFT;
+			
 			if (stage.moveBlock(LEFT)) {
 				hasMovedBlock = true;
 			}
@@ -153,6 +155,8 @@ public class StageController extends InputAdapter implements Disposable {
 		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving right
 			stage.moveActivePlayer(RIGHT, distanceMoved);
+			lastDirection = RIGHT;
+			
 			if (stage.moveBlock(RIGHT)) {
 				hasMovedBlock = true;
 			}

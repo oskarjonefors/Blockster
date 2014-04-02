@@ -8,10 +8,12 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 
 import edu.chalmers.Blockster.core.Block.Animation;
 
@@ -74,6 +76,7 @@ public class Stage {
 	
 	public boolean canGrabBlock(Block block) {
 		//TODO: Add additional tests (type of block etc)
+		
 		return block != null && processedBlock == null 
 				&& !isGrabbingBlockAnimation && !isLiftingBlockAnimation 
 				&& !isMovingBlockAnimation && (block.isMovable() || block.isLiftable());
@@ -202,19 +205,29 @@ public class Stage {
 		Block block = null;
 		
 		if (dir == LEFT) {
+			Gdx.app.log("Stage", "Get adjacent LEFT block");
 			TiledMapTile adjacentTileLeft = collisionLayer.getCell(
 					(int) ((activePlayer.getX() + activePlayer.getWidth()) / 2 / tileWidth),
 					(int) (activePlayer.getY() / tileHeigth)).getTile();
-			
-			block = (Block) adjacentTileLeft;
+			if(adjacentTileLeft == null) {
+				block = new Block(new StaticTiledMapTile(new TextureRegion()));
+			} else {
+				block = (Block) adjacentTileLeft;
+			}
 		}
 		
 		if (dir == RIGHT) {
+			Gdx.app.log("Stage", "Get adjacent RIGHT block");
 			TiledMapTile adjacentTileRight = collisionLayer.getCell(
 					(int) ((activePlayer.getX() + activePlayer.getWidth()) / tileWidth),
 					(int) ((activePlayer.getY() + activePlayer.getWidth()) / 2 / tileHeigth))
 					.getTile();
-			block = (Block) adjacentTileRight;
+			
+			if(adjacentTileRight == null) {
+				block = new Block(new StaticTiledMapTile(new TextureRegion()));
+			} else {
+				block = (Block) adjacentTileRight;
+			}
 		}
 		
 		return block;
