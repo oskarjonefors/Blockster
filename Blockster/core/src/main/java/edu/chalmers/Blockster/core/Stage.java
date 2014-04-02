@@ -207,8 +207,8 @@ public class Stage {
 		if (dir == LEFT) {
 			Gdx.app.log("Stage", "Get adjacent LEFT block");
 			TiledMapTile adjacentTileLeft = collisionLayer.getCell(
-					(int) ((activePlayer.getX() + activePlayer.getWidth()) / 2 / tileWidth),
-					(int) (activePlayer.getY() / tileHeigth)).getTile();
+					(int) (activePlayer.getX() / tileWidth),
+					(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / tileHeigth)).getTile();
 			if(adjacentTileLeft == null) {
 				block = new Block(new StaticTiledMapTile(new TextureRegion()));
 			} else {
@@ -220,7 +220,7 @@ public class Stage {
 			Gdx.app.log("Stage", "Get adjacent RIGHT block");
 			TiledMapTile adjacentTileRight = collisionLayer.getCell(
 					(int) ((activePlayer.getX() + activePlayer.getWidth()) / tileWidth),
-					(int) ((activePlayer.getY() + activePlayer.getWidth()) / 2 / tileHeigth))
+					(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / tileHeigth))
 					.getTile();
 			
 			if(adjacentTileRight == null) {
