@@ -85,6 +85,10 @@ public class Block extends Actor implements TiledMapTile {
 		return animationTime;
 	}
 	
+	public void setAnimation(Animation anim) {
+		this.activeAnimation = anim;
+	}
+	
 	public enum Animation {
 		NONE, PUSH_LEFT, PUSH_RIGHT, PULL_LEFT, PULL_RIGHT, DESTROY, LIFT
 	}
