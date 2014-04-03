@@ -69,6 +69,9 @@ public class Stage {
 		for (int i = 0; i < startPositions.length; i++) {
 			players.get(i).setX(startPositions[i][0]);
 			players.get(i).setY(startPositions[i][1]);
+			players.get(i).setVelocityX(0);
+			players.get(i).setVelocityY(0);
+			players.get(i).resetGravity();
 		}
 	}
 	
