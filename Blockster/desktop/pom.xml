@@ -53,6 +53,13 @@
 		<plugins>
 			<!-- this run the game when you invoke: mvn integration-test -Pdesktop -->
 			<plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+			<plugin>
 				<groupId>com.googlecode.mavennatives</groupId>
 				<artifactId>maven-nativedependencies-plugin</artifactId>
 				<version>0.0.6</version>
