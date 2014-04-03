@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 /**
  * Class to handle input and updating the model.
- * @author Eric Bjuhr, Oskar Jönefors
+ * @author Eric Bjuhr, Oskar J��nefors
  *
  */
 public class StageController extends InputAdapter implements Disposable {
@@ -24,6 +24,7 @@ public class StageController extends InputAdapter implements Disposable {
 	private final static int GRAB_BUTTON_UP_FLAG = 1 << 3;
 	private final static int MENU_BUTTON_UP_FLAG = 1 << 4;
 	private final static int SWITCH_CHARACTER_BUTTON_UP_FLAG = 1 << 5;
+	private final static int RESTART_STAGE_BUTTON_R_FLAG = 1 << 6;
 
 	private Stage stage;
 
@@ -77,6 +78,10 @@ public class StageController extends InputAdapter implements Disposable {
 			//System.out.println("Setting flag: "+GRAB_BUTTON_DOWN_FLAG);
 		}
 		//System.out.println("\tCurrent flags: "+Integer.toBinaryString(keyFlags));
+		if (keyCode == Keys.R) {
+			//Restart level
+			keyFlags |= RESTART_STAGE_BUTTON_R_FLAG;
+		}
 		return false;
 	}
 
@@ -184,6 +189,12 @@ public class StageController extends InputAdapter implements Disposable {
 			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;
 			//System.out.println("Removing flag: "+SWITCH_CHARACTER_BUTTON_UP_FLAG);
 			stage.nextPlayer();
+		}
+		
+		if ((keyFlags & RESTART_STAGE_BUTTON_R_FLAG) != 0) {
+			//Restart stage
+			keyFlags &= ~RESTART_STAGE_BUTTON_R_FLAG;
+			stage.resetStartPositions();
 		}
 
 	}

@@ -20,7 +20,7 @@ import edu.chalmers.Blockster.core.Block.Animation;
 
 /**
  * A class to represent a stage.
- * @author Oskar Jönefors, Eric Bjuhr
+ * @author Oskar J��nefors, Eric Bjuhr
  * 
  */
 public class Stage {
@@ -49,16 +49,27 @@ public class Stage {
 		this.map = map;
 		this.collisionLayer = (TiledMapTileLayer)map.getLayers().get(0);
 		players = new ArrayList<Player>();
+		setStartPositions();
 		
+		activePlayer = players.get(0);
+		setBlocks();
+	}
+	
+	private void setStartPositions() {
 		for (float[] startPosition : getPlayerStartingPositions(map)) {
 			Player player = new Player(PlayerImg);
 			player.setX(startPosition[0]);
 			player.setY(startPosition[1]);
 			players.add(player);
 		}
-		
-		activePlayer = players.get(0);
-		setBlocks();
+	}
+	
+	public void resetStartPositions() {
+		float[][] startPositions = getPlayerStartingPositions(map);
+		for (int i = 0; i < startPositions.length; i++) {
+			players.get(i).setX(startPositions[i][0]);
+			players.get(i).setY(startPositions[i][1]);
+		}
 	}
 	
 	public void setBlocks() {
@@ -325,7 +336,7 @@ public class Stage {
 		
 		if (processedBlock != null && processedBlock.getAnimation() != Animation.NONE) {
 			if(AnimationHandler.handleBlockPlayerAnimation(processedBlock, activePlayer, map)) {
-				//TODO: sätt alla animationer av, blocks animationer till none
+				//TODO: s��tt alla animationer av, blocks animationer till none
 			}
 		}
 		
