@@ -17,7 +17,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import edu.chalmers.Blockster.core.gdx.view.Block;
 import edu.chalmers.Blockster.core.gdx.view.Blockster;
-import edu.chalmers.Blockster.core.gdx.view.Player;
+import edu.chalmers.Blockster.core.gdx.view.GdxPlayer;
 import edu.chalmers.Blockster.core.gdx.view.View;
 import edu.chalmers.Blockster.core.gdx.view.Block.Animation;
 import edu.chalmers.Blockster.core.util.Direction;
@@ -36,8 +36,8 @@ public class Model {
 	private TiledMapTileLayer collisionLayer;
 	private Block processedBlock;
 	private View stageView;
-	private Player activePlayer;
-	private List<Player> players;
+	private GdxPlayer activePlayer;
+	private List<GdxPlayer> players;
 
 	private boolean isGrabbingBlockAnimation = false; //for animations
 	private boolean isMovingBlockAnimation = false;
@@ -52,7 +52,7 @@ public class Model {
 	public Model(TiledMap map) {
 		this.map = map;
 		this.collisionLayer = (TiledMapTileLayer)map.getLayers().get(0);
-		players = new ArrayList<Player>();
+		players = new ArrayList<GdxPlayer>();
 		setStartPositions();
 		
 		activePlayer = players.get(0);
@@ -61,7 +61,7 @@ public class Model {
 	
 	private void setStartPositions() {
 		for (float[] startPosition : getPlayerStartingPositions(map)) {
-			Player player = new Player(PlayerImg);
+			GdxPlayer player = new GdxPlayer(PlayerImg);
 			player.setX(startPosition[0]);
 			player.setY(startPosition[1]);
 			players.add(player);
@@ -100,7 +100,7 @@ public class Model {
 	}
 
 	@SuppressWarnings("unused")
-	private boolean collisionAbove(Player player) {
+	private boolean collisionAbove(GdxPlayer player) {
 		try {
 			return collisionUpperLeft(player, collisionLayer) ||
 					collisionUpperRight(player, collisionLayer);
@@ -109,7 +109,7 @@ public class Model {
 		}
 	}
 
-	private boolean collisionBelow(Player player) {
+	private boolean collisionBelow(GdxPlayer player) {
 		try {
 			return collisionLowerLeft(player, collisionLayer) ||
 					collisionLowerRight(player, collisionLayer);
@@ -118,7 +118,7 @@ public class Model {
 		}
 	}
 
-	private boolean collisionHorisontally(Player player) {
+	private boolean collisionHorisontally(GdxPlayer player) {
 		if (player.getVelocity().x < 0) {
 			return collisionLeft(player);
 		} else if (player.getVelocity().x > 0) {
@@ -128,7 +128,7 @@ public class Model {
 		}
 	}
 
-	private boolean collisionLeft(Player player) {
+	private boolean collisionLeft(GdxPlayer player) {
 		try {
 			return collisionUpperLeft(player, collisionLayer) 
 					|| collisionLowerLeft(player, collisionLayer);
@@ -137,7 +137,7 @@ public class Model {
 		}
 	}
 
-	private boolean collisionRight(Player player) {
+	private boolean collisionRight(GdxPlayer player) {
 		try {
 			return collisionUpperRight(player, collisionLayer)
 					|| collisionLowerRight(player, collisionLayer);
@@ -146,7 +146,7 @@ public class Model {
 		}
 	}
 
-	private boolean collisionVertically(Player player) {
+	private boolean collisionVertically(GdxPlayer player) {
 		if (player.getVelocity().y < 0) {
 			return collisionBelow(player);
 		}
@@ -190,7 +190,7 @@ public class Model {
 		return map;
 	}
 
-	public List<Player> getPlayers() {
+	public List<GdxPlayer> getPlayers() {
 		return players;
 	}
 
@@ -254,7 +254,7 @@ public class Model {
 		return false;
 	}
 
-	private void movePlayer(Direction dir, Player player, float distance) {
+	private void movePlayer(Direction dir, GdxPlayer player, float distance) {
 		player.move(dir, distance);
 	}
 
@@ -302,7 +302,7 @@ public class Model {
 			}
 		}
 
-		for (Player player : players) {
+		for (GdxPlayer player : players) {
 			if (!collisionVertically(player)) {
 				player.increaseGravity(deltaTime);
 				player.move(FALL, player.getGravity().y);

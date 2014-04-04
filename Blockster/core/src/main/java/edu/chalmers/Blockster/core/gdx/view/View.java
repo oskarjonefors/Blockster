@@ -49,7 +49,7 @@ public class View implements Disposable {
 		
 		renderer.getSpriteBatch().begin();
 		bg.draw(renderer.getSpriteBatch());
-		for (Player player : stage.getPlayers()) {
+		for (GdxPlayer player : stage.getPlayers()) {
 			player.draw(renderer.getSpriteBatch());
 		}
 		renderer.getSpriteBatch().end();
