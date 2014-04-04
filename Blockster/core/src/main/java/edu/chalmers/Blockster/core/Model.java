@@ -284,10 +284,10 @@ public class Model {
 				player.resetGravity();
 
 				float y2 = player.getY();
-				float tileHeight = blockLayer.getBlockHeight();
+				float blockHeight = blockLayer.getBlockHeight();
 
 				player.setVelocityY(0);
-				player.move(FALL,  + Math.abs(y2 - ((int) (y2 / tileHeight)) * tileHeight));
+				player.move(FALL,  + Math.abs(y2 - ((int) (y2 / blockHeight)) * blockHeight));
 				player.setY(player.getY() + player.getVelocity().y);
 			}
 
