@@ -18,12 +18,12 @@ public class GdxBlockLayer implements BlockLayer {
 	}
 	
 	@Override
-	public float getTileWidth(){
+	public float getBlockWidth(){
 		return layer.getTileWidth();
 	}
 
 	@Override
-	public float getTileHeight(){
+	public float getBlockHeight(){
 		return layer.getTileHeight();
 	}
 	
