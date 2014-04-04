@@ -148,7 +148,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	@Override
 	public void stageChanged(Model stage) {
 		this.stage = stage;
-		viewer = (GdxView) stages.get(stage);
+		viewer = stages.get(stage);
 		Gdx.app.log(Blockster.LOG, "Recieved a stage changed event");
 	}
 }
