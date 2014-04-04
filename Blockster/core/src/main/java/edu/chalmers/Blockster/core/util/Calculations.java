@@ -2,11 +2,11 @@ package edu.chalmers.Blockster.core.util;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
-import edu.chalmers.Blockster.core.gdx.view.Player;
+import edu.chalmers.Blockster.core.gdx.view.GdxPlayer;
 
 public class Calculations {
 
-	public static boolean collisionUpperLeft(Player player, 
+	public static boolean collisionUpperLeft(GdxPlayer player, 
 			TiledMapTileLayer collisionLayer) {
 		float tileWidth = collisionLayer.getTileWidth();
 		float tileHeight = collisionLayer.getTileHeight();
@@ -15,7 +15,7 @@ public class Calculations {
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
 	}
 	
-	public static boolean collisionLowerLeft(Player player, 
+	public static boolean collisionLowerLeft(GdxPlayer player, 
 			TiledMapTileLayer collisionLayer) {
 		float tileWidth = collisionLayer.getTileWidth();
 		float tileHeight = collisionLayer.getTileHeight();
@@ -24,7 +24,7 @@ public class Calculations {
 				(int) (player.getY() / tileHeight));
 	}
 	
-	public static boolean collisionUpperRight(Player player, 
+	public static boolean collisionUpperRight(GdxPlayer player, 
 			TiledMapTileLayer collisionLayer) {
 		float tileWidth = collisionLayer.getTileWidth();
 		float tileHeight = collisionLayer.getTileHeight();
@@ -33,7 +33,7 @@ public class Calculations {
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
 	}
 	
-	public static boolean collisionLowerRight(Player player, 
+	public static boolean collisionLowerRight(GdxPlayer player, 
 			TiledMapTileLayer collisionLayer) {
 		float tileWidth = collisionLayer.getTileWidth();
 		float tileHeight = collisionLayer.getTileHeight();

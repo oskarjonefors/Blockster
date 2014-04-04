@@ -6,20 +6,10 @@ import static edu.chalmers.Blockster.core.util.Direction.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-
-import edu.chalmers.Blockster.core.gdx.view.Block;
 import edu.chalmers.Blockster.core.gdx.view.Blockster;
-import edu.chalmers.Blockster.core.gdx.view.Player;
+import edu.chalmers.Blockster.core.gdx.view.GdxBlock;
+import edu.chalmers.Blockster.core.gdx.view.GdxPlayer;
 import edu.chalmers.Blockster.core.gdx.view.View;
-import edu.chalmers.Blockster.core.gdx.view.Block.Animation;
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
@@ -32,12 +22,12 @@ public class Model {
 	//Constant useful for logging.
 	public static final String LOG = Blockster.class.getSimpleName();
 
-	private TiledMap map;
-	private TiledMapTileLayer collisionLayer;
+	private BlockMap map;
+	private BlockLayer blockLayer;
 	private Block processedBlock;
 	private View stageView;
-	private Player activePlayer;
-	private List<Player> players;
+	private GdxPlayer activePlayer;
+	private List<GdxPlayer> players;
 
 	private boolean isGrabbingBlockAnimation = false; //for animations
 	private boolean isMovingBlockAnimation = false;
@@ -49,10 +39,10 @@ public class Model {
 	private Sprite PlayerImg = new Sprite(new Texture("Player/still2.png"));
 
 
-	public Model(TiledMap map) {
+	public Model(BlockMap map) {
 		this.map = map;
-		this.collisionLayer = (TiledMapTileLayer)map.getLayers().get(0);
-		players = new ArrayList<Player>();
+		this.blockLayer = this.map.getBlockLayer(0);
+		players = new ArrayList<GdxPlayer>();
 		setStartPositions();
 		
 		activePlayer = players.get(0);
@@ -61,7 +51,7 @@ public class Model {
 	
 	private void setStartPositions() {
 		for (float[] startPosition : getPlayerStartingPositions(map)) {
-			Player player = new Player(PlayerImg);
+			GdxPlayer player = new GdxPlayer(PlayerImg);
 			player.setX(startPosition[0]);
 			player.setY(startPosition[1]);
 			players.add(player);
@@ -100,25 +90,25 @@ public class Model {
 	}
 
 	@SuppressWarnings("unused")
-	private boolean collisionAbove(Player player) {
+	private boolean collisionAbove(GdxPlayer player) {
 		try {
-			return collisionUpperLeft(player, collisionLayer) ||
-					collisionUpperRight(player, collisionLayer);
+			return collisionUpperLeft(player, blockLayer) ||
+					collisionUpperRight(player, blockLayer);
 		} catch (NullPointerException e) {
 			return false;
 		}
 	}
 
-	private boolean collisionBelow(Player player) {
+	private boolean collisionBelow(GdxPlayer player) {
 		try {
-			return collisionLowerLeft(player, collisionLayer) ||
-					collisionLowerRight(player, collisionLayer);
+			return collisionLowerLeft(player, blockLayer) ||
+					collisionLowerRight(player, blockLayer);
 		} catch (NullPointerException e) {
 			return false;
 		}
 	}
 
-	private boolean collisionHorisontally(Player player) {
+	private boolean collisionHorisontally(GdxPlayer player) {
 		if (player.getVelocity().x < 0) {
 			return collisionLeft(player);
 		} else if (player.getVelocity().x > 0) {
@@ -128,25 +118,25 @@ public class Model {
 		}
 	}
 
-	private boolean collisionLeft(Player player) {
+	private boolean collisionLeft(GdxPlayer player) {
 		try {
-			return collisionUpperLeft(player, collisionLayer) 
-					|| collisionLowerLeft(player, collisionLayer);
+			return collisionUpperLeft(player, blockLayer) 
+					|| collisionLowerLeft(player, blockLayer);
 		} catch (NullPointerException e) {
 			return false;
 		}
 	}
 
-	private boolean collisionRight(Player player) {
+	private boolean collisionRight(GdxPlayer player) {
 		try {
-			return collisionUpperRight(player, collisionLayer)
-					|| collisionLowerRight(player, collisionLayer);
+			return collisionUpperRight(player, blockLayer)
+					|| collisionLowerRight(player, blockLayer);
 		} catch (NullPointerException e) {
 			return false;
 		}
 	}
 
-	private boolean collisionVertically(Player player) {
+	private boolean collisionVertically(GdxPlayer player) {
 		if (player.getVelocity().y < 0) {
 			return collisionBelow(player);
 		}
@@ -160,20 +150,20 @@ public class Model {
 	}
 
 	public Block getAdjacentBlock(Direction dir) {
-		float tileWidth = collisionLayer.getTileWidth();
-		float tileHeigth = collisionLayer.getTileHeight();
+		float tileWidth = blockLayer.getTileWidth();
+		float tileHeigth = blockLayer.getTileHeight();
 		Block block = null;
 
 		try {
 			if (dir == LEFT) {
-				TiledMapTile adjacentTileLeft = collisionLayer.getCell(
+				TiledMapTile adjacentTileLeft = blockLayer.getCell(
 						(int) (activePlayer.getX() / tileWidth) - 1,
 						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / tileHeigth)).getTile();
 				block = (Block) adjacentTileLeft;
 			}
 
 			if (dir == RIGHT) {
-				TiledMapTile adjacentTileRight = collisionLayer.getCell(
+				TiledMapTile adjacentTileRight = blockLayer.getCell(
 						(int) ((activePlayer.getX() + activePlayer.getWidth()) / tileWidth) + 1,
 						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / tileHeigth))
 						.getTile();
@@ -186,15 +176,15 @@ public class Model {
 		return block;
 	}
 
-	public TiledMap getMap() {
+	public BlockMap getMap() {
 		return map;
 	}
 
-	public List<Player> getPlayers() {
+	public List<GdxPlayer> getPlayers() {
 		return players;
 	}
 
-	private float[][] getPlayerStartingPositions(TiledMap map) {
+	private float[][] getPlayerStartingPositions(BlockMap map) {
 		//TODO
 		return new float[][] {{600, 500}};
 	}
@@ -254,7 +244,7 @@ public class Model {
 		return false;
 	}
 
-	private void movePlayer(Direction dir, Player player, float distance) {
+	private void movePlayer(Direction dir, GdxPlayer player, float distance) {
 		player.move(dir, distance);
 	}
 
@@ -275,7 +265,7 @@ public class Model {
 							TiledMapTile tile = cell.getTile();
 							System.out.println("("+x+", "+y+") from "
 									+tile.getClass().getSimpleName()+" to "+Block.class.getSimpleName());
-							Block block = new Block(tile);
+							GdxBlock block = new GdxBlock(tile);
 							tileLayer.getCell(x,y).setTile(block);
 						}
 					}
@@ -296,13 +286,11 @@ public class Model {
 	public void update(float deltaTime) {
 		//Set animation state etc		
 
-		if (processedBlock != null && processedBlock.getAnimation() != Animation.NONE) {
-			if(AnimationHandler.handleBlockPlayerAnimation(processedBlock, activePlayer, map)) {
-				//TODO: s��tt alla animationer av, blocks animationer till none
-			}
+		if (processedBlock != null && processedBlock.getAnimation() != Block.Animation.NONE) {
+			
 		}
 
-		for (Player player : players) {
+		for (GdxPlayer player : players) {
 			if (!collisionVertically(player)) {
 				player.increaseGravity(deltaTime);
 				player.move(FALL, player.getGravity().y);
@@ -321,7 +309,7 @@ public class Model {
 				player.resetGravity();
 
 				float y2 = player.getY();
-				float tileHeigth = collisionLayer.getTileHeight();
+				float tileHeigth = blockLayer.getTileHeight();
 
 				player.setVelocityY(0);
 				player.move(FALL,  + Math.abs(y2 - ((int) (y2 / tileHeigth)) * tileHeigth));

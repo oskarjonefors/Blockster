@@ -3,7 +3,8 @@ package edu.chalmers.Blockster.core.gdx.view;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+
+import edu.chalmers.Blockster.core.Block;
 
 /**
  * A block
@@ -11,16 +12,16 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  * @author Eric Bjuhr, Oskar Jönefors
  * 
  */
-public class Block extends Actor implements TiledMapTile {
+public class GdxBlock implements Block, TiledMapTile {
 	
-	private TiledMapTile tile;
 	private boolean solid;
 	private boolean liftable;
 	private boolean movable;
 	private Animation activeAnimation = Animation.NONE;
 	private float animationTime;
+	private TiledMapTile tile;
 	
-	public Block(TiledMapTile tile) {
+	public GdxBlock(TiledMapTile tile) {
 		this.tile = tile;
 		
 		MapProperties props = tile.getProperties();
@@ -29,24 +30,14 @@ public class Block extends Actor implements TiledMapTile {
 		movable = props.containsKey("Movable");
 	}
 	
-
-
-	@Override
-	public BlendMode getBlendMode() {
-		return tile.getBlendMode();
-	}
-
-	@Override
 	public int getId() {
 		return tile.getId();
 	}
 
-	@Override
 	public MapProperties getProperties() {
 		return tile.getProperties();
 	}
 
-	@Override
 	public TextureRegion getTextureRegion() {
 		return tile.getTextureRegion();
 	}
@@ -55,42 +46,73 @@ public class Block extends Actor implements TiledMapTile {
 		return tile;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.chalmers.Blockster.core.gdx.view.Block#isLiftable()
+	 */
+	@Override
 	public boolean isLiftable() {
 		return liftable;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.chalmers.Blockster.core.gdx.view.Block#isMovable()
+	 */
+	@Override
 	public boolean isMovable() {
 		return movable;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.chalmers.Blockster.core.gdx.view.Block#isSolid()
+	 */
+	@Override
 	public boolean isSolid() {
 		return solid;
 	}
 	
-	@Override
-	public void setBlendMode(BlendMode blendMode) {
-		tile.setBlendMode(blendMode);
-	}
-	
-	@Override
 	public void setId(int id) {
 		tile.setId(id);
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.chalmers.Blockster.core.gdx.view.Block#getAnimation()
+	 */
+	@Override
 	public Animation getAnimation() {
 		return activeAnimation;
 	}
 	
-	public float getAnimationTime() {
-		return animationTime;
-	}
-	
+	/* (non-Javadoc)
+	 * @see edu.chalmers.Blockster.core.gdx.view.Block#setAnimation(edu.chalmers.Blockster.core.gdx.view.GdxBlock.Animation)
+	 */
+	@Override
 	public void setAnimation(Animation anim) {
 		this.activeAnimation = anim;
 	}
-	
-	public enum Animation {
-		NONE, PUSH_LEFT, PUSH_RIGHT, PULL_LEFT, PULL_RIGHT, DESTROY, LIFT
+
+	@Override
+	public float getElapsedAnimationTime() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
-	
+
+
+
+	@Override
+	public float getAnimationDuration() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public BlendMode getBlendMode() {
+		// TODO Auto-generated method stub
+		return tile.getBlendMode();
+	}
+
+	@Override
+	public void setBlendMode(BlendMode arg0) {
+		// TODO Auto-generated method stub
+		tile.setBlendMode(arg0);
+	}	
 }
