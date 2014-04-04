@@ -6,15 +6,6 @@ import static edu.chalmers.Blockster.core.util.Direction.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-
 import edu.chalmers.Blockster.core.gdx.view.Blockster;
 import edu.chalmers.Blockster.core.gdx.view.GdxBlock;
 import edu.chalmers.Blockster.core.gdx.view.GdxPlayer;
@@ -31,8 +22,8 @@ public class Model {
 	//Constant useful for logging.
 	public static final String LOG = Blockster.class.getSimpleName();
 
-	private TiledMap map;
-	private TiledMapTileLayer collisionLayer;
+	private BlockMap map;
+	private BlockLayer blockLayer;
 	private Block processedBlock;
 	private View stageView;
 	private GdxPlayer activePlayer;
@@ -48,9 +39,9 @@ public class Model {
 	private Sprite PlayerImg = new Sprite(new Texture("Player/still2.png"));
 
 
-	public Model(TiledMap map) {
+	public Model(BlockMap map) {
 		this.map = map;
-		this.collisionLayer = (TiledMapTileLayer)map.getLayers().get(0);
+		this.blockLayer = this.map.getBlockLayer(0);
 		players = new ArrayList<GdxPlayer>();
 		setStartPositions();
 		
@@ -101,8 +92,8 @@ public class Model {
 	@SuppressWarnings("unused")
 	private boolean collisionAbove(GdxPlayer player) {
 		try {
-			return collisionUpperLeft(player, collisionLayer) ||
-					collisionUpperRight(player, collisionLayer);
+			return collisionUpperLeft(player, blockLayer) ||
+					collisionUpperRight(player, blockLayer);
 		} catch (NullPointerException e) {
 			return false;
 		}
@@ -110,8 +101,8 @@ public class Model {
 
 	private boolean collisionBelow(GdxPlayer player) {
 		try {
-			return collisionLowerLeft(player, collisionLayer) ||
-					collisionLowerRight(player, collisionLayer);
+			return collisionLowerLeft(player, blockLayer) ||
+					collisionLowerRight(player, blockLayer);
 		} catch (NullPointerException e) {
 			return false;
 		}
@@ -129,8 +120,8 @@ public class Model {
 
 	private boolean collisionLeft(GdxPlayer player) {
 		try {
-			return collisionUpperLeft(player, collisionLayer) 
-					|| collisionLowerLeft(player, collisionLayer);
+			return collisionUpperLeft(player, blockLayer) 
+					|| collisionLowerLeft(player, blockLayer);
 		} catch (NullPointerException e) {
 			return false;
 		}
@@ -138,8 +129,8 @@ public class Model {
 
 	private boolean collisionRight(GdxPlayer player) {
 		try {
-			return collisionUpperRight(player, collisionLayer)
-					|| collisionLowerRight(player, collisionLayer);
+			return collisionUpperRight(player, blockLayer)
+					|| collisionLowerRight(player, blockLayer);
 		} catch (NullPointerException e) {
 			return false;
 		}
@@ -159,20 +150,20 @@ public class Model {
 	}
 
 	public Block getAdjacentBlock(Direction dir) {
-		float tileWidth = collisionLayer.getTileWidth();
-		float tileHeigth = collisionLayer.getTileHeight();
+		float tileWidth = blockLayer.getTileWidth();
+		float tileHeigth = blockLayer.getTileHeight();
 		Block block = null;
 
 		try {
 			if (dir == LEFT) {
-				TiledMapTile adjacentTileLeft = collisionLayer.getCell(
+				TiledMapTile adjacentTileLeft = blockLayer.getCell(
 						(int) (activePlayer.getX() / tileWidth) - 1,
 						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / tileHeigth)).getTile();
 				block = (Block) adjacentTileLeft;
 			}
 
 			if (dir == RIGHT) {
-				TiledMapTile adjacentTileRight = collisionLayer.getCell(
+				TiledMapTile adjacentTileRight = blockLayer.getCell(
 						(int) ((activePlayer.getX() + activePlayer.getWidth()) / tileWidth) + 1,
 						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / tileHeigth))
 						.getTile();
@@ -185,7 +176,7 @@ public class Model {
 		return block;
 	}
 
-	public TiledMap getMap() {
+	public BlockMap getMap() {
 		return map;
 	}
 
@@ -193,7 +184,7 @@ public class Model {
 		return players;
 	}
 
-	private float[][] getPlayerStartingPositions(TiledMap map) {
+	private float[][] getPlayerStartingPositions(BlockMap map) {
 		//TODO
 		return new float[][] {{600, 500}};
 	}
@@ -318,7 +309,7 @@ public class Model {
 				player.resetGravity();
 
 				float y2 = player.getY();
-				float tileHeigth = collisionLayer.getTileHeight();
+				float tileHeigth = blockLayer.getTileHeight();
 
 				player.setVelocityY(0);
 				player.move(FALL,  + Math.abs(y2 - ((int) (y2 / tileHeigth)) * tileHeigth));
