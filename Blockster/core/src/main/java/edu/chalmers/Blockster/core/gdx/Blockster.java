@@ -5,7 +5,11 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -26,8 +30,11 @@ import com.badlogic.gdx.Gdx;
 
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.MapChangeListener;
+import edu.chalmers.Blockster.core.View;
 import edu.chalmers.Blockster.core.gdx.controller.Controller;
-import edu.chalmers.Blockster.core.gdx.view.View;
+import edu.chalmers.Blockster.core.gdx.util.GdxFactory;
+import edu.chalmers.Blockster.core.gdx.view.GdxMap;
+import edu.chalmers.Blockster.core.gdx.view.GdxView;
 /**
  * 
  * @author Oskar Jönefors, Eric Bjuhr
@@ -41,22 +48,22 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	//A libgdx helper class that logs current FPS each second
 	private FPSLogger fpsLogger;
 	private Controller controller;
-	private View viewer;
+	private GdxView viewer;
 	private Model stage;
-	private List<Model> stageList;
+	private Map<Model, View> stages;
 	
-	private void addStagesToList(List<Model> list, File[] maps) {
+	private void addStagesToMap(Map<Model, View> list, File[] maps) {
 		TmxMapLoader loader = new TmxMapLoader();
 		for (File mapFile : maps) {
 			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
 			TiledMap map = loader.load("maps/"+mapFile.getName());
-			Model stage = new Model(map);
+			GdxMap gMap = new GdxMap(map);
+			Model stage = new Model(gMap, new GdxFactory());
 			
-			View view = new View(stage);
+			GdxView view = new GdxView(stage);
 			view.init(map);
-			stage.setStageView(view);
 			
-			list.add(stage);
+			list.put(stage, view);
 		}
 	}
 	
@@ -75,7 +82,12 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 			loadStages();
 
 			Gdx.app.log(Blockster.LOG, "Setting stage");
-			controller.setStage(stageList.get(1));
+			
+			Iterator<Model> modelIterator = stages.keySet().iterator();
+			modelIterator.next();
+			Model model = modelIterator.next();
+			
+			controller.setStage(model);
 		} catch (SecurityException | IOException e) {
 			Gdx.app.log(Blockster.LOG, e.getClass().getName());
 		}
@@ -101,10 +113,8 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	}
 
 	private void loadStages() throws SecurityException, IOException {
-		
-		ArrayList<Model> stages = new ArrayList<Model>();
-		addStagesToList(stages, listFilesInDirectory(new File("assets/maps/"), ".tmx"));
-		stageList = Collections.synchronizedList(stages);
+		stages = Collections.synchronizedMap(new HashMap<Model, View>());
+		addStagesToMap(stages, listFilesInDirectory(new File("assets/maps/"), ".tmx"));
 	}
 
 	@Override
@@ -149,7 +159,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	@Override
 	public void stageChanged(Model stage) {
 		this.stage = stage;
-		viewer = stage.getStageView();
+		viewer = (GdxView) stages.get(stage);
 		Gdx.app.log(Blockster.LOG, "Recieved a stage changed event");
 	}
 }

@@ -11,11 +11,13 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.Blockster.core.Model;
+import edu.chalmers.Blockster.core.Player;
+import edu.chalmers.Blockster.core.View;
 
 /**
  * @author Joel Tegman
  */
-public class View implements Disposable {
+public class GdxView implements Disposable, View {
 
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
@@ -28,7 +30,7 @@ public class View implements Disposable {
 	 */
 	private Sprite bg = new Sprite(new Texture("maps/background-11.jpg"));
 	
-	public View(Model stage) {
+	public GdxView(Model stage) {
 		this.stage = stage;
 	}
 	
@@ -49,8 +51,8 @@ public class View implements Disposable {
 		
 		renderer.getSpriteBatch().begin();
 		bg.draw(renderer.getSpriteBatch());
-		for (GdxPlayer player : stage.getPlayers()) {
-			player.draw(renderer.getSpriteBatch());
+		for (Player player : stage.getPlayers()) {
+			((GdxPlayer)player).draw(renderer.getSpriteBatch());
 		}
 		renderer.getSpriteBatch().end();
 		renderer.render();
