@@ -33,23 +33,26 @@ public class Model {
 
 	private boolean isGrabbingBlock = false; 
 	private boolean isLiftingBlock = false;
+	
+	private Factory factory;
 
 	//TODO Change this
-	private Sprite PlayerImg = new Sprite(new Texture("Player/still2.png"));
+	private final static String PLAYER_IMAGE_ADDRESS = "Player/still2.png";
 
 
-	public Model(BlockMap map) {
+	public Model(BlockMap map, Factory factory) {
 		this.map = map;
 		this.blockLayer = this.map.getBlockLayer();
+		this.factory = factory;
 		players = new ArrayList<Player>();
 		setStartPositions();
-		
+
 		activePlayer = players.get(0);
 	}
 	
 	private void setStartPositions() {
 		for (float[] startPosition : getPlayerStartingPositions(map)) {
-			Player player = new Player(PlayerImg);
+			Player player = factory.createPlayer(PLAYER_IMAGE_ADDRESS);
 			player.setX(startPosition[0]);
 			player.setY(startPosition[1]);
 			players.add(player);
