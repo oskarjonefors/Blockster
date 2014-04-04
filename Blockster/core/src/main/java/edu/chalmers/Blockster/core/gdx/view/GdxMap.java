@@ -18,8 +18,8 @@ public class GdxMap implements BlockMap {
 	}
 
 	@Override
-	public BlockLayer getBlockLayer(int index) {
-		return this.blockLayer.getLayer(index);
+	public BlockLayer getBlockLayer() {
+		return this.blockLayer.getLayer();
 	}
 	
 }
