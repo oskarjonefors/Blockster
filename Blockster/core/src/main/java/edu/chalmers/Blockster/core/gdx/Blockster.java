@@ -3,27 +3,17 @@ package edu.chalmers.Blockster.core.gdx;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -47,7 +37,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	//A libgdx helper class that logs current FPS each second
 	private FPSLogger fpsLogger;
 	private Controller controller;
-	private GdxView view;
+	private GdxView viewer;
 	private Model stage;
 	private Map<Model, GdxView> stages;
 	
@@ -95,7 +85,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	@Override
 	public void dispose () {
 		Gdx.app.log(Blockster.LOG,  "Disposing game");
-		view.dispose();
+		viewer.dispose();
 	
 	}
 	
@@ -137,7 +127,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		/* Render the new frame */
-		view.render();
+		viewer.render();
 	}
 
 	@Override
@@ -147,7 +137,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 		/**
 		 * set the camera view according to the new size
 		 */
-		view.resize(width, height);
+		viewer.resize(width, height);
 		}
 
 	@Override
@@ -158,7 +148,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	@Override
 	public void stageChanged(Model stage) {
 		this.stage = stage;
-		view = stages.get(stage);
+		viewer = (GdxView) stages.get(stage);
 		Gdx.app.log(Blockster.LOG, "Recieved a stage changed event");
 	}
 }
