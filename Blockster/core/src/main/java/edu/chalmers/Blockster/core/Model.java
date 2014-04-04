@@ -15,11 +15,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
-import edu.chalmers.Blockster.core.gdx.view.Block;
 import edu.chalmers.Blockster.core.gdx.view.Blockster;
+import edu.chalmers.Blockster.core.gdx.view.GdxBlock;
 import edu.chalmers.Blockster.core.gdx.view.GdxPlayer;
 import edu.chalmers.Blockster.core.gdx.view.View;
-import edu.chalmers.Blockster.core.gdx.view.Block.Animation;
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
@@ -275,7 +274,7 @@ public class Model {
 							TiledMapTile tile = cell.getTile();
 							System.out.println("("+x+", "+y+") from "
 									+tile.getClass().getSimpleName()+" to "+Block.class.getSimpleName());
-							Block block = new Block(tile);
+							GdxBlock block = new GdxBlock(tile);
 							tileLayer.getCell(x,y).setTile(block);
 						}
 					}
@@ -296,10 +295,8 @@ public class Model {
 	public void update(float deltaTime) {
 		//Set animation state etc		
 
-		if (processedBlock != null && processedBlock.getAnimation() != Animation.NONE) {
-			if(AnimationHandler.handleBlockPlayerAnimation(processedBlock, activePlayer, map)) {
-				//TODO: s��tt alla animationer av, blocks animationer till none
-			}
+		if (processedBlock != null && processedBlock.getAnimation() != Block.Animation.NONE) {
+			
 		}
 
 		for (GdxPlayer player : players) {

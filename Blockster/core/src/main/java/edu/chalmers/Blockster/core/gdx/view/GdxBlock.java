@@ -3,7 +3,6 @@ package edu.chalmers.Blockster.core.gdx.view;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import edu.chalmers.Blockster.core.Block;
 
@@ -13,7 +12,7 @@ import edu.chalmers.Blockster.core.Block;
  * @author Eric Bjuhr, Oskar Jönefors
  * 
  */
-public class GdxBlock implements Block {
+public class GdxBlock implements Block, TiledMapTile {
 	
 	private boolean solid;
 	private boolean liftable;
@@ -103,5 +102,17 @@ public class GdxBlock implements Block {
 	public float getAnimationDuration() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public BlendMode getBlendMode() {
+		// TODO Auto-generated method stub
+		return tile.getBlendMode();
+	}
+
+	@Override
+	public void setBlendMode(BlendMode arg0) {
+		// TODO Auto-generated method stub
+		tile.setBlendMode(arg0);
 	}	
 }
