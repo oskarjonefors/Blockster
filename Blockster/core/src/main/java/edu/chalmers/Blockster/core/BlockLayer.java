@@ -3,9 +3,9 @@ package edu.chalmers.Blockster.core;
 
 public interface BlockLayer {
 
-	public float getTileWidth();
+	public float getBlockWidth();
 
-	public float getTileHeight();
+	public float getBlockHeight();
 
 	public void setBlock(int x, int y, Block block);
 

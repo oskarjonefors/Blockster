@@ -7,8 +7,8 @@ public class Calculations {
 
 	public static boolean collisionUpperLeft(Player player, 
 			BlockLayer collisionLayer) {
-		float tileWidth = collisionLayer.getTileWidth();
-		float tileHeight = collisionLayer.getTileHeight();
+		float tileWidth = collisionLayer.getBlockWidth();
+		float tileHeight = collisionLayer.getBlockHeight();
 		
 		return isSolid(collisionLayer, (int) (player.getX() / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
@@ -16,8 +16,8 @@ public class Calculations {
 	
 	public static boolean collisionLowerLeft(Player player, 
 			BlockLayer collisionLayer) {
-		float tileWidth = collisionLayer.getTileWidth();
-		float tileHeight = collisionLayer.getTileHeight();
+		float tileWidth = collisionLayer.getBlockWidth();
+		float tileHeight = collisionLayer.getBlockHeight();
 		
 		return isSolid(collisionLayer, (int) (player.getX() / tileWidth),
 				(int) (player.getY() / tileHeight));
@@ -25,8 +25,8 @@ public class Calculations {
 	
 	public static boolean collisionUpperRight(Player player, 
 			BlockLayer collisionLayer) {
-		float tileWidth = collisionLayer.getTileWidth();
-		float tileHeight = collisionLayer.getTileHeight();
+		float tileWidth = collisionLayer.getBlockWidth();
+		float tileHeight = collisionLayer.getBlockHeight();
 		
 		return isSolid(collisionLayer, (int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
@@ -34,8 +34,8 @@ public class Calculations {
 	
 	public static boolean collisionLowerRight(Player player, 
 			BlockLayer collisionLayer) {
-		float tileWidth = collisionLayer.getTileWidth();
-		float tileHeight = collisionLayer.getTileHeight();
+		float tileWidth = collisionLayer.getBlockWidth();
+		float tileHeight = collisionLayer.getBlockHeight();
 		
 		return isSolid(collisionLayer, (int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) (player.getY() / tileHeight));

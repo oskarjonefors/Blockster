@@ -148,25 +148,24 @@ public class Model {
 	}
 
 	public Block getAdjacentBlock(Direction dir) {
-		float tileWidth = blockLayer.getTileWidth();
-		float tileHeight = blockLayer.getTileHeight();
+		float blockWidth = blockLayer.getBlockWidth();
+		float blockHeight = blockLayer.getBlockHeight();
 		Block block = null;
 
 		try {
 			if (dir == LEFT) {
-				TiledMapTile adjacentTileLeft = blockLayer.getCell(
-						(int) (activePlayer.getX() / tileWidth) - 1,
-						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / tileHeight)).getTile();
-				block = (Block) adjacentTileLeft;
+				Block adjacentBlockLeft = blockLayer.getBlock(
+						(int) (activePlayer.getX() / blockWidth) - 1,
+						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / blockHeight));
+				block = (Block) adjacentBlockLeft;
 			}
 
 			if (dir == RIGHT) {
-				TiledMapTile adjacentTileRight = blockLayer.getCell(
-						(int) ((activePlayer.getX() + activePlayer.getWidth()) / tileWidth) + 1,
-						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / tileHeight))
-						.getTile();
+				Block adjacentBlockRight = blockLayer.getBlock(
+						(int) ((activePlayer.getX() + activePlayer.getWidth()) / blockWidth) + 1,
+						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / blockHeight));
 
-				block = (Block) adjacentTileRight;
+				block = (Block) adjacentBlockRight;
 			}
 		} catch (NullPointerException e) {
 			block = null;
@@ -285,7 +284,7 @@ public class Model {
 				player.resetGravity();
 
 				float y2 = player.getY();
-				float tileHeight = blockLayer.getTileHeight();
+				float tileHeight = blockLayer.getBlockHeight();
 
 				player.setVelocityY(0);
 				player.move(FALL,  + Math.abs(y2 - ((int) (y2 / tileHeight)) * tileHeight));
