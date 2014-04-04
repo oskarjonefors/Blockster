@@ -1,4 +1,4 @@
-package edu.chalmers.Blockster.core.gdx.view;
+package edu.chalmers.Blockster.core.gdx;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -27,6 +27,7 @@ import com.badlogic.gdx.Gdx;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.MapChangeListener;
 import edu.chalmers.Blockster.core.gdx.controller.Controller;
+import edu.chalmers.Blockster.core.gdx.view.View;
 /**
  * 
  * @author Oskar Jönefors, Eric Bjuhr
