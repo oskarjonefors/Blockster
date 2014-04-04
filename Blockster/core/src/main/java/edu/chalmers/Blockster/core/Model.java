@@ -46,7 +46,6 @@ public class Model {
 		setStartPositions();
 		
 		activePlayer = players.get(0);
-		setBlocks();
 	}
 	
 	private void setStartPositions() {
@@ -251,27 +250,6 @@ public class Model {
 
 	public void nextPlayer() {
 
-	}
-
-
-	public void setBlocks() {
-		for (MapLayer layer : map.getLayers()) {
-			if (layer instanceof TiledMapTileLayer) {
-				TiledMapTileLayer tileLayer = (TiledMapTileLayer) layer;
-				for (int x = 0; x < tileLayer.getWidth(); x++) {
-					for (int y = 0; y < tileLayer.getHeight(); y++) {
-						Cell cell = tileLayer.getCell(x, y);
-						if (cell != null) {
-							TiledMapTile tile = cell.getTile();
-							System.out.println("("+x+", "+y+") from "
-									+tile.getClass().getSimpleName()+" to "+Block.class.getSimpleName());
-							GdxBlock block = new GdxBlock(tile);
-							tileLayer.getCell(x,y).setTile(block);
-						}
-					}
-				}
-			}
-		}
 	}
 
 	public void setStageView(View stageView) {

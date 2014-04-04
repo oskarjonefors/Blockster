@@ -36,9 +36,5 @@ public class GdxBlockLayer implements BlockLayer {
 	public void setBlock(int x, int y, Block block){
 		layer.getCell(x, y).setTile((GdxBlock) block);
 	}
-
-	@Override
-	public BlockLayer getLayer() {
-		return this;
-	}
+	
 }
