@@ -30,5 +30,7 @@ public interface Player {
 	
 	public void setVelocityY(float velX);
 	
+	public void setX(float x);
 	
+	public void setY(float y);
 }
