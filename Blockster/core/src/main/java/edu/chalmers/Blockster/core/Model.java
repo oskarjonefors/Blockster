@@ -151,7 +151,7 @@ public class Model {
 
 	public Block getAdjacentBlock(Direction dir) {
 		float tileWidth = blockLayer.getTileWidth();
-		float tileHeigth = blockLayer.getTileHeight();
+		float tileHeight = blockLayer.getTiledHeight();
 		Block block = null;
 
 		try {
@@ -309,7 +309,7 @@ public class Model {
 				player.resetGravity();
 
 				float y2 = player.getY();
-				float tileHeigth = blockLayer.getTileHeight();
+				float tileHeigth = blockLayer.getTiledHeight();
 
 				player.setVelocityY(0);
 				player.move(FALL,  + Math.abs(y2 - ((int) (y2 / tileHeigth)) * tileHeigth));
