@@ -11,4 +11,6 @@ public interface BlockLayer {
 
 	public Block getBlock(int x, int y);
 
+	public BlockLayer getLayer(int index);
+
 }
