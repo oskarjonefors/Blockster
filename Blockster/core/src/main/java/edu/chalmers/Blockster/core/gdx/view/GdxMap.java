@@ -1,7 +1,7 @@
 package edu.chalmers.Blockster.core.gdx.view;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.BlockMap;
 
 /**
@@ -14,7 +14,7 @@ public class GdxMap implements BlockMap {
 	private BlockLayer blockLayer;
 
 	public GdxMap (TiledMap map) {
-		this.blockLayer = new BlockLayer(map);
+		this.blockLayer = new GdxBlockLayer(map);
 	}
 
 	@Override
