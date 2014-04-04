@@ -6,8 +6,6 @@ import static edu.chalmers.Blockster.core.util.Direction.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.chalmers.Blockster.core.gdx.view.Blockster;
-import edu.chalmers.Blockster.core.gdx.view.View;
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
@@ -17,13 +15,10 @@ import edu.chalmers.Blockster.core.util.Direction;
  */
 public class Model {
 
-	//Constant useful for logging.
-	public static final String LOG = Blockster.class.getSimpleName();
 
 	private BlockMap map;
 	private BlockLayer blockLayer;
 	private Block processedBlock;
-	private View stageView;
 	private Player activePlayer;
 	private List<Player> players;
 
@@ -193,10 +188,6 @@ public class Model {
 		return processedBlock;
 	}
 
-	public View getStageView() {
-		return stageView;
-	}
-
 	public void grabBlock(Block block) {
 
 		if (canGrabBlock(block)) {
@@ -250,10 +241,6 @@ public class Model {
 
 	public void nextPlayer() {
 
-	}
-
-	public void setStageView(View stageView) {
-		this.stageView = stageView;
 	}
 
 	public void stopProcessingBlock() {
