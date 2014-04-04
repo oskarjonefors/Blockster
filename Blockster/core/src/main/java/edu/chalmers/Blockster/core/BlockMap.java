@@ -11,7 +11,5 @@ public interface BlockMap {
 	 * @param index specifies which block layer to return. Starts with 0.
 	 * @return the specified block layer.
 	 */
-	public BlockLayer getBlockLayer(int index) {
-		return blockLayer;
-	}
+	public BlockLayer getBlockLayer(int index);
 }
