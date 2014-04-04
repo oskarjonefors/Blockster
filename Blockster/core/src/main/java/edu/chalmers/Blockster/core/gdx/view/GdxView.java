@@ -12,12 +12,11 @@ import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.Player;
-import edu.chalmers.Blockster.core.View;
 
 /**
  * @author Joel Tegman
  */
-public class GdxView implements Disposable, View {
+public class GdxView implements Disposable {
 
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
