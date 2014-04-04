@@ -2,13 +2,15 @@ package edu.chalmers.Blockster.core;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
-import static edu.chalmers.Blockster.core.Block.Animation.*;
+import edu.chalmers.Blockster.core.gdx.view.Block;
+import edu.chalmers.Blockster.core.gdx.view.Player;
+import static edu.chalmers.Blockster.core.gdx.view.Block.Animation.*;
 
 
 public class AnimationHandler {
 
 	public static boolean handleBlockPlayerAnimation(Block block, Player player, TiledMap map) {
-		edu.chalmers.Blockster.core.Block.Animation anim = block.getAnimation();
+		edu.chalmers.Blockster.core.gdx.view.Block.Animation anim = block.getAnimation();
 		if (anim != NONE) {
 			switch(anim) {
 			case PUSH_LEFT:

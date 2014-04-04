@@ -5,8 +5,8 @@ package edu.chalmers.Blockster.core;
  * @author Eric Bjuhr
  *
  */
-public interface StageListener {
+public interface MapChangeListener {
 
-	public void stageChanged(Stage stage);
+	public void stageChanged(Model stage);
 	
 }

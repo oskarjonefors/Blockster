@@ -1,4 +1,4 @@
-package edu.chalmers.Blockster.core;
+package edu.chalmers.Blockster.core.gdx.view;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;

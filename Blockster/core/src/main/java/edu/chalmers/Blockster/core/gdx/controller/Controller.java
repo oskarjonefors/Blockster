@@ -1,6 +1,6 @@
-package edu.chalmers.Blockster.core;
+package edu.chalmers.Blockster.core.gdx.controller;
 
-import static edu.chalmers.Blockster.core.Direction.*;
+import static edu.chalmers.Blockster.core.util.Direction.*;
 
 import java.util.ArrayList;
 
@@ -9,12 +9,17 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.utils.Disposable;
 
+import edu.chalmers.Blockster.core.Model;
+import edu.chalmers.Blockster.core.MapChangeListener;
+import edu.chalmers.Blockster.core.gdx.view.Block;
+import edu.chalmers.Blockster.core.util.Direction;
+
 /**
  * Class to handle input and updating the model.
  * @author Eric Bjuhr, Oskar J��nefors
  *
  */
-public class StageController extends InputAdapter implements Disposable {
+public class Controller extends InputAdapter implements Disposable {
 
 	private volatile int keyFlags = 0;
 
@@ -26,19 +31,19 @@ public class StageController extends InputAdapter implements Disposable {
 	private final static int SWITCH_CHARACTER_BUTTON_UP_FLAG = 1 << 5;
 	private final static int RESTART_STAGE_BUTTON_R_FLAG = 1 << 6;
 
-	private Stage stage;
+	private Model stage;
 
 	private Direction lastDirection = NONE;
 	private boolean hasMovedBlock = false;
 
-	private final ArrayList<StageListener> stageListenerList = new ArrayList<StageListener>();
+	private final ArrayList<MapChangeListener> stageListenerList = new ArrayList<MapChangeListener>();
 
 
-	public StageController() {
+	public Controller() {
 		init();
 	}
 
-	public void addStageListener(StageListener sl) {
+	public void addStageListener(MapChangeListener sl) {
 		stageListenerList.add(sl);
 	}
 
@@ -125,9 +130,9 @@ public class StageController extends InputAdapter implements Disposable {
 
 
 
-	public void setStage(Stage stage) {
+	public void setStage(Model stage) {
 		this.stage = stage;
-		for (StageListener sl : stageListenerList) {
+		for (MapChangeListener sl : stageListenerList) {
 			sl.stageChanged(stage);
 		}
 	}

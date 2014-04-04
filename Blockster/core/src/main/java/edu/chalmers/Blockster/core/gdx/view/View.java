@@ -1,4 +1,4 @@
-package edu.chalmers.Blockster.core;
+package edu.chalmers.Blockster.core.gdx.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,14 +10,16 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
 
+import edu.chalmers.Blockster.core.Model;
+
 /**
  * @author Joel Tegman
  */
-public class StageView implements Disposable {
+public class View implements Disposable {
 
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private Stage stage;
+	private Model stage;
 	private OrthogonalTiledMapRenderer renderer;
 	private TiledMap map;
 	
@@ -26,7 +28,7 @@ public class StageView implements Disposable {
 	 */
 	private Sprite bg = new Sprite(new Texture("maps/background-11.jpg"));
 	
-	public StageView(Stage stage) {
+	public View(Model stage) {
 		this.stage = stage;
 	}
 	

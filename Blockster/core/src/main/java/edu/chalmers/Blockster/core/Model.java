@@ -1,7 +1,7 @@
 package edu.chalmers.Blockster.core;
 
-import static edu.chalmers.Blockster.core.Direction.*;
-import static edu.chalmers.Blockster.core.Calculations.*;
+import static edu.chalmers.Blockster.core.util.Calculations.*;
+import static edu.chalmers.Blockster.core.util.Direction.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,20 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import edu.chalmers.Blockster.core.Block.Animation;
+
+import edu.chalmers.Blockster.core.gdx.view.Block;
+import edu.chalmers.Blockster.core.gdx.view.Blockster;
+import edu.chalmers.Blockster.core.gdx.view.Player;
+import edu.chalmers.Blockster.core.gdx.view.View;
+import edu.chalmers.Blockster.core.gdx.view.Block.Animation;
+import edu.chalmers.Blockster.core.util.Direction;
 
 /**
  * A class to represent a stage.
  * @author Oskar J��nefors, Eric Bjuhr
  * 
  */
-public class Stage {
+public class Model {
 
 	//Constant useful for logging.
 	public static final String LOG = Blockster.class.getSimpleName();
@@ -29,7 +35,7 @@ public class Stage {
 	private TiledMap map;
 	private TiledMapTileLayer collisionLayer;
 	private Block processedBlock;
-	private StageView stageView;
+	private View stageView;
 	private Player activePlayer;
 	private List<Player> players;
 
@@ -43,7 +49,7 @@ public class Stage {
 	private Sprite PlayerImg = new Sprite(new Texture("Player/still2.png"));
 
 
-	public Stage(TiledMap map) {
+	public Model(TiledMap map) {
 		this.map = map;
 		this.collisionLayer = (TiledMapTileLayer)map.getLayers().get(0);
 		players = new ArrayList<Player>();
@@ -197,7 +203,7 @@ public class Stage {
 		return processedBlock;
 	}
 
-	public StageView getStageView() {
+	public View getStageView() {
 		return stageView;
 	}
 
@@ -278,7 +284,7 @@ public class Stage {
 		}
 	}
 
-	public void setStageView(StageView stageView) {
+	public void setStageView(View stageView) {
 		this.stageView = stageView;
 	}
 

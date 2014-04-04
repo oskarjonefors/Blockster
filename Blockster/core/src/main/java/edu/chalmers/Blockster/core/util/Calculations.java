@@ -1,6 +1,8 @@
-package edu.chalmers.Blockster.core;
+package edu.chalmers.Blockster.core.util;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
+import edu.chalmers.Blockster.core.gdx.view.Player;
 
 public class Calculations {
 
