@@ -17,7 +17,7 @@ import edu.chalmers.Blockster.core.util.Direction;
 
 /**
  * Class to handle input and updating the model.
- * @author Eric Bjuhr, Oskar J��nefors
+ * @author Eric Bjuhr, Oskar Jönefors
  *
  */
 public class Controller extends InputAdapter implements Disposable {
@@ -32,7 +32,7 @@ public class Controller extends InputAdapter implements Disposable {
 	private final static int SWITCH_CHARACTER_BUTTON_UP_FLAG = 1 << 5;
 	private final static int RESTART_STAGE_BUTTON_R_FLAG = 1 << 6;
 
-	private Model stage;
+	private Model model;
 
 	private Direction lastDirection = NONE;
 	private boolean hasMovedBlock = false;
@@ -132,7 +132,7 @@ public class Controller extends InputAdapter implements Disposable {
 
 
 	public void setStage(Model stage) {
-		this.stage = stage;
+		this.model = stage;
 		for (MapChangeListener sl : stageListenerList) {
 			sl.stageChanged(stage);
 		}
@@ -143,32 +143,32 @@ public class Controller extends InputAdapter implements Disposable {
 	 * @param deltaTime The time between the current frame and the last one.
 	 */
 	public void update(float deltaTime) {
-		float distanceMoved = deltaTime * stage.getActivePlayerVelocity();
-		Block adjacentBlock = stage.getAdjacentBlock(lastDirection);
+		float distanceMoved = deltaTime * model.getActivePlayerVelocity();
+		Block adjacentBlock = model.getAdjacentBlock(lastDirection);
 
 		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
 			//Try to grab the adjacent block if possible and there is one.
-			stage.grabBlock(adjacentBlock);
+			model.grabBlock(adjacentBlock);
 
 		} 
 
 		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving left
 
-			stage.moveActivePlayer(LEFT, distanceMoved);
+			model.moveActivePlayer(LEFT, distanceMoved);
 			lastDirection = LEFT;
 			
-			if (stage.moveBlock(LEFT)) {
+			if (model.moveBlock(LEFT)) {
 				hasMovedBlock = true;
 			}
 		}
 
 		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving right
-			stage.moveActivePlayer(RIGHT, distanceMoved);
+			model.moveActivePlayer(RIGHT, distanceMoved);
 			lastDirection = RIGHT;
 			
-			if (stage.moveBlock(RIGHT)) {
+			if (model.moveBlock(RIGHT)) {
 				hasMovedBlock = true;
 			}
 		}
@@ -176,9 +176,9 @@ public class Controller extends InputAdapter implements Disposable {
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
 			//Grab button was released
 			if (!hasMovedBlock) {
-				stage.liftBlock();
+				model.liftBlock();
 			} else {
-				stage.stopProcessingBlock();
+				model.stopProcessingBlock();
 			}
 			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
 			//System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
@@ -194,13 +194,13 @@ public class Controller extends InputAdapter implements Disposable {
 			// Switching active character
 			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;
 			//System.out.println("Removing flag: "+SWITCH_CHARACTER_BUTTON_UP_FLAG);
-			stage.nextPlayer();
+			model.nextPlayer();
 		}
 		
 		if ((keyFlags & RESTART_STAGE_BUTTON_R_FLAG) != 0) {
 			//Restart stage
 			keyFlags &= ~RESTART_STAGE_BUTTON_R_FLAG;
-			stage.resetStartPositions();
+			model.resetStartPositions();
 		}
 
 	}

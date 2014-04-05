@@ -23,11 +23,21 @@ public class GdxBlockActor extends Actor {
 	public GdxBlockActor(GdxBlock block) {
 		this.block = block;
 		this.region = block.getTile().getTextureRegion();
+		setX(block.getX());
+		setY(block.getY());
+	}
+	
+	/**
+	 * Return the GdxBlock that the GdxBlockActor represents.
+	 * @return a GdxBlock
+	 */
+	public GdxBlock getBlock() {
+		return block;
 	}
 	
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
-		batch.draw(region, block.getX()*region.getRegionWidth(), block.getY()*region.getRegionHeight(),
+		batch.draw(region, getX()*region.getRegionWidth(), getY()*region.getRegionHeight(),
 				getOriginX(), getOriginY(), region.getRegionWidth(), region.getRegionHeight(),
 				getScaleX(), getScaleY(), getRotation());
 	}

@@ -104,8 +104,7 @@ public class GdxBlock implements Block, TiledMapTile {
 
 	@Override
 	public float getAnimationDuration() {
-		// TODO Auto-generated method stub
-		return 0;
+		return activeAnimation.duration;
 	}
 
 	@Override

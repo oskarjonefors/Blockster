@@ -11,7 +11,14 @@ public interface Block {
 	 * An enum to represent different animation states of the block.
 	 */
 	public enum Animation {
-		NONE, PUSH_LEFT, PUSH_RIGHT, PULL_LEFT, PULL_RIGHT, DESTROY, LIFT
+		NONE(0), PUSH_LEFT(0.5f), PUSH_RIGHT(0.5f), PULL_LEFT(0.5f),
+		PULL_RIGHT(0.5f), DESTROY(0.5f), LIFT(0);
+		
+		public final float duration;
+		
+		private Animation(float f) {
+			duration = f;
+		}
 	}
 
 	/**

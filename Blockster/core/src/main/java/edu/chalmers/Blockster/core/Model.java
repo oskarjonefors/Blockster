@@ -21,6 +21,7 @@ public class Model {
 	private Block processedBlock;
 	private Player activePlayer;
 	private List<Player> players;
+	private List<Block> activeBlocks;
 
 	private boolean isGrabbingBlockAnimation = false; //for animations
 	private boolean isMovingBlockAnimation = false;
@@ -40,6 +41,7 @@ public class Model {
 		this.blockLayer = this.map.getBlockLayer();
 		this.factory = factory;
 		players = new ArrayList<Player>();
+		activeBlocks = new ArrayList<Block>();
 		setStartPositions();
 
 		activePlayer = players.get(0);
@@ -66,8 +68,6 @@ public class Model {
 	}
 
 	public boolean canGrabBlock(Block block) {
-		//TODO: Add additional tests (type of block etc)
-
 		return block != null && processedBlock == null 
 				&& !isGrabbingBlockAnimation && !isLiftingBlockAnimation 
 				&& !isMovingBlockAnimation && (block.isMovable() || block.isLiftable());
@@ -81,8 +81,8 @@ public class Model {
 
 	public boolean canMoveBlock(Direction dir) {
 		//TODO: Add checks for collision etc
-		return processedBlock != null && !isMovingBlockAnimation 
-				&& !isLiftingBlockAnimation && !isGrabbingBlockAnimation;
+		return processedBlock != null;
+				/* && !isMovingBlockAnimation && !isLiftingBlockAnimation && !isGrabbingBlockAnimation; */
 	}
 
 	@SuppressWarnings("unused")
@@ -139,6 +139,14 @@ public class Model {
 
 		//TODO: What if blocks are above the character??
 		return false;
+	}
+	
+	/**
+	 * Return the blocks that are currently out of the grid and moving.
+	 * @return A list of blocks that are out of the grid. Empty if there are none.
+	 */
+	public List<Block> getActiveBlocks() {
+		return activeBlocks;
 	}
 	
 	public float getActivePlayerVelocity() {
@@ -229,6 +237,8 @@ public class Model {
 		if (canMoveBlock(dir)) {
 			isMovingBlockAnimation = true;
 			//TODO: move block in grid, animation, etc
+			activeBlocks.add(processedBlock);
+			processedBlock.setAnimation(Block.Animation.PUSH_RIGHT);
 			return true;
 		}
 		return false;

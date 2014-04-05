@@ -1,6 +1,7 @@
 package edu.chalmers.Blockster.core.gdx.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Disposable;
 
+import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.BlockMap;
 import edu.chalmers.Blockster.core.Model;
@@ -35,6 +37,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	private Stage stage;
 	private List<Player> players;
 	private Player activePlayer;
+	private HashMap<Block, GdxBlockActor> activeBlocks;
 	private Actor background;
 	
 	public GdxView(Model model) {
@@ -44,6 +47,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	@Override
 	public void dispose() {
 		stage.dispose();
+		renderer.dispose();
 	}
 	
 	/**
@@ -55,13 +59,23 @@ public class GdxView implements ApplicationListener, Disposable {
 		camera.position.set(activePlayer.getX(), activePlayer.getY(), 0);
 		
 		/* Move the background with the player */
-		background.setPosition((activePlayer.getX()*0.9f - (background.getWidth() / 2)),
+		background.setPosition((activePlayer.getX()*0.9f - background.getScaleX()*(background.getWidth())),
 				(activePlayer.getY()*0.9f - (background.getHeight() / 2)));
+		
+		for (Block block : model.getActiveBlocks()) {
+			if (!activeBlocks.keySet().contains(block)) {
+				activeBlocks.put(block, new GdxBlockActor((GdxBlock)block));
+				stage.addActor(activeBlocks.get(block));
+				activeBlocks.get(block).addAction(Actions.moveBy(1, 0, block.getAnimationDuration()));
+				Gdx.app.log("GdxView", "Added actor.");
+			}
+		}
 		
 		/**
 		 *  renders the stage
 		 */
-		stage.draw();
+		stage.act(Gdx.graphics.getDeltaTime());
+		stage.draw();		
 		renderer.setView(camera);
 		renderer.render();
 	}
@@ -91,6 +105,8 @@ public class GdxView implements ApplicationListener, Disposable {
 		}
 		
 		activePlayer = players.get(0);
+		
+		activeBlocks = new HashMap<Block, GdxBlockActor>();
 		
 		/*    Makes actors out of all the blocks in the map.
 		float blockWidth = layer.getBlockWidth();
