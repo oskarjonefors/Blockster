@@ -47,6 +47,24 @@ public class Calculations {
 		}
 	}
 
+	public static boolean collisionLowerLeft(Player player, 
+			BlockLayer blockLayer) {
+		float tileWidth = blockLayer.getBlockWidth();
+		float tileHeight = blockLayer.getBlockHeight();
+		
+		return isSolid(blockLayer, (int) (player.getX() / tileWidth),
+				(int) (player.getY() / tileHeight));
+	}
+
+	public static boolean collisionLowerRight(Player player, 
+			BlockLayer blockLayer) {
+		float tileWidth = blockLayer.getBlockWidth();
+		float tileHeight = blockLayer.getBlockHeight();
+		
+		return isSolid(blockLayer, (int) ((player.getX() + player.getWidth()) / tileWidth),
+				(int) (player.getY() / tileHeight));
+	}
+
 	public static boolean collisionRight(Player player, BlockLayer blockLayer) {
 		try {
 			return collisionUpperRight(player, blockLayer)
@@ -55,16 +73,7 @@ public class Calculations {
 			return false;
 		}
 	}
-
-	public static boolean collisionVertically(Player player, BlockLayer blockLayer) {
-		if (player.getVelocity().y < 0) {
-			return collisionBelow(player, blockLayer);
-		}
-
-		//TODO: What if blocks are above the character??
-		return false;
-	}
-
+	
 	public static boolean collisionUpperLeft(Player player, 
 			BlockLayer blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
@@ -72,15 +81,6 @@ public class Calculations {
 		
 		return isSolid(blockLayer, (int) (player.getX() / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
-	}
-	
-	public static boolean collisionLowerLeft(Player player, 
-			BlockLayer blockLayer) {
-		float tileWidth = blockLayer.getBlockWidth();
-		float tileHeight = blockLayer.getBlockHeight();
-		
-		return isSolid(blockLayer, (int) (player.getX() / tileWidth),
-				(int) (player.getY() / tileHeight));
 	}
 	
 	public static boolean collisionUpperRight(Player player, 
@@ -92,13 +92,13 @@ public class Calculations {
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
 	}
 	
-	public static boolean collisionLowerRight(Player player, 
-			BlockLayer blockLayer) {
-		float tileWidth = blockLayer.getBlockWidth();
-		float tileHeight = blockLayer.getBlockHeight();
-		
-		return isSolid(blockLayer, (int) ((player.getX() + player.getWidth()) / tileWidth),
-				(int) (player.getY() / tileHeight));
+	public static boolean collisionVertically(Player player, BlockLayer blockLayer) {
+		if (player.getVelocity().y < 0) {
+			return collisionBelow(player, blockLayer);
+		}
+
+		//TODO: What if blocks are above the character??
+		return false;
 	}
 	
 	private static boolean isSolid(BlockLayer blockLayer, int x, int y) {

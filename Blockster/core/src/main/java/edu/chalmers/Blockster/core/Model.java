@@ -51,48 +51,29 @@ public class Model implements Comparable<Model> {
 		activePlayer = players.get(0);
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
-	private void setStartPositions() {
-		for (float[] startPosition : getPlayerStartingPositions(map)) {
-			Player player = factory.createPlayer(PLAYER_IMAGE_ADDRESS);
-			player.setX(startPosition[0]);
-			player.setY(startPosition[1]);
-			players.add(player);
-		}
-	}
-	
-	public void resetStartPositions() {
-		float[][] startPositions = getPlayerStartingPositions(map);
-		for (int i = 0; i < startPositions.length; i++) {
-			players.get(i).setX(startPositions[i][0]);
-			players.get(i).setY(startPositions[i][1]);
-			players.get(i).setVelocityX(0);
-			players.get(i).setVelocityY(0);
-			players.get(i).resetGravity();
-		}
-	}
-
 	public boolean canGrabBlock(Block block) {
 		return block != null && processedBlock == null 
 				&& !isGrabbingBlockAnimation && !isLiftingBlockAnimation 
 				&& !isMovingBlockAnimation && (block.isMovable() || block.isLiftable());
 	}
-
+	
 	public boolean canLiftBlock(Block block) {
 		//TODO: Add additional tests
 		return block != null && isGrabbingBlock && !isGrabbingBlockAnimation &&
 				!isLiftingBlockAnimation && !isMovingBlockAnimation;
 	}
-
+	
 	public boolean canMoveBlock(Direction dir) {
 		//TODO: Add checks for collision etc
 		return processedBlock != null;
 				/* && !isMovingBlockAnimation && !isLiftingBlockAnimation && !isGrabbingBlockAnimation; */
 	}
-	
+
+	@Override
+	public int compareTo(Model model) {
+		return name.compareTo(model.getName());
+	}
+
 	/**
 	 * Return the blocks that are currently out of the grid and moving.
 	 * @return A list of blocks that are out of the grid. Empty if there are none.
@@ -100,11 +81,11 @@ public class Model implements Comparable<Model> {
 	public List<Block> getActiveBlocks() {
 		return activeBlocks;
 	}
-	
+
 	public float getActivePlayerVelocity() {
 		return activePlayer.getMaximumMovementSpeed();
 	}
-
+	
 	public Block getAdjacentBlock(Direction dir) {
 		float blockWidth = blockLayer.getBlockWidth();
 		float blockHeight = blockLayer.getBlockHeight();
@@ -115,7 +96,7 @@ public class Model implements Comparable<Model> {
 				Block adjacentBlockLeft = blockLayer.getBlock(
 						(int) (activePlayer.getX() / blockWidth) - 1,
 						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / blockHeight));
-				block = (Block) adjacentBlockLeft;
+				block = adjacentBlockLeft;
 			}
 
 			if (dir == RIGHT) {
@@ -123,16 +104,20 @@ public class Model implements Comparable<Model> {
 						(int) ((activePlayer.getX() + activePlayer.getWidth()) / blockWidth) + 1,
 						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / blockHeight));
 
-				block = (Block) adjacentBlockRight;
+				block = adjacentBlockRight;
 			}
 		} catch (NullPointerException e) {
 			block = null;
 		}
 		return block;
 	}
-
+	
 	public BlockMap getMap() {
 		return map;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public List<Player> getPlayers() {
@@ -205,9 +190,29 @@ public class Model implements Comparable<Model> {
 		player.move(dir, distance);
 	}
 
-
 	public void nextPlayer() {
 
+	}
+
+
+	public void resetStartPositions() {
+		float[][] startPositions = getPlayerStartingPositions(map);
+		for (int i = 0; i < startPositions.length; i++) {
+			players.get(i).setX(startPositions[i][0]);
+			players.get(i).setY(startPositions[i][1]);
+			players.get(i).setVelocityX(0);
+			players.get(i).setVelocityY(0);
+			players.get(i).resetGravity();
+		}
+	}
+
+	private void setStartPositions() {
+		for (float[] startPosition : getPlayerStartingPositions(map)) {
+			Player player = factory.createPlayer(PLAYER_IMAGE_ADDRESS);
+			player.setX(startPosition[0]);
+			player.setY(startPosition[1]);
+			players.add(player);
+		}
 	}
 
 	public void stopProcessingBlock() {
@@ -253,10 +258,5 @@ public class Model implements Comparable<Model> {
 			player.setVelocityX(0);
 
 		}
-	}
-
-	@Override
-	public int compareTo(Model model) {
-		return name.compareTo(model.getName());
 	}
 }
