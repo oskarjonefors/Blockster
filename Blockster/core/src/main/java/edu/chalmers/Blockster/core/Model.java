@@ -6,6 +6,7 @@ import static edu.chalmers.Blockster.core.util.Direction.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.chalmers.Blockster.core.Block.Animation;
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
@@ -83,62 +84,6 @@ public class Model {
 		//TODO: Add checks for collision etc
 		return processedBlock != null;
 				/* && !isMovingBlockAnimation && !isLiftingBlockAnimation && !isGrabbingBlockAnimation; */
-	}
-
-	@SuppressWarnings("unused")
-	private boolean collisionAbove(Player player) {
-		try {
-			return collisionUpperLeft(player, blockLayer) ||
-					collisionUpperRight(player, blockLayer);
-		} catch (NullPointerException e) {
-			return false;
-		}
-	}
-
-	private boolean collisionBelow(Player player) {
-		try {
-			return collisionLowerLeft(player, blockLayer) ||
-					collisionLowerRight(player, blockLayer);
-		} catch (NullPointerException e) {
-			return false;
-		}
-	}
-
-	private boolean collisionHorisontally(Player player) {
-		if (player.getVelocity().x < 0) {
-			return collisionLeft(player);
-		} else if (player.getVelocity().x > 0) {
-			return collisionRight(player);
-		} else {
-			return false;
-		}
-	}
-
-	private boolean collisionLeft(Player player) {
-		try {
-			return collisionUpperLeft(player, blockLayer) 
-					|| collisionLowerLeft(player, blockLayer);
-		} catch (NullPointerException e) {
-			return false;
-		}
-	}
-
-	private boolean collisionRight(Player player) {
-		try {
-			return collisionUpperRight(player, blockLayer)
-					|| collisionLowerRight(player, blockLayer);
-		} catch (NullPointerException e) {
-			return false;
-		}
-	}
-
-	private boolean collisionVertically(Player player) {
-		if (player.getVelocity().y < 0) {
-			return collisionBelow(player);
-		}
-
-		//TODO: What if blocks are above the character??
-		return false;
 	}
 	
 	/**
@@ -238,7 +183,12 @@ public class Model {
 			isMovingBlockAnimation = true;
 			//TODO: move block in grid, animation, etc
 			activeBlocks.add(processedBlock);
-			processedBlock.setAnimation(Block.Animation.PUSH_RIGHT);
+			
+			float relativePositionSignum = activePlayer.getX() 
+					- processedBlock.getX() * blockLayer.getBlockWidth();
+			Animation anim = Animation.getMoveAnimation(dir, relativePositionSignum);
+			
+			processedBlock.setAnimation(anim);
 			return true;
 		}
 		return false;
@@ -266,7 +216,7 @@ public class Model {
 		}
 
 		for (Player player : players) {
-			if (!collisionVertically(player)) {
+			if (!collisionVertically(player, blockLayer)) {
 				player.increaseGravity(deltaTime);
 				player.move(FALL, player.getGravity().y);
 			}
@@ -274,12 +224,12 @@ public class Model {
 			float[] previousPosition = { player.getX(), player.getY() };
 
 			player.setX(player.getX() + player.getVelocity().x);
-			if (collisionHorisontally(player)) {
+			if (collisionHorisontally(player, blockLayer)) {
 				player.setX(previousPosition[0]);
 			}
 
 			player.setY(player.getY() + player.getVelocity().y);
-			if (collisionVertically(player)) {
+			if (collisionVertically(player, blockLayer)) {
 				player.setY(previousPosition[1]);
 				player.resetGravity();
 

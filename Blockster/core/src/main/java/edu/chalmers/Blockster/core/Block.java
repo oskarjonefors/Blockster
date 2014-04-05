@@ -1,5 +1,7 @@
 package edu.chalmers.Blockster.core;
 
+import edu.chalmers.Blockster.core.util.Direction;
+
 /**
  * An interface to represent a block.
  * @author Oskar Jönefors
@@ -18,6 +20,36 @@ public interface Block {
 		
 		private Animation(float f) {
 			duration = f;
+		}
+		
+		private static Animation getPushAnimation(Direction dir) {
+			switch (dir) {
+				case LEFT:
+					return PUSH_LEFT;
+				case RIGHT:
+					return PUSH_LEFT;
+				default:
+					return NONE;
+			}
+		}
+		
+		private static Animation getPullAnimation(Direction dir) {
+			switch (dir) {
+				case LEFT:
+					return PULL_LEFT;
+				case RIGHT:
+					return PULL_RIGHT;
+				default:
+					return NONE;
+			}
+		}
+		
+		public static Animation getMoveAnimation(Direction dir, float relativePositionSignum) {
+			if (relativePositionSignum * dir.deltaX > 0) {
+				return getPullAnimation(dir);
+			} else {
+				return getPushAnimation(dir);
+			}
 		}
 	}
 
