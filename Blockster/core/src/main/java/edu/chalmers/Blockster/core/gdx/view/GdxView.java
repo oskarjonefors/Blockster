@@ -71,8 +71,8 @@ public class GdxView implements ApplicationListener, Disposable {
 				
 				activeBlocks.put(block, new GdxBlockActor((GdxBlock)block));
 				stage.addActor(activeBlocks.get(block));
-				activeBlocks.get(block).addAction(new MoveBlockAction(deltaX, 
-						deltaY, anim.duration, block));
+				activeBlocks.get(block).addAction(Actions.moveBy(deltaX, deltaY, block.getAnimationDuration()));
+				((GdxBlockLayer) blockMap.getBlockLayer()).removeBlock(block);
 				Gdx.app.log("GdxView", "Added actor.");
 			}
 		}

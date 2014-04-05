@@ -15,12 +15,13 @@ import edu.chalmers.Blockster.core.BlockMap;
  * @author Mia
  *
  */
-public class GdxMap implements BlockMap {
+public class GdxMap extends TiledMap implements BlockMap {
 
 	private BlockLayer blockLayer;
 	private TiledMap map;
 
 	public GdxMap (TiledMap map) {
+		super();
 		this.blockLayer = new GdxBlockLayer(map);
 		this.map = map;
 		
