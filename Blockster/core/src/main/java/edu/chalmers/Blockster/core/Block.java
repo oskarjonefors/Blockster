@@ -1,5 +1,6 @@
 package edu.chalmers.Blockster.core;
 
+import static edu.chalmers.Blockster.core.util.Direction.*;
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
@@ -13,12 +14,18 @@ public interface Block {
 	 * An enum to represent different animation states of the block.
 	 */
 	public enum Animation {
-		NONE(0), PUSH_LEFT(0.5f), PUSH_RIGHT(0.5f), PULL_LEFT(0.5f),
-		PULL_RIGHT(0.5f), DESTROY(0.5f), LIFT(0);
+		NONE(0), PUSH_LEFT(LEFT, 0.5f), PUSH_RIGHT(RIGHT, 0.5f), PULL_LEFT(LEFT, 0.5f),
+		PULL_RIGHT(RIGHT, 0.5f), DESTROY(0.5f), LIFT(0);
 		
+		public final Direction direction;
 		public final float duration;
 		
 		private Animation(float f) {
+			this(Direction.NONE, f);
+		}
+		
+		private Animation(Direction dir, float f) {
+			direction = dir;
 			duration = f;
 		}
 		
