@@ -14,7 +14,7 @@ import edu.chalmers.Blockster.core.util.Direction;
  * @author Oskar Jönefors, Eric Bjuhr
  * 
  */
-public class Model {
+public class Model implements Comparable<Model> {
 
 
 	private BlockMap map;
@@ -32,20 +32,27 @@ public class Model {
 	private boolean isLiftingBlock = false;
 	
 	private Factory factory;
+	private final String name;
+	
 
 	//TODO Change this
 	private final static String PLAYER_IMAGE_ADDRESS = "Player/still2.png";
 
 
-	public Model(BlockMap map, Factory factory) {
+	public Model(BlockMap map, Factory factory, String name) {
 		this.map = map;
 		this.blockLayer = this.map.getBlockLayer();
 		this.factory = factory;
+		this.name = name;
 		players = new ArrayList<Player>();
 		activeBlocks = new ArrayList<Block>();
 		setStartPositions();
 
 		activePlayer = players.get(0);
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	private void setStartPositions() {
@@ -246,5 +253,10 @@ public class Model {
 			player.setVelocityX(0);
 
 		}
+	}
+
+	@Override
+	public int compareTo(Model model) {
+		return name.compareTo(model.getName());
 	}
 }

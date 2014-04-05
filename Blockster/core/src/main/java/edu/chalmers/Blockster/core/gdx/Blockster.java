@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
@@ -18,7 +18,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
-import edu.chalmers.Blockster.core.BlockMap;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.MapChangeListener;
 import edu.chalmers.Blockster.core.gdx.controller.Controller;
@@ -48,7 +47,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
 			TiledMap map = loader.load("maps/"+mapFile.getName());
 			GdxMap gMap = new GdxMap(map);
-			Model stage = new Model(gMap, new GdxFactory());
+			Model stage = new Model(gMap, new GdxFactory(), mapFile.getName());
 			
 			GdxView view = new GdxView(stage);
 			view.init(map);
@@ -74,7 +73,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 			Gdx.app.log(Blockster.LOG, "Setting stage");
 			
 			Iterator<Model> modelIterator = stages.keySet().iterator();
-			modelIterator.next();
+			//modelIterator.next();
 			Model model = modelIterator.next();
 			
 			controller.setStage(model);
@@ -103,7 +102,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	}
 
 	private void loadStages() throws SecurityException, IOException {
-		stages = Collections.synchronizedMap(new HashMap<Model, GdxView>());
+		stages = Collections.synchronizedMap(new TreeMap<Model, GdxView>());
 		addStagesToMap(stages, listFilesInDirectory(new File("assets/maps/"), ".tmx"));
 	}
 
