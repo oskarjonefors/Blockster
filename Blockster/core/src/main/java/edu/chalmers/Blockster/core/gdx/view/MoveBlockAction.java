@@ -15,5 +15,9 @@ public class MoveBlockAction extends MoveByAction {
 		setDuration(duration);
 		
 	}
+	
+	public Block getBlock() {
+		return block;
+	}
 
 }
