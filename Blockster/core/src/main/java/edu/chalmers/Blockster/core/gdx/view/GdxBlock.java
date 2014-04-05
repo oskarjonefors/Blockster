@@ -20,6 +20,8 @@ public class GdxBlock implements Block, TiledMapTile {
 	private Animation activeAnimation = Animation.NONE;
 	private float animationTime;
 	private TiledMapTile tile;
+	private int x;
+	private int y;
 	
 	public GdxBlock(TiledMapTile tile) {
 		this.tile = tile;
@@ -28,6 +30,8 @@ public class GdxBlock implements Block, TiledMapTile {
 		solid = props.containsKey("Solid");
 		liftable = !solid && props.containsKey("Liftable");
 		movable = props.containsKey("Movable");
+		x = 0;
+		y = 0;
 	}
 	
 	public int getId() {
@@ -114,5 +118,25 @@ public class GdxBlock implements Block, TiledMapTile {
 	public void setBlendMode(BlendMode arg0) {
 		// TODO Auto-generated method stub
 		tile.setBlendMode(arg0);
+	}
+
+	@Override
+	public int getX() {
+		return x;
+	}
+
+	@Override
+	public int getY() {
+		return y;
+	}
+
+	@Override
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	@Override
+	public void setY(int y) {
+		this.y = y;
 	}	
 }

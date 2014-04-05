@@ -51,9 +51,32 @@ public interface Block {
 	public abstract float getAnimationDuration();
 	
 	/**
+	 * Get the X coordinate of the block in the BlockMap.
+	 * @return An int x coordinate.
+	 */
+	public abstract int getX();
+	
+	/**
+	 * Get the Y coordinate of the block in the BlockMap. 
+	 * @return An int y coordinate.
+	 */
+	public abstract int getY();
+	
+	/**
 	 * Animate the block with the given animation..
 	 * @param anim The animation to play.
 	 */
 	public abstract void setAnimation(Animation anim);
 
+	/**
+	 * Set the X coordinate of the block in the BlockMap.
+	 * @param x X coordinate.
+	 */
+	public abstract void setX(int x);
+	
+	/**
+	 * Set the Y coordinate of the block in the BlockMap.
+	 * @param y	Y coordinate.
+	 */
+	public abstract void setY(int y);
 }

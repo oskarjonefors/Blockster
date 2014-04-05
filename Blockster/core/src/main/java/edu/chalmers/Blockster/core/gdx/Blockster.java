@@ -18,6 +18,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
+import edu.chalmers.Blockster.core.BlockMap;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.MapChangeListener;
 import edu.chalmers.Blockster.core.gdx.controller.Controller;

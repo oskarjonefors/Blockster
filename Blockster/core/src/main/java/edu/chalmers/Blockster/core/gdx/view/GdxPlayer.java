@@ -4,21 +4,42 @@ import static java.lang.Math.*;
 
 import javax.vecmath.Vector2f;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import edu.chalmers.Blockster.core.Player;
 import edu.chalmers.Blockster.core.util.Direction;
 
-public class GdxPlayer extends Sprite implements Player {
+public class GdxPlayer extends Actor implements Player {
 	
 	private float maximumMovementSpeed = 700;
 	private Vector2f velocity = new Vector2f();
 	private Vector2f gravity = new Vector2f();
 	private float gravityTime = 0;
+	private float x;
+	private float y;
+	private TextureRegion region;
 	
-
-	public GdxPlayer (Sprite img) {
-		super(img);
+	public GdxPlayer (TextureRegion region) {
+		this.region = region;
+		
+		float x = 0;
+		float y = 0;
+		float tw = region.getRegionWidth();
+		float th = region.getRegionHeight();
+		setWidth(tw);
+		setHeight(th);
+		setBounds(0, 0, tw, th);
+	}
+	
+	@Override
+	public void draw(SpriteBatch batch, float parentAlpha) {
+		batch.draw(region, getX(), getY(), getOriginX(), getOriginY(),
+				region.getRegionWidth(), region.getRegionHeight(),
+				getScaleX(), getScaleY(), getRotation());
 	}
 	
 	
@@ -66,5 +87,45 @@ public class GdxPlayer extends Sprite implements Player {
 	@Override
 	public void setVelocityY(float velY){
 		velocity.y = min(velY, maximumMovementSpeed);
+	}
+
+
+	@Override
+	public float getHeight() {
+		// TODO Auto-generated method stub
+		return region.getRegionHeight();
+	}
+
+
+	@Override
+	public float getWidth() {
+		// TODO Auto-generated method stub
+		return region.getRegionWidth();
+	}
+
+
+	@Override
+	public float getX() {
+		// TODO Auto-generated method stub
+		return x;
+	}
+
+
+	@Override
+	public float getY() {
+		// TODO Auto-generated method stub
+		return y;
+	}
+
+
+	@Override
+	public void setX(float x) {
+		this.x = x;
+	}
+
+
+	@Override
+	public void setY(float y) {
+		this.y = y;
 	}
 }

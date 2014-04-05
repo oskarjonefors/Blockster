@@ -34,6 +34,8 @@ public class GdxMap implements BlockMap {
 							TiledMapTile tile = cell.getTile();
 							GdxBlock block = new GdxBlock(tile);
 							tileLayer.getCell(x,y).setTile(block);
+							block.setX(x);
+							block.setY(y);
 						}
 					}
 				}
