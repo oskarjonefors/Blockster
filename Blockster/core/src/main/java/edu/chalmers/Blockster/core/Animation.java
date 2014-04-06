@@ -23,7 +23,7 @@ public enum Animation {
 		this.duration = duration;
 	}
 	
-	private static Animation getPushAnimation(Direction dir) {
+	public static Animation getPushAnimation(Direction dir) {
 		switch (dir) {
 			case LEFT:
 				return PUSH_LEFT;
@@ -34,7 +34,7 @@ public enum Animation {
 		}
 	}
 	
-	private static Animation getPullAnimation(Direction dir) {
+	public static Animation getPullAnimation(Direction dir) {
 		switch (dir) {
 			case LEFT:
 				return PULL_LEFT;

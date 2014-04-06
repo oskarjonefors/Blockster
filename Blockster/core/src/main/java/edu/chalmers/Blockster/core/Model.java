@@ -187,11 +187,15 @@ public class Model implements Comparable<Model> {
 			//TODO: move block in grid, animation, etc
 			activeBlocks.add(processedBlock);
 			
-			float relativePositionSignum = activePlayer.getX() 
-					- processedBlock.getX() * blockLayer.getBlockWidth();
-			Animation anim = Animation.getMoveAnimation(dir, relativePositionSignum);
-			
-			processedBlock.setAnimation(anim);
+			if(isLiftingBlock) {
+				processedBlock.setAnimation(Animation.getPullAnimation(dir));
+			} else {
+				float relativePositionSignum = activePlayer.getX() 
+						- processedBlock.getX() * blockLayer.getBlockWidth();
+				Animation anim = Animation.getMoveAnimation(dir, relativePositionSignum);
+				
+				processedBlock.setAnimation(anim);
+			}
 			return true;
 		}
 		return false;
