@@ -4,12 +4,16 @@ import static java.lang.Math.*;
 
 import javax.vecmath.Vector2f;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import edu.chalmers.Blockster.core.Animation;
+import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.Player;
 import edu.chalmers.Blockster.core.util.Direction;
 
@@ -19,15 +23,16 @@ public class GdxPlayer extends Actor implements Player {
 	private Vector2f velocity = new Vector2f();
 	private Vector2f gravity = new Vector2f();
 	private float gravityTime = 0;
-	private float x;
-	private float y;
+/*	private float x;
+	private float y;*/
 	private TextureRegion region;
+	private Animation animation = Animation.NONE;
+	private final Model model;
 	
-	public GdxPlayer (TextureRegion region) {
+	public GdxPlayer (TextureRegion region, Model model) {
 		this.region = region;
+		this.model = model;
 		
-		float x = 0;
-		float y = 0;
 		float tw = region.getRegionWidth();
 		float th = region.getRegionHeight();
 		setWidth(tw);
@@ -107,25 +112,47 @@ public class GdxPlayer extends Actor implements Player {
 	@Override
 	public float getX() {
 		// TODO Auto-generated method stub
-		return x;
+		return super.getX();
 	}
 
 
 	@Override
 	public float getY() {
 		// TODO Auto-generated method stub
-		return y;
+		return super.getY();
 	}
 
 
 	@Override
 	public void setX(float x) {
-		this.x = x;
+		super.setX(x);
 	}
 
 
 	@Override
 	public void setY(float y) {
-		this.y = y;
+		super.setY(y);
 	}
+
+	@Override
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
+		if (animation != Animation.NONE && getActions().size == 0) {
+			Vector2 distance = new Vector2();
+			float blockWidth = model.getMap().getBlockLayer().getBlockWidth();
+			float blockHeight = model.getMap().getBlockLayer().getBlockHeight();
+			
+			distance.x = animation.direction.deltaX * blockWidth;
+			distance.y = animation.direction.deltaY * blockHeight;
+			
+			addAction(new MoveBlockPlayerAction(distance, animation.duration,
+					model));
+		}
+	}
+
+	@Override
+	public Animation getAnimation() {
+		return animation;
+	}
+	
 }

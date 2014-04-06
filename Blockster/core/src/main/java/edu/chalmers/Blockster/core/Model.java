@@ -183,19 +183,23 @@ public class Model implements Comparable<Model> {
 
 	public boolean moveBlock(Direction dir) {
 		if (canMoveBlock(dir)) {
+			Animation anim = Animation.NONE;
 			isMovingBlockAnimation = true;
+			
 			//TODO: move block in grid, animation, etc
 			activeBlocks.add(processedBlock);
 			
+			
+			
 			if(isLiftingBlock) {
-				processedBlock.setAnimation(Animation.getPullAnimation(dir));
+				anim = Animation.getPullAnimation(dir);
 			} else {
 				float relativePositionSignum = activePlayer.getX() 
 						- processedBlock.getX() * blockLayer.getBlockWidth();
-				Animation anim = Animation.getMoveAnimation(dir, relativePositionSignum);
-				
-				processedBlock.setAnimation(anim);
+				anim = Animation.getMoveAnimation(dir, relativePositionSignum);
 			}
+			processedBlock.setAnimation(anim);
+			activePlayer.setAnimation(anim);
 			return true;
 		}
 		return false;
@@ -223,7 +227,7 @@ public class Model implements Comparable<Model> {
 
 	private void setStartPositions() {
 		for (float[] startPosition : getPlayerStartingPositions(map)) {
-			Player player = factory.createPlayer(PLAYER_IMAGE_ADDRESS);
+			Player player = factory.createPlayer(PLAYER_IMAGE_ADDRESS, this);
 			player.setX(startPosition[0]);
 			player.setY(startPosition[1]);
 			players.add(player);

@@ -155,21 +155,23 @@ public class Controller extends InputAdapter implements Disposable {
 		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving left
 
-			model.moveActivePlayer(LEFT, distanceMoved);
 			lastDirection = LEFT;
 			
 			if (model.moveBlock(LEFT)) {
 				hasMovedBlock = true;
+			} else {
+				model.moveActivePlayer(LEFT, distanceMoved);
 			}
 		}
 
 		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving right
-			model.moveActivePlayer(RIGHT, distanceMoved);
 			lastDirection = RIGHT;
 			
 			if (model.moveBlock(RIGHT)) {
 				hasMovedBlock = true;
+			} else {
+				model.moveActivePlayer(RIGHT, distanceMoved);
 			}
 		}
 

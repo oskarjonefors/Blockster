@@ -33,4 +33,8 @@ public interface Player {
 	public void setX(float x);
 	
 	public void setY(float y);
+	
+	public void setAnimation(Animation animation);
+	
+	public Animation getAnimation();
 }
