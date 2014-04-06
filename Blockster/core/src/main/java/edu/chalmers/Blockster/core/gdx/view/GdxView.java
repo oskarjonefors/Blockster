@@ -98,11 +98,8 @@ public class GdxView implements ApplicationListener, Disposable {
 			if (!model.getActiveBlocks().contains(block)) {
 				if(!liftedBlocks.contains(gBlock)) {
 					liftedBlocks.add(gBlock);
-					
-					gBlock.setBounds(liftPosX, liftPosY, blockWidth, blockHeight);
 					stage.addActor(gBlock);
 				}
-				gBlock.setPosition(liftPosX, liftPosY);
 			}
 			if(liftedBlocks.contains(gBlock)) {
 				gBlock.setPosition(liftPosX, liftPosY);
