@@ -51,15 +51,15 @@ public interface Block {
 	
 	/**
 	 * Get the X coordinate of the block in the BlockMap.
-	 * @return An int x coordinate.
+	 * @return A float x coordinate.
 	 */
-	public abstract int getX();
+	public abstract float getX();
 	
 	/**
 	 * Get the Y coordinate of the block in the BlockMap. 
-	 * @return An int y coordinate.
+	 * @return A float y coordinate.
 	 */
-	public abstract int getY();
+	public abstract float getY();
 	
 	/**
 	 * Animate the block with the given animation..
@@ -71,11 +71,11 @@ public interface Block {
 	 * Set the X coordinate of the block in the BlockMap.
 	 * @param x X coordinate.
 	 */
-	public abstract void setX(int x);
+	public abstract void setX(float x);
 	
 	/**
 	 * Set the Y coordinate of the block in the BlockMap.
 	 * @param y	Y coordinate.
 	 */
-	public abstract void setY(int y);
+	public abstract void setY(float y);
 }

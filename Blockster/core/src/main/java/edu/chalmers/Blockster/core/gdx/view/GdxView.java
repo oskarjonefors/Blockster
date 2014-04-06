@@ -39,7 +39,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	private Stage stage;
 	private List<Player> players;
 	private Player activePlayer;
-	private HashMap<Block, GdxBlockActor> activeBlocks;
+	private List<GdxBlock> activeBlocks;
 	private Actor background;
 	
 	public GdxView(Model model) {
@@ -65,17 +65,18 @@ public class GdxView implements ApplicationListener, Disposable {
 				(activePlayer.getY()*0.9f - (background.getHeight() / 2)));
 		
 		for (Block block : model.getActiveBlocks()) {
-			if (!activeBlocks.keySet().contains(block) || !activeBlocks.get(block).hasParent()) {
+			if (!activeBlocks.contains(block)) {
+				GdxBlock gBlock = (GdxBlock)block;
 				Animation anim = block.getAnimation();
 				Direction dir = anim.direction;
 				float duration = anim.duration;
-				GdxBlockActor actor = new GdxBlockActor((GdxBlock)block);
 				
-				activeBlocks.put(block, actor);
-				stage.addActor(actor);
-				actor.addAction(new MoveBlockAction(dir, duration, blockMap, model));
+				activeBlocks.add(gBlock);
+				stage.addActor(gBlock);
+				gBlock.setOrigin(gBlock.getX(), gBlock.getY());
+				gBlock.addAction(new MoveBlockAction(dir, duration, blockMap, model));
 				((GdxBlockLayer) blockMap.getBlockLayer()).removeBlock(block);
-				Gdx.app.log("GdxView", "Added actor.");
+				Gdx.app.log("GdxView", "Added actor. Coordinates:" + gBlock.getX() + " " + gBlock.getY());
 			}
 		}
 		
@@ -114,7 +115,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		
 		activePlayer = players.get(0);
 		
-		activeBlocks = new HashMap<Block, GdxBlockActor>();
+		activeBlocks = new ArrayList<GdxBlock>();
 		
 		/*    Makes actors out of all the blocks in the map.
 		float blockWidth = layer.getBlockWidth();

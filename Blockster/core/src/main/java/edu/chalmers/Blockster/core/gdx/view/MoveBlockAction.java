@@ -13,6 +13,7 @@ public class MoveBlockAction extends MoveByAction {
 	private final Direction dir;
 	private final BlockMap map;
 	private final Model model;
+	private GdxBlock block;
 	
 	public MoveBlockAction(Direction dir, float duration, BlockMap map, Model model) {
 		super();
@@ -21,25 +22,23 @@ public class MoveBlockAction extends MoveByAction {
 		this.model = model;
 		setAmount(dir.deltaX, dir.deltaY);
 		setDuration(duration);
-		
 	}
 	
 	public Block getBlock() {
-		return ((GdxBlockActor) getActor()).getBlock();
+		return block;
 	}
 	
 	public boolean act(float delta) {
+		if(getActor() != null) {
+			block = (GdxBlock)getActor();
+		}
 		boolean done = super.act(delta);
 		
 		if (done) {
-			GdxBlock block = (GdxBlock) getBlock();
-			Actor actor = getActor();
 			model.getActiveBlocks().remove(block);
-			actor.removeAction(this);
-			actor.remove();
 			
-			block.setX((int) Math.round(block.getX() + dir.deltaX));
-			block.setY((int) Math.round(block.getY() + dir.deltaY));
+			getActor().remove();
+			getActor().removeAction(this);
 			
 			((GdxBlockLayer)map.getBlockLayer()).insertBlock(block);
 		}

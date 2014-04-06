@@ -1,5 +1,6 @@
 package edu.chalmers.Blockster.core.gdx.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -49,21 +50,23 @@ public class GdxBlockLayer implements BlockLayer {
 	}
 	
 	public void removeBlock(Block block) {
-		layer.setCell(block.getX(), block.getY(), null);
+		layer.setCell((int)block.getX(), (int)block.getY(), null);
 	}
 	
 	public void insertBlock(GdxBlock block) {
 		try {
-			
-			if (layer.getCell(block.getX(), block.getY()) == null) {
-				layer.setCell(block.getX(), block.getY(), new Cell());
+			block.setX(Math.round(block.getX()));
+			block.setY(Math.round(block.getY()));
+			if (layer.getCell((int) block.getX(), (int) block.getY()) == null) {
+				layer.setCell((int) block.getX(), (int) block.getY(), new Cell());
+				Gdx.app.log("GdxBlockLayer", "Inserted block at " + block.getX() + " " + block.getY());
 			}
 			
-			if (layer.getCell(block.getX(), block.getY()).getTile() == null) {
-				layer.getCell(block.getX(), block.getY()).setTile(block);
+			if (layer.getCell((int) block.getX(), (int) block.getY()).getTile() == null) {
+				layer.getCell((int) block.getX(), (int) block.getY()).setTile(block);
 			}
 		} catch (NullPointerException e) {
-			
+			Gdx.app.log("Layer", "NullPointer");
 		}
 	}
 	

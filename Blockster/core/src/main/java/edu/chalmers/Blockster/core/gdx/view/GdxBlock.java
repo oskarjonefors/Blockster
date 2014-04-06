@@ -1,8 +1,10 @@
 package edu.chalmers.Blockster.core.gdx.view;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import edu.chalmers.Blockster.core.Animation;
 import edu.chalmers.Blockster.core.Block;
@@ -13,7 +15,7 @@ import edu.chalmers.Blockster.core.Block;
  * @author Eric Bjuhr, Oskar Jönefors
  * 
  */
-public class GdxBlock implements Block, TiledMapTile {
+public class GdxBlock extends Actor implements Block, TiledMapTile {
 	
 	private boolean solid;
 	private boolean liftable;
@@ -21,8 +23,9 @@ public class GdxBlock implements Block, TiledMapTile {
 	private Animation activeAnimation = Animation.NONE;
 	private float animationTime;
 	private TiledMapTile tile;
-	private int x;
-	private int y;
+	private float x;
+	private float y;
+	private TextureRegion region;
 	
 	public GdxBlock(TiledMapTile tile) {
 		this.tile = tile;
@@ -31,8 +34,16 @@ public class GdxBlock implements Block, TiledMapTile {
 		solid = props.containsKey("Solid");
 		liftable = !solid && props.containsKey("Liftable");
 		movable = props.containsKey("Movable");
+		region = tile.getTextureRegion();
 		x = 0;
 		y = 0;
+	}
+	
+	@Override
+	public void draw(SpriteBatch batch, float parentAlpha) {
+		batch.draw(region, getX()*region.getRegionWidth(), getY()*region.getRegionHeight(),
+				getOriginX(), getOriginY(), region.getRegionWidth(), region.getRegionHeight(),
+				getScaleX(), getScaleY(), getRotation());
 	}
 	
 	public int getId() {
@@ -101,8 +112,6 @@ public class GdxBlock implements Block, TiledMapTile {
 		return 0;
 	}
 
-
-
 	@Override
 	public float getAnimationDuration() {
 		return activeAnimation.duration;
@@ -121,22 +130,22 @@ public class GdxBlock implements Block, TiledMapTile {
 	}
 
 	@Override
-	public int getX() {
-		return x;
+	public float getX() {
+		return super.getX();
 	}
 
 	@Override
-	public int getY() {
-		return y;
+	public float getY() {
+		return super.getY();
 	}
 
 	@Override
-	public void setX(int x) {
-		this.x = x;
+	public void setX(float x) {
+		super.setX(x);
 	}
 
 	@Override
-	public void setY(int y) {
-		this.y = y;
+	public void setY(float y) {
+		super.setY(y);
 	}	
 }
