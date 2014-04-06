@@ -61,8 +61,13 @@ public class GdxView implements ApplicationListener, Disposable {
 		camera.position.set(activePlayer.getX(), activePlayer.getY(), 0);
 		
 		/* Move the background with the player */
-		background.setPosition((activePlayer.getX()*0.9f - background.getScaleX()*(background.getWidth())),
-				(activePlayer.getY()*0.9f - (background.getHeight() / 2)));
+		background.setPosition(
+								(activePlayer.getX()*0.7f - 
+				background.getScaleX()*background.getWidth() - 
+				camera.viewportWidth / 2),
+								(activePlayer.getY()*0.7f - 
+				(background.getHeight() / 2) - 
+				camera.viewportHeight / 2));
 		
 		for (Block block : model.getActiveBlocks()) {
 			if (!activeBlocks.contains(block) || !((GdxBlock)block).hasParent()) {
