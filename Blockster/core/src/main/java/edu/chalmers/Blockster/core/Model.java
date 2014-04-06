@@ -220,6 +220,8 @@ public class Model implements Comparable<Model> {
 	public void stopProcessingBlock() {
 		//TODO put down block animation, etc
 		processedBlock = null;
+		isGrabbingBlock = isLiftingBlock = isGrabbingBlockAnimation 
+				= isLiftingBlockAnimation = isMovingBlockAnimation = false;
 	}
 
 	public void update(float deltaTime) {
