@@ -65,7 +65,7 @@ public class GdxView implements ApplicationListener, Disposable {
 				(activePlayer.getY()*0.9f - (background.getHeight() / 2)));
 		
 		for (Block block : model.getActiveBlocks()) {
-			if (!activeBlocks.contains(block)) {
+			if (!activeBlocks.contains(block) || !((GdxBlock)block).hasParent()) {
 				GdxBlock gBlock = (GdxBlock)block;
 				Animation anim = block.getAnimation();
 				Direction dir = anim.direction;
