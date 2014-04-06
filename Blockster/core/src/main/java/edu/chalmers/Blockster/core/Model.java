@@ -161,20 +161,18 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void liftBlock() {
-		System.out.println("Trying to lift.");
 		if (canLiftBlock(processedBlock)) {
 			//If we are not already lifting a block, do so.
-			System.out.println("Can lift.");
 			isLiftingBlockAnimation = true;
 			isLiftingBlock = true;
 			isGrabbingBlock = false;
 			
 			//Lift process
-			activeBlocks.add(processedBlock);
 			float relativePositionSignum = activePlayer.getX()
 					- processedBlock.getX();
 			Animation anim = Animation.getLiftAnimation(relativePositionSignum);
 			processedBlock.setAnimation(anim);
+			activeBlocks.add(processedBlock);
 		}
 	}
 
