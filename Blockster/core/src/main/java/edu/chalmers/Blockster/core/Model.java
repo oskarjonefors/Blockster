@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.badlogic.gdx.Gdx;
+
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
@@ -61,8 +63,9 @@ public class Model implements Comparable<Model> {
 	
 	public boolean canLiftBlock(Block block) {
 		//TODO: Add additional tests
-		return block != null && isGrabbingBlock && !isGrabbingBlockAnimation &&
-				!isLiftingBlockAnimation && !isMovingBlockAnimation;
+		return block != null && block.isLiftable();
+				//&& isGrabbingBlock && !isGrabbingBlockAnimation &&
+				//!isLiftingBlockAnimation && !isMovingBlockAnimation;
 	}
 	
 	public boolean canMoveBlock(Direction dir) {
@@ -158,8 +161,10 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void liftBlock() {
-		if (canLiftBlock(processedBlock) && processedBlock.isLiftable()) {
+		System.out.println("Trying to lift.");
+		if (canLiftBlock(processedBlock)) {
 			//If we are not already lifting a block, do so.
+			System.out.println("Can lift.");
 			isLiftingBlockAnimation = true;
 			isLiftingBlock = true;
 			isGrabbingBlock = false;

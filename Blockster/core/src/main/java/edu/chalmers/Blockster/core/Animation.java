@@ -1,7 +1,6 @@
 package edu.chalmers.Blockster.core;
 
-import static edu.chalmers.Blockster.core.util.Direction.LEFT;
-import static edu.chalmers.Blockster.core.util.Direction.RIGHT;
+import static edu.chalmers.Blockster.core.util.Direction.*;
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**

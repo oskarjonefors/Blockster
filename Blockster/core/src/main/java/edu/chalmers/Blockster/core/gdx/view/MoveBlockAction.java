@@ -21,6 +21,7 @@ public class MoveBlockAction extends MoveByAction {
 		this.map = map;
 		this.model = model;
 		setAmount(dir.deltaX, dir.deltaY);
+		System.out.println("Direction:" + dir.deltaX + " " + dir.deltaY);
 		setDuration(duration);
 	}
 	

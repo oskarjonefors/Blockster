@@ -32,7 +32,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 		
 		MapProperties props = tile.getProperties();
 		solid = props.containsKey("Solid");
-		liftable = !solid && props.containsKey("Liftable");
+		liftable = props.containsKey("Liftable");
 		movable = props.containsKey("Movable");
 		region = tile.getTextureRegion();
 		x = 0;
