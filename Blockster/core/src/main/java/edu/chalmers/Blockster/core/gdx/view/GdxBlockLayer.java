@@ -49,7 +49,7 @@ public class GdxBlockLayer implements BlockLayer {
 	}
 	
 	public void removeBlock(Block block) {
-		layer.getCell(block.getX(), block.getY()).setTile(null);
+		layer.setCell(block.getX(), block.getY(), null);
 	}
 	
 	public void insertBlock(GdxBlock block) {
