@@ -5,6 +5,7 @@ import static edu.chalmers.Blockster.core.util.Direction.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +27,7 @@ public class Model implements Comparable<Model> {
 	private List<Player> players;
 	private Set<Block> activeBlocks;
 	private Direction lastDirection;
+	private HashMap<Block, Player> liftedBlocks;
 
 	private boolean isGrabbingBlockAnimation = false; //for animations
 	private boolean isMovingBlockAnimation = false;
@@ -49,6 +51,7 @@ public class Model implements Comparable<Model> {
 		this.name = name;
 		players = new ArrayList<Player>();
 		activeBlocks = Collections.synchronizedSet(new HashSet<Block>());
+		liftedBlocks = new HashMap<Block, Player>();
 		setStartPositions();
 
 		activePlayer = players.get(0);
@@ -116,6 +119,27 @@ public class Model implements Comparable<Model> {
 		return block;
 	}
 	
+	/**
+	 * Get the blocks that are currently being lifted by a player.
+	 * @return A set of blocks that are being lifted. Empty if there are none.
+	 */
+	public Set<Block> getLiftedBlocks() {
+		return liftedBlocks.keySet();
+	}
+	
+	/**
+	 * Get the Player lifting the given block, or null if there is none.
+	 * @param block The given block.
+	 * @return A player, or null.
+	 */
+	public Player getLiftingPlayer(Block block) {
+		if(liftedBlocks.containsKey(block)) {
+			return liftedBlocks.get(block);
+		} else {
+			return null;
+		}
+	}
+	
 	public BlockMap getMap() {
 		return map;
 	}
@@ -173,6 +197,7 @@ public class Model implements Comparable<Model> {
 			Animation anim = Animation.getLiftAnimation(relativePositionSignum);
 			processedBlock.setAnimation(anim);
 			activeBlocks.add(processedBlock);
+			liftedBlocks.put(processedBlock, activePlayer);
 		}
 	}
 

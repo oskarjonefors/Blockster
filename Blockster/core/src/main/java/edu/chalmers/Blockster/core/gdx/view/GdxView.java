@@ -40,6 +40,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	private List<Player> players;
 	private Player activePlayer;
 	private List<GdxBlock> activeBlocks;
+	private List<GdxBlock> liftedBlocks;
 	private Actor background;
 	
 	public GdxView(Model model) {
@@ -85,6 +86,29 @@ public class GdxView implements ApplicationListener, Disposable {
 			}
 		}
 		
+		for (Block block : model.getLiftedBlocks()) {
+			GdxBlock gBlock = (GdxBlock)block;
+			float blockHeight = blockMap.getBlockLayer().getBlockHeight();
+			float blockWidth = blockMap.getBlockLayer().getBlockWidth();
+			
+			Player liftingPlayer = model.getLiftingPlayer(block);
+			float liftPosX = liftingPlayer.getX()/blockWidth;
+			float liftPosY = (liftingPlayer.getY() + liftingPlayer.getHeight())/blockHeight;
+			
+			if (!model.getActiveBlocks().contains(block)) {
+				if(!liftedBlocks.contains(gBlock)) {
+					liftedBlocks.add(gBlock);
+					
+					gBlock.setBounds(liftPosX, liftPosY, blockWidth, blockHeight);
+					stage.addActor(gBlock);
+				}
+				gBlock.setPosition(liftPosX, liftPosY);
+			}
+			if(liftedBlocks.contains(gBlock)) {
+				gBlock.setPosition(liftPosX, liftPosY);
+			}
+		}
+		
 		/**
 		 *  renders the stage
 		 */
@@ -121,6 +145,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		activePlayer = players.get(0);
 		
 		activeBlocks = new ArrayList<GdxBlock>();
+		liftedBlocks = new ArrayList<GdxBlock>();
 		
 		/*    Makes actors out of all the blocks in the map.
 		float blockWidth = layer.getBlockWidth();
