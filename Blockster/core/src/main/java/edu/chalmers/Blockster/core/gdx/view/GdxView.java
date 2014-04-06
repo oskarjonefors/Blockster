@@ -86,16 +86,15 @@ public class GdxView implements ApplicationListener, Disposable {
 			}
 		}
 		
-		for (Block block : model.getLiftedBlocks()) {
-			GdxBlock gBlock = (GdxBlock)block;
+		for (Player liftingPlayer : model.getLiftedBlocks().keySet()) {
+			GdxBlock gBlock = (GdxBlock) model.getLiftedBlocks().get(liftingPlayer);
 			float blockHeight = blockMap.getBlockLayer().getBlockHeight();
 			float blockWidth = blockMap.getBlockLayer().getBlockWidth();
 			
-			Player liftingPlayer = model.getLiftingPlayer(block);
 			float liftPosX = liftingPlayer.getX()/blockWidth;
 			float liftPosY = (liftingPlayer.getY() + liftingPlayer.getHeight())/blockHeight;
 			
-			if (!model.getActiveBlocks().contains(block)) {
+			if (!model.getActiveBlocks().contains(gBlock)) {
 				if(!liftedBlocks.contains(gBlock)) {
 					liftedBlocks.add(gBlock);
 					

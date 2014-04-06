@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import edu.chalmers.Blockster.core.util.Direction;
@@ -22,12 +23,11 @@ public class Model implements Comparable<Model> {
 
 	private BlockMap map;
 	private BlockLayer blockLayer;
-	private Block processedBlock;
 	private Player activePlayer;
 	private List<Player> players;
 	private Set<Block> activeBlocks;
 	private Direction lastDirection;
-	private HashMap<Block, Player> liftedBlocks;
+	private HashMap<Player, Block> liftedBlocks;
 
 	private boolean isGrabbingBlockAnimation = false; //for animations
 	private boolean isMovingBlockAnimation = false;
@@ -51,14 +51,14 @@ public class Model implements Comparable<Model> {
 		this.name = name;
 		players = new ArrayList<Player>();
 		activeBlocks = Collections.synchronizedSet(new HashSet<Block>());
-		liftedBlocks = new HashMap<Block, Player>();
+		liftedBlocks = new HashMap<Player, Block>();
 		setStartPositions();
 
 		activePlayer = players.get(0);
 	}
 	
 	public boolean canGrabBlock(Block block) {
-		return block != null && processedBlock == null 
+		return block != null && getProcessedBlock() == null 
 				&& !isGrabbingBlockAnimation && !isLiftingBlockAnimation 
 				&& !isMovingBlockAnimation && (block.isMovable() || block.isLiftable());
 	}
@@ -72,7 +72,7 @@ public class Model implements Comparable<Model> {
 	
 	public boolean canMoveBlock(Direction dir) {
 		//TODO: Add checks for collision etc
-		return processedBlock != null;
+		return getProcessedBlock() != null;
 				/* && !isMovingBlockAnimation && !isLiftingBlockAnimation && !isGrabbingBlockAnimation; */
 	}
 
@@ -123,21 +123,8 @@ public class Model implements Comparable<Model> {
 	 * Get the blocks that are currently being lifted by a player.
 	 * @return A set of blocks that are being lifted. Empty if there are none.
 	 */
-	public Set<Block> getLiftedBlocks() {
-		return liftedBlocks.keySet();
-	}
-	
-	/**
-	 * Get the Player lifting the given block, or null if there is none.
-	 * @param block The given block.
-	 * @return A player, or null.
-	 */
-	public Player getLiftingPlayer(Block block) {
-		if(liftedBlocks.containsKey(block)) {
-			return liftedBlocks.get(block);
-		} else {
-			return null;
-		}
+	public Map<Player, Block> getLiftedBlocks() {
+		return liftedBlocks;
 	}
 	
 	public BlockMap getMap() {
@@ -158,14 +145,14 @@ public class Model implements Comparable<Model> {
 	}
 
 	public Block getProcessedBlock() {
-		return processedBlock;
+		return liftedBlocks.get(activePlayer);
 	}
 
 	public void grabBlock(Block block) {
 
 		if (canGrabBlock(block)) {
 
-			processedBlock = block;
+			liftedBlocks.put(activePlayer,block);
 
 
 			isGrabbingBlockAnimation = true;
@@ -184,7 +171,7 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void liftBlock() {
-		if (canLiftBlock(processedBlock)) {
+		if (canLiftBlock(getProcessedBlock())) {
 			//If we are not already lifting a block, do so.
 			isLiftingBlockAnimation = true;
 			isLiftingBlock = true;
@@ -192,12 +179,12 @@ public class Model implements Comparable<Model> {
 			float blockWidth = blockLayer.getBlockWidth();
 			
 			//Lift process
-			float relativePositionSignum = processedBlock.getX()
+			float relativePositionSignum = getProcessedBlock().getX()
 					- activePlayer.getX() / blockWidth;
 			Animation anim = Animation.getLiftAnimation(relativePositionSignum);
-			processedBlock.setAnimation(anim);
-			activeBlocks.add(processedBlock);
-			liftedBlocks.put(processedBlock, activePlayer);
+			getProcessedBlock().setAnimation(anim);
+			activeBlocks.add(getProcessedBlock());
+			liftedBlocks.put(activePlayer, getProcessedBlock());
 		}
 	}
 
@@ -212,7 +199,7 @@ public class Model implements Comparable<Model> {
 			isMovingBlockAnimation = true;
 			
 			//TODO: move block in grid, animation, etc
-			activeBlocks.add(processedBlock);
+			activeBlocks.add(getProcessedBlock());
 			
 			
 			
@@ -220,12 +207,12 @@ public class Model implements Comparable<Model> {
 				anim = Animation.getPullAnimation(dir);
 			} else {
 				float blockWidth = blockLayer.getBlockWidth();
-				float relativePositionSignum = processedBlock.getX()
+				float relativePositionSignum = getProcessedBlock().getX()
 						- activePlayer.getX() / blockWidth;
 				anim = Animation.getMoveAnimation(dir, relativePositionSignum);
 			}
 			lastDirection = dir;
-			processedBlock.setAnimation(anim);
+			getProcessedBlock().setAnimation(anim);
 			activePlayer.setAnimation(anim);
 			return true;
 		}
@@ -263,7 +250,9 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void stopProcessingBlock() {
+		System.out.println("Stop processing block");
 		if (isLiftingBlock) {
+			System.out.println("Stop lifting block");
 			float blockWidth = blockLayer.getBlockWidth();
 			float blockHeight = blockLayer.getBlockHeight();
 			boolean hasBlock = blockLayer.hasBlock(
@@ -273,13 +262,14 @@ public class Model implements Comparable<Model> {
 			if (!hasBlock) {
 				System.out.println("Didn't have block");
 				Animation anim = Animation.getPutDownAnimation(lastDirection);
-				processedBlock.setAnimation(anim);
-				activeBlocks.add(processedBlock);
+				getProcessedBlock().setAnimation(anim);
+				activeBlocks.add(getProcessedBlock());
+				liftedBlocks.remove(activePlayer);
 			}
 		}
 		
 
-		processedBlock = null;
+		liftedBlocks.remove(activePlayer);
 		isGrabbingBlock = isLiftingBlock = isGrabbingBlockAnimation 
 				= isLiftingBlockAnimation = isMovingBlockAnimation = false;
 	}
@@ -287,7 +277,7 @@ public class Model implements Comparable<Model> {
 	public void update(float deltaTime) {
 		//Set animation state etc		
 
-		if (processedBlock != null && processedBlock.getAnimation() != Animation.NONE) {
+		if (getProcessedBlock() != null && getProcessedBlock().getAnimation() != Animation.NONE) {
 			
 		}
 
