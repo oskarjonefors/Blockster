@@ -179,6 +179,7 @@ public class Controller extends InputAdapter implements Disposable {
 				model.liftBlock();
 			} else {
 				model.stopProcessingBlock();
+				hasMovedBlock = false;
 			}
 			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
 			//System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
