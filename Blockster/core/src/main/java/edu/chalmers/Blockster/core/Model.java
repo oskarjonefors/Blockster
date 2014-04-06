@@ -6,7 +6,6 @@ import static edu.chalmers.Blockster.core.util.Direction.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.chalmers.Blockster.core.Block.Animation;
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
@@ -223,7 +222,7 @@ public class Model implements Comparable<Model> {
 	public void update(float deltaTime) {
 		//Set animation state etc		
 
-		if (processedBlock != null && processedBlock.getAnimation() != Block.Animation.NONE) {
+		if (processedBlock != null && processedBlock.getAnimation() != Animation.NONE) {
 			
 		}
 

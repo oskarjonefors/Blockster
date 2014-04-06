@@ -20,7 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.Blockster.core.Block;
-import edu.chalmers.Blockster.core.Block.Animation;
+import edu.chalmers.Blockster.core.Animation;
 import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.BlockMap;
 import edu.chalmers.Blockster.core.Model;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 
+import edu.chalmers.Blockster.core.Animation;
 import edu.chalmers.Blockster.core.Block;
 
 /**
