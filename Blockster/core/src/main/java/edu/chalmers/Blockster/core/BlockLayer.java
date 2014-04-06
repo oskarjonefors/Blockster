@@ -22,5 +22,7 @@ public interface BlockLayer {
 	public void setBlock(int x, int y, Block block);
 
 	public Block getBlock(int x, int y);
+	
+	public boolean hasBlock(int x, int y);
 
 }

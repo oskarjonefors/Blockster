@@ -18,8 +18,8 @@ public enum Animation {
 	DESTROY(0.5f), 
 	LIFT_LEFT(UP_LEFT, STANDARD_MOVE_DURATION),
 	LIFT_RIGHT(UP_RIGHT, STANDARD_MOVE_DURATION), 
-	DOWN_LEFT(STANDARD_MOVE_DURATION), 
-	DOWN_RIGHT(STANDARD_MOVE_DURATION);
+	DOWN_LEFT(Direction.DOWN_LEFT, STANDARD_MOVE_DURATION), 
+	DOWN_RIGHT(Direction.DOWN_RIGHT, STANDARD_MOVE_DURATION);
 	
 	
 	
@@ -66,12 +66,23 @@ public enum Animation {
 	}
 	
 	public static Animation getLiftAnimation(float relativePositionSignum) {
+		System.out.println("relative position signum "+relativePositionSignum);
 		if (relativePositionSignum > 0) {
 			//Player stands on the right side of the block
 			return LIFT_LEFT;
 		} else {
 			//Player stands on the left side of the block
 			return LIFT_RIGHT;
+		}
+	}
+	
+	public static Animation getPutDownAnimation(Direction lastDirection) {
+		if (lastDirection == Direction.LEFT) {
+			return DOWN_LEFT;
+		} else if (lastDirection == Direction.RIGHT) {
+			return DOWN_RIGHT;
+		} else {
+			return NONE;
 		}
 	}
 	

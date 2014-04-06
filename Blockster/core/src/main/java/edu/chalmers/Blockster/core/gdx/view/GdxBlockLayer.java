@@ -69,5 +69,10 @@ public class GdxBlockLayer implements BlockLayer {
 			Gdx.app.log("Layer", "NullPointer");
 		}
 	}
+
+	@Override
+	public boolean hasBlock(int x, int y) {
+		return layer.getCell(x, y) != null && layer.getCell(x, y).getTile() != null;
+	}
 	
 }

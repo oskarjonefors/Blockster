@@ -25,6 +25,7 @@ public class Model implements Comparable<Model> {
 	private Player activePlayer;
 	private List<Player> players;
 	private Set<Block> activeBlocks;
+	private Direction lastDirection;
 
 	private boolean isGrabbingBlockAnimation = false; //for animations
 	private boolean isMovingBlockAnimation = false;
@@ -164,10 +165,11 @@ public class Model implements Comparable<Model> {
 			isLiftingBlockAnimation = true;
 			isLiftingBlock = true;
 			isGrabbingBlock = false;
+			float blockWidth = blockLayer.getBlockWidth();
 			
 			//Lift process
-			float relativePositionSignum = activePlayer.getX()
-					- processedBlock.getX();
+			float relativePositionSignum = processedBlock.getX()
+					- activePlayer.getX() / blockWidth;
 			Animation anim = Animation.getLiftAnimation(relativePositionSignum);
 			processedBlock.setAnimation(anim);
 			activeBlocks.add(processedBlock);
@@ -192,10 +194,12 @@ public class Model implements Comparable<Model> {
 			if(isLiftingBlock) {
 				anim = Animation.getPullAnimation(dir);
 			} else {
-				float relativePositionSignum = activePlayer.getX() 
-						- processedBlock.getX() * blockLayer.getBlockWidth();
+				float blockWidth = blockLayer.getBlockWidth();
+				float relativePositionSignum = processedBlock.getX()
+						- activePlayer.getX() / blockWidth;
 				anim = Animation.getMoveAnimation(dir, relativePositionSignum);
 			}
+			lastDirection = dir;
 			processedBlock.setAnimation(anim);
 			activePlayer.setAnimation(anim);
 			return true;
@@ -204,6 +208,7 @@ public class Model implements Comparable<Model> {
 	}
 
 	private void movePlayer(Direction dir, Player player, float distance) {
+		lastDirection = dir;
 		player.move(dir, distance);
 	}
 
@@ -233,12 +238,23 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void stopProcessingBlock() {
-		processedBlock = null;
-		
 		if (isLiftingBlock) {
-			//TODO put down block animation, etc
+			float blockWidth = blockLayer.getBlockWidth();
+			float blockHeight = blockLayer.getBlockHeight();
+			boolean hasBlock = blockLayer.hasBlock(
+					(int) (activePlayer.getX() / blockWidth) - lastDirection.deltaX,
+					(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / blockHeight));
+			
+			if (!hasBlock) {
+				System.out.println("Didn't have block");
+				Animation anim = Animation.getPutDownAnimation(lastDirection);
+				processedBlock.setAnimation(anim);
+				activeBlocks.add(processedBlock);
+			}
 		}
 		
+
+		processedBlock = null;
 		isGrabbingBlock = isLiftingBlock = isGrabbingBlockAnimation 
 				= isLiftingBlockAnimation = isMovingBlockAnimation = false;
 	}
