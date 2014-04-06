@@ -65,14 +65,15 @@ public class GdxView implements ApplicationListener, Disposable {
 				(activePlayer.getY()*0.9f - (background.getHeight() / 2)));
 		
 		for (Block block : model.getActiveBlocks()) {
-			if (!activeBlocks.keySet().contains(block)) {
+			if (!activeBlocks.keySet().contains(block) || !activeBlocks.get(block).hasParent()) {
 				Animation anim = block.getAnimation();
 				Direction dir = anim.direction;
 				float duration = anim.duration;
+				GdxBlockActor actor = new GdxBlockActor((GdxBlock)block);
 				
-				activeBlocks.put(block, new GdxBlockActor((GdxBlock)block));
-				stage.addActor(activeBlocks.get(block));
-				activeBlocks.get(block).addAction(new MoveBlockAction(dir, duration, blockMap, model));
+				activeBlocks.put(block, actor);
+				stage.addActor(actor);
+				actor.addAction(new MoveBlockAction(dir, duration, blockMap, model));
 				((GdxBlockLayer) blockMap.getBlockLayer()).removeBlock(block);
 				Gdx.app.log("GdxView", "Added actor.");
 			}

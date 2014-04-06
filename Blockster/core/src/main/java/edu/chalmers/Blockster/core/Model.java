@@ -4,7 +4,10 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
 import static edu.chalmers.Blockster.core.util.Direction.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import edu.chalmers.Blockster.core.util.Direction;
 
@@ -21,7 +24,7 @@ public class Model implements Comparable<Model> {
 	private Block processedBlock;
 	private Player activePlayer;
 	private List<Player> players;
-	private List<Block> activeBlocks;
+	private Set<Block> activeBlocks;
 
 	private boolean isGrabbingBlockAnimation = false; //for animations
 	private boolean isMovingBlockAnimation = false;
@@ -44,7 +47,7 @@ public class Model implements Comparable<Model> {
 		this.factory = factory;
 		this.name = name;
 		players = new ArrayList<Player>();
-		activeBlocks = new ArrayList<Block>();
+		activeBlocks = Collections.synchronizedSet(new HashSet<Block>());
 		setStartPositions();
 
 		activePlayer = players.get(0);
@@ -77,7 +80,7 @@ public class Model implements Comparable<Model> {
 	 * Return the blocks that are currently out of the grid and moving.
 	 * @return A list of blocks that are out of the grid. Empty if there are none.
 	 */
-	public List<Block> getActiveBlocks() {
+	public Set<Block> getActiveBlocks() {
 		return activeBlocks;
 	}
 
