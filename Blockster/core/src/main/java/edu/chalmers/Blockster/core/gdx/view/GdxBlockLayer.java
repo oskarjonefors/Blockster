@@ -2,6 +2,7 @@ package edu.chalmers.Blockster.core.gdx.view;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
@@ -53,9 +54,14 @@ public class GdxBlockLayer implements BlockLayer {
 	
 	public void insertBlock(GdxBlock block) {
 		try {
-		if (layer.getCell(block.getX(), block.getY()).getTile() == null) {
-			layer.getCell(block.getX(), block.getY()).setTile(block);
-		}
+			
+			if (layer.getCell(block.getX(), block.getY()) == null) {
+				layer.setCell(block.getX(), block.getY(), new Cell());
+			}
+			
+			if (layer.getCell(block.getX(), block.getY()).getTile() == null) {
+				layer.getCell(block.getX(), block.getY()).setTile(block);
+			}
 		} catch (NullPointerException e) {
 			
 		}

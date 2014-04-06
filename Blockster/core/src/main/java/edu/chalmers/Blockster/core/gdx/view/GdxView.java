@@ -25,6 +25,7 @@ import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.BlockMap;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.Player;
+import edu.chalmers.Blockster.core.util.Direction;
 
 /**
  * @author Joel Tegman, Oskar Jönefors
@@ -66,12 +67,12 @@ public class GdxView implements ApplicationListener, Disposable {
 		for (Block block : model.getActiveBlocks()) {
 			if (!activeBlocks.keySet().contains(block)) {
 				Animation anim = block.getAnimation();
-				float deltaX = anim.direction.deltaX;
-				float deltaY = anim.direction.deltaY;
+				Direction dir = anim.direction;
+				float duration = anim.duration;
 				
 				activeBlocks.put(block, new GdxBlockActor((GdxBlock)block));
 				stage.addActor(activeBlocks.get(block));
-				activeBlocks.get(block).addAction(Actions.moveBy(deltaX, deltaY, block.getAnimationDuration()));
+				activeBlocks.get(block).addAction(new MoveBlockAction(dir, duration, blockMap, model));
 				((GdxBlockLayer) blockMap.getBlockLayer()).removeBlock(block);
 				Gdx.app.log("GdxView", "Added actor.");
 			}
