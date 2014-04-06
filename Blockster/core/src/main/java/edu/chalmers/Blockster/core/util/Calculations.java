@@ -1,13 +1,12 @@
 package edu.chalmers.Blockster.core.util;
 
-import static edu.chalmers.Blockster.core.util.Calculations.collisionLowerLeft;
-import static edu.chalmers.Blockster.core.util.Calculations.collisionLowerRight;
-import static edu.chalmers.Blockster.core.util.Calculations.collisionUpperLeft;
-import static edu.chalmers.Blockster.core.util.Calculations.collisionUpperRight;
 import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.Player;
 
 public class Calculations {
+	
+
+	public final static float STANDARD_MOVE_DURATION = 0.4f;
 	
 	@SuppressWarnings("unused")
 	public static boolean collisionAbove(Player player, BlockLayer blockLayer) {

@@ -3,13 +3,25 @@ package edu.chalmers.Blockster.core;
 import static edu.chalmers.Blockster.core.util.Direction.*;
 import edu.chalmers.Blockster.core.util.Direction;
 
+import static edu.chalmers.Blockster.core.util.Calculations.*;
+
 /**
  * An enum to represent different animation states of the block.
  */
 public enum Animation {
-	NONE(0), PUSH_LEFT(LEFT, 0.5f), PUSH_RIGHT(RIGHT, 0.5f), PULL_LEFT(LEFT, 0.5f),
-	PULL_RIGHT(RIGHT, 0.5f), DESTROY(0.5f), LIFT_LEFT(UP_LEFT, 0.5f),
-	LIFT_RIGHT(UP_RIGHT, 0.5f), DOWN_LEFT(0.5f), DOWN_RIGHT(0.5f);
+	
+	NONE(0),
+	PUSH_LEFT(LEFT, STANDARD_MOVE_DURATION), 
+	PUSH_RIGHT(RIGHT, STANDARD_MOVE_DURATION), 
+	PULL_LEFT(LEFT, STANDARD_MOVE_DURATION),
+	PULL_RIGHT(RIGHT, STANDARD_MOVE_DURATION), 
+	DESTROY(0.5f), 
+	LIFT_LEFT(UP_LEFT, STANDARD_MOVE_DURATION),
+	LIFT_RIGHT(UP_RIGHT, STANDARD_MOVE_DURATION), 
+	DOWN_LEFT(STANDARD_MOVE_DURATION), 
+	DOWN_RIGHT(STANDARD_MOVE_DURATION);
+	
+	
 	
 	public final Direction direction;
 	public final float duration;
