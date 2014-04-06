@@ -9,8 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.badlogic.gdx.Gdx;
-
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
@@ -235,8 +233,12 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void stopProcessingBlock() {
-		//TODO put down block animation, etc
 		processedBlock = null;
+		
+		if (isLiftingBlock) {
+			//TODO put down block animation, etc
+		}
+		
 		isGrabbingBlock = isLiftingBlock = isGrabbingBlockAnimation 
 				= isLiftingBlockAnimation = isMovingBlockAnimation = false;
 	}
