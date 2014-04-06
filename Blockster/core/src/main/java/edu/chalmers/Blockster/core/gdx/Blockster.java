@@ -62,10 +62,12 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 		controller = new Controller();
 		controller.addStageListener(this);
 		try {
+			/*
 			FileHandle fh = new FileHandle(new File(new File("assets"), "Gourmet Race.mp3"));
 			Music music = Gdx.audio.newMusic(fh);
 			music.play();
 			music.setLooping(true);
+			*/
 			
 			Gdx.app.log(Blockster.LOG, "Loading stages");
 			loadStages();
