@@ -37,11 +37,11 @@ public class MoveBlockAction extends MoveByAction {
 		
 		if (done) {
 			model.getActiveBlocks().remove(block);
-			if(!model.getLiftedBlocks().containsValue(block)) {
+			//if(!model.getLiftedBlocks().containsValue(block)) {
 				getActor().remove();
 				getActor().removeAction(this);
 				((GdxBlockLayer)map.getBlockLayer()).insertBlock(block);
-			}
+			//}
 		}
 		return done;
 	}

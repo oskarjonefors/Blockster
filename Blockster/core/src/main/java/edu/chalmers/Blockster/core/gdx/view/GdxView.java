@@ -86,7 +86,7 @@ public class GdxView implements ApplicationListener, Disposable {
 			}
 		}
 		
-		for (Player liftingPlayer : model.getLiftedBlocks().keySet()) {
+		/*for (Player liftingPlayer : model.getLiftedBlocks().keySet()) {
 			GdxBlock gBlock = (GdxBlock) model.getLiftedBlocks().get(liftingPlayer);
 			float blockHeight = blockMap.getBlockLayer().getBlockHeight();
 			float blockWidth = blockMap.getBlockLayer().getBlockWidth();
@@ -103,7 +103,7 @@ public class GdxView implements ApplicationListener, Disposable {
 			if(liftedBlocks.contains(gBlock)) {
 				gBlock.setPosition(liftPosX, liftPosY);
 			}
-		}
+		}*/
 		
 		/**
 		 *  renders the stage
