@@ -8,8 +8,8 @@ import edu.chalmers.Blockster.core.util.Direction;
  */
 public enum Animation {
 	NONE(0), PUSH_LEFT(LEFT, 0.5f), PUSH_RIGHT(RIGHT, 0.5f), PULL_LEFT(LEFT, 0.5f),
-	PULL_RIGHT(RIGHT, 0.5f), DESTROY(0.5f), UP_LEFT(Direction.UP_LEFT, 0.5f),
-	UP_RIGHT(Direction.UP_RIGHT, 0.5f), DOWN_LEFT(0.5f), DOWN_RIGHT(0.5f);
+	PULL_RIGHT(RIGHT, 0.5f), DESTROY(0.5f), LIFT_LEFT(UP_LEFT, 0.5f),
+	LIFT_RIGHT(UP_RIGHT, 0.5f), DOWN_LEFT(0.5f), DOWN_RIGHT(0.5f);
 	
 	public final Direction direction;
 	public final float duration;
@@ -56,10 +56,10 @@ public enum Animation {
 	public static Animation getLiftAnimation(float relativePositionSignum) {
 		if (relativePositionSignum > 0) {
 			//Player stands on the right side of the block
-			return UP_LEFT;
+			return LIFT_LEFT;
 		} else {
 			//Player stands on the left side of the block
-			return UP_RIGHT;
+			return LIFT_RIGHT;
 		}
 	}
 	
