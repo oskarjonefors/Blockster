@@ -55,11 +55,6 @@ public interface Block {
 		}
 		
 		public static Animation getMoveAnimation(Direction dir, float relativePositionSignum) {
-			Gdx.app.log("Animation", "relativePositionSignum: "+relativePositionSignum);
-			Gdx.app.log("Animation", "dir.deltaX: "+dir.deltaX);
-			Gdx.app.log("Animation", "product signum: "+Math.signum(relativePositionSignum * dir.deltaX));
-			
-			
 			if (relativePositionSignum * dir.deltaX > 0) {
 				return getPushAnimation(dir);
 			} else {
