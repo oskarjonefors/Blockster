@@ -177,7 +177,7 @@ public class Controller extends InputAdapter implements Disposable {
 
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
 			//Grab button was released
-			if (!hasMovedBlock) {
+			if (!hasMovedBlock && !model.isLiftingBlock()) {
 				model.liftBlock();
 			} else {
 				model.stopProcessingBlock();
