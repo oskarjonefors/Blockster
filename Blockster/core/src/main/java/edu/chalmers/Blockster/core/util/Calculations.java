@@ -6,7 +6,7 @@ import edu.chalmers.Blockster.core.Player;
 public class Calculations {
 	
 
-	public final static float STANDARD_MOVE_DURATION = 0.4f;
+	public final static float STANDARD_MOVE_DURATION = 0.2f;
 	
 	@SuppressWarnings("unused")
 	public static boolean collisionAbove(Player player, BlockLayer blockLayer) {
