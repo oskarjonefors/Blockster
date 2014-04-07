@@ -101,6 +101,9 @@ public class Model implements Comparable<Model> {
 				isDone = true;
 			} else if (layer.getBlock(checkX, checkY).isMovable()) {
 				checkX = checkX + dir.deltaX;
+			} else {
+				canMove = false;
+				isDone = true;
 			}
 		}
 		return canMove;
