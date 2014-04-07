@@ -233,6 +233,9 @@ public class Model implements Comparable<Model> {
 	}
 
 	public boolean moveBlock(Direction dir) {
+			if (getProcessedBlock() == null) {
+				return false;
+			}
 			Animation anim = Animation.NONE;
 			isMovingBlockAnimation = true;
 			
