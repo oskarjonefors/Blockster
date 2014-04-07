@@ -232,7 +232,7 @@ public class Model implements Comparable<Model> {
 		movePlayer(dir, activePlayer, distance);
 	}
 
-	public boolean moveBlock(Direction dir) {
+	public boolean attemptMoveBlock(Direction dir) {
 			if (getProcessedBlock() == null) {
 				return false;
 			}

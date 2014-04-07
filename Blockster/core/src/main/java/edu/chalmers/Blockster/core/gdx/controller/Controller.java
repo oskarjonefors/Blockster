@@ -157,7 +157,7 @@ public class Controller extends InputAdapter implements Disposable {
 
 			lastDirection = LEFT;
 			
-			if (model.moveBlock(LEFT)) {
+			if (model.attemptMoveBlock(LEFT)) {
 				hasMovedBlock = true;
 			} else {
 				model.moveActivePlayer(LEFT, distanceMoved);
@@ -168,7 +168,7 @@ public class Controller extends InputAdapter implements Disposable {
 			// Character is moving right
 			lastDirection = RIGHT;
 			
-			if (model.moveBlock(RIGHT)) {
+			if (model.attemptMoveBlock(RIGHT)) {
 				hasMovedBlock = true;
 			} else {
 				model.moveActivePlayer(RIGHT, distanceMoved);
