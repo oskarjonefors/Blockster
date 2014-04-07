@@ -15,7 +15,7 @@ import edu.chalmers.Blockster.core.util.Direction;
 
 /**
  * A class to represent a stage.
- * @author Oskar Jönefors, Eric Bjuhr
+ * @author Oskar Jönefors, Eric Bjuhr, Emilia Nilsson
  * 
  */
 public class Model implements Comparable<Model> {
@@ -71,7 +71,7 @@ public class Model implements Comparable<Model> {
 	}
 	
 	public boolean canMovePlayer(Animation anim) {
-		return collisionSurroundingBlock(anim, activePlayer, blockLayer);
+		return collisionSurroundingBlocks(anim, activePlayer, blockLayer);
 	}
 	
 	public boolean canMoveBlock(Direction dir, Animation anim) {
@@ -82,10 +82,7 @@ public class Model implements Comparable<Model> {
 			return false;
 		}
 		
-		if(collisionBlock(anim, getProcessedBlock(), blockLayer)) {
-			return true;
-		}
-		return collisionSurroundingBlock(anim, getProcessedBlock(), blockLayer);
+		return collisionSurroundingBlocks(anim, getProcessedBlock(), blockLayer);
 		/*int origX = (int)getProcessedBlock().getX();
 		int origY = (int)getProcessedBlock().getY();
 		int checkX = origX;
