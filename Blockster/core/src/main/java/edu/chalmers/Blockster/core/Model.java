@@ -250,10 +250,6 @@ public class Model implements Comparable<Model> {
 				}
 			}
 			
-			for (Block block : movingBlocks) {
-				activeBlocks.add(block);
-			}
-			
 			if(isLiftingBlock) {
 				anim = Animation.getPullAnimation(dir);
 			} else {
@@ -262,8 +258,12 @@ public class Model implements Comparable<Model> {
 						- activePlayer.getX() / blockWidth;
 				anim = Animation.getMoveAnimation(dir, relativePositionSignum);
 			}
+			
+			for (Block block : movingBlocks) {
+				activeBlocks.add(block);
+				block.setAnimation(anim);
+			}
 			lastDirection = dir;
-			getProcessedBlock().setAnimation(anim);
 			activePlayer.setAnimation(anim);
 			return true;
 		}
