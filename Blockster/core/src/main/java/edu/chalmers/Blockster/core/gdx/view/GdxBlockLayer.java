@@ -74,15 +74,4 @@ public class GdxBlockLayer implements BlockLayer {
 	public boolean hasBlock(int x, int y) {
 		return layer.getCell(x, y) != null && layer.getCell(x, y).getTile() != null;
 	}
-
-	@Override
-	public boolean isEmpty(int x, int y) {
-		try {
-			getBlock(x, y);
-		} catch (NullPointerException e) {
-			return true;
-		}
-		return false;
-	}
-	
 }
