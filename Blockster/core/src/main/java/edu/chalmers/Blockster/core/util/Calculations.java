@@ -103,6 +103,8 @@ public class Calculations {
 	}
 	
 	public static boolean collisionSurroundingBlocks(Animation anim, Position position, BlockLayer blockLayer) {
+		if (position == null) 
+			return false;
 		switch (anim) {
 			case PUSH_LEFT:
 				return false;
