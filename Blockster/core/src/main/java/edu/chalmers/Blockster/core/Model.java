@@ -70,7 +70,11 @@ public class Model implements Comparable<Model> {
 				//!isLiftingBlockAnimation && !isMovingBlockAnimation;
 	}
 	
-	public boolean canMoveBlock(Direction dir) {
+	public boolean canMovePlayer(Animation anim) {
+		return collisionSurroundingBlock(anim, activePlayer, blockLayer);
+	}
+	
+	public boolean canMoveBlock(Direction dir, Animation anim) {
 		
 		if (getProcessedBlock() == null) {
 			return false;
@@ -78,7 +82,11 @@ public class Model implements Comparable<Model> {
 			return false;
 		}
 		
-		int origX = (int)getProcessedBlock().getX();
+		if(collisionBlock(anim, getProcessedBlock(), blockLayer)) {
+			return true;
+		}
+		return collisionSurroundingBlock(anim, getProcessedBlock(), blockLayer);
+		/*int origX = (int)getProcessedBlock().getX();
 		int origY = (int)getProcessedBlock().getY();
 		int checkX = origX;
 		int checkY = origY;
@@ -91,12 +99,12 @@ public class Model implements Comparable<Model> {
 		while (!isDone && checkX >= 0 && checkX < layer.getWidth()) {
 			
 			/* Check block above */
-			if(!layer.isEmpty(checkX, checkY + 1)) {
+			/*if(!layer.isEmpty(checkX, checkY + 1)) {
 				canMove = false;
 				isDone = true;
 			
 			/* Check block */
-			} else if(layer.isEmpty(checkX, checkY)) {
+			/*} else if(layer.isEmpty(checkX, checkY)) {
 				canMove = true;
 				isDone = true;
 			} else if (layer.getBlock(checkX, checkY).isMovable()) {
@@ -106,7 +114,7 @@ public class Model implements Comparable<Model> {
 				isDone = true;
 			}
 		}
-		return canMove;
+		return canMove;*/
 				/* && !isMovingBlockAnimation && !isLiftingBlockAnimation && !isGrabbingBlockAnimation; */
 	}
 
@@ -228,7 +236,6 @@ public class Model implements Comparable<Model> {
 	}
 
 	public boolean moveBlock(Direction dir) {
-		if (canMoveBlock(dir)) {
 			Animation anim = Animation.NONE;
 			isMovingBlockAnimation = true;
 			
@@ -261,16 +268,15 @@ public class Model implements Comparable<Model> {
 						- activePlayer.getX() / blockWidth;
 				anim = Animation.getMoveAnimation(dir, relativePositionSignum);
 			}
-			
-			for (Block block : movingBlocks) {
-				activeBlocks.add(block);
-				block.setAnimation(anim);
+			if (canMoveBlock(dir, anim) && canMovePlayer(anim)){
+				for (Block block : movingBlocks) {
+					activeBlocks.add(block);
+					block.setAnimation(anim);
+				}
+				lastDirection = dir;
+				activePlayer.setAnimation(anim);
 			}
-			lastDirection = dir;
-			activePlayer.setAnimation(anim);
 			return true;
-		}
-		return false;
 	}
 
 	private void movePlayer(Direction dir, Player player, float distance) {
