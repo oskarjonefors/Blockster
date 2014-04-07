@@ -1,9 +1,9 @@
 package edu.chalmers.Blockster.core.util;
 
 import edu.chalmers.Blockster.core.Animation;
-import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.Player;
+import edu.chalmers.Blockster.core.Position;
 
 public class Calculations {
 	
@@ -102,23 +102,40 @@ public class Calculations {
 		return false;
 	}
 	
-	public static boolean collisionBlock(Animation anim, Block block, BlockLayer blockLayer) {
+	public static boolean collisionSurroundingBlocks(Animation anim, Position position, BlockLayer blockLayer) {
 		switch (anim) {
 			case PUSH_LEFT:
-				
+				return false;
 			case PUSH_RIGHT:
-				
+				return false;
 			case PULL_LEFT:
-				
+				return 	isSolid(blockLayer, (int) (position.getX() - 1),
+								(int) (position.getY()));
 			case PULL_RIGHT:
-				
+				return 	isSolid(blockLayer, (int) (position.getX() + 1),
+								(int) (position.getY()));
 			case LIFT_LEFT:
-				
+				return 	isSolid(blockLayer, (int) (position.getX() - 1),
+								(int) (position.getY()) + 1) ||
+						isSolid(blockLayer, (int) (position.getX()),
+								(int) (position.getY() + 1));
 			case LIFT_RIGHT:
-				
+				return	isSolid(blockLayer, (int) (position.getX() + 1),
+								(int) (position.getY() + 1)) ||
+						isSolid(blockLayer, (int) (position.getX()),
+								(int) (position.getY() + 1));
+						
 			case DOWN_LEFT:
+				return	isSolid(blockLayer, (int) (position.getX() - 1),
+								(int) (position.getY())) ||
+						isSolid(blockLayer, (int) (position.getX() - 1),
+								(int) (position.getY() - 1));
 				
 			case DOWN_RIGHT:
+				return	isSolid(blockLayer, (int) (position.getX() + 1),
+								(int) (position.getY())) ||
+						isSolid(blockLayer, (int) (position.getX() + 1),
+								(int) (position.getY() - 1));
 				
 			default: return false;
 		}
