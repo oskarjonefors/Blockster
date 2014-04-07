@@ -1,5 +1,7 @@
 package edu.chalmers.Blockster.core.util;
 
+import edu.chalmers.Blockster.core.Animation;
+import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.Player;
 
@@ -98,6 +100,28 @@ public class Calculations {
 
 		//TODO: What if blocks are above the character??
 		return false;
+	}
+	
+	public static boolean collisionBlock(Animation anim, Block block, BlockLayer blockLayer) {
+		switch (anim) {
+			case PUSH_LEFT:
+				
+			case PUSH_RIGHT:
+				
+			case PULL_LEFT:
+				
+			case PULL_RIGHT:
+				
+			case LIFT_LEFT:
+				
+			case LIFT_RIGHT:
+				
+			case DOWN_LEFT:
+				
+			case DOWN_RIGHT:
+				
+			default: return false;
+		}
 	}
 	
 	private static boolean isSolid(BlockLayer blockLayer, int x, int y) {
