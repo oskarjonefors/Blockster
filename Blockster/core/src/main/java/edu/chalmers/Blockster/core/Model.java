@@ -71,8 +71,39 @@ public class Model implements Comparable<Model> {
 	}
 	
 	public boolean canMoveBlock(Direction dir) {
-		//TODO: Add checks for collision etc
-		return getProcessedBlock() != null;
+		
+		if (getProcessedBlock() == null) {
+			return false;
+		} else if (!getProcessedBlock().isMovable()) {
+			return false;
+		}
+		
+		int origX = (int)getProcessedBlock().getX();
+		int origY = (int)getProcessedBlock().getY();
+		int checkX = origX;
+		int checkY = origY;
+		
+		boolean isDone = false;
+		boolean canMove = false;
+		
+		BlockLayer layer = map.getBlockLayer();
+		
+		while (!isDone && checkX >= 0 && checkX < layer.getWidth()) {
+			
+			/* Check block above */
+			if(!layer.isEmpty(checkX, checkY + 1)) {
+				canMove = false;
+				isDone = true;
+			
+			/* Check block */
+			} else if(layer.isEmpty(checkX, checkY)) {
+				canMove = true;
+				isDone = true;
+			} else if (layer.getBlock(checkX, checkY).isMovable()) {
+				checkX = checkX + dir.deltaX;
+			}
+		}
+		return canMove;
 				/* && !isMovingBlockAnimation && !isLiftingBlockAnimation && !isGrabbingBlockAnimation; */
 	}
 
@@ -198,10 +229,30 @@ public class Model implements Comparable<Model> {
 			Animation anim = Animation.NONE;
 			isMovingBlockAnimation = true;
 			
-			//TODO: move block in grid, animation, etc
-			activeBlocks.add(getProcessedBlock());
+			BlockLayer layer = map.getBlockLayer();
+			List<Block> movingBlocks = new ArrayList<Block>();
+			boolean isDone = false;
+
+			/* Origin of add process */
+			int origX = (int)getProcessedBlock().getX();
+			int origY = (int)getProcessedBlock().getY();
 			
+			/* We've already established that the move is okay,
+				so we don't need to change the Y coordinate. */
+			int checkX = (origX);
 			
+			while (!isDone) {
+				if (!layer.isEmpty(checkX, origY)) {
+					movingBlocks.add(layer.getBlock(checkX, origY));
+					checkX += dir.deltaX;
+				} else {
+					isDone = true;
+				}
+			}
+			
+			for (Block block : movingBlocks) {
+				activeBlocks.add(block);
+			}
 			
 			if(isLiftingBlock) {
 				anim = Animation.getPullAnimation(dir);

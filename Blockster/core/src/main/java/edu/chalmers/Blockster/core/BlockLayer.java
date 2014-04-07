@@ -24,5 +24,7 @@ public interface BlockLayer {
 	public Block getBlock(int x, int y);
 	
 	public boolean hasBlock(int x, int y);
+	
+	public boolean isEmpty(int x, int y);
 
 }
