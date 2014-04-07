@@ -175,7 +175,7 @@ public class Model implements Comparable<Model> {
 
 	private float[][] getPlayerStartingPositions(BlockMap map) {
 		//TODO
-		return new float[][] {{600, 500}};
+		return new float[][] {{600, 500, 2500}};
 	}
 
 	public Block getProcessedBlock() {
@@ -299,7 +299,12 @@ public class Model implements Comparable<Model> {
 			Player player = factory.createPlayer(PLAYER_IMAGE_ADDRESS, this);
 			player.setX(startPosition[0]);
 			player.setY(startPosition[1]);
+			
+			Player player2 = factory.createPlayer(PLAYER_IMAGE_ADDRESS, this);
+			player2.setX(startPosition[2]);
+			player2.setY(startPosition[1]);
 			players.add(player);
+			players.add(player2);
 		}
 	}
 
