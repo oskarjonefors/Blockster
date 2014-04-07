@@ -4,7 +4,7 @@ import javax.vecmath.*;
 
 import edu.chalmers.Blockster.core.util.Direction;
 
-public interface Player {
+public interface Player extends Position {
 
 	public Vector2f getGravity();
 	

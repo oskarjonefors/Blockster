@@ -11,7 +11,7 @@ import edu.chalmers.Blockster.core.util.Direction;
  * @author Oskar Jönefors
  *
  */
-public interface Block {
+public interface Block extends Position {
 
 	/**
 	 * Check if the block is liftable.
