@@ -40,7 +40,7 @@ public enum Animation {
 			case LEFT:
 				return PUSH_LEFT;
 			case RIGHT:
-				return PUSH_LEFT;
+				return PUSH_RIGHT;
 			default:
 				return NONE;
 		}
