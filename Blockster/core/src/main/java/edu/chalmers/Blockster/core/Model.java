@@ -82,8 +82,7 @@ public class Model implements Comparable<Model> {
 			return false;
 		}
 		
-		return collisionSurroundingBlocks(anim, getProcessedBlock(), blockLayer);
-		/*int origX = (int)getProcessedBlock().getX();
+		int origX = (int)getProcessedBlock().getX();
 		int origY = (int)getProcessedBlock().getY();
 		int checkX = origX;
 		int checkY = origY;
@@ -96,12 +95,12 @@ public class Model implements Comparable<Model> {
 		while (!isDone && checkX >= 0 && checkX < layer.getWidth()) {
 			
 			/* Check block above */
-			/*if(!layer.isEmpty(checkX, checkY + 1)) {
+			if(!layer.isEmpty(checkX, checkY + 1)) {
 				canMove = false;
 				isDone = true;
 			
 			/* Check block */
-			/*} else if(layer.isEmpty(checkX, checkY)) {
+			} else if(layer.isEmpty(checkX, checkY)) {
 				canMove = true;
 				isDone = true;
 			} else if (layer.getBlock(checkX, checkY).isMovable()) {
@@ -111,7 +110,7 @@ public class Model implements Comparable<Model> {
 				isDone = true;
 			}
 		}
-		return canMove;*/
+		return canMove;
 				/* && !isMovingBlockAnimation && !isLiftingBlockAnimation && !isGrabbingBlockAnimation; */
 	}
 
@@ -268,7 +267,7 @@ public class Model implements Comparable<Model> {
 						- activePlayer.getX() / blockWidth;
 				anim = Animation.getMoveAnimation(dir, relativePositionSignum);
 			}
-			if (canMoveBlock(dir, anim) && canMovePlayer(anim)){
+			if (canMoveBlock(dir, anim)){
 				for (Block block : movingBlocks) {
 					activeBlocks.add(block);
 					block.setAnimation(anim);
