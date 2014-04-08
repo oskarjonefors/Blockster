@@ -95,12 +95,12 @@ public class Model implements Comparable<Model> {
 		while (!isDone && checkX >= 0 && checkX < layer.getWidth()) {
 			
 			/* Check block above */
-			if(!layer.isEmpty(checkX, checkY + 1)) {
+			if(layer.hasBlock(checkX, checkY + 1)) {
 				canMove = false;
 				isDone = true;
 			
 			/* Check block */
-			} else if(layer.isEmpty(checkX, checkY)) {
+			} else if(!layer.hasBlock(checkX, checkY)) {
 				canMove = true;
 				isDone = true;
 			} else if (layer.getBlock(checkX, checkY).isMovable()) {
@@ -251,7 +251,7 @@ public class Model implements Comparable<Model> {
 			int checkX = (origX);
 			
 			while (!isDone) {
-				if (!layer.isEmpty(checkX, origY)) {
+				if (layer.hasBlock(checkX, origY)) {
 					movingBlocks.add(layer.getBlock(checkX, origY));
 					checkX += dir.deltaX;
 				} else {
