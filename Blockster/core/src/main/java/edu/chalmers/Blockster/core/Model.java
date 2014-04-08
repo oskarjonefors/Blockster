@@ -70,8 +70,8 @@ public class Model implements Comparable<Model> {
 				//!isLiftingBlockAnimation && !isMovingBlockAnimation;
 	}
 	
-	public boolean canMovePlayer(Animation anim) {
-		return collisionSurroundingBlocks(anim, activePlayer, blockLayer);
+	public boolean canMovePlayer(int flags) {
+		return collisionSurroundingBlocks(activePlayer, blockLayer, flags);
 	}
 	
 	public boolean canMoveBlock(Direction dir, Animation anim) {

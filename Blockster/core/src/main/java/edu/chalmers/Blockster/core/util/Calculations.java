@@ -1,6 +1,7 @@
 package edu.chalmers.Blockster.core.util;
 
 import edu.chalmers.Blockster.core.Animation;
+import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.Player;
 import edu.chalmers.Blockster.core.Position;
@@ -9,6 +10,14 @@ public class Calculations {
 	
 
 	public final static float STANDARD_MOVE_DURATION = 0.2f;
+	public final static int CHECK_UP_FLAG = 1 << 0;
+	public final static int CHECK_UP_RIGHT_FLAG = 1 << 1;
+	public final static int CHECK_RIGHT_FLAG = 1 << 2;
+	public final static int CHECK_DOWN_RIGHT_FLAG = 1 << 3;
+	public final static int CHECK_DOWN_FLAG = 1 << 4;
+	public final static int CHECK_DOWN_LEFT_FLAG = 1 << 5;
+	public final static int CHECK_LEFT_FLAG = 1 << 6;
+	public final static int CHECK_UP_LEFT_FLAG = 1 << 7;
 	
 	@SuppressWarnings("unused")
 	public static boolean collisionAbove(Player player, BlockLayer blockLayer) {
@@ -102,45 +111,71 @@ public class Calculations {
 		return false;
 	}
 	
-	public static boolean collisionSurroundingBlocks(Animation anim, Position position, BlockLayer blockLayer) {
-		if (position == null) 
-			return false;
-		switch (anim) {
-			case PUSH_LEFT:
-				return false;
-			case PUSH_RIGHT:
-				return false;
-			case PULL_LEFT:
-				return 	isSolid(blockLayer, (int) (position.getX() - 1),
-								(int) (position.getY()));
-			case PULL_RIGHT:
-				return 	isSolid(blockLayer, (int) (position.getX() + 1),
-								(int) (position.getY()));
-			case LIFT_LEFT:
-				return 	isSolid(blockLayer, (int) (position.getX() - 1),
-								(int) (position.getY()) + 1) ||
-						isSolid(blockLayer, (int) (position.getX()),
-								(int) (position.getY() + 1));
-			case LIFT_RIGHT:
-				return	isSolid(blockLayer, (int) (position.getX() + 1),
-								(int) (position.getY() + 1)) ||
-						isSolid(blockLayer, (int) (position.getX()),
-								(int) (position.getY() + 1));
-						
-			case DOWN_LEFT:
-				return	isSolid(blockLayer, (int) (position.getX() - 1),
-								(int) (position.getY())) ||
-						isSolid(blockLayer, (int) (position.getX() - 1),
-								(int) (position.getY() - 1));
-				
-			case DOWN_RIGHT:
-				return	isSolid(blockLayer, (int) (position.getX() + 1),
-								(int) (position.getY())) ||
-						isSolid(blockLayer, (int) (position.getX() + 1),
-								(int) (position.getY() - 1));
-				
-			default: return false;
+	public static boolean collisionSurroundingBlocks(Player player,
+			BlockLayer blockLayer, int flags) {
+		return collisionSurroundingBlocks(player, blockLayer, 
+				blockLayer.getBlockHeight(), blockLayer.getBlockHeight(),
+				flags);
+	}
+	
+	public static boolean collisionSurroundingBlocks(Block block,
+			BlockLayer blockLayer, int flags) {
+		return collisionSurroundingBlocks(block, blockLayer, 1, 1, flags);
+	}
+	
+	private static boolean collisionSurroundingBlocks(Position pos,
+			 BlockLayer blockLayer, float scaleX, float scaleY, int flags) {
+		boolean collision = false;
+		
+		if ((flags & CHECK_UP_FLAG) != 0) {
+			collision |= isSolid(blockLayer,
+					(int) (pos.getX() / scaleX), 
+					(int) (pos.getY() / scaleY) + 1);
 		}
+		
+		if ((flags & CHECK_UP_RIGHT_FLAG) != 0) {
+			collision |= isSolid(blockLayer,
+					(int) (pos.getX() / scaleX) + 1, 
+					(int) (pos.getY() / scaleY) + 1);
+		}
+		
+		if ((flags & CHECK_RIGHT_FLAG) != 0) {
+			collision |= isSolid(blockLayer,
+					(int) (pos.getX() / scaleX) + 1, 
+					(int) (pos.getY() / scaleY));
+		}
+		
+		if ((flags & CHECK_DOWN_RIGHT_FLAG) != 0) {
+			collision |= isSolid(blockLayer,
+					(int) (pos.getX() / scaleX) + 1, 
+					(int) (pos.getY() / scaleY) - 1);
+		}
+		
+		if ((flags & CHECK_DOWN_FLAG) != 0) {
+			collision |= isSolid(blockLayer,
+					(int) (pos.getX() / scaleX), 
+					(int) (pos.getY() / scaleY) - 1);
+		}
+		
+		if ((flags & CHECK_DOWN_LEFT_FLAG) != 0) {
+			collision |= isSolid(blockLayer,
+					(int) (pos.getX() / scaleX) - 1, 
+					(int) (pos.getY() / scaleY) - 1);
+		}
+
+		if ((flags & CHECK_LEFT_FLAG) != 0) {
+			collision |= isSolid(blockLayer,
+					(int) (pos.getX() / scaleX) - 1, 
+					(int) (pos.getY() / scaleY));
+		}
+
+		if ((flags & CHECK_UP_LEFT_FLAG) != 0) {
+			collision |= isSolid(blockLayer,
+					(int) (pos.getX() / scaleX) - 1, 
+					(int) (pos.getY() / scaleY) + 1);
+		}
+		
+		return collision;
 	}
 	
 	private static boolean isSolid(BlockLayer blockLayer, int x, int y) {
