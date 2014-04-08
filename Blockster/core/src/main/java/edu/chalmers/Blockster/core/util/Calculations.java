@@ -144,7 +144,7 @@ public class Calculations {
 	}
 	
 	private static boolean isSolid(BlockLayer blockLayer, int x, int y) {
-		if (blockLayer.isEmpty(x, y)) {
+		if (!blockLayer.hasBlock(x, y)) {
 			return false;
 		}
 		return blockLayer.getBlock(x,y).isSolid();
