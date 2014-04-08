@@ -74,37 +74,68 @@ public class Model implements Comparable<Model> {
 		return collisionSurroundingBlocks(activePlayer, blockLayer, flags);
 	}
 	
+	/**
+	 * Checks to see if the player can move the block that's currently grabbed
+	 * in the given direction.
+	 * 
+	 * @param dir	The direction to push the block
+	 * @param anim	//TODO WHY???
+	 * @return		True if block can be moved, false otherwise.
+	 */
 	public boolean canMoveBlock(Direction dir, Animation anim) {
 		
+		/* If the player is not grabbing a block, return false */
 		if (getProcessedBlock() == null) {
 			return false;
+			
+		/* If the grabbed block is not movable, return false */
 		} else if (!getProcessedBlock().isMovable()) {
 			return false;
 		}
 		
+		/* Save the original coordinates for brevity (korthet) */
 		int origX = (int)getProcessedBlock().getX();
 		int origY = (int)getProcessedBlock().getY();
+		
+		/* These coordinates will be changed when checking adjacent blocks */ 
 		int checkX = origX;
 		int checkY = origY;
 		
+		/* Will be set to true when the check is done and the loop can end */
 		boolean isDone = false;
+		
+		/* Result of the check when the loop is finished*/
 		boolean canMove = false;
 		
+		/* The layer that the blocks are in */
 		BlockLayer layer = map.getBlockLayer();
 		
+		/* Keep checking while not done, and make sure not to step out of bounds */
 		while (!isDone && checkX >= 0 && checkX < layer.getWidth()) {
-			
-			/* Check block above */
-			if(layer.hasBlock(checkX, checkY + 1)) {
+
+			/* Check if there is a block above the one at (checkX, checkY).
+			 * Blocks can only be moved if there are no other blocks
+			 * on top of them. First statement avoids going out of bounds. */
+			if(checkY < layer.getHeight() && layer.hasBlock(checkX, checkY + 1)) {
 				canMove = false;
 				isDone = true;
 			
-			/* Check block */
+			/* Check if there is an empty space (no block) here. If so, the
+			 * previously checked blocks can be pushed/pulled to
+			 * fill up the empty space */
 			} else if(!layer.hasBlock(checkX, checkY)) {
 				canMove = true;
 				isDone = true;
+				
+			/* If the checked block is movable, we can check the next block
+			 * in the given direction in the next iteration of the loop.
+			 */
 			} else if (layer.getBlock(checkX, checkY).isMovable()) {
 				checkX = checkX + dir.deltaX;
+				
+			/* If the block is not movable, we cannot move neither this block
+			 * nor the previously checked ones.
+			 */
 			} else {
 				canMove = false;
 				isDone = true;
@@ -239,15 +270,30 @@ public class Model implements Comparable<Model> {
 		movePlayer(dir, activePlayer, distance);
 	}
 
+	/**
+	 * Attempt to move the currently grabbed block in the given direction.
+	 * @param dir	Direction to move the block in.
+	 * @return		True if the move was successful, otherwise false.
+	 */
 	public boolean attemptMoveBlock(Direction dir) {
+		
+			/* If there is no move currently being grabbed, return false */
 			if (getProcessedBlock() == null) {
 				return false;
 			}
+			
+			//TODO Why???
 			Animation anim = Animation.NONE;
 			isMovingBlockAnimation = true;
+			//TODO Why???
 			
+			/* Get a reference to the BlockLayer for brevity. */
 			BlockLayer layer = map.getBlockLayer();
+			
+			/* Create a list to put the block to be moved in. */
 			List<Block> movingBlocks = new ArrayList<Block>();
+			
+			/* End condition for block adding loop */
 			boolean isDone = false;
 
 			/* Origin of add process */
@@ -258,6 +304,7 @@ public class Model implements Comparable<Model> {
 				so we don't need to change the Y coordinate. */
 			int checkX = (origX);
 			
+			/* Loop to add all the blocks to be moved to the list. */
 			while (!isDone) {
 				if (layer.hasBlock(checkX, origY)) {
 					movingBlocks.add(layer.getBlock(checkX, origY));
@@ -275,7 +322,12 @@ public class Model implements Comparable<Model> {
 						- activePlayer.getX() / blockWidth;
 				anim = Animation.getMoveAnimation(dir, relativePositionSignum);
 			}
+			
+			/*TODO Shouldn't this check come earlier to avoid adding blocks to
+			 * the list if the move isn't possible?
+			 */
 			if (canMoveBlock(dir, anim)){
+				/* Add the blocks to be moved to the list */
 				for (Block block : movingBlocks) {
 					activeBlocks.add(block);
 					block.setAnimation(anim);
