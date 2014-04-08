@@ -126,6 +126,14 @@ public class Model implements Comparable<Model> {
 	public Set<Block> getActiveBlocks() {
 		return activeBlocks;
 	}
+	
+	/**
+	 * Get the currently controller Player.
+	 * @return A Player
+	 */
+	public Player getActivePlayer() {
+		return activePlayer;
+	}
 
 	public float getActivePlayerVelocity() {
 		return activePlayer.getMaximumMovementSpeed();
@@ -283,8 +291,14 @@ public class Model implements Comparable<Model> {
 		player.move(dir, distance);
 	}
 
+	/**
+	 * Start controlling the next player.
+	 */
 	public void nextPlayer() {
-
+		int pIndex = getPlayers().indexOf(activePlayer);
+		int nbrPlayers = getPlayers().size();
+		int nPlayer = (pIndex + 1) % nbrPlayers;
+		activePlayer = getPlayers().get(nPlayer);
 	}
 
 

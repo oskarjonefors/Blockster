@@ -38,7 +38,6 @@ public class GdxView implements ApplicationListener, Disposable {
 	private BlockMap blockMap;
 	private Stage stage;
 	private List<Player> players;
-	private Player activePlayer;
 	private List<GdxBlock> activeBlocks;
 	private List<GdxBlock> liftedBlocks;
 	private Actor background;
@@ -59,14 +58,15 @@ public class GdxView implements ApplicationListener, Disposable {
 	public void render(){
 		
 		/* Follow the active player */
-		camera.position.set(activePlayer.getX(), activePlayer.getY(), 0);
+		camera.position.set(model.getActivePlayer().getX(),
+				model.getActivePlayer().getY(), 0);
 		
 		/* Move the background with the player */
 		background.setPosition(
-								(activePlayer.getX()*0.7f - 
+								(model.getActivePlayer().getX()*0.7f - 
 				background.getScaleX()*background.getWidth() - 
 				camera.viewportWidth / 2),
-								(activePlayer.getY()*0.7f - 
+								(model.getActivePlayer().getY()*0.7f - 
 				(background.getHeight() / 2) - 
 				camera.viewportHeight / 2));
 		
@@ -138,8 +138,6 @@ public class GdxView implements ApplicationListener, Disposable {
 			Gdx.app.log("GdxView", "Added actor.");
 		}
 		
-		activePlayer = players.get(0);
-		
 		activeBlocks = new ArrayList<GdxBlock>();
 		liftedBlocks = new ArrayList<GdxBlock>();
 		
@@ -183,5 +181,4 @@ public class GdxView implements ApplicationListener, Disposable {
 		// TODO Auto-generated method stub
 		
 	}
-	
 }
