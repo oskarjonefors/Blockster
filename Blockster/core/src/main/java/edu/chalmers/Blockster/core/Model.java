@@ -77,28 +77,42 @@ public class Model implements Comparable<Model> {
 	 * @param dir
 	 * @return true if nothings blocking the way behind player, else false.
 	 */
-	public boolean canMovePlayer(Direction dir) {
+	public boolean canMovePlayer(Direction dir, Animation anim) {
 		
 		/* If the player isn't grabbing a block, then
 		 * there will be no need to check if you can
-		 * move player and therefor return false */
+		 * move player and therefore return false */
 		if (getProcessedBlock() == null) {
 			return false;
 		}
 		
 		/* Save the players position so we can check
-		 * the surroundings later */
-		int checkX = (int)activePlayer.getX();
-		int checkY = (int)activePlayer.getY();
+		 * the surroundings later.
+		 * Divide with 128(?) to get the right scale */
+		int checkX = (int)activePlayer.getX() / 128;
+		int checkY = (int)activePlayer.getY() / 128;
 		
+		/* Variable to track and set if it's possible to move */
 		boolean canMove = false;
 		
 		BlockLayer blockLayer = map.getBlockLayer();
 		
-		while(checkX >= 0 && checkX < blockLayer.getWidth()) {
+		/* Check so that we are inside the bounds */
+		if (checkX >= 1 && checkX < blockLayer.getWidth()) {
 			
+			/* Check so that we actually are pulling it left or right
+			 * and if so, check if there is a block in the way behind
+			 * the player */
+			if (anim == Animation.PULL_LEFT) {
+				canMove = blockLayer.hasBlock(checkX - 1, checkY);
+			}
+			else if (anim == Animation.PULL_RIGHT) {
+				canMove = blockLayer.hasBlock(checkX + 1, checkY);
+			}
+		} else {
+			return false;
 		}
-		
+		return canMove;
 	}
 	
 	/**
@@ -349,6 +363,11 @@ public class Model implements Comparable<Model> {
 							- activePlayer.getX() / blockWidth;
 					anim = Animation.getMoveAnimation(dir, relativePositionSignum);
 				}
+				
+				if (canMovePlayer(dir, anim)) {
+					return false;
+				}
+				
 				/* Add the blocks to be moved to the list */
 				for (Block block : movingBlocks) {
 					activeBlocks.add(block);
