@@ -18,16 +18,15 @@ import edu.chalmers.Blockster.core.BlockMap;
 public class GdxMap extends TiledMap implements BlockMap {
 
 	private BlockLayer blockLayer;
-	private TiledMap map;
 
 	public GdxMap (TiledMap map) {
 		super();
 		this.blockLayer = new GdxBlockLayer(map);
-		this.map = map;
 		
 		for (MapLayer layer : map.getLayers()) {
 			if (layer instanceof TiledMapTileLayer) {
 				TiledMapTileLayer tileLayer = (TiledMapTileLayer) layer;
+				getLayers().add(tileLayer);
 				for (int x = 0; x < tileLayer.getWidth(); x++) {
 					for (int y = 0; y < tileLayer.getHeight(); y++) {
 						Cell cell = tileLayer.getCell(x, y);

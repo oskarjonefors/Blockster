@@ -22,7 +22,6 @@ import com.badlogic.gdx.utils.Disposable;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.Animation;
 import edu.chalmers.Blockster.core.BlockLayer;
-import edu.chalmers.Blockster.core.BlockMap;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.Player;
 import edu.chalmers.Blockster.core.util.Direction;
@@ -35,7 +34,6 @@ public class GdxView implements ApplicationListener, Disposable {
 	private OrthographicCamera camera;
 	private Model model;
 	private OrthogonalTiledMapRenderer renderer;
-	private BlockMap blockMap;
 	private Stage stage;
 	private List<Player> players;
 	private List<GdxBlock> activeBlocks;
@@ -80,8 +78,8 @@ public class GdxView implements ApplicationListener, Disposable {
 				activeBlocks.add(gBlock);
 				stage.addActor(gBlock);
 				gBlock.setOrigin(gBlock.getX(), gBlock.getY());
-				gBlock.addAction(new MoveBlockAction(dir, duration, blockMap, model));
-				((GdxBlockLayer) blockMap.getBlockLayer()).removeBlock(block);
+				gBlock.addAction(new MoveBlockAction(dir, duration, model.getMap(), model));
+				((GdxBlockLayer) model.getMap().getBlockLayer()).removeBlock(block);
 				Gdx.app.log("GdxView", "Added actor. Coordinates:" + gBlock.getX() + " " + gBlock.getY());
 			}
 		}
@@ -98,12 +96,11 @@ public class GdxView implements ApplicationListener, Disposable {
 	/**
 	 * Initialize the view.
 	 */
-	public void init(Map map) {
-		blockMap = new GdxMap((TiledMap)map);
-		BlockLayer layer = blockMap.getBlockLayer();
+	public void init() {
+		//BlockLayer layer = model.getMap().getBlockLayer();
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		camera = new OrthographicCamera();
-		renderer = new OrthogonalTiledMapRenderer((TiledMap)map);
+		renderer = new OrthogonalTiledMapRenderer((GdxMap)model.getMap());
 		stage.setCamera(camera);
 
 		/* Add the background */

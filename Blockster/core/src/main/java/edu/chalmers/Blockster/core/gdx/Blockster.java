@@ -49,7 +49,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 			Model stage = new Model(new GdxFactory(map), mapFile.getName());
 			
 			GdxView view = new GdxView(stage);
-			view.init(map);
+			view.init();
 			
 			list.put(stage, view);
 		}
