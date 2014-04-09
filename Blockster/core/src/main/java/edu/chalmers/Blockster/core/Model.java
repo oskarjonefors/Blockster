@@ -70,8 +70,37 @@ public class Model implements Comparable<Model> {
 				//!isLiftingBlockAnimation && !isMovingBlockAnimation;
 	}
 	
-	public boolean canMovePlayer(int flags) {
-		return collisionSurroundingBlocks(activePlayer, blockLayer, flags);
+	/**
+	 * This method is used when pulling a block and checks if the player
+	 * can continue to pull it or if there is something blocking the way
+	 * (this is usually taken care of by the collision avoidance, but when
+	 * moving a block then this isn't available).
+	 * 
+	 * @param dir
+	 * @return true if nothings blocking the way behind player, else false.
+	 */
+	public boolean canMovePlayer(Direction dir) {
+		
+		/* If the player isn't grabbing a block, then
+		 * there will be no need to check if you can
+		 * move player and therefor return false */
+		if (getProcessedBlock() == null) {
+			return false;
+		}
+		
+		/* Save the players position so we can check
+		 * the surroundings later */
+		int checkX = (int)activePlayer.getX();
+		int checkY = (int)activePlayer.getY();
+		
+		boolean canMove = false;
+		
+		BlockLayer blockLayer = map.getBlockLayer();
+		
+		while(checkX >= 0 && checkX < blockLayer.getWidth()) {
+			
+		}
+		
 	}
 	
 	/**
