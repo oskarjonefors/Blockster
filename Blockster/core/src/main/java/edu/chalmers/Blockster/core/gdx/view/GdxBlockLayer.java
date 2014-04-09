@@ -8,6 +8,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
 
+/**
+ * Decorator class
+ *
+ */
 public class GdxBlockLayer implements BlockLayer {
 	private TiledMapTileLayer layer;
 	
