@@ -15,8 +15,8 @@ public class GdxBlockLayer implements BlockLayer {
 	 * Only fetches the first layer
 	 * @param map
 	 */
-	public GdxBlockLayer(TiledMap map){
-		layer = (TiledMapTileLayer)map.getLayers().get(0);
+	public GdxBlockLayer(TiledMapTileLayer layer){
+		this.layer = layer;
 	}
 	
 	@Override
