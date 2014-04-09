@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
@@ -43,10 +44,15 @@ public class Model implements Comparable<Model> {
 	private final static String PLAYER_IMAGE_ADDRESS = "Player/still2.png";
 
 
-	public Model(BlockMap map, Factory factory, String name) {
-		this.map = map;
+
+	public Model(Factory factory, String name) {
 		this.factory = factory;
 		this.name = name;
+		init();
+	}
+	
+	public void init() {
+		this.map = factory.createMap();
 		players = new ArrayList<Player>();
 		activeBlocks = Collections.synchronizedSet(new HashSet<Block>());
 		liftedBlocks = new HashMap<Player, Block>();
@@ -211,30 +217,7 @@ public class Model implements Comparable<Model> {
 	}
 	
 	public Block getAdjacentBlock(Direction dir) {
-		BlockLayer blockLayer = map.getBlockLayer();
-		float blockWidth = blockLayer.getBlockWidth();
-		float blockHeight = blockLayer.getBlockHeight();
-		Block block = null;
-
-		try {
-			if (dir == LEFT) {
-				Block adjacentBlockLeft = blockLayer.getBlock(
-						(int) (activePlayer.getX() / blockWidth) - 1,
-						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / blockHeight));
-				block = adjacentBlockLeft;
-			}
-
-			if (dir == RIGHT) {
-				Block adjacentBlockRight = blockLayer.getBlock(
-						(int) ((activePlayer.getX() + activePlayer.getWidth()) / blockWidth) + 1,
-						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / blockHeight));
-
-				block = adjacentBlockRight;
-			}
-		} catch (NullPointerException e) {
-			block = null;
-		}
-		return block;
+		return Calculations.getAdjacentBlock(dir, activePlayer, map.getBlockLayer());
 	}
 	
 	/**
@@ -456,7 +439,7 @@ public class Model implements Comparable<Model> {
 		}
 
 		for (Player player : players) {
-			if (!collisionVertically(player, blockLayer)) {
+			if (!collisionBelow(player, blockLayer)) {
 				player.increaseGravity(deltaTime);
 				player.move(FALL, player.getGravity().y);
 			}
@@ -464,12 +447,18 @@ public class Model implements Comparable<Model> {
 			float[] previousPosition = { player.getX(), player.getY() };
 
 			player.setX(player.getX() + player.getVelocity().x);
-			if (collisionHorisontally(player, blockLayer)) {
-				player.setX(previousPosition[0]);
+			if (player.getVelocity().x > 0) {
+				if (collisionRight(player, blockLayer)) {
+					player.setX(previousPosition[0]);
+				}
+			} else {
+				if (collisionLeft(player, blockLayer)) {
+					player.setX(previousPosition[0]);
+				}
 			}
 
 			player.setY(player.getY() + player.getVelocity().y);
-			if (collisionVertically(player, blockLayer)) {
+			if (collisionBelow(player, blockLayer)) {
 				player.setY(previousPosition[1]);
 				player.resetGravity();
 

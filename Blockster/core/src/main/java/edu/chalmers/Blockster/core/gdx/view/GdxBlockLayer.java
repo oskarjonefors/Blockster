@@ -8,6 +8,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
 
+/**
+ * Decorator class
+ *
+ */
 public class GdxBlockLayer implements BlockLayer {
 	private TiledMapTileLayer layer;
 	
@@ -15,8 +19,8 @@ public class GdxBlockLayer implements BlockLayer {
 	 * Only fetches the first layer
 	 * @param map
 	 */
-	public GdxBlockLayer(TiledMap map){
-		layer = (TiledMapTileLayer)map.getLayers().get(0);
+	public GdxBlockLayer(TiledMapTileLayer layer){
+		this.layer = layer;
 	}
 	
 	@Override
@@ -49,10 +53,18 @@ public class GdxBlockLayer implements BlockLayer {
 		return layer.getWidth();
 	}
 	
+	/**
+	 * Removes block from layer.
+	 * @param block the block to remove
+	 */
 	public void removeBlock(Block block) {
 		layer.setCell((int)block.getX(), (int)block.getY(), null);
 	}
 	
+	/**
+	 * Inserts block into layer.
+	 * @param block the block to insert
+	 */
 	public void insertBlock(GdxBlock block) {
 		try {
 			block.setX(Math.round(block.getX()));

@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Disposable;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.MapChangeListener;
-import edu.chalmers.Blockster.core.gdx.view.GdxBlock;
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
@@ -39,25 +38,42 @@ public class Controller extends InputAdapter implements Disposable {
 
 	private final ArrayList<MapChangeListener> stageListenerList = new ArrayList<MapChangeListener>();
 
-
+	/**
+	 * Creates a new controller for the Blockster application. The controller
+	 * is an InputAdapter.
+	 */
 	public Controller() {
 		init();
 	}
 
-	public void addStageListener(MapChangeListener sl) {
+	/**
+	 * Adds a MapChangedListener
+	 * @param sl
+	 */
+	public void addMapChangeListener(MapChangeListener sl) {
 		stageListenerList.add(sl);
 	}
 
+	/**
+	 * Removes the listener
+	 */
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-
+		Gdx.input.setInputProcessor(null);
 	}
 
+	/**
+	 * Initiates the listener.
+	 */
 	private void init() {
 		Gdx.input.setInputProcessor(this);
 	}
 
+	/**
+	 * This method is called each time a key has been pressed
+	 * @see com.badlogic.gdx.InputAdapter#keyDown(int)
+	 */
 	@Override
 	public boolean keyDown(int keyCode) {
 		if (keyCode == Keys.LEFT) {
@@ -91,6 +107,11 @@ public class Controller extends InputAdapter implements Disposable {
 		return false;
 	}
 
+	/**
+	 * This method is called each time a key as been released.
+	 * 
+	 * @see com.badlogic.gdx.InputAdapter#keyUp(int)
+	 */
 	@Override
 	public boolean keyUp(int keyCode) {
 		if (keyCode == Keys.LEFT) {
@@ -130,11 +151,13 @@ public class Controller extends InputAdapter implements Disposable {
 	}
 
 
-
-	public void setStage(Model stage) {
-		this.model = stage;
+	/**
+	 * Tells each listener that the model has changed.
+	 */
+	public void setModel(Model model) {
+		this.model = model;
 		for (MapChangeListener sl : stageListenerList) {
-			sl.stageChanged(stage);
+			sl.stageChanged(model);
 		}
 	}
 
@@ -203,7 +226,8 @@ public class Controller extends InputAdapter implements Disposable {
 		if ((keyFlags & RESTART_STAGE_BUTTON_R_FLAG) != 0) {
 			//Restart stage
 			keyFlags &= ~RESTART_STAGE_BUTTON_R_FLAG;
-			model.resetStartPositions();
+			model.init();
+			setModel(model);
 		}
 
 	}
