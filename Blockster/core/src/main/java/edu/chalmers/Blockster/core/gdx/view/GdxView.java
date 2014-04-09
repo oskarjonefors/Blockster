@@ -1,27 +1,20 @@
 package edu.chalmers.Blockster.core.gdx.view;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.Animation;
-import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.Player;
 import edu.chalmers.Blockster.core.util.Direction;
@@ -35,7 +28,6 @@ public class GdxView implements ApplicationListener, Disposable {
 	private Model model;
 	private OrthogonalTiledMapRenderer renderer;
 	private Stage stage;
-	private List<Player> players;
 	private List<GdxBlock> activeBlocks;
 	private List<GdxBlock> liftedBlocks;
 	private Actor background;
@@ -84,6 +76,14 @@ public class GdxView implements ApplicationListener, Disposable {
 			}
 		}
 		
+		for (Player player : model.getPlayers()) {
+			
+			if (!stage.getActors().contains((GdxPlayer) player, true)) {
+				stage.addActor((GdxPlayer) player);
+				Gdx.app.log("GdxView", "Added actor.");
+			}
+		}
+		
 		/**
 		 *  renders the stage
 		 */
@@ -100,7 +100,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		//BlockLayer layer = model.getMap().getBlockLayer();
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		camera = new OrthographicCamera();
-		renderer = new OrthogonalTiledMapRenderer((GdxMap)model.getMap());
+		renderer = new OrthogonalTiledMapRenderer((GdxMap) model.getMap());
 		stage.setCamera(camera);
 
 		/* Add the background */
@@ -109,19 +109,23 @@ public class GdxView implements ApplicationListener, Disposable {
 		background.setScale(5);
 		stage.addActor(background);
 		
-		players = new ArrayList<Player>();
-		for (Player player : model.getPlayers()) {
-			stage.addActor((GdxPlayer)player);
-			players.add(player);
-			Gdx.app.log("GdxView", "Added actor.");
-		}
+
 		
 		activeBlocks = new ArrayList<GdxBlock>();
 		liftedBlocks = new ArrayList<GdxBlock>();
-		
-		//Move the camera to a good start position
-		camera.translate(1600, 900);
 	}
+	
+	public void refreshRenderer() {
+		renderer.setMap((GdxMap) model.getMap());
+	}
+	
+	public void refreshStage() {
+		stage.clear();
+		stage.setCamera(camera);
+		stage.addActor(background);
+	}
+	
+	
 	public void resize(int width, int height){
 		camera.viewportHeight = height*5;
 		camera.viewportWidth = width*5;

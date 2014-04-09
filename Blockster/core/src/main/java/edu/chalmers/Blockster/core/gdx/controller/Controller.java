@@ -227,6 +227,7 @@ public class Controller extends InputAdapter implements Disposable {
 			//Restart stage
 			keyFlags &= ~RESTART_STAGE_BUTTON_R_FLAG;
 			model.init();
+			setModel(model);
 		}
 
 	}
