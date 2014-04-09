@@ -416,7 +416,7 @@ public class Model implements Comparable<Model> {
 					(int) (activePlayer.getX() / blockWidth) - lastDirection.deltaX,
 					(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / blockHeight));
 			
-			if (!hasBlock) {
+			if (!hasBlock && getProcessedBlock() != null) {
 				System.out.println("Didn't have block");
 				Animation anim = Animation.getPutDownAnimation(lastDirection);
 				getProcessedBlock().setAnimation(anim);
