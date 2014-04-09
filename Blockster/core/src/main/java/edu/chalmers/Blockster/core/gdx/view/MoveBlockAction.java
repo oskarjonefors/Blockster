@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockMap;
 import edu.chalmers.Blockster.core.Model;
+import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
 
 public class MoveBlockAction extends MoveByAction {
@@ -34,14 +35,25 @@ public class MoveBlockAction extends MoveByAction {
 			block = (GdxBlock)getActor();
 		}
 		boolean done = super.act(delta);
+		GdxBlockLayer layer = (GdxBlockLayer)map.getBlockLayer();
 		
 		if (done) {
-			model.getActiveBlocks().remove(block);
-			//if(!model.getLiftedBlocks().containsValue(block)) {
+			
+			/* If there is a block below the new position, insert the block
+			 * into the map.
+			 */
+			if (layer.hasBlock((int)block.getX(), (int)(block.getY() - 1)) ||
+					model.isLiftingBlock()) {
+				model.getActiveBlocks().remove(block);
 				getActor().remove();
 				getActor().removeAction(this);
-				((GdxBlockLayer)map.getBlockLayer()).insertBlock(block);
-			//}
+				layer.insertBlock(block);
+				
+			/* If not, let it fall */
+			} else {
+				getActor().addAction(new MoveBlockAction(Direction.DOWN, 
+						Calculations.STANDARD_MOVE_DURATION, map, model));
+			}
 		}
 		return done;
 	}
