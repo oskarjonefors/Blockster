@@ -79,10 +79,9 @@ public class Model implements Comparable<Model> {
 	 * in the given direction.
 	 * 
 	 * @param dir	The direction to push the block
-	 * @param anim	//TODO WHY???
 	 * @return		True if block can be moved, false otherwise.
 	 */
-	public boolean canMoveBlock(Direction dir, Animation anim) {
+	public boolean canMoveBlock(Direction dir) {
 		
 		/* If the player is not grabbing a block, return false */
 		if (getProcessedBlock() == null) {
@@ -282,51 +281,45 @@ public class Model implements Comparable<Model> {
 				return false;
 			}
 			
-			//TODO Why???
-			Animation anim = Animation.NONE;
-			isMovingBlockAnimation = true;
-			//TODO Why???
-			
-			/* Get a reference to the BlockLayer for brevity. */
-			BlockLayer layer = map.getBlockLayer();
-			
-			/* Create a list to put the block to be moved in. */
-			List<Block> movingBlocks = new ArrayList<Block>();
-			
-			/* End condition for block adding loop */
-			boolean isDone = false;
+			if (canMoveBlock(dir)) {
+				Animation anim = Animation.NONE;
+				isMovingBlockAnimation = true;
 
-			/* Origin of add process */
-			int origX = (int)getProcessedBlock().getX();
-			int origY = (int)getProcessedBlock().getY();
-			
-			/* We've already established that the move is okay,
+				/* Get a reference to the BlockLayer for brevity. */
+				BlockLayer layer = map.getBlockLayer();
+
+				/* Create a list to put the block to be moved in. */
+				List<Block> movingBlocks = new ArrayList<Block>();
+
+				/* End condition for block adding loop */
+				boolean isDone = false;
+
+				/* Origin of add process */
+				int origX = (int)getProcessedBlock().getX();
+				int origY = (int)getProcessedBlock().getY();
+
+				/* We've already established that the move is okay,
 				so we don't need to change the Y coordinate. */
-			int checkX = (origX);
-			
-			/* Loop to add all the blocks to be moved to the list. */
-			while (!isDone) {
-				if (layer.hasBlock(checkX, origY)) {
-					movingBlocks.add(layer.getBlock(checkX, origY));
-					checkX += dir.deltaX;
-				} else {
-					isDone = true;
+				int checkX = (origX);
+
+				/* Loop to add all the blocks to be moved to the list. */
+				while (!isDone) {
+					if (layer.hasBlock(checkX, origY)) {
+						movingBlocks.add(layer.getBlock(checkX, origY));
+						checkX += dir.deltaX;
+					} else {
+						isDone = true;
+					}
 				}
-			}
-			
-			if(isLiftingBlock) {
-				anim = Animation.getPullAnimation(dir);
-			} else {
-				float blockWidth = blockLayer.getBlockWidth();
-				float relativePositionSignum = getProcessedBlock().getX()
-						- activePlayer.getX() / blockWidth;
-				anim = Animation.getMoveAnimation(dir, relativePositionSignum);
-			}
-			
-			/*TODO Shouldn't this check come earlier to avoid adding blocks to
-			 * the list if the move isn't possible?
-			 */
-			if (canMoveBlock(dir, anim)){
+
+				if(isLiftingBlock) {
+					anim = Animation.getPullAnimation(dir);
+				} else {
+					float blockWidth = blockLayer.getBlockWidth();
+					float relativePositionSignum = getProcessedBlock().getX()
+							- activePlayer.getX() / blockWidth;
+					anim = Animation.getMoveAnimation(dir, relativePositionSignum);
+				}
 				/* Add the blocks to be moved to the list */
 				for (Block block : movingBlocks) {
 					activeBlocks.add(block);
@@ -334,8 +327,10 @@ public class Model implements Comparable<Model> {
 				}
 				lastDirection = dir;
 				activePlayer.setAnimation(anim);
+				return true;
+			} else {
+				return false;
 			}
-			return true;
 	}
 
 	private void movePlayer(Direction dir, Player player, float distance) {
