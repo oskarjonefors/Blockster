@@ -19,7 +19,9 @@ public enum Animation {
 	LIFT_LEFT(UP_LEFT, STANDARD_MOVE_DURATION),
 	LIFT_RIGHT(UP_RIGHT, STANDARD_MOVE_DURATION), 
 	DOWN_LEFT(Direction.DOWN_LEFT, STANDARD_MOVE_DURATION), 
-	DOWN_RIGHT(Direction.DOWN_RIGHT, STANDARD_MOVE_DURATION);
+	DOWN_RIGHT(Direction.DOWN_RIGHT, STANDARD_MOVE_DURATION),
+	CLIMB_RIGHT(UP_RIGHT, STANDARD_MOVE_DURATION),
+	CLIMB_LEFT(UP_LEFT, STANDARD_MOVE_DURATION);
 	
 	
 	
@@ -84,6 +86,15 @@ public enum Animation {
 		} else {
 			return NONE;
 		}
+	}
+	public static Animation getClimbAnimation(Direction dir){
+		if (dir == LEFT) {
+			return CLIMB_LEFT;
+		} else if (dir == RIGHT) {
+			return CLIMB_RIGHT;
+		} else
+			return NONE;
+			
 	}
 	
 }

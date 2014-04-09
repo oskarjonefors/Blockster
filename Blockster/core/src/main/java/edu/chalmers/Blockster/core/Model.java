@@ -334,6 +334,18 @@ public class Model implements Comparable<Model> {
 	}
 
 	private void movePlayer(Direction dir, Player player, float distance) {
+		float f = (player.getX()  / blockLayer.getBlockWidth()) + 1;
+		try{
+			System.out.println("Player pos: " + f);
+			System.out.println("Block pos: " + getAdjacentBlock(dir).getX());
+			
+			
+			if (player.getVelocity().x == 0 &&  getAdjacentBlock(dir).getX() - ((player.getX()  / blockLayer.getBlockWidth()) + 1) < 0.1f ) {
+				
+				player.setAnimation(Animation.getClimbAnimation(dir));
+			}
+		} catch(NullPointerException e) {}
+		
 		lastDirection = dir;
 		player.move(dir, distance);
 	}

@@ -24,7 +24,6 @@ public class MoveBlockPlayerAction extends MoveByAction {
 	public boolean act(float delta) {
 		boolean done = super.act(delta);
 		
-		Gdx.app.log("MoveBlockPlayerAction", "Acting");
 		
 		if (done) {
 			

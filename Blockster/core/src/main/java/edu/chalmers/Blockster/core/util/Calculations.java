@@ -114,7 +114,7 @@ public class Calculations {
 	public static boolean collisionSurroundingBlocks(Player player,
 			BlockLayer blockLayer, int flags) {
 		return collisionSurroundingBlocks(player, blockLayer, 
-				blockLayer.getBlockHeight(), blockLayer.getBlockHeight(),
+				blockLayer.getBlockWidth(), blockLayer.getBlockHeight(),
 				flags);
 	}
 	
