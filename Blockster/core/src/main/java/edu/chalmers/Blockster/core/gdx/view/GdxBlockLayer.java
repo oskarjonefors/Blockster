@@ -53,10 +53,18 @@ public class GdxBlockLayer implements BlockLayer {
 		return layer.getWidth();
 	}
 	
+	/**
+	 * Removes block from layer.
+	 * @param block the block to remove
+	 */
 	public void removeBlock(Block block) {
 		layer.setCell((int)block.getX(), (int)block.getY(), null);
 	}
 	
+	/**
+	 * Inserts block into layer.
+	 * @param block the block to insert
+	 */
 	public void insertBlock(GdxBlock block) {
 		try {
 			block.setX(Math.round(block.getX()));
