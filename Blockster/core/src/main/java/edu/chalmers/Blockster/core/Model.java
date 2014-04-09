@@ -390,7 +390,7 @@ public class Model implements Comparable<Model> {
 		}
 
 		for (Player player : players) {
-			if (!collisionVertically(player, blockLayer)) {
+			if (!collisionBelow(player, blockLayer)) {
 				player.increaseGravity(deltaTime);
 				player.move(FALL, player.getGravity().y);
 			}
@@ -398,12 +398,18 @@ public class Model implements Comparable<Model> {
 			float[] previousPosition = { player.getX(), player.getY() };
 
 			player.setX(player.getX() + player.getVelocity().x);
-			if (collisionHorisontally(player, blockLayer)) {
-				player.setX(previousPosition[0]);
+			if (player.getVelocity().x > 0) {
+				if (collisionRight(player, blockLayer)) {
+					player.setX(previousPosition[0]);
+				}
+			} else {
+				if (collisionLeft(player, blockLayer)) {
+					player.setX(previousPosition[0]);
+				}
 			}
 
 			player.setY(player.getY() + player.getVelocity().y);
-			if (collisionVertically(player, blockLayer)) {
+			if (collisionBelow(player, blockLayer)) {
 				player.setY(previousPosition[1]);
 				player.resetGravity();
 

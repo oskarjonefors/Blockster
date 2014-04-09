@@ -6,7 +6,7 @@ import edu.chalmers.Blockster.core.Animation;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.Player;
-import edu.chalmers.Blockster.core.Position;
+import edu.chalmers.Blockster.core.BlocksterObject;
 
 public class Calculations {
 	
@@ -22,7 +22,7 @@ public class Calculations {
 	public final static int CHECK_UP_LEFT_FLAG = 1 << 7;
 	
 	@SuppressWarnings("unused")
-	public static boolean collisionAbove(Player player, BlockLayer blockLayer) {
+	public static boolean collisionAbove(BlocksterObject player, BlockLayer blockLayer) {
 		try {
 			return collisionUpperLeft(player, blockLayer) ||
 					collisionUpperRight(player, blockLayer);
@@ -31,7 +31,7 @@ public class Calculations {
 		}
 	}
 
-	public static boolean collisionBelow(Player player, BlockLayer blockLayer) {
+	public static boolean collisionBelow(BlocksterObject player, BlockLayer blockLayer) {
 		try {
 			return collisionLowerLeft(player, blockLayer) ||
 					collisionLowerRight(player, blockLayer);
@@ -40,17 +40,7 @@ public class Calculations {
 		}
 	}
 
-	public static boolean collisionHorisontally(Player player, BlockLayer blockLayer) {
-		if (player.getVelocity().x < 0) {
-			return collisionLeft(player, blockLayer);
-		} else if (player.getVelocity().x > 0) {
-			return collisionRight(player, blockLayer);
-		} else {
-			return false;
-		}
-	}
-
-	public static boolean collisionLeft(Player player, BlockLayer blockLayer) {
+	public static boolean collisionLeft(BlocksterObject player, BlockLayer blockLayer) {
 		try {
 			return collisionUpperLeft(player, blockLayer) 
 					|| collisionLowerLeft(player, blockLayer);
@@ -59,7 +49,7 @@ public class Calculations {
 		}
 	}
 
-	public static boolean collisionLowerLeft(Player player, 
+	public static boolean collisionLowerLeft(BlocksterObject player, 
 			BlockLayer blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
@@ -68,7 +58,7 @@ public class Calculations {
 				(int) (player.getY() / tileHeight));
 	}
 
-	public static boolean collisionLowerRight(Player player, 
+	public static boolean collisionLowerRight(BlocksterObject player, 
 			BlockLayer blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
@@ -77,7 +67,7 @@ public class Calculations {
 				(int) (player.getY() / tileHeight));
 	}
 
-	public static boolean collisionRight(Player player, BlockLayer blockLayer) {
+	public static boolean collisionRight(BlocksterObject player, BlockLayer blockLayer) {
 		try {
 			return collisionUpperRight(player, blockLayer)
 					|| collisionLowerRight(player, blockLayer);
@@ -86,7 +76,7 @@ public class Calculations {
 		}
 	}
 	
-	public static boolean collisionUpperLeft(Player player, 
+	public static boolean collisionUpperLeft(BlocksterObject player, 
 			BlockLayer blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
@@ -95,22 +85,13 @@ public class Calculations {
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
 	}
 	
-	public static boolean collisionUpperRight(Player player, 
+	public static boolean collisionUpperRight(BlocksterObject player, 
 			BlockLayer blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
 		
 		return isSolid(blockLayer, (int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
-	}
-	
-	public static boolean collisionVertically(Player player, BlockLayer blockLayer) {
-		if (player.getVelocity().y < 0) {
-			return collisionBelow(player, blockLayer);
-		}
-
-		//TODO: What if blocks are above the character??
-		return false;
 	}
 	
 	public static boolean collisionSurroundingBlocks(Player player,
@@ -125,7 +106,7 @@ public class Calculations {
 		return collisionSurroundingBlocks(block, blockLayer, 1, 1, flags);
 	}
 	
-	private static boolean collisionSurroundingBlocks(Position pos,
+	private static boolean collisionSurroundingBlocks(BlocksterObject pos,
 			 BlockLayer blockLayer, float scaleX, float scaleY, int flags) {
 		boolean collision = false;
 		

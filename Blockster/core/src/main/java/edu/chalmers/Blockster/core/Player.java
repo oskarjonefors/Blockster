@@ -9,7 +9,7 @@ import edu.chalmers.Blockster.core.util.Direction;
  * @author sweed
  *
  */
-public interface Player extends Position {
+public interface Player extends BlocksterObject {
 
 	/**
 	 * Gets the player's current gravity velocity.
