@@ -242,7 +242,7 @@ public class Model implements Comparable<Model> {
 
 	private float[][] getPlayerStartingPositions(BlockMap map) {
 		//TODO
-		return new float[][] {{600, 500, 2500}};
+		return new float[][] {{700, 1000, 2500}};
 	}
 
 	public Block getProcessedBlock() {
