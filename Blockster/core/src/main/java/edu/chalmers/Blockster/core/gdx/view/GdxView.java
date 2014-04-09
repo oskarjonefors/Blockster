@@ -86,25 +86,6 @@ public class GdxView implements ApplicationListener, Disposable {
 			}
 		}
 		
-		/*for (Player liftingPlayer : model.getLiftedBlocks().keySet()) {
-			GdxBlock gBlock = (GdxBlock) model.getLiftedBlocks().get(liftingPlayer);
-			float blockHeight = blockMap.getBlockLayer().getBlockHeight();
-			float blockWidth = blockMap.getBlockLayer().getBlockWidth();
-			
-			float liftPosX = liftingPlayer.getX()/blockWidth;
-			float liftPosY = (liftingPlayer.getY() + liftingPlayer.getHeight())/blockHeight;
-			
-			if (!model.getActiveBlocks().contains(gBlock)) {
-				if(!liftedBlocks.contains(gBlock)) {
-					liftedBlocks.add(gBlock);
-					stage.addActor(gBlock);
-				}
-			}
-			if(liftedBlocks.contains(gBlock)) {
-				gBlock.setPosition(liftPosX, liftPosY);
-			}
-		}*/
-		
 		/**
 		 *  renders the stage
 		 */
@@ -140,21 +121,6 @@ public class GdxView implements ApplicationListener, Disposable {
 		
 		activeBlocks = new ArrayList<GdxBlock>();
 		liftedBlocks = new ArrayList<GdxBlock>();
-		
-		/*    Makes actors out of all the blocks in the map.
-		float blockWidth = layer.getBlockWidth();
-		float blockHeight = layer.getBlockHeight();
-		for (int x = 0; x < layer.getWidth(); x++) {
-			for (int y = 0; y < layer.getHeight(); y++) {
-				try {
-					GdxBlock block = (GdxBlock)layer.getBlock(x, y);
-					Actor actor = new GdxBlockActor(block);
-					actor.setBounds(x*blockWidth, y*blockHeight, blockWidth, blockHeight);
-					stage.addActor(actor);
-					Gdx.app.log("GdxView", "Added block at x = " + block.getX() + " y =" + block.getY());
-				} catch (NullPointerException e) { }
-			}
-		} */
 		
 		//Move the camera to a good start position
 		camera.translate(1600, 900);

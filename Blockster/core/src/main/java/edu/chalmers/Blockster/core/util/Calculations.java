@@ -1,5 +1,7 @@
 package edu.chalmers.Blockster.core.util;
 
+import static edu.chalmers.Blockster.core.util.Direction.LEFT;
+import static edu.chalmers.Blockster.core.util.Direction.RIGHT;
 import edu.chalmers.Blockster.core.Animation;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
@@ -180,5 +182,32 @@ public class Calculations {
 	
 	private static boolean isSolid(BlockLayer blockLayer, int x, int y) {
 		return blockLayer.hasBlock(x, y) && blockLayer.getBlock(x,y).isSolid();
+	}
+	
+	public static Block getAdjacentBlock(Direction dir, Player player
+			, BlockLayer blockLayer) {
+		float blockWidth = blockLayer.getBlockWidth();
+		float blockHeight = blockLayer.getBlockHeight();
+		Block block = null;
+
+		try {
+			if (dir == LEFT) {
+				Block adjacentBlockLeft = blockLayer.getBlock(
+						(int) (player.getX() / blockWidth) - 1,
+						(int) ((2 * player.getY() + player.getHeight()) / 2 / blockHeight));
+				block = adjacentBlockLeft;
+			}
+
+			if (dir == RIGHT) {
+				Block adjacentBlockRight = blockLayer.getBlock(
+						(int) ((player.getX() + player.getWidth()) / blockWidth) + 1,
+						(int) ((2 * player.getY() + player.getHeight()) / 2 / blockHeight));
+
+				block = adjacentBlockRight;
+			}
+		} catch (NullPointerException e) {
+			block = null;
+		}
+		return block;
 	}
 }
