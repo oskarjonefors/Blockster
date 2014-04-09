@@ -18,8 +18,8 @@ public enum Animation {
 	DESTROY(0.5f), 
 	LIFT_LEFT(UP_LEFT, STANDARD_MOVE_DURATION),
 	LIFT_RIGHT(UP_RIGHT, STANDARD_MOVE_DURATION), 
-	DOWN_LEFT(Direction.DOWN_LEFT, STANDARD_MOVE_DURATION), 
-	DOWN_RIGHT(Direction.DOWN_RIGHT, STANDARD_MOVE_DURATION);
+	FALL_LEFT(DOWN_LEFT, STANDARD_MOVE_DURATION), 
+	FALL_RIGHT(DOWN_RIGHT, STANDARD_MOVE_DURATION);
 	
 	
 	
@@ -77,10 +77,10 @@ public enum Animation {
 	}
 	
 	public static Animation getPutDownAnimation(Direction lastDirection) {
-		if (lastDirection == Direction.LEFT) {
-			return DOWN_LEFT;
-		} else if (lastDirection == Direction.RIGHT) {
-			return DOWN_RIGHT;
+		if (lastDirection == LEFT) {
+			return FALL_LEFT;
+		} else if (lastDirection == RIGHT) {
+			return FALL_RIGHT;
 		} else {
 			return NONE;
 		}
