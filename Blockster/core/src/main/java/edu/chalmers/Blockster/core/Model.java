@@ -22,7 +22,6 @@ public class Model implements Comparable<Model> {
 
 
 	private BlockMap map;
-	private BlockLayer blockLayer;
 	private Player activePlayer;
 	private List<Player> players;
 	private Set<Block> activeBlocks;
@@ -46,7 +45,6 @@ public class Model implements Comparable<Model> {
 
 	public Model(BlockMap map, Factory factory, String name) {
 		this.map = map;
-		this.blockLayer = this.map.getBlockLayer();
 		this.factory = factory;
 		this.name = name;
 		players = new ArrayList<Player>();
@@ -136,29 +134,29 @@ public class Model implements Comparable<Model> {
 		boolean canMove = false;
 		
 		/* The layer that the blocks are in */
-		BlockLayer layer = map.getBlockLayer();
+		BlockLayer blockLayer = map.getBlockLayer();
 		
 		/* Keep checking while not done, and make sure not to step out of bounds */
-		while (!isDone && checkX >= 0 && checkX < layer.getWidth()) {
+		while (!isDone && checkX >= 0 && checkX < blockLayer.getWidth()) {
 
 			/* Check if there is a block above the one at (checkX, checkY).
 			 * Blocks can only be moved if there are no other blocks
 			 * on top of them. First statement avoids going out of bounds. */
-			if(checkY < layer.getHeight() && layer.hasBlock(checkX, checkY + 1)) {
+			if(checkY < blockLayer.getHeight() && blockLayer.hasBlock(checkX, checkY + 1)) {
 				canMove = false;
 				isDone = true;
 			
 			/* Check if there is an empty space (no block) here. If so, the
 			 * previously checked blocks can be pushed/pulled to
 			 * fill up the empty space */
-			} else if(!layer.hasBlock(checkX, checkY)) {
+			} else if(!blockLayer.hasBlock(checkX, checkY)) {
 				canMove = true;
 				isDone = true;
 				
 			/* If the checked block is movable, we can check the next block
 			 * in the given direction in the next iteration of the loop.
 			 */
-			} else if (layer.getBlock(checkX, checkY).isMovable()) {
+			} else if (blockLayer.getBlock(checkX, checkY).isMovable()) {
 				checkX = checkX + dir.deltaX;
 				
 			/* If the block is not movable, we cannot move neither this block
@@ -199,6 +197,7 @@ public class Model implements Comparable<Model> {
 	}
 	
 	public Block getAdjacentBlock(Direction dir) {
+		BlockLayer blockLayer = map.getBlockLayer();
 		float blockWidth = blockLayer.getBlockWidth();
 		float blockHeight = blockLayer.getBlockHeight();
 		Block block = null;
@@ -281,6 +280,7 @@ public class Model implements Comparable<Model> {
 			isLiftingBlockAnimation = true;
 			isLiftingBlock = true;
 			isGrabbingBlock = false;
+			BlockLayer blockLayer = map.getBlockLayer();
 			float blockWidth = blockLayer.getBlockWidth();
 			
 			//Lift process
@@ -315,7 +315,7 @@ public class Model implements Comparable<Model> {
 				isMovingBlockAnimation = true;
 
 				/* Get a reference to the BlockLayer for brevity. */
-				BlockLayer layer = map.getBlockLayer();
+				BlockLayer blockLayer = map.getBlockLayer();
 
 				/* Create a list to put the block to be moved in. */
 				List<Block> movingBlocks = new ArrayList<Block>();
@@ -333,8 +333,8 @@ public class Model implements Comparable<Model> {
 
 				/* Loop to add all the blocks to be moved to the list. */
 				while (!isDone) {
-					if (layer.hasBlock(checkX, origY)) {
-						movingBlocks.add(layer.getBlock(checkX, origY));
+					if (blockLayer.hasBlock(checkX, origY)) {
+						movingBlocks.add(blockLayer.getBlock(checkX, origY));
 						checkX += dir.deltaX;
 					} else {
 						isDone = true;
@@ -407,6 +407,7 @@ public class Model implements Comparable<Model> {
 		System.out.println("Stop processing block");
 		if (isLiftingBlock) {
 			System.out.println("Stop lifting block");
+			BlockLayer blockLayer = map.getBlockLayer();
 			float blockWidth = blockLayer.getBlockWidth();
 			float blockHeight = blockLayer.getBlockHeight();
 			boolean hasBlock = blockLayer.hasBlock(
@@ -430,7 +431,7 @@ public class Model implements Comparable<Model> {
 
 	public void update(float deltaTime) {
 		//Set animation state etc		
-
+		BlockLayer blockLayer = map.getBlockLayer();
 		if (getProcessedBlock() != null && getProcessedBlock().getAnimation() != Animation.NONE) {
 			
 		}
