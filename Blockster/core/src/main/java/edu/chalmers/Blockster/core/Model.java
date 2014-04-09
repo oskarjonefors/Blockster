@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
@@ -44,11 +45,15 @@ public class Model implements Comparable<Model> {
 	private final static String PLAYER_IMAGE_ADDRESS = "Player/still2.png";
 
 
-	public Model(BlockMap map, Factory factory, String name) {
-		this.map = map;
-		this.blockLayer = this.map.getBlockLayer();
+	public Model(Factory factory, String name) {
 		this.factory = factory;
 		this.name = name;
+		init();
+	}
+	
+	public void init() {
+		this.map = factory.createMap();
+		this.blockLayer = this.map.getBlockLayer();
 		players = new ArrayList<Player>();
 		activeBlocks = Collections.synchronizedSet(new HashSet<Block>());
 		liftedBlocks = new HashMap<Player, Block>();
@@ -171,29 +176,7 @@ public class Model implements Comparable<Model> {
 	}
 	
 	public Block getAdjacentBlock(Direction dir) {
-		float blockWidth = blockLayer.getBlockWidth();
-		float blockHeight = blockLayer.getBlockHeight();
-		Block block = null;
-
-		try {
-			if (dir == LEFT) {
-				Block adjacentBlockLeft = blockLayer.getBlock(
-						(int) (activePlayer.getX() / blockWidth) - 1,
-						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / blockHeight));
-				block = adjacentBlockLeft;
-			}
-
-			if (dir == RIGHT) {
-				Block adjacentBlockRight = blockLayer.getBlock(
-						(int) ((activePlayer.getX() + activePlayer.getWidth()) / blockWidth) + 1,
-						(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / blockHeight));
-
-				block = adjacentBlockRight;
-			}
-		} catch (NullPointerException e) {
-			block = null;
-		}
-		return block;
+		return Calculations.getAdjacentBlock(dir, activePlayer, blockLayer);
 	}
 	
 	/**

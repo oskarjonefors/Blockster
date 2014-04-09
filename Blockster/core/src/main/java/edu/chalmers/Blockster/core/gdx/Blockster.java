@@ -46,8 +46,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 		for (File mapFile : maps) {
 			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
 			TiledMap map = loader.load("maps/"+mapFile.getName());
-			GdxMap gMap = new GdxMap(map);
-			Model stage = new Model(gMap, new GdxFactory(), mapFile.getName());
+			Model stage = new Model(new GdxFactory(map), mapFile.getName());
 			
 			GdxView view = new GdxView(stage);
 			view.init(map);
@@ -60,7 +59,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	public void create () {
 		Gdx.app.log(Blockster.LOG, "Creating game");
 		controller = new Controller();
-		controller.addStageListener(this);
+		controller.addMapChangeListener(this);
 		try {
 			/*
 			FileHandle fh = new FileHandle(new File(new File("assets"), "Gourmet Race.mp3"));
@@ -78,7 +77,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 			//modelIterator.next();
 			Model model = modelIterator.next();
 			
-			controller.setStage(model);
+			controller.setModel(model);
 		} catch (SecurityException | IOException e) {
 			Gdx.app.log(Blockster.LOG, e.getClass().getName());
 		}
