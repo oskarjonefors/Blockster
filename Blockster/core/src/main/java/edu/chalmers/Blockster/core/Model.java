@@ -110,10 +110,10 @@ public class Model implements Comparable<Model> {
 			 * and if so, check if there is a block in the way behind
 			 * the player */
 			if (anim == Animation.PULL_LEFT) {
-				canMove = blockLayer.hasBlock(checkX - 1, checkY);
+				canMove = !(blockLayer.hasBlock(checkX - 1, checkY));
 			}
 			else if (anim == Animation.PULL_RIGHT) {
-				canMove = blockLayer.hasBlock(checkX + 1, checkY);
+				canMove = !(blockLayer.hasBlock(checkX + 1, checkY));
 			}
 		} else {
 			return false;
@@ -347,7 +347,7 @@ public class Model implements Comparable<Model> {
 					anim = Animation.getMoveAnimation(dir, relativePositionSignum);
 				}
 				
-				if (canMovePlayer(dir, anim)) {
+				if (!canMovePlayer(dir, anim)) {
 					return false;
 				}
 				
