@@ -49,7 +49,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 			Model stage = new Model(new GdxFactory(map), mapFile.getName());
 			
 			GdxView view = new GdxView(stage);
-			view.init(map);
+			view.init();
 			
 			list.put(stage, view);
 		}
@@ -150,6 +150,8 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	public void stageChanged(Model stage) {
 		this.stage = stage;
 		viewer = stages.get(stage);
+		viewer.refreshRenderer();
+		viewer.refreshStage();
 		Gdx.app.log(Blockster.LOG, "Recieved a stage changed event");
 	}
 }
