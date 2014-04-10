@@ -20,6 +20,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	private boolean solid;
 	private boolean liftable;
 	private boolean movable;
+	private boolean weight;
 	private Animation activeAnimation = Animation.NONE;
 	private float animationTime;
 	private TiledMapTile tile;
@@ -34,6 +35,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 		solid = props.containsKey("Solid");
 		liftable = props.containsKey("Liftable");
 		movable = props.containsKey("Movable");
+		weight = props.containsKey("Weight");
 		region = tile.getTextureRegion();
 		x = 0;
 		y = 0;
@@ -61,6 +63,11 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	public TiledMapTile getTile() {
 		return tile;
 	}
+	
+	@Override
+	public boolean hasWeight() {
+		return weight;
+	}	
 	
 	/* (non-Javadoc)
 	 * @see edu.chalmers.Blockster.core.gdx.view.Block#isLiftable()
@@ -147,5 +154,5 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	@Override
 	public void setY(float y) {
 		super.setY(y);
-	}	
+	}
 }

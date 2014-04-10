@@ -62,6 +62,11 @@ public interface Block extends BlocksterObject {
 	public abstract float getY();
 	
 	/**
+	 * Check to see if block is affected by gravity.
+	 * @return	True if block is affected by gravity, false otherwise.
+	 */
+	public abstract boolean hasWeight();
+	/**
 	 * Animate the block with the given animation..
 	 * @param anim The animation to play.
 	 */

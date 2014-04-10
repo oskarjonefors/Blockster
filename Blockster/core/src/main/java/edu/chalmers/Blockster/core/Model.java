@@ -242,7 +242,7 @@ public class Model implements Comparable<Model> {
 
 	private float[][] getPlayerStartingPositions(BlockMap map) {
 		//TODO
-		return new float[][] {{600, 500, 2500}};
+		return new float[][] {{700, 1000, 2500}};
 	}
 
 	public Block getProcessedBlock() {
@@ -365,13 +365,13 @@ public class Model implements Comparable<Model> {
 	}
 
 	private void movePlayer(Direction dir, Player player, float distance) {
-		float f = (player.getX()  / blockLayer.getBlockWidth()) + 1;
+		float f = (player.getX()  / map.getBlockLayer().getBlockWidth()) + 1;
 		try{
 			System.out.println("Player pos: " + f);
 			System.out.println("Block pos: " + getAdjacentBlock(dir).getX());
 			
 			
-			if (player.getVelocity().x == 0 &&  getAdjacentBlock(dir).getX() - ((player.getX()  / blockLayer.getBlockWidth()) + 1) < 0.1f ) {
+			if (player.getVelocity().x == 0 &&  getAdjacentBlock(dir).getX() - ((player.getX()  / map.getBlockLayer().getBlockWidth()) + 1) < 0.1f ) {
 				
 				player.setAnimation(Animation.getClimbAnimation(dir));
 			}
@@ -453,7 +453,7 @@ public class Model implements Comparable<Model> {
 		for (Player player : players) {
 			if (!collisionBelow(player, blockLayer)) {
 				player.increaseGravity(deltaTime);
-				player.move(FALL, player.getGravity().y);
+				player.move(DOWN, player.getGravity().y);
 			}
 
 			float[] previousPosition = { player.getX(), player.getY() };
@@ -478,7 +478,7 @@ public class Model implements Comparable<Model> {
 				float blockHeight = blockLayer.getBlockHeight();
 
 				player.setVelocityY(0);
-				player.move(FALL,  + Math.abs(y2 - ((int) (y2 / blockHeight)) * blockHeight));
+				player.move(DOWN,  + Math.abs(y2 - ((int) (y2 / blockHeight)) * blockHeight));
 				player.setY(player.getY() + player.getVelocity().y);
 			}
 

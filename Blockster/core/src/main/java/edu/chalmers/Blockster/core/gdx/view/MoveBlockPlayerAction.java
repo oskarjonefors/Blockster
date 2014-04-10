@@ -23,8 +23,9 @@ public class MoveBlockPlayerAction extends MoveByAction {
 	
 	public boolean act(float delta) {
 		boolean done = super.act(delta);
-		
-		
+
+				
+
 		if (done) {
 			
 			getActor().removeAction(this);
