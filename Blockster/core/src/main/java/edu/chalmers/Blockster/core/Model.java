@@ -35,6 +35,7 @@ public class Model implements Comparable<Model> {
 
 	private boolean isGrabbingBlock = false; 
 	private boolean isLiftingBlock = false;
+	public boolean isSwitchChar;
 	
 	private Factory factory;
 	private final String name;
@@ -365,10 +366,12 @@ public class Model implements Comparable<Model> {
 	}
 
 	private void movePlayer(Direction dir, Player player, float distance) {
+		
+		/* will be moved */
 		float f = (player.getX()  / map.getBlockLayer().getBlockWidth()) + 1;
 		try{
-			System.out.println("Player pos: " + f);
-			System.out.println("Block pos: " + getAdjacentBlock(dir).getX());
+//			System.out.println("Player pos: " + f);
+//			System.out.println("Block pos: " + getAdjacentBlock(dir).getX());
 			
 			
 			if (player.getVelocity().x == 0 &&  getAdjacentBlock(dir).getX() - ((player.getX()  / map.getBlockLayer().getBlockWidth()) + 1) < 0.1f ) {
@@ -389,6 +392,8 @@ public class Model implements Comparable<Model> {
 		int nbrPlayers = getPlayers().size();
 		int nPlayer = (pIndex + 1) % nbrPlayers;
 		activePlayer = getPlayers().get(nPlayer);
+		isSwitchChar = true;
+	
 	}
 
 

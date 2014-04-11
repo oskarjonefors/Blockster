@@ -220,6 +220,7 @@ public class Controller extends InputAdapter implements Disposable {
 			// Switching active character
 			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;
 			//System.out.println("Removing flag: "+SWITCH_CHARACTER_BUTTON_UP_FLAG);
+			
 			model.nextPlayer();
 		}
 		
