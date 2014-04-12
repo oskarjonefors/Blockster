@@ -3,6 +3,8 @@ package edu.chalmers.Blockster.core.gdx.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.vecmath.Vector2f;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -34,8 +36,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	private List<GdxBlock> liftedBlocks;
 	private Actor background;
 	
-	private Vector3 player1Vector, player2Vector, moveVector, v;
-	private Player player1, player2;
+
 	
 	public GdxView(Model model) {
 		this.model = model;
@@ -51,26 +52,34 @@ public class GdxView implements ApplicationListener, Disposable {
 	 * Render the view.
 	 */
 	public void render(){
-		
-		v = new Vector3(player2.getX(), player2.getY(),0);
-		
-//		System.out.println("Were we are going: " + v.x);
-		if (model.isSwitchChar){
-			System.out.println("isSwitchChar");
-			camera.translate(moveVector);
-			System.out.println("camera pos" + camera.position.x);
+
+		/* Checks if the camera should transit between the players */
+		if (model.isSwitchChar) {
+
+			Vector2f v = model.getCameraMoveVector();
 			
-			if (camera.position.epsilonEquals(v, 700f)) {
+			/* Convert the vector to LibGdx vector */
+			Vector2 moveVector = new Vector2(v.x, v.y);
+			
+			/* Set the vector to a proper size. 
+			 * This will decide how fast the camera moves */
+			moveVector.div(40f);
+			
+			camera.translate(moveVector);
+			
+			
+			boolean cameraInPlace = camera.position.epsilonEquals(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0, 10f);
+			
+			if (cameraInPlace) {
 				System.out.println("cam in position");
 				model.isSwitchChar = false;
 			}
-		}
-//			model.isSwitchChar = false;
+		} else {
+
 		
 		/* Follow the active player */
-//		camera.position.set(model.getActivePlayer().getX(),
-//			model.getActivePlayer().getY(), 0);
-		
+		camera.position.set(model.getActivePlayer().getX(),
+			model.getActivePlayer().getY(), 0);
 		/* Move the background with the player */
 //		background.setPosition(
 //								(model.getActivePlayer().getX()*0.7f - 
@@ -80,6 +89,7 @@ public class GdxView implements ApplicationListener, Disposable {
 //				(background.getHeight() / 2) - 
 //				camera.viewportHeight / 2));
 //		
+		}
 		for (Block block : model.getActiveBlocks()) {
 			if (!activeBlocks.contains(block) || !((GdxBlock)block).hasParent()) {
 				GdxBlock gBlock = (GdxBlock)block;
@@ -122,6 +132,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		camera = new OrthographicCamera();
 		renderer = new OrthogonalTiledMapRenderer((GdxMap) model.getMap());
 		stage.setCamera(camera);
+		
 
 		/* Add the background */
 		Texture tex = new Texture("maps/background-11.jpg");
@@ -129,13 +140,6 @@ public class GdxView implements ApplicationListener, Disposable {
 		background.setScale(5);
 		stage.addActor(background);
 		
-		player1 = model.getPlayers().get(0);
-		player2 = model.getPlayers().get(1);
-		player1Vector = new Vector3(player1.getX(),player1.getY(), 0);
-		player2Vector = new Vector3(player2.getX(),player2.getY(), 0);
-		System.out.println("player2vector: " + player2Vector.x);
-		
-		moveVector = new Vector3((player2Vector.sub(player1Vector).div(75f)));
 		
 		activeBlocks = new ArrayList<GdxBlock>();
 		liftedBlocks = new ArrayList<GdxBlock>();

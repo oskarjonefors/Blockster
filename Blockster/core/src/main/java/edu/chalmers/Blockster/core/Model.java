@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.vecmath.Vector2f;
+
+import com.badlogic.gdx.math.Vector3;
+
 import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
 
@@ -39,6 +43,8 @@ public class Model implements Comparable<Model> {
 	
 	private Factory factory;
 	private final String name;
+	
+	private Vector2f cameraMoveVector;
 	
 
 	//TODO Change this
@@ -366,24 +372,11 @@ public class Model implements Comparable<Model> {
 	}
 
 	private void movePlayer(Direction dir, Player player, float distance) {
-		
-		/* will be moved */
-		float f = (player.getX()  / map.getBlockLayer().getBlockWidth()) + 1;
-		try{
-//			System.out.println("Player pos: " + f);
-//			System.out.println("Block pos: " + getAdjacentBlock(dir).getX());
-			
-			
-			if (player.getVelocity().x == 0 &&  getAdjacentBlock(dir).getX() - ((player.getX()  / map.getBlockLayer().getBlockWidth()) + 1) < 0.1f ) {
-				
-				player.setAnimation(Animation.getClimbAnimation(dir));
-			}
-		} catch(NullPointerException e) {}
-		
 		lastDirection = dir;
 		player.move(dir, distance);
 	}
 
+	
 	/**
 	 * Start controlling the next player.
 	 */
@@ -393,6 +386,7 @@ public class Model implements Comparable<Model> {
 		int nPlayer = (pIndex + 1) % nbrPlayers;
 		activePlayer = getPlayers().get(nPlayer);
 		isSwitchChar = true;
+		calcCamMoveVector();
 	
 	}
 
@@ -446,6 +440,28 @@ public class Model implements Comparable<Model> {
 		liftedBlocks.remove(activePlayer);
 		isGrabbingBlock = isLiftingBlock = isGrabbingBlockAnimation 
 				= isLiftingBlockAnimation = isMovingBlockAnimation = false;
+	}
+	/**
+	 * Calculate the vector which will move the camera between the players
+	 */
+	public void calcCamMoveVector(){
+		
+		Player moveToPlayer = activePlayer;
+		Player moveFromPlayer = players.get((players.indexOf(activePlayer) + 1) % players.size());
+		
+		Vector2f moveToPlayerVec = new Vector2f(moveToPlayer.getX(), moveToPlayer.getY());
+		Vector2f moveFromPlayerVec = new Vector2f(moveFromPlayer.getX(), moveFromPlayer.getY());
+		
+		/* Set the vector to the difference between the players respective vector */
+		moveToPlayerVec.sub(moveFromPlayerVec);
+		
+		cameraMoveVector = new Vector2f(moveToPlayerVec);
+		
+	
+	}
+	
+	public Vector2f getCameraMoveVector(){
+		return cameraMoveVector;
 	}
 
 	public void update(float deltaTime) {
