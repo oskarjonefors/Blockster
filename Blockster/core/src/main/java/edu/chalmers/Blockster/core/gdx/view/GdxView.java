@@ -35,7 +35,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	private List<GdxBlock> activeBlocks;
 	private List<GdxBlock> liftedBlocks;
 	private Actor background;
-	
+	private Vector3 cameraMoveVector;
 
 	
 	public GdxView(Model model) {
@@ -56,19 +56,19 @@ public class GdxView implements ApplicationListener, Disposable {
 		/* Checks if the camera should transit between the players */
 		if (model.isSwitchChar) {
 
-			Vector2f v = model.getCameraMoveVector();
+			cameraMoveVector = new Vector3(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0);
 			
-			/* Convert the vector to LibGdx vector */
-			Vector2 moveVector = new Vector2(v.x, v.y);
+			/* Set the "direction" of the cameraMoveVector towards the active player */
+			cameraMoveVector.sub(camera.position);
 			
 			/* Set the vector to a proper size. 
 			 * This will decide how fast the camera moves */
-			moveVector.div(40f);
+			cameraMoveVector.nor();
+			cameraMoveVector.mul(50f);
 			
-			camera.translate(moveVector);
+			camera.translate(cameraMoveVector);
 			
-			
-			boolean cameraInPlace = camera.position.epsilonEquals(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0, 10f);
+			boolean cameraInPlace = camera.position.epsilonEquals(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0, 30f);
 			
 			if (cameraInPlace) {
 				System.out.println("cam in position");

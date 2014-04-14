@@ -386,7 +386,7 @@ public class Model implements Comparable<Model> {
 		int nPlayer = (pIndex + 1) % nbrPlayers;
 		activePlayer = getPlayers().get(nPlayer);
 		isSwitchChar = true;
-		calcCamMoveVector();
+		
 	
 	}
 
@@ -440,28 +440,6 @@ public class Model implements Comparable<Model> {
 		liftedBlocks.remove(activePlayer);
 		isGrabbingBlock = isLiftingBlock = isGrabbingBlockAnimation 
 				= isLiftingBlockAnimation = isMovingBlockAnimation = false;
-	}
-	/**
-	 * Calculate the vector which will move the camera between the players
-	 */
-	public void calcCamMoveVector(){
-		
-		Player moveToPlayer = activePlayer;
-		Player moveFromPlayer = players.get((players.indexOf(activePlayer) + 1) % players.size());
-		
-		Vector2f moveToPlayerVec = new Vector2f(moveToPlayer.getX(), moveToPlayer.getY());
-		Vector2f moveFromPlayerVec = new Vector2f(moveFromPlayer.getX(), moveFromPlayer.getY());
-		
-		/* Set the vector to the difference between the players respective vector */
-		moveToPlayerVec.sub(moveFromPlayerVec);
-		
-		cameraMoveVector = new Vector2f(moveToPlayerVec);
-		
-	
-	}
-	
-	public Vector2f getCameraMoveVector(){
-		return cameraMoveVector;
 	}
 
 	public void update(float deltaTime) {
