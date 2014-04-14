@@ -68,10 +68,18 @@ public class GdxView implements ApplicationListener, Disposable {
 			
 			camera.translate(cameraMoveVector);
 			
+			background.setPosition(
+					(camera.position.x*0.7f - 
+							background.getScaleX()*background.getWidth() - 
+							camera.viewportWidth / 2),
+					(camera.position.y*0.7f - 
+							(background.getHeight() / 2) - 
+							camera.viewportHeight / 2));
+
+			
 			boolean cameraInPlace = camera.position.epsilonEquals(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0, 30f);
 			
 			if (cameraInPlace) {
-				System.out.println("cam in position");
 				model.isSwitchChar = false;
 			}
 		} else {
@@ -80,15 +88,16 @@ public class GdxView implements ApplicationListener, Disposable {
 		/* Follow the active player */
 		camera.position.set(model.getActivePlayer().getX(),
 			model.getActivePlayer().getY(), 0);
+		
 		/* Move the background with the player */
-//		background.setPosition(
-//								(model.getActivePlayer().getX()*0.7f - 
-//				background.getScaleX()*background.getWidth() - 
-//				camera.viewportWidth / 2),
-//								(model.getActivePlayer().getY()*0.7f - 
-//				(background.getHeight() / 2) - 
-//				camera.viewportHeight / 2));
-//		
+		background.setPosition(
+								(model.getActivePlayer().getX()*0.7f - 
+				background.getScaleX()*background.getWidth() - 
+				camera.viewportWidth / 2),
+								(model.getActivePlayer().getY()*0.7f - 
+				(background.getHeight() / 2) - 
+				camera.viewportHeight / 2));
+		
 		}
 		for (Block block : model.getActiveBlocks()) {
 			if (!activeBlocks.contains(block) || !((GdxBlock)block).hasParent()) {
