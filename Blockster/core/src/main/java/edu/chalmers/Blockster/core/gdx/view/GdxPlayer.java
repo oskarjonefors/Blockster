@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import edu.chalmers.Blockster.core.Animation;
+import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.Player;
 import edu.chalmers.Blockster.core.util.Direction;
@@ -26,7 +26,7 @@ public class GdxPlayer extends Actor implements Player {
 /*	private float x;
 	private float y;*/
 	private TextureRegion region;
-	private Animation animation = Animation.NONE;
+	private Movement animation = Movement.NONE;
 	private final Model model;
 	
 	public GdxPlayer (TextureRegion region, Model model) {
@@ -135,9 +135,9 @@ public class GdxPlayer extends Actor implements Player {
 	}
 
 	@Override
-	public void setAnimation(Animation animation) {
+	public void setAnimation(Movement animation) {
 		this.animation = animation;
-		if (animation != Animation.NONE && getActions().size == 0) {
+		if (animation != Movement.NONE && getActions().size == 0) {
 			Vector2 distance = new Vector2();
 			float blockWidth = model.getMap().getBlockLayer().getBlockWidth();
 			float blockHeight = model.getMap().getBlockLayer().getBlockHeight();
@@ -151,7 +151,7 @@ public class GdxPlayer extends Actor implements Player {
 	}
 
 	@Override
-	public Animation getAnimation() {
+	public Movement getAnimation() {
 		return animation;
 	}
 	

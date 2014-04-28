@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.Blockster.core.Block;
-import edu.chalmers.Blockster.core.Animation;
+import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.Player;
 import edu.chalmers.Blockster.core.util.Direction;
@@ -102,7 +102,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		for (Block block : model.getActiveBlocks()) {
 			if (!activeBlocks.contains(block) || !((GdxBlock)block).hasParent()) {
 				GdxBlock gBlock = (GdxBlock)block;
-				Animation anim = block.getAnimation();
+				Movement anim = block.getAnimation();
 				Direction dir = anim.direction;
 				float duration = anim.duration;
 				

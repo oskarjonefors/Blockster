@@ -35,7 +35,7 @@ public interface Block extends BlocksterObject {
 	 * Get the animation that currently is playing.
 	 * @return Animation currently playing.
 	 */
-	public abstract Animation getAnimation();
+	public abstract Movement getAnimation();
 
 	/**
 	 * Get the elapsed animation time.
@@ -70,7 +70,7 @@ public interface Block extends BlocksterObject {
 	 * Animate the block with the given animation..
 	 * @param anim The animation to play.
 	 */
-	public abstract void setAnimation(Animation anim);
+	public abstract void setAnimation(Movement anim);
 
 	/**
 	 * Set the X coordinate of the block in the BlockMap.

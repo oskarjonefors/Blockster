@@ -90,7 +90,7 @@ public class Model implements Comparable<Model> {
 	 * @param dir
 	 * @return true if nothings blocking the way behind player, else false.
 	 */
-	public boolean canMovePlayer(Direction dir, Animation anim) {
+	public boolean canMovePlayer(Direction dir, Movement anim) {
 		
 		/* If the player isn't grabbing a block, then
 		 * there will be no need to check if you can
@@ -116,10 +116,10 @@ public class Model implements Comparable<Model> {
 			/* Check so that we actually are pulling it left or right
 			 * and if so, check if there is a block in the way behind
 			 * the player */
-			if (anim == Animation.PULL_LEFT) {
+			if (anim == Movement.PULL_LEFT) {
 				canMove = !(blockLayer.hasBlock(checkX - 1, checkY));
 			}
-			else if (anim == Animation.PULL_RIGHT) {
+			else if (anim == Movement.PULL_RIGHT) {
 				canMove = !(blockLayer.hasBlock(checkX + 1, checkY));
 			}
 		} else {
@@ -290,7 +290,7 @@ public class Model implements Comparable<Model> {
 			//Lift process
 			float relativePositionSignum = getProcessedBlock().getX()
 					- activePlayer.getX() / blockWidth;
-			Animation anim = Animation.getLiftAnimation(relativePositionSignum);
+			Movement anim = Movement.getLiftAnimation(relativePositionSignum);
 			getProcessedBlock().setAnimation(anim);
 			activeBlocks.add(getProcessedBlock());
 			liftedBlocks.put(activePlayer, getProcessedBlock());
@@ -315,7 +315,7 @@ public class Model implements Comparable<Model> {
 			}
 			
 			if (canMoveBlock(dir)) {
-				Animation anim = Animation.NONE;
+				Movement anim = Movement.NONE;
 				isMovingBlockAnimation = true;
 
 				/* Get a reference to the BlockLayer for brevity. */
@@ -346,12 +346,12 @@ public class Model implements Comparable<Model> {
 				}
 
 				if(isLiftingBlock) {
-					anim = Animation.getPullAnimation(dir);
+					anim = Movement.getPullAnimation(dir);
 				} else {
 					float blockWidth = blockLayer.getBlockWidth();
 					float relativePositionSignum = getProcessedBlock().getX()
 							- activePlayer.getX() / blockWidth;
-					anim = Animation.getMoveAnimation(dir, relativePositionSignum);
+					anim = Movement.getMoveAnimation(dir, relativePositionSignum);
 				}
 				
 				if (!canMovePlayer(dir, anim)) {
@@ -429,7 +429,7 @@ public class Model implements Comparable<Model> {
 			
 			if (!hasBlock && getProcessedBlock() != null) {
 				System.out.println("Didn't have block");
-				Animation anim = Animation.getPutDownAnimation(lastDirection);
+				Movement anim = Movement.getPutDownAnimation(lastDirection);
 				getProcessedBlock().setAnimation(anim);
 				activeBlocks.add(getProcessedBlock());
 				liftedBlocks.remove(activePlayer);
@@ -445,7 +445,7 @@ public class Model implements Comparable<Model> {
 	public void update(float deltaTime) {
 		//Set animation state etc		
 		BlockLayer blockLayer = map.getBlockLayer();
-		if (getProcessedBlock() != null && getProcessedBlock().getAnimation() != Animation.NONE) {
+		if (getProcessedBlock() != null && getProcessedBlock().getAnimation() != Movement.NONE) {
 			
 		}
 

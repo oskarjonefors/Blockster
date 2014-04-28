@@ -99,11 +99,11 @@ public interface Player extends BlocksterObject {
 	 * Sets an active animation
 	 * @param animation the animation to set
 	 */
-	public void setAnimation(Animation animation);
+	public void setAnimation(Movement animation);
 	
 	/**
 	 * Gets the active animation.
 	 * @return the active animation.
 	 */
-	public Animation getAnimation();
+	public Movement getAnimation();
 }

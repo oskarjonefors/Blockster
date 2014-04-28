@@ -2,7 +2,7 @@ package edu.chalmers.Blockster.core.util;
 
 import static edu.chalmers.Blockster.core.util.Direction.LEFT;
 import static edu.chalmers.Blockster.core.util.Direction.RIGHT;
-import edu.chalmers.Blockster.core.Animation;
+import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.Player;

@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import edu.chalmers.Blockster.core.Animation;
+import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Block;
 
 /**
@@ -21,7 +21,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	private boolean liftable;
 	private boolean movable;
 	private boolean weight;
-	private Animation activeAnimation = Animation.NONE;
+	private Movement activeAnimation = Movement.NONE;
 	private float animationTime;
 	private TiledMapTile tile;
 	private float x;
@@ -101,7 +101,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	 * @see edu.chalmers.Blockster.core.gdx.view.Block#getAnimation()
 	 */
 	@Override
-	public Animation getAnimation() {
+	public Movement getAnimation() {
 		return activeAnimation;
 	}
 	
@@ -109,7 +109,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	 * @see edu.chalmers.Blockster.core.gdx.view.Block#setAnimation(edu.chalmers.Blockster.core.gdx.view.GdxBlock.Animation)
 	 */
 	@Override
-	public void setAnimation(Animation anim) {
+	public void setAnimation(Movement anim) {
 		this.activeAnimation = anim;
 	}
 
