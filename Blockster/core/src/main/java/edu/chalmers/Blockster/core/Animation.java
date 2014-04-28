@@ -14,6 +14,10 @@ public class Animation {
 	private float elapsedTime;
 	private Movement move;
 	
+	/**
+	 * Create an animation with the given movement.
+	 * @param move	Movement to animate.
+	 */
 	public Animation (Movement move) {
 		elapsedTime = 0f;
 		this.move = move;

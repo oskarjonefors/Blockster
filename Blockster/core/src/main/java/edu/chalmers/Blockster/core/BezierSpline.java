@@ -4,11 +4,20 @@ import javax.vecmath.Vector2f;
 
 import edu.chalmers.Blockster.core.util.Direction;
 
+/**
+ * A Bezier curve spline
+ * @author Oskar Jönefors
+ *
+ */
 public class BezierSpline implements Spline {
 	
 	private Direction dir;
 	private boolean isClimbing;
 	
+	/**
+	 * Create a spline in the given direction.
+	 * @param dir	A direction
+	 */
 	public BezierSpline (Direction dir) {
 		
 		this.dir = dir;

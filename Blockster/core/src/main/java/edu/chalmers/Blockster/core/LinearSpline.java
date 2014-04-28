@@ -4,9 +4,18 @@ import javax.vecmath.Vector2f;
 
 import edu.chalmers.Blockster.core.util.Direction;
 
+/**
+ * A Spline representing a linear movement.
+ * @author Oskar Jönefors
+ *
+ */
 public class LinearSpline implements Spline {
 	private Direction dir;
 	
+	/**
+	 * Create a spline in the given direction.
+	 * @param dir
+	 */
 	public LinearSpline(Direction dir) {
 		this.dir = dir;
 	}

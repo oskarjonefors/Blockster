@@ -33,14 +33,26 @@ public enum Movement {
 		this.duration = duration;
 	}
 
+	/**
+	 * Get the direction of the movement.
+	 * @return	Direction of movement.
+	 */
 	public Direction getDirection() {
 		return direction;
 	}
 
+	/**
+	 * Return the duration of the movement in float seconds.
+	 * @return	Float time in seconds.
+	 */
 	public float getDuration() {
 		return duration;
 	}
 
+	/**
+	 * Return the spline representing the movement.
+	 * @return	A Spline
+	 */
 	public Spline getSpline() {
 		return spline;
 	}
