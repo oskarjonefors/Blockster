@@ -13,7 +13,7 @@ public class Player {
 	private float posY;
 	private final float height;
 	private final float width;
-	private Animation anim;
+	private AnimationState anim;
 	private Vector2f velocityX;
 	private Vector2f velocityY;
 	
@@ -32,7 +32,7 @@ public class Player {
 	public float getX() {
 		//If there is an animation currently running then
 		//we want to return the relative position
-		if (anim != Animation.NONE) {
+		if (anim != AnimationState.NONE) {
 			return posX + anim.getRelativePosition().x;
 		}
 		return posX;
@@ -41,7 +41,7 @@ public class Player {
 	public float getY() {
 		//If there is an animation currently running then
 		//we want to return the relative position
-		if (anim != Animation.NONE) {
+		if (anim != AnimationState.NONE) {
 			return posY + anim.getRelativePosition().y;
 		}
 		return posY;
@@ -63,11 +63,11 @@ public class Player {
 		return width;
 	}
 	
-	public Animation getAnimation() {
+	public AnimationState getAnimation() {
 		return anim;
 	}
 	
-	public void setAnimation(Animation anim) {
+	public void setAnimation(AnimationState anim) {
 		this.anim = anim;
 	}
 	
