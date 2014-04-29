@@ -55,50 +55,23 @@ public class GdxView implements ApplicationListener, Disposable {
 
 		/* Checks if the camera should transit between the players */
 		if (model.isSwitchChar) {
+			transitCamera();
+		}
 
-			cameraMoveVector = new Vector3(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0);
-			
-			/* Set the "direction" of the cameraMoveVector towards the active player */
-			cameraMoveVector.sub(camera.position);
-			
-			/* Set the vector to a proper size. 
-			 * This will decide how fast the camera moves */
-			cameraMoveVector.nor();
-			cameraMoveVector.mul(50f);
-			
-			camera.translate(cameraMoveVector);
-			
-			background.setPosition(
-					(camera.position.x*0.7f - 
-							background.getScaleX()*background.getWidth() - 
-							camera.viewportWidth / 2),
-					(camera.position.y*0.7f - 
-							(background.getHeight() / 2) - 
-							camera.viewportHeight / 2));
-
-			
-			boolean cameraInPlace = camera.position.epsilonEquals(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0, 30f);
-			
-			if (cameraInPlace) {
-				model.isSwitchChar = false;
-			}
-		} else {
-
-		
 		/* Follow the active player */
 		camera.position.set(model.getActivePlayer().getX(),
-			model.getActivePlayer().getY(), 0);
-		
+				model.getActivePlayer().getY(), 0);
+
 		/* Move the background with the player */
 		background.setPosition(
-								(model.getActivePlayer().getX()*0.7f - 
-				background.getScaleX()*background.getWidth() - 
-				camera.viewportWidth / 2),
-								(model.getActivePlayer().getY()*0.7f - 
-				(background.getHeight() / 2) - 
-				camera.viewportHeight / 2));
-		
-		}
+				(model.getActivePlayer().getX()*0.7f - 
+						background.getScaleX()*background.getWidth() - 
+						camera.viewportWidth / 2),
+						(model.getActivePlayer().getY()*0.7f - 
+								(background.getHeight() / 2) - 
+								camera.viewportHeight / 2));
+
+	
 		for (Block block : model.getActiveBlocks()) {
 			if (!activeBlocks.contains(block) || !((GdxBlock)block).hasParent()) {
 				GdxBlock gBlock = (GdxBlock)block;
@@ -152,6 +125,36 @@ public class GdxView implements ApplicationListener, Disposable {
 		activeBlocks = new ArrayList<GdxBlock>();
 		liftedBlocks = new ArrayList<GdxBlock>();
 	}
+	
+	public void transitCamera(){
+		cameraMoveVector = new Vector3(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0);
+
+		/* Set the "direction" of the cameraMoveVector towards the active player */
+		cameraMoveVector.sub(camera.position);
+
+		/* Set the vector to a proper size. 
+		 * This will decide how fast the camera moves */
+		cameraMoveVector.nor();
+		cameraMoveVector.mul(50f);
+
+		camera.translate(cameraMoveVector);
+
+		background.setPosition(
+				(camera.position.x*0.7f - 
+						background.getScaleX()*background.getWidth() - 
+						camera.viewportWidth / 2),
+						(camera.position.y*0.7f - 
+								(background.getHeight() / 2) - 
+								camera.viewportHeight / 2));
+
+
+		boolean cameraInPlace = camera.position.epsilonEquals(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0, 30f);
+
+		if (cameraInPlace) {
+			model.isSwitchChar = false;
+		}
+	}
+
 	
 	public void refreshRenderer() {
 		renderer.setMap((GdxMap) model.getMap());
