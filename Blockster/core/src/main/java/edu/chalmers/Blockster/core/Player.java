@@ -44,6 +44,7 @@ public class Player {
 		if (anim != Animation.NONE) {
 			return posY + anim.getRelativePosition().y;
 		}
+
 		return posY;
 	}
 	
