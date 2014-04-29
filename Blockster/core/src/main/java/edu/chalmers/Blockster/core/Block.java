@@ -35,8 +35,8 @@ public interface Block extends BlocksterObject {
 	 * Get the animation state that currently is playing.
 	 * @return AnimationState currently playing.
 	 */
-	public abstract AnimationState getAnimationState();
 
+	public abstract AnimationState getAnimationState();
 	/**
 	 * Get the elapsed animation time.
 	 * @return Elapsed animation time in float seconds.

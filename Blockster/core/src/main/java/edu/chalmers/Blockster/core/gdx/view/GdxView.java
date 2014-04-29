@@ -16,7 +16,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
-
 import edu.chalmers.Blockster.core.AnimationState;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.Movement;
