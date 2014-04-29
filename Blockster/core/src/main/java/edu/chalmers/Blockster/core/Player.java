@@ -14,8 +14,10 @@ public class Player {
 	private final float height;
 	private final float width;
 	private AnimationState anim;
-	private Vector2f velocityX;
-	private Vector2f velocityY;
+	private Vector2f velocity;
+	
+	private float maximumSpeed = 700;
+	private float totalTime = 0;
 	
 	public Player(float startX, float startY, float height, float width) {
 		this.posX = startX;
@@ -24,9 +26,9 @@ public class Player {
 		this.width = width;
 	}
 	
-	public void updatePosition(Direction direction) {
-		posX += direction.deltaX * 128;
-		posY += direction.deltaY * 128;
+	public void updatePosition(Direction dir) {
+		posX += dir.deltaX * 128;
+		posY += dir.deltaY * 128;
 	}
 
 	public float getX() {
@@ -55,6 +57,11 @@ public class Player {
 		posY = y;
 	}
 	
+	public void increaseVelocityY(float deltaTime) {
+		totalTime += deltaTime;
+		setVelocityY(9.82F * totalTime);
+	}
+	
 	public float getHeight() {
 		return height;
 	}
@@ -71,27 +78,26 @@ public class Player {
 		this.anim = anim;
 	}
 	
-	public Vector2f getVelocityX() {
-		return velocityX;
+	public Vector2f getVelocity() {
+		return velocity;
 	}
 	
-	public Vector2f getVelocityY() {
-		return velocityY;
+	public void setVelocityX(float velocityX) {
+		this.velocity.x = Math.min(velocityX, maximumSpeed);
 	}
 	
-	public void setVelocityX(Vector2f velocityX) {
-		this.velocityX = velocityX;
-	}
-	
-	public void setVelocityY(Vector2f velocityY) {
-		this.velocityY = velocityY;
+	public void setVelocityY(float velocityY) {
+		this.velocity.y = Math.min(velocityY, maximumSpeed);
 	}
 	
 	public boolean move(Direction dir, float distance) {
-		setVelocityX(getVelocityX().x );
+		setVelocityX(getVelocity().x + dir.deltaX * distance);
+		setVelocityY(getVelocity().y + dir.deltaY * distance);
+		setX(getX() + dir.deltaX * distance);
+		setY(getY() + dir.deltaY * distance);
 	}
 	
-	public void collision() {
+	public boolean collision(float deltaTime, BlockLayer blockLayer) {
 		
 	}
 	
