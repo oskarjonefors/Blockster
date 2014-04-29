@@ -317,7 +317,6 @@ public class Model implements Comparable<Model> {
 			
 			if (canMoveBlock(dir)) {
 				AnimationState anim = AnimationState.NONE;
-
 				isMovingBlockAnimation = true;
 
 				/* Get a reference to the BlockLayer for brevity. */
@@ -349,7 +348,6 @@ public class Model implements Comparable<Model> {
 
 				if(isLiftingBlock) {
 					anim = new AnimationState(Movement.getPullMovement(dir));
-
 				} else {
 					float blockWidth = blockLayer.getBlockWidth();
 					float relativePositionSignum = getProcessedBlock().getX()

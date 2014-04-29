@@ -17,6 +17,7 @@ public class AnimationState {
 	private float elapsedTime;
 	private Movement move;
 	
+
 	/**
 	 * Create an animation with the given movement.
 	 * @param move	Movement to animate.
