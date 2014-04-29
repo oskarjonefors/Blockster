@@ -44,7 +44,6 @@ public class Player {
 		if (anim != Animation.NONE) {
 			return posY + anim.getRelativePosition().y;
 		}
-
 		return posY;
 	}
 	
@@ -89,7 +88,7 @@ public class Player {
 	}
 	
 	public boolean move(Direction dir, float distance) {
-		setVelocityX(getVelocityX().x )
+		setVelocityX(getVelocityX().x );
 	}
 	
 	public void collision() {
