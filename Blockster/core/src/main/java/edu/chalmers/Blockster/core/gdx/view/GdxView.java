@@ -102,7 +102,9 @@ public class GdxView implements ApplicationListener, Disposable {
 		for (Block block : model.getActiveBlocks()) {
 			if (!activeBlocks.contains(block) || !((GdxBlock)block).hasParent()) {
 				GdxBlock gBlock = (GdxBlock)block;
+
 				AnimationState anim = block.getAnimation();
+
 				
 				activeBlocks.add(gBlock);
 				stage.addActor(gBlock);

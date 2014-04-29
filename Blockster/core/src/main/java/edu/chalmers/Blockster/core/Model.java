@@ -291,6 +291,7 @@ public class Model implements Comparable<Model> {
 			AnimationState anim = relativePositionSignum > 0 ? 
 						new AnimationState(Movement.LIFT_LEFT) : 
 						new AnimationState(Movement.LIFT_RIGHT);
+
 						
 			getProcessedBlock().setAnimationState(anim);
 			activeBlocks.add(getProcessedBlock());
@@ -316,7 +317,9 @@ public class Model implements Comparable<Model> {
 			}
 			
 			if (canMoveBlock(dir)) {
+
 				AnimationState anim = AnimationState.NONE;
+
 				isMovingBlockAnimation = true;
 
 				/* Get a reference to the BlockLayer for brevity. */
@@ -347,11 +350,14 @@ public class Model implements Comparable<Model> {
 				}
 
 				if(isLiftingBlock) {
+
 					anim = new AnimationState(Movement.getPullMovement(dir));
+
 				} else {
 					float blockWidth = blockLayer.getBlockWidth();
 					float relativePositionSignum = getProcessedBlock().getX()
 							- activePlayer.getX() / blockWidth;
+
 					anim = new AnimationState(Movement.getPushPullMovement(dir, relativePositionSignum));
 				}
 				
@@ -428,7 +434,9 @@ public class Model implements Comparable<Model> {
 			
 			if (!hasBlock && getProcessedBlock() != null) {
 				System.out.println("Didn't have block");
+
 				AnimationState anim = new AnimationState(Movement.getPlaceMovement(lastDirection));
+
 				getProcessedBlock().setAnimation(anim);
 				activeBlocks.add(getProcessedBlock());
 				liftedBlocks.remove(activePlayer);

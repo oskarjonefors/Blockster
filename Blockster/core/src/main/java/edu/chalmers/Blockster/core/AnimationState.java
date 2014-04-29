@@ -10,9 +10,11 @@ import edu.chalmers.Blockster.core.util.Direction;
  * @author Oskar Jönefors
  *
  */
+
 public class AnimationState {
 	
 	public final static AnimationState NONE = new AnimationState(Movement.NONE);
+
 	
 	private float elapsedTime;
 	private Movement move;

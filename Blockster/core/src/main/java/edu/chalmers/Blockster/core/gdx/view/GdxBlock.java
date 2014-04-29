@@ -5,10 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-<<<<<<< HEAD
-=======
-
->>>>>>> Renamed Animation to AnimationState.
 import edu.chalmers.Blockster.core.AnimationState;
 import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Block;
@@ -25,7 +21,9 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	private boolean liftable;
 	private boolean movable;
 	private boolean weight;
+
 	private AnimationState activeAnimation = AnimationState.NONE;
+
 	private float animationTime;
 	private TiledMapTile tile;
 	private float x;
@@ -104,7 +102,9 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	 * @see edu.chalmers.Blockster.core.gdx.view.Block#getAnimation()
 	 */
 	@Override
+
 	public AnimationState getAnimation() {
+
 		return activeAnimation;
 	}
 	
@@ -112,7 +112,9 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	 * @see edu.chalmers.Blockster.core.gdx.view.Block#setAnimation(edu.chalmers.Blockster.core.gdx.view.GdxBlock.Animation)
 	 */
 	@Override
+
 	public void setAnimation(AnimationState anim) {
+
 		this.activeAnimation = anim;
 	}
 
