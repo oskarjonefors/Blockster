@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
+import edu.chalmers.Blockster.core.AnimationState;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Model;
@@ -102,14 +103,11 @@ public class GdxView implements ApplicationListener, Disposable {
 		for (Block block : model.getActiveBlocks()) {
 			if (!activeBlocks.contains(block) || !((GdxBlock)block).hasParent()) {
 				GdxBlock gBlock = (GdxBlock)block;
-				Movement anim = block.getAnimation();
-				Direction dir = anim.direction;
-				float duration = anim.duration;
+				AnimationState anim = block.getAnimation();
 				
 				activeBlocks.add(gBlock);
 				stage.addActor(gBlock);
 				gBlock.setOrigin(gBlock.getX(), gBlock.getY());
-				gBlock.addAction(new MoveBlockAction(dir, duration, model.getMap(), model));
 				((GdxBlockLayer) model.getMap().getBlockLayer()).removeBlock(block);
 				Gdx.app.log("GdxView", "Added actor. Coordinates:" + gBlock.getX() + " " + gBlock.getY());
 			}

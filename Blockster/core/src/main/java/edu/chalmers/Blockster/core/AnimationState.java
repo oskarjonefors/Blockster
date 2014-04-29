@@ -5,12 +5,15 @@ import edu.chalmers.Blockster.core.util.Direction;
 
 
 /**
- * A class to handle the player animation.
+ * A class to handle the player animation states.
  * 
  * @author Oskar Jönefors
  *
  */
-public class Animation {
+public class AnimationState {
+	
+	public final static AnimationState NONE = new AnimationState(Movement.NONE);
+	
 	private float elapsedTime;
 	private Movement move;
 	
@@ -18,9 +21,13 @@ public class Animation {
 	 * Create an animation with the given movement.
 	 * @param move	Movement to animate.
 	 */
-	public Animation (Movement move) {
+	public AnimationState (Movement move) {
 		elapsedTime = 0f;
 		this.move = move;
+	}
+	
+	public Movement getMovement() {
+		return move;
 	}
 	
 	/**
@@ -32,7 +39,7 @@ public class Animation {
 	}
 	
 	/**
-	 * Check if the Animation is done.
+	 * Check if the AnimationState is done.
 	 * @return
 	 */
 	public boolean isDone() {

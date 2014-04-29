@@ -32,10 +32,10 @@ public interface Block extends BlocksterObject {
 	public abstract boolean isSolid();
 
 	/**
-	 * Get the animation that currently is playing.
-	 * @return Animation currently playing.
+	 * Get the animation state that currently is playing.
+	 * @return AnimationState currently playing.
 	 */
-	public abstract Movement getAnimation();
+	public abstract AnimationState getAnimationState();
 
 	/**
 	 * Get the elapsed animation time.
@@ -43,11 +43,6 @@ public interface Block extends BlocksterObject {
 	 */
 	public abstract float getElapsedAnimationTime();
 
-	/**
-	 * Get the length of the entire animation in float seconds..
-	 * @return
-	 */
-	public abstract float getAnimationDuration();
 	
 	/**
 	 * Get the X coordinate of the block in the BlockMap.
@@ -70,7 +65,7 @@ public interface Block extends BlocksterObject {
 	 * Animate the block with the given animation..
 	 * @param anim The animation to play.
 	 */
-	public abstract void setAnimation(Movement anim);
+	public abstract void setAnimationState(AnimationState anim);
 
 	/**
 	 * Set the X coordinate of the block in the BlockMap.
