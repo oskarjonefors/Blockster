@@ -1,109 +1,98 @@
 package edu.chalmers.Blockster.core;
 
 import javax.vecmath.*;
-
 import edu.chalmers.Blockster.core.util.Direction;
 
 /**
- * An interface representing a player in the game Blockster
- * @author sweed
+ * The model representing a player in the game Blockster
+ * @author Emilia
  *
  */
-public interface Player extends BlocksterObject {
+public class Player {
+	private float posX;
+	private float posY;
+	private final float height;
+	private final float width;
+	private Animation anim;
+	private Vector2f velocityX;
+	private Vector2f velocityY;
+	
+	public Player(float startX, float startY, float height, float width) {
+		this.posX = startX;
+		this.posY = startY;
+		this.height = height;
+		this.width = width;
+	}
+	
+	public void updatePosition(Direction direction) {
+		posX += direction.deltaX * 128;
+		posY += direction.deltaY * 128;
+	}
 
-	/**
-	 * Gets the player's current gravity velocity.
-	 * @return a vecmath implementation of the player's gravity velocity.
-	 */
-	public Vector2f getGravity();
+	public float getX() {
+		//If there is an animation currently running then
+		//we want to return the relative position
+		if (anim != Animation.NONE) {
+			return posX + anim.getRelativePosition().x;
+		}
+		return posX;
+	}
 	
-	/**
-	 * Gets the player's height.
-	 * @return a float representing the player's height
-	 */
-	public float getHeight();
+	public float getY() {
+		//If there is an animation currently running then
+		//we want to return the relative position
+		if (anim != Animation.NONE) {
+			return posY + anim.getRelativePosition().y;
+		}
+		return posY;
+	}
 	
-	/**
-	 * Gets the player's maximum movement speed.
-	 * @return a float representing the player's movement speed.
-	 */
-	public float getMaximumMovementSpeed();
+	public void setX(float x) {
+		posX = x;
+	}
 	
-	/**
-	 * Gets the player's velocity.
-	 * @return a vecmath implementation of the player's velocity.
-	 */
-	public Vector2f getVelocity();
+	public void setY(float y) {
+		posY = y;
+	}
 	
-	/**
-	 * Gets the player's width.
-	 * @return a float representing the players width.
-	 */
-	public float getWidth();
+	public float getHeight() {
+		return height;
+	}
 	
-	/**
-	 * Gets the player's x coordinate.
-	 * @return a float representing the players x coordinate.
-	 */
-	public float getX();
+	public float getWidth() {
+		return width;
+	}
 	
-	/**
-	 * Gets the player's x coordinate
-	 * @return a float representing the players x coordinate.
-	 */
-	public float getY();
+	public Animation getAnimation() {
+		return anim;
+	}
 	
-	/**
-	 * Increases the gravity velocity linearly by G*deltaTime.
-	 * @param deltaTime the amount of time since last increase.
-	 */
-	public void increaseGravity(float deltaTime);
+	public void setAnimation(Animation anim) {
+		this.anim = anim;
+	}
 	
-	/**
-	 * Moves a player towards a fixed direction, with a set distance.
-	 * @param dir the direction of the movement
-	 * @param distance the distance of the movement
-	 */
-	public void move(Direction dir, float distance);
+	public Vector2f getVelocityX() {
+		return velocityX;
+	}
 	
-	/**
-	 * Resets the gravity velocity.
-	 */
-	public void resetGravity();
-
-	/**
-	 * Sets the velocity of the player.
-	 * @param velX the velocity along the x axis.
-	 */
-	public void setVelocityX(float velX);
+	public Vector2f getVelocityY() {
+		return velocityY;
+	}
 	
-	/**
-	 * Sets the velocity of the player.
-	 * @param velY the velocity along the y axis.
-	 */
-	public void setVelocityY(float velY);
+	public void setVelocityX(Vector2f velocityX) {
+		this.velocityX = velocityX;
+	}
 	
-	/**
-	 * Sets the player's x coordinate
-	 * @param the x coordinate as a float
-	 */
-	public void setX(float x);
+	public void setVelocityY(Vector2f velocityY) {
+		this.velocityY = velocityY;
+	}
 	
-	/**
-	 * Sets the player's y coordinate
-	 * @param y the y coordinate as a float
-	 */
-	public void setY(float y);
+	public boolean move(Direction dir, float distance) {
+		setVelocityX(getVelocityX().x )
+	}
 	
-	/**
-	 * Sets an active animation
-	 * @param animation the animation to set
-	 */
-	public void setAnimation(Movement animation);
+	public void collision() {
+		
+	}
 	
-	/**
-	 * Gets the active animation.
-	 * @return the active animation.
-	 */
-	public Movement getAnimation();
 }
