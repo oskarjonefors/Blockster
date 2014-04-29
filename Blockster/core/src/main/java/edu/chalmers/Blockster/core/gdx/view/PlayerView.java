@@ -2,6 +2,7 @@ package edu.chalmers.Blockster.core.gdx.view;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -30,7 +31,8 @@ public class PlayerView extends Actor{
 	}
 	public void draw(SpriteBatch batch){
 			activeSprite = chooseAnimation();
-			batch.draw(activeSprite, player.getX(), player.getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+			batch.draw(activeSprite, player.getX(), player.getY(), getOriginX(), getOriginY(),
+					getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 			
 	}
 			
@@ -38,17 +40,13 @@ public class PlayerView extends Actor{
 	public TextureRegion chooseAnimation(){
 		AnimationState animState = player.getAnimation();
 		Movement move = animState.getMovement();
-		switch(animState){
-				
-			case move.MOVE_RIGHT:	return getCurrentAnimation(animState); break;
-			case move.MOVE_LEFT:
-			case move.
-		}
+		
+		return getCurrentAnimation(move, animState.getElapsedTime());
 	}
 	
-	public TextureRegion getCurrentAnimation(Animation anim, Float time){
+	public TextureRegion getCurrentAnimation(Movement move, Float time){
 		 
-		return arrayOfAnimation.get(anim).getKeyFrame(time, true);  
+		return arrayOfAnimation.get(move).getKeyFrame(time, true);  
 		
 	}
 	

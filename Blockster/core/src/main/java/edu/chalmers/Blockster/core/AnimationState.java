@@ -33,6 +33,10 @@ public class AnimationState {
 		return move;
 	}
 	
+	public Float getElapsedTime(){
+		return elapsedTime;
+	}
+	
 	/**
 	 * Returns the current relative position.
 	 * @return a Vector2f with the current relative position
