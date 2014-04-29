@@ -13,8 +13,6 @@ import java.util.Set;
 
 import javax.vecmath.Vector2f;
 
-import com.badlogic.gdx.math.Vector3;
-
 import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
 
