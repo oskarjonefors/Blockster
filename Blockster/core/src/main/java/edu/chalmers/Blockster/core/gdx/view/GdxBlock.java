@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import edu.chalmers.Blockster.core.Animation;
 import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Block;
 
@@ -21,7 +22,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	private boolean liftable;
 	private boolean movable;
 	private boolean weight;
-	private Movement activeAnimation = Movement.NONE;
+	private Animation activeAnimation = Animation.NONE;
 	private float animationTime;
 	private TiledMapTile tile;
 	private float x;
@@ -30,7 +31,6 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	
 	public GdxBlock(TiledMapTile tile) {
 		this.tile = tile;
-		
 		MapProperties props = tile.getProperties();
 		solid = props.containsKey("Solid");
 		liftable = props.containsKey("Liftable");
@@ -101,7 +101,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	 * @see edu.chalmers.Blockster.core.gdx.view.Block#getAnimation()
 	 */
 	@Override
-	public Movement getAnimation() {
+	public Animation getAnimation() {
 		return activeAnimation;
 	}
 	
@@ -109,7 +109,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	 * @see edu.chalmers.Blockster.core.gdx.view.Block#setAnimation(edu.chalmers.Blockster.core.gdx.view.GdxBlock.Animation)
 	 */
 	@Override
-	public void setAnimation(Movement anim) {
+	public void setAnimation(Animation anim) {
 		this.activeAnimation = anim;
 	}
 
@@ -117,11 +117,6 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	public float getElapsedAnimationTime() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public float getAnimationDuration() {
-		return activeAnimation.duration;
 	}
 
 	@Override

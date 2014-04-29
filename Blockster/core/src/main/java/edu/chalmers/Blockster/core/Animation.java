@@ -11,6 +11,9 @@ import edu.chalmers.Blockster.core.util.Direction;
  *
  */
 public class Animation {
+	
+	public final static Animation NONE = new Animation(Movement.NONE);
+	
 	private float elapsedTime;
 	private Movement move;
 	

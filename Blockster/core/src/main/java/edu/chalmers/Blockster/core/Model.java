@@ -290,7 +290,10 @@ public class Model implements Comparable<Model> {
 			//Lift process
 			float relativePositionSignum = getProcessedBlock().getX()
 					- activePlayer.getX() / blockWidth;
-			Movement anim = Movement.getLiftAnimation(relativePositionSignum);
+			Animation anim = relativePositionSignum > 0 ? 
+						new Animation(Movement.LIFT_LEFT) : 
+						new Animation(Movement.LIFT_RIGHT);
+						
 			getProcessedBlock().setAnimation(anim);
 			activeBlocks.add(getProcessedBlock());
 			liftedBlocks.put(activePlayer, getProcessedBlock());
@@ -315,7 +318,7 @@ public class Model implements Comparable<Model> {
 			}
 			
 			if (canMoveBlock(dir)) {
-				Movement anim = Movement.NONE;
+				Animation anim = Animation.NONE;
 				isMovingBlockAnimation = true;
 
 				/* Get a reference to the BlockLayer for brevity. */
@@ -346,12 +349,12 @@ public class Model implements Comparable<Model> {
 				}
 
 				if(isLiftingBlock) {
-					anim = Movement.getPullAnimation(dir);
+					anim = new Animation(Movement.getPullMovement(dir));
 				} else {
 					float blockWidth = blockLayer.getBlockWidth();
 					float relativePositionSignum = getProcessedBlock().getX()
 							- activePlayer.getX() / blockWidth;
-					anim = Movement.getMoveAnimation(dir, relativePositionSignum);
+					anim = new Animation(Movement.getPushPullMovement(dir, relativePositionSignum));
 				}
 				
 				if (!canMovePlayer(dir, anim)) {
@@ -429,7 +432,7 @@ public class Model implements Comparable<Model> {
 			
 			if (!hasBlock && getProcessedBlock() != null) {
 				System.out.println("Didn't have block");
-				Movement anim = Movement.getPutDownAnimation(lastDirection);
+				Animation anim = new Animation(Movement.getPlaceMovement(lastDirection));
 				getProcessedBlock().setAnimation(anim);
 				activeBlocks.add(getProcessedBlock());
 				liftedBlocks.remove(activePlayer);
@@ -445,9 +448,6 @@ public class Model implements Comparable<Model> {
 	public void update(float deltaTime) {
 		//Set animation state etc		
 		BlockLayer blockLayer = map.getBlockLayer();
-		if (getProcessedBlock() != null && getProcessedBlock().getAnimation() != Movement.NONE) {
-			
-		}
 
 		for (Player player : players) {
 			if (!collisionBelow(player, blockLayer)) {

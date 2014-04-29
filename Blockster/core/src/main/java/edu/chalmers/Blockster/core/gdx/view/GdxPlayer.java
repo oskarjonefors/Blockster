@@ -142,10 +142,10 @@ public class GdxPlayer extends Actor implements Player {
 			float blockWidth = model.getMap().getBlockLayer().getBlockWidth();
 			float blockHeight = model.getMap().getBlockLayer().getBlockHeight();
 			
-			distance.x = animation.direction.deltaX * blockWidth;
-			distance.y = animation.direction.deltaY * blockHeight;
+			distance.x = animation.getDirection().deltaX * blockWidth;
+			distance.y = animation.getDirection().deltaY * blockHeight;
 			
-			addAction(new MoveBlockPlayerAction(distance, animation.duration,
+			addAction(new MoveBlockPlayerAction(distance, animation.getDuration(),
 					model));
 		}
 	}
