@@ -103,7 +103,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	 */
 	@Override
 
-	public AnimationState getAnimation() {
+	public AnimationState getAnimationState() {
 
 		return activeAnimation;
 	}
@@ -113,7 +113,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	 */
 	@Override
 
-	public void setAnimation(AnimationState anim) {
+	public void setAnimationState(AnimationState anim) {
 
 		this.activeAnimation = anim;
 	}
