@@ -2,13 +2,14 @@ package edu.chalmers.Blockster.core;
 
 import javax.vecmath.*;
 import edu.chalmers.Blockster.core.util.Direction;
+import static edu.chalmers.Blockster.core.util.Calculations.*;
 
 /**
  * The model representing a player in the game Blockster
  * @author Emilia
  *
  */
-public class Player {
+public class Player implements BlocksterObject{
 	private float posX;
 	private float posY;
 	private final float height;
@@ -98,7 +99,19 @@ public class Player {
 	}
 	
 	public boolean collision(float deltaTime, BlockLayer blockLayer) {
+		if(collisionBelow(this, blockLayer)) {
+			setY(getY() - Math.abs(getY() - ((int)getY()/blockLayer.getBlockHeight())
+														* blockLayer.getBlockHeight()));
+			setVelocityY(0);
+		}
+		else {
+			increaseVelocityY(deltaTime);
+			setY(getY() + getVelocity().y);
+		}
 		
+		if(getVelocity().x > 0) {
+			
+		}
 	}
 	
 }

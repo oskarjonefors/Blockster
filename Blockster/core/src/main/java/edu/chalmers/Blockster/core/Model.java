@@ -472,18 +472,7 @@ public class Model implements Comparable<Model> {
 			}
 
 			player.setY(player.getY() + player.getVelocity().y);
-			if (collisionBelow(player, blockLayer)) {
-				player.setY(previousPosition[1]);
-				player.resetGravity();
-
-				float y2 = player.getY();
-				float blockHeight = blockLayer.getBlockHeight();
-
-				player.setVelocityY(0);
-				player.move(DOWN,  + Math.abs(y2 - ((int) (y2 / blockHeight)) * blockHeight));
-				player.setY(player.getY() + player.getVelocity().y);
-			}
-
+			
 			player.setVelocityY(0);
 			player.setVelocityX(0);
 
