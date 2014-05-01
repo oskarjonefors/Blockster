@@ -449,13 +449,15 @@ public class Model implements Comparable<Model> {
 		BlockLayer blockLayer = map.getBlockLayer();
 
 		for (Player player : players) {
-
-			Vector2f distance = new Vector2f();
-			distance.x = deltaTime * player.getVelocity().x;
-			distance.y = deltaTime * player.getVelocity().y;
 			
-			if (player.move(distance, blockLayer)) {
+			if (player.getAnimation().isDone()) {
+				player.setAnimation(AnimationState.NONE);
+			}
+			
+			if (player.updatePosition(deltaTime, blockLayer)) {
 				player.increaseVelocityY(deltaTime);
+			} else {
+				// Reset gravity timer
 			}
 			
 			player.setVelocityY(0);

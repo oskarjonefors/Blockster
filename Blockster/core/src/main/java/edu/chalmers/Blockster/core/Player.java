@@ -96,6 +96,19 @@ public class Player implements BlocksterObject{
 		setVelocityY(getVelocity().y + dir.deltaY * defaultVelocity.y);
 	}
 	
+	public boolean updatePosition(float deltaTime, BlockLayer blockLayer) {
+		if (anim != AnimationState.NONE) {
+			anim.updatePosition(deltaTime);
+			return false;
+		} else {
+			Vector2f distance = new Vector2f();
+			distance.x = velocity.x * deltaTime;
+			distance.y = velocity.y * deltaTime;
+			
+			return move(distance, blockLayer);
+		}
+	}
+	
 	public boolean move(Vector2f distance, BlockLayer blockLayer) {
 		float[] previousPosition = { getX(), getY() };
 		boolean collision = false;
