@@ -154,7 +154,6 @@ public class Controller extends InputAdapter implements Disposable {
 	 * @param deltaTime The time between the current frame and the last one.
 	 */
 	public void update(float deltaTime) {
-		float distanceMoved = deltaTime * model.getActivePlayerVelocity();
 		Block adjacentBlock = model.getAdjacentBlock(lastDirection);
 
 		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
@@ -171,7 +170,7 @@ public class Controller extends InputAdapter implements Disposable {
 			if (model.attemptMoveBlock(LEFT)) {
 				hasMovedBlock = true;
 			} else {
-				model.moveActivePlayer(LEFT, distanceMoved);
+				model.setActivePlayerDefaultVelocity(LEFT);
 			}
 		}
 
@@ -182,7 +181,7 @@ public class Controller extends InputAdapter implements Disposable {
 			if (model.attemptMoveBlock(RIGHT)) {
 				hasMovedBlock = true;
 			} else {
-				model.moveActivePlayer(RIGHT, distanceMoved);
+				model.setActivePlayerDefaultVelocity(RIGHT);
 			}
 		}
 

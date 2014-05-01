@@ -215,10 +215,6 @@ public class Model implements Comparable<Model> {
 	public Player getActivePlayer() {
 		return activePlayer;
 	}
-
-	public float getActivePlayerVelocity() {
-		return activePlayer.getMaximumMovementSpeed();
-	}
 	
 	public Block getAdjacentBlock(Direction dir) {
 		return Calculations.getAdjacentBlock(dir, activePlayer, map.getBlockLayer());
@@ -299,9 +295,9 @@ public class Model implements Comparable<Model> {
 		}
 	}
 
-	public void moveActivePlayer(Direction dir, float distance) {
+	public void setActivePlayerDefaultVelocity(Direction dir) {
 		//Wrapper method
-		movePlayer(dir, activePlayer, distance);
+		setPlayerDefaultVelocity(dir, activePlayer);
 	}
 
 	/**
@@ -378,9 +374,9 @@ public class Model implements Comparable<Model> {
 			}
 	}
 
-	private void movePlayer(Direction dir, Player player, float distance) {
+	private void setPlayerDefaultVelocity(Direction dir, Player player) {
 		lastDirection = dir;
-		player.move(dir, distance);
+		player.setDefaultVelocity(dir);
 	}
 
 	
@@ -453,25 +449,14 @@ public class Model implements Comparable<Model> {
 		BlockLayer blockLayer = map.getBlockLayer();
 
 		for (Player player : players) {
-			if (!collisionBelow(player, blockLayer)) {
-				player.increaseGravity(deltaTime);
-				player.move(DOWN, player.getGravity().y);
+
+			Vector2f distance = new Vector2f();
+			distance.x = deltaTime * player.getVelocity().x;
+			distance.y = deltaTime * player.getVelocity().y;
+			
+			if (player.move(distance, blockLayer)) {
+				player.increaseVelocityY(deltaTime);
 			}
-
-			float[] previousPosition = { player.getX(), player.getY() };
-
-			player.setX(player.getX() + player.getVelocity().x);
-			if (player.getVelocity().x > 0) {
-				if (collisionRight(player, blockLayer)) {
-					player.setX(previousPosition[0]);
-				}
-			} else {
-				if (collisionLeft(player, blockLayer)) {
-					player.setX(previousPosition[0]);
-				}
-			}
-
-			player.setY(player.getY() + player.getVelocity().y);
 			
 			player.setVelocityY(0);
 			player.setVelocityX(0);

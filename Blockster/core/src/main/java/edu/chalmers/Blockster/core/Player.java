@@ -1,6 +1,7 @@
 package edu.chalmers.Blockster.core;
 
 import javax.vecmath.*;
+
 import edu.chalmers.Blockster.core.util.Direction;
 import static edu.chalmers.Blockster.core.util.Calculations.*;
 
@@ -16,8 +17,7 @@ public class Player implements BlocksterObject{
 	private final float width;
 	private AnimationState anim;
 	private Vector2f velocity;
-	
-	private float maximumSpeed = 700;
+	private Vector2f defaultVelocity = new Vector2f(700, 700);
 	private float totalTime = 0;
 	
 	public Player(float startX, float startY, float height, float width) {
@@ -84,34 +84,50 @@ public class Player implements BlocksterObject{
 	}
 	
 	public void setVelocityX(float velocityX) {
-		this.velocity.x = Math.min(velocityX, maximumSpeed);
+		this.velocity.x = Math.min(velocityX, defaultVelocity.x);
 	}
 	
 	public void setVelocityY(float velocityY) {
-		this.velocity.y = Math.min(velocityY, maximumSpeed);
+		this.velocity.y = Math.min(velocityY, defaultVelocity.y);
 	}
 	
-	public boolean move(Direction dir, float distance) {
-		setVelocityX(getVelocity().x + dir.deltaX * distance);
-		setVelocityY(getVelocity().y + dir.deltaY * distance);
-		setX(getX() + dir.deltaX * distance);
-		setY(getY() + dir.deltaY * distance);
+	public void setDefaultVelocity(Direction dir) {
+		setVelocityX(getVelocity().x + dir.deltaX * defaultVelocity.x);
+		setVelocityY(getVelocity().y + dir.deltaY * defaultVelocity.y);
 	}
 	
-	public boolean collision(float deltaTime, BlockLayer blockLayer) {
+	public boolean move(Vector2f distance, BlockLayer blockLayer) {
+		float[] previousPosition = { getX(), getY() };
+		boolean collision = false;
+
+		setX(getX() + distance.x);
+		if (getVelocity().x > 0) {
+			if (collisionRight(this, blockLayer)) {
+				setX(previousPosition[0]);
+				collision = true;
+			}
+		} else {
+			if (collisionLeft(this, blockLayer)) {
+				setX(previousPosition[0]);
+				collision = true;
+			}
+		}
+
+		setY(getY() + getVelocity().y);
 		if(collisionBelow(this, blockLayer)) {
 			setY(getY() - Math.abs(getY() - ((int)getY()/blockLayer.getBlockHeight())
 														* blockLayer.getBlockHeight()));
-			setVelocityY(0);
-		}
-		else {
-			increaseVelocityY(deltaTime);
+			collision = true;
+		} else {
 			setY(getY() + getVelocity().y);
 		}
 		
-		if(getVelocity().x > 0) {
-			
-		}
+		return !collision;
+	}
+	
+	public void collision(float deltaTime, BlockLayer blockLayer) {
+
+
 	}
 	
 }
