@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
+import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.BlockMap;
 import edu.chalmers.Blockster.core.Factory;
 import edu.chalmers.Blockster.core.Model;
@@ -30,8 +31,8 @@ public class GdxFactory implements Factory {
 	
 	
 	@Override
-	public Player createPlayer(String spritePath, Model model) {
-		return new GdxPlayer(new TextureRegion(new Texture((spritePath))), model);
+	public Player createPlayer(int startX, int startY, BlockLayer blockLayer) {
+		return new Player(startX, startY, blockLayer);
 	}
 
 }

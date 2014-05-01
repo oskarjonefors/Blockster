@@ -2,8 +2,8 @@ package edu.chalmers.Blockster.core;
 
 public interface Factory {
 	
-	public Player createPlayer(String spritePath, Model model);
-	
 	public BlockMap createMap();
+
+	public Player createPlayer(int startX, int startY, BlockLayer blockLayer);
 
 }

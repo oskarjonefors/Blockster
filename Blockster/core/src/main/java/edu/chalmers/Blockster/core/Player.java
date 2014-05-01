@@ -7,29 +7,31 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
 
 /**
  * The model representing a player in the game Blockster
- * @author Emilia
+ * @author Emilia and Eric Bjuhr
  *
  */
 public class Player implements BlocksterObject{
 	private float posX;
 	private float posY;
-	private final float height;
-	private final float width;
+	private float height;
+	private float width;
 	private AnimationState anim;
 	private Vector2f velocity;
 	private Vector2f defaultVelocity = new Vector2f(700, 700);
 	private float totalTime = 0;
+	private BlockLayer blockLayer;
 	
-	public Player(float startX, float startY, float height, float width) {
+	public Player(float startX, float startY, BlockLayer blockLayer) {
 		this.posX = startX;
 		this.posY = startY;
-		this.height = height;
-		this.width = width;
+		this.blockLayer = blockLayer;
 	}
 	
-	public void updatePosition(Direction dir) {
-		posX += dir.deltaX * 128;
-		posY += dir.deltaY * 128;
+	public void moveToNextPosition() {
+		posX += anim.getMovement().getDirection().deltaX 
+					* blockLayer.getBlockWidth();
+		posY += anim.getMovement().getDirection().deltaY 
+					* blockLayer.getBlockHeight();
 	}
 
 	public float getX() {
@@ -96,7 +98,7 @@ public class Player implements BlocksterObject{
 		setVelocityY(getVelocity().y + dir.deltaY * defaultVelocity.y);
 	}
 	
-	public boolean updatePosition(float deltaTime, BlockLayer blockLayer) {
+	public boolean updatePosition(float deltaTime) {
 		if (anim != AnimationState.NONE) {
 			anim.updatePosition(deltaTime);
 			return false;
@@ -105,11 +107,11 @@ public class Player implements BlocksterObject{
 			distance.x = velocity.x * deltaTime;
 			distance.y = velocity.y * deltaTime;
 			
-			return move(distance, blockLayer);
+			return move(distance);
 		}
 	}
 	
-	public boolean move(Vector2f distance, BlockLayer blockLayer) {
+	public boolean move(Vector2f distance) {
 		float[] previousPosition = { getX(), getY() };
 		boolean collision = false;
 
@@ -141,6 +143,10 @@ public class Player implements BlocksterObject{
 	public void collision(float deltaTime, BlockLayer blockLayer) {
 
 
+	}
+	
+	public void resetGravity() {
+		totalTime = 0;
 	}
 	
 }

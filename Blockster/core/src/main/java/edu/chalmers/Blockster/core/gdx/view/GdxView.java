@@ -1,7 +1,9 @@
 package edu.chalmers.Blockster.core.gdx.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.vecmath.Vector2f;
 
@@ -34,6 +36,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	private Stage stage;
 	private List<GdxBlock> activeBlocks;
 	private List<GdxBlock> liftedBlocks;
+	private Map<Player, PlayerView> players;
 	private Actor background;
 	private Vector3 cameraMoveVector;
 
@@ -89,8 +92,8 @@ public class GdxView implements ApplicationListener, Disposable {
 		
 		for (Player player : model.getPlayers()) {
 			
-			if (!stage.getActors().contains((GdxPlayer) player, true)) {
-				stage.addActor((GdxPlayer) player);
+			if (!stage.getActors().contains(players.get(player), true)) {
+				stage.addActor(players.get(player));
 				Gdx.app.log("GdxView", "Added actor.");
 			}
 		}
@@ -108,6 +111,12 @@ public class GdxView implements ApplicationListener, Disposable {
 	 * Initialize the view.
 	 */
 	public void init() {
+		players = new HashMap<Player, PlayerView>();
+		for (Player player : model.getPlayers()) {
+			players.put(player, new PlayerView(player, null, null));
+		}
+		
+		
 		//BlockLayer layer = model.getMap().getBlockLayer();
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		camera = new OrthographicCamera();

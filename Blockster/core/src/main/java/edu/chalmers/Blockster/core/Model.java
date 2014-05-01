@@ -240,9 +240,8 @@ public class Model implements Comparable<Model> {
 		return players;
 	}
 
-	private float[][] getPlayerStartingPositions(BlockMap map) {
-		//TODO
-		return new float[][] {{700, 1000, 2500}};
+	private int[][] getPlayerStartingPositions(BlockMap map) {
+		return new int[][] {{700, 1000}, {2500, 1000}};
 	}
 
 	public Block getProcessedBlock() {
@@ -364,7 +363,7 @@ public class Model implements Comparable<Model> {
 				/* Add the blocks to be moved to the list */
 				for (Block block : movingBlocks) {
 					activeBlocks.add(block);
-					block.setAnimation(anim);
+					block.setAnimationState(anim);
 				}
 				lastDirection = dir;
 				activePlayer.setAnimation(anim);
@@ -393,7 +392,7 @@ public class Model implements Comparable<Model> {
 
 
 	public void resetStartPositions() {
-		float[][] startPositions = getPlayerStartingPositions(map);
+		int[][] startPositions = getPlayerStartingPositions(map);
 		for (int i = 0; i < startPositions.length; i++) {
 			players.get(i).setX(startPositions[i][0]);
 			players.get(i).setY(startPositions[i][1]);
@@ -404,16 +403,10 @@ public class Model implements Comparable<Model> {
 	}
 
 	private void setStartPositions() {
-		for (float[] startPosition : getPlayerStartingPositions(map)) {
-			Player player = factory.createPlayer(PLAYER_IMAGE_ADDRESS, this);
-			player.setX(startPosition[0]);
-			player.setY(startPosition[1]);
-			
-			Player player2 = factory.createPlayer(PLAYER_IMAGE_ADDRESS, this);
-			player2.setX(startPosition[2]);
-			player2.setY(startPosition[1]);
+		for (int[] startPosition : getPlayerStartingPositions(map)) {
+			Player player = factory.createPlayer(startPosition[0], 
+					startPosition[1], map.getBlockLayer());
 			players.add(player);
-			players.add(player2);
 		}
 	}
 
@@ -433,7 +426,7 @@ public class Model implements Comparable<Model> {
 
 				AnimationState anim = new AnimationState(Movement.getPlaceMovement(lastDirection));
 
-				getProcessedBlock().setAnimation(anim);
+				getProcessedBlock().setAnimationState(anim);
 				activeBlocks.add(getProcessedBlock());
 				liftedBlocks.remove(activePlayer);
 			}
@@ -445,19 +438,18 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void update(float deltaTime) {
-		//Set animation state etc		
-		BlockLayer blockLayer = map.getBlockLayer();
 
 		for (Player player : players) {
 			
 			if (player.getAnimation().isDone()) {
+				player.moveToNextPosition();
 				player.setAnimation(AnimationState.NONE);
 			}
 			
-			if (player.updatePosition(deltaTime, blockLayer)) {
+			if (player.updatePosition(deltaTime)) {
 				player.increaseVelocityY(deltaTime);
 			} else {
-				// Reset gravity timer
+				player.resetGravity();
 			}
 			
 			player.setVelocityY(0);
