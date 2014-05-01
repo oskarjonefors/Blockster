@@ -240,8 +240,8 @@ public class Model implements Comparable<Model> {
 		return players;
 	}
 
-	private int[][] getPlayerStartingPositions(BlockMap map) {
-		return new int[][] {{700, 1000}, {2500, 1000}};
+	private float[][] getPlayerStartingPositions(BlockMap map) {
+		return new float[][] {{700, 1000}, {2500, 1000}};
 	}
 
 	public Block getProcessedBlock() {
@@ -392,7 +392,7 @@ public class Model implements Comparable<Model> {
 
 
 	public void resetStartPositions() {
-		int[][] startPositions = getPlayerStartingPositions(map);
+		float[][] startPositions = getPlayerStartingPositions(map);
 		for (int i = 0; i < startPositions.length; i++) {
 			players.get(i).setX(startPositions[i][0]);
 			players.get(i).setY(startPositions[i][1]);
@@ -403,7 +403,7 @@ public class Model implements Comparable<Model> {
 	}
 
 	private void setStartPositions() {
-		for (int[] startPosition : getPlayerStartingPositions(map)) {
+		for (float[] startPosition : getPlayerStartingPositions(map)) {
 			Player player = factory.createPlayer(startPosition[0], 
 					startPosition[1], map.getBlockLayer());
 			players.add(player);

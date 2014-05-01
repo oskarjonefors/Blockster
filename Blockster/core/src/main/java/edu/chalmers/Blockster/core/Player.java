@@ -150,5 +150,14 @@ public class Player implements BlocksterObject{
 	public void resetGravity() {
 		totalTime = 0;
 	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+	public void setWidth(float width2) {
+		this.width = width;
+		
+	}
 	
 }

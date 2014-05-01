@@ -50,5 +50,16 @@ public class PlayerView extends Actor{
 		
 	}
 	
+	@Override
+	public void setHeight(float height) {
+		super.setHeight(height);
+		player.setHeight(height);
+	}
+	
+	@Override
+	public void setWidth(float width) {
+		super.setWidth(width);
+		player.setWidth(width);
+	}
 
 }

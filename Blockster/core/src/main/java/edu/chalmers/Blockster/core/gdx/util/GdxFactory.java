@@ -31,7 +31,7 @@ public class GdxFactory implements Factory {
 	
 	
 	@Override
-	public Player createPlayer(int startX, int startY, BlockLayer blockLayer) {
+	public Player createPlayer(float startX, float startY, BlockLayer blockLayer) {
 		return new Player(startX, startY, blockLayer);
 	}
 
