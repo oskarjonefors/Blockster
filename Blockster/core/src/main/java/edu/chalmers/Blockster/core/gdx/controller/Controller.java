@@ -82,7 +82,6 @@ public class Controller extends InputAdapter implements Disposable {
 			//Override rightwards movement. Can only move one direction at a time
 			keyFlags &= ~RIGHT_BUTTON_DOWN_FLAG; 
 			keyFlags |= LEFT_BUTTON_DOWN_FLAG;
-			//System.out.println("Setting flag: "+LEFT_BUTTON_DOWN_FLAG);
 		}
 
 		if (keyCode == Keys.RIGHT) {
@@ -91,15 +90,12 @@ public class Controller extends InputAdapter implements Disposable {
 			//Override leftwards movement. Can only move one direction at a time
 			keyFlags &= ~LEFT_BUTTON_DOWN_FLAG; 
 			keyFlags |= RIGHT_BUTTON_DOWN_FLAG;
-			//System.out.println("Setting flag: "+RIGHT_BUTTON_DOWN_FLAG);
 		}
 
 		if (keyCode == Keys.SPACE) {
 			//Grab block
 			keyFlags |= GRAB_BUTTON_DOWN_FLAG;
-			//System.out.println("Setting flag: "+GRAB_BUTTON_DOWN_FLAG);
 		}
-		//System.out.println("\tCurrent flags: "+Integer.toBinaryString(keyFlags));
 		if (keyCode == Keys.R) {
 			//Restart level
 			keyFlags |= RESTART_STAGE_BUTTON_R_FLAG;
@@ -117,36 +113,28 @@ public class Controller extends InputAdapter implements Disposable {
 		if (keyCode == Keys.LEFT) {
 			//Stop going/pushing/pulling left.
 			keyFlags &= ~LEFT_BUTTON_DOWN_FLAG;
-			//System.out.println("Removing flag: "+LEFT_BUTTON_DOWN_FLAG);
 		}
 
 		if (keyCode == Keys.RIGHT) {
 			//Stop going/pushing/pulling right.
 			keyFlags &= ~RIGHT_BUTTON_DOWN_FLAG;
-			//System.out.println("Removing flag: "+RIGHT_BUTTON_DOWN_FLAG);
 		}
 
 		if (keyCode == Keys.SPACE) {
 			//If block is grabbed and no other keys are pushed down, lift the block.
 			keyFlags &= ~GRAB_BUTTON_DOWN_FLAG; //This is how you set the flag to false
 			keyFlags |= GRAB_BUTTON_UP_FLAG; //This is how you set the flag to true
-			//System.out.print("Removing flag: "+GRAB_BUTTON_DOWN_FLAG);
-			//System.out.println("\tSetting flag: "+GRAB_BUTTON_UP_FLAG);
-
 		}
 
 		if (keyCode == Keys.ESCAPE){
 			//Level menu
 			keyFlags |= MENU_BUTTON_UP_FLAG;
-			//System.out.println("\tSetting flag: "+MENU_BUTTON_UP_FLAG);
 		}
 
 		if (keyCode == Keys.SHIFT_LEFT || keyCode == Keys.SHIFT_RIGHT) {
 			//Switch character
 			keyFlags |= SWITCH_CHARACTER_BUTTON_UP_FLAG;
-			//System.out.println("\tSetting flag: "+SWITCH_CHARACTER_BUTTON_UP_FLAG);
 		}
-		//System.out.println("Current flags: "+Integer.toBinaryString(keyFlags));
 		return false;
 	}
 
@@ -219,7 +207,6 @@ public class Controller extends InputAdapter implements Disposable {
 		if ((keyFlags & SWITCH_CHARACTER_BUTTON_UP_FLAG) != 0) {
 			// Switching active character
 			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;
-			//System.out.println("Removing flag: "+SWITCH_CHARACTER_BUTTON_UP_FLAG);
 			
 			model.nextPlayer();
 		}

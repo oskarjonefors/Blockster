@@ -35,10 +35,6 @@ public enum Movement {
 		this.duration = duration;
 	}
 
-	/**
-	 * Get the direction of the movement.
-	 * @return	Direction of movement.
-	 */
 	public Direction getDirection() {
 		return direction;
 	}

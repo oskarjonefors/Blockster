@@ -193,7 +193,6 @@ public class Model implements Comparable<Model> {
 			}
 		}
 		return canMove;
-				/* && !isMovingBlockAnimation && !isLiftingBlockAnimation && !isGrabbingBlockAnimation; */
 	}
 
 	@Override
@@ -387,8 +386,6 @@ public class Model implements Comparable<Model> {
 		int nPlayer = (pIndex + 1) % nbrPlayers;
 		activePlayer = getPlayers().get(nPlayer);
 		isSwitchChar = true;
-		
-	
 	}
 
 
@@ -437,7 +434,6 @@ public class Model implements Comparable<Model> {
 			}
 		}
 		
-
 		liftedBlocks.remove(activePlayer);
 		isGrabbingBlock = isLiftingBlock = isGrabbingBlockAnimation 
 				= isLiftingBlockAnimation = isMovingBlockAnimation = false;
@@ -478,7 +474,6 @@ public class Model implements Comparable<Model> {
 				player.move(DOWN,  + Math.abs(y2 - ((int) (y2 / blockHeight)) * blockHeight));
 				player.setY(player.getY() + player.getVelocity().y);
 			}
-
 
 			player.setVelocityY(0);
 			player.setVelocityX(0);
