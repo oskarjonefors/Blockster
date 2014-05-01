@@ -88,7 +88,7 @@ public class Model implements Comparable<Model> {
 	 * @param dir
 	 * @return true if nothings blocking the way behind player, else false.
 	 */
-	public boolean canMovePlayer(Direction dir, Movement anim) {
+	public boolean canMovePlayer(Direction dir, Movement movement) {
 		
 		/* If the player isn't grabbing a block, then
 		 * there will be no need to check if you can
@@ -114,10 +114,10 @@ public class Model implements Comparable<Model> {
 			/* Check so that we actually are pulling it left or right
 			 * and if so, check if there is a block in the way behind
 			 * the player */
-			if (anim == Movement.PULL_LEFT) {
+			if (movement == Movement.PULL_LEFT) {
 				canMove = !(blockLayer.hasBlock(checkX - 1, checkY));
 			}
-			else if (anim == Movement.PULL_RIGHT) {
+			else if (movement == Movement.PULL_RIGHT) {
 				canMove = !(blockLayer.hasBlock(checkX + 1, checkY));
 			}
 		} else {
@@ -356,7 +356,7 @@ public class Model implements Comparable<Model> {
 					anim = new AnimationState(Movement.getPushPullMovement(dir, relativePositionSignum));
 				}
 				
-				if (!canMovePlayer(dir, anim)) {
+				if (!canMovePlayer(dir, anim.getMovement())) {
 					return false;
 				}
 				
@@ -366,7 +366,7 @@ public class Model implements Comparable<Model> {
 					block.setAnimationState(anim);
 				}
 				lastDirection = dir;
-				activePlayer.setAnimation(anim);
+				activePlayer.setAnimationState(anim);
 				return true;
 			} else {
 				return false;
@@ -441,9 +441,9 @@ public class Model implements Comparable<Model> {
 
 		for (Player player : players) {
 			
-			if (player.getAnimation().isDone()) {
+			if (player.getAnimationState().isDone()) {
 				player.moveToNextPosition();
-				player.setAnimation(AnimationState.NONE);
+				player.setAnimationState(AnimationState.NONE);
 			}
 			
 			if (player.updatePosition(deltaTime)) {

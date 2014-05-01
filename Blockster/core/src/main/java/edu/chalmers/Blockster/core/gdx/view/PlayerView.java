@@ -38,7 +38,7 @@ public class PlayerView extends Actor{
 			
 		
 	public TextureRegion chooseAnimation(){
-		AnimationState animState = player.getAnimation();
+		AnimationState animState = player.getAnimationState();
 		Movement move = animState.getMovement();
 		
 		return getCurrentAnimation(move, animState.getElapsedTime());

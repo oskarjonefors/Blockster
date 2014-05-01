@@ -25,6 +25,8 @@ public class Player implements BlocksterObject{
 		this.posX = startX;
 		this.posY = startY;
 		this.blockLayer = blockLayer;
+		anim = AnimationState.NONE;
+		velocity = new Vector2f(0, 0);
 	}
 	
 	public void moveToNextPosition() {
@@ -73,11 +75,11 @@ public class Player implements BlocksterObject{
 		return width;
 	}
 	
-	public AnimationState getAnimation() {
+	public AnimationState getAnimationState() {
 		return anim;
 	}
 	
-	public void setAnimation(AnimationState anim) {
+	public void setAnimationState(AnimationState anim) {
 		this.anim = anim;
 	}
 	
