@@ -62,9 +62,9 @@ public class Player implements BlocksterObject{
 		posY = y;
 	}
 	
-	public void increaseVelocityY(float deltaTime) {
+	public void increaseGravity(float deltaTime) {
 		totalTime += deltaTime;
-		setVelocityY(9.82F * totalTime);
+		setVelocityY(-9.82F * totalTime);
 	}
 	
 	public float getHeight() {
@@ -88,11 +88,19 @@ public class Player implements BlocksterObject{
 	}
 	
 	public void setVelocityX(float velocityX) {
-		this.velocity.x = Math.min(velocityX, defaultVelocity.x);
+		if (Math.abs(velocityX) > Math.abs(defaultVelocity.x)) {
+			velocity.x = Math.signum(velocityX) * defaultVelocity.x;
+		} else {
+			velocity.x = velocityX;
+		}
 	}
 	
 	public void setVelocityY(float velocityY) {
-		this.velocity.y = Math.min(velocityY, defaultVelocity.y);
+		if (Math.abs(velocityY) > Math.abs(defaultVelocity.y)) {
+			velocity.y = Math.signum(velocityY) * defaultVelocity.y;
+		} else {
+			velocity.y = velocityY;
+		}
 	}
 	
 	public void setDefaultVelocity(Direction dir) {
@@ -155,7 +163,7 @@ public class Player implements BlocksterObject{
 		this.height = height;
 	}
 
-	public void setWidth(float width2) {
+	public void setWidth(float width) {
 		this.width = width;
 		
 	}

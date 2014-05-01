@@ -447,7 +447,7 @@ public class Model implements Comparable<Model> {
 			}
 			
 			if (player.updatePosition(deltaTime)) {
-				player.increaseVelocityY(deltaTime);
+				player.increaseGravity(deltaTime);
 			} else {
 				player.resetGravity();
 			}

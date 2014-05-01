@@ -94,7 +94,6 @@ public class GdxView implements ApplicationListener, Disposable {
 			
 			if (!stage.getActors().contains(players.get(player), true)) {
 				stage.addActor(players.get(player));
-				Gdx.app.log("GdxView", "Added actor.");
 			}
 		}
 		

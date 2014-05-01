@@ -15,33 +15,36 @@ import edu.chalmers.Blockster.core.Player;
 public class PlayerView extends Actor{
 	private Player player;
 	private SpriteBatch batch;
-	private TextureRegion activeSprite;
+	private TextureRegion defaultSprite;
 	private HashMap<Movement, Animation> arrayOfAnimation;
 	
 	public PlayerView(Player player, HashMap hashMap, TextureRegion texture){
 		this.player = player;
 		arrayOfAnimation = hashMap;
-		activeSprite = texture; 
+		defaultSprite = texture; 
 		
-		float width = activeSprite.getRegionWidth();
-		float height = activeSprite.getRegionHeight();
+		float width = defaultSprite.getRegionWidth();
+		float height = defaultSprite.getRegionHeight();
 		setWidth(width);
 		setHeight(height);
 		setBounds(0, 0, width, height);
 	}
-	public void draw(SpriteBatch batch){
-			activeSprite = chooseAnimation();
-			batch.draw(activeSprite, player.getX(), player.getY(), getOriginX(), getOriginY(),
+	
+	public void draw(SpriteBatch batch, float alpha){
+		TextureRegion activeSprite = chooseAnimation();
+		batch.draw(activeSprite, player.getX(), player.getY(), getOriginX(), getOriginY(),
 					getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-			
 	}
 			
 		
 	public TextureRegion chooseAnimation(){
 		AnimationState animState = player.getAnimationState();
 		Movement move = animState.getMovement();
-		
-		return getCurrentAnimation(move, animState.getElapsedTime());
+		if (move == Movement.NONE) {
+			return defaultSprite;
+		} else {
+			return getCurrentAnimation(move, animState.getElapsedTime());
+		}
 	}
 	
 	public TextureRegion getCurrentAnimation(Movement move, Float time){
