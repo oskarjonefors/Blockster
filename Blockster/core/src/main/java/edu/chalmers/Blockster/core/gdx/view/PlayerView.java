@@ -2,7 +2,6 @@ package edu.chalmers.Blockster.core.gdx.view;
 
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,12 +14,12 @@ import edu.chalmers.Blockster.core.Player;
 
 public class PlayerView extends Actor {
 	private Player player;
-	private SpriteBatch batch;
 	private Sprite sprite;
 	private TextureRegion defaultSprite;
 	private HashMap<Movement, Animation> arrayOfAnimation;
 	
-	public PlayerView(Player player, HashMap hashMap, TextureRegion texture){
+	public PlayerView(Player player, HashMap<Movement, Animation> hashMap, 
+			TextureRegion texture) {
 		this.player = player;
 		arrayOfAnimation = hashMap;
 		defaultSprite = texture; 
