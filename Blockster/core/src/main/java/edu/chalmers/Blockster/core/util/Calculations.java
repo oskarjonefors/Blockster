@@ -21,29 +21,12 @@ public class Calculations {
 	public final static int CHECK_LEFT_FLAG = 1 << 6;
 	public final static int CHECK_UP_LEFT_FLAG = 1 << 7;
 	
-	@SuppressWarnings("unused")
-	public static boolean collisionAbove(BlocksterObject player, BlockLayer blockLayer) {
+	public static boolean collisionEitherCorner(BlocksterObject player, BlockLayer blockLayer) {
 		try {
 			return collisionUpperLeft(player, blockLayer) ||
-					collisionUpperRight(player, blockLayer);
-		} catch (NullPointerException e) {
-			return false;
-		}
-	}
-
-	public static boolean collisionBelow(BlocksterObject player, BlockLayer blockLayer) {
-		try {
-			return collisionLowerLeft(player, blockLayer) ||
+					collisionUpperRight(player, blockLayer) ||
+					collisionLowerLeft(player, blockLayer) ||
 					collisionLowerRight(player, blockLayer);
-		} catch (NullPointerException e) {
-			return false;
-		}
-	}
-
-	public static boolean collisionLeft(BlocksterObject player, BlockLayer blockLayer) {
-		try {
-			return collisionUpperLeft(player, blockLayer) 
-					|| collisionLowerLeft(player, blockLayer);
 		} catch (NullPointerException e) {
 			return false;
 		}
@@ -65,15 +48,6 @@ public class Calculations {
 		
 		return isSolid(blockLayer, (int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) (player.getY() / tileHeight));
-	}
-
-	public static boolean collisionRight(BlocksterObject player, BlockLayer blockLayer) {
-		try {
-			return collisionUpperRight(player, blockLayer)
-					|| collisionLowerRight(player, blockLayer);
-		} catch (NullPointerException e) {
-			return false;
-		}
 	}
 	
 	public static boolean collisionUpperLeft(BlocksterObject player, 

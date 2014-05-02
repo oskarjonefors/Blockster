@@ -126,15 +126,13 @@ public class Player implements BlocksterObject{
 		boolean collision = false;
 
 		setX(getX() + distance.x);
-		if (collisionLeft(this, blockLayer) ||
-			collisionRight(this, blockLayer)) {
+		if (collisionEitherCorner(this, blockLayer)) {
 			setX(previousPosition[0]);
 			collision = true;
 		}
 
 		setY(getY() + distance.y);
-		if (collisionLeft(this, blockLayer) ||
-			collisionRight(this, blockLayer)) {
+		if (collisionEitherCorner(this, blockLayer)) {
 			setY(previousPosition[1]);
 			if (distance.y < 0) {
 				setY(((int)getY()/blockLayer.getBlockHeight())
