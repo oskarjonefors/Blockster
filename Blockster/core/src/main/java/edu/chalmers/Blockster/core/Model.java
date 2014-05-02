@@ -1,8 +1,5 @@
 package edu.chalmers.Blockster.core;
 
-import static edu.chalmers.Blockster.core.util.Calculations.*;
-import static edu.chalmers.Blockster.core.util.Direction.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
