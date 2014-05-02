@@ -2,7 +2,6 @@ package edu.chalmers.Blockster.core.util;
 
 import static edu.chalmers.Blockster.core.util.Direction.LEFT;
 import static edu.chalmers.Blockster.core.util.Direction.RIGHT;
-import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.Player;
@@ -32,7 +31,7 @@ public class Calculations {
 		}
 	}
 
-	public static boolean collisionLowerLeft(BlocksterObject player, 
+	private static boolean collisionLowerLeft(BlocksterObject player, 
 			BlockLayer blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
@@ -41,7 +40,7 @@ public class Calculations {
 				(int) (player.getY() / tileHeight));
 	}
 
-	public static boolean collisionLowerRight(BlocksterObject player, 
+	private static boolean collisionLowerRight(BlocksterObject player, 
 			BlockLayer blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
@@ -50,7 +49,7 @@ public class Calculations {
 				(int) (player.getY() / tileHeight));
 	}
 	
-	public static boolean collisionUpperLeft(BlocksterObject player, 
+	private static boolean collisionUpperLeft(BlocksterObject player, 
 			BlockLayer blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
@@ -59,7 +58,7 @@ public class Calculations {
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
 	}
 	
-	public static boolean collisionUpperRight(BlocksterObject player, 
+	private static boolean collisionUpperRight(BlocksterObject player, 
 			BlockLayer blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
