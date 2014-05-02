@@ -64,7 +64,7 @@ public class Player implements BlocksterObject{
 	
 	public void increaseGravity(float deltaTime) {
 		totalTime += deltaTime;
-		setVelocityY(-9.82F * totalTime);
+		setVelocityY(-9.82F * totalTime * blockLayer.getBlockHeight());
 	}
 	
 	public float getHeight() {
@@ -126,25 +126,21 @@ public class Player implements BlocksterObject{
 		boolean collision = false;
 
 		setX(getX() + distance.x);
-		if (getVelocity().x > 0) {
-			if (collisionRight(this, blockLayer)) {
-				setX(previousPosition[0]);
-				collision = true;
-			}
-		} else {
-			if (collisionLeft(this, blockLayer)) {
-				setX(previousPosition[0]);
-				collision = true;
-			}
+		if (collisionLeft(this, blockLayer) ||
+			collisionRight(this, blockLayer)) {
+			setX(previousPosition[0]);
+			collision = true;
 		}
 
 		setY(getY() + distance.y);
-		if(collisionBelow(this, blockLayer)) {
-			setY(getY() - Math.abs(getY() - ((int)getY()/blockLayer.getBlockHeight())
-														* blockLayer.getBlockHeight()));
+		if (collisionLeft(this, blockLayer) ||
+			collisionRight(this, blockLayer)) {
+			setY(previousPosition[1]);
+			if (distance.y < 0) {
+				setY(((int)getY()/blockLayer.getBlockHeight())
+							* blockLayer.getBlockHeight());
+			}
 			collision = true;
-		} else {
-			setY(getY() + distance.y);
 		}
 		
 		return !collision;
