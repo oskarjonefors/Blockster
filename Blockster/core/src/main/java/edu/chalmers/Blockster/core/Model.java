@@ -440,20 +440,25 @@ public class Model implements Comparable<Model> {
 	public void update(float deltaTime) {
 
 		for (Player player : players) {
+			boolean notcollision;
+			
 			
 			if (player.getAnimationState().isDone()) {
 				player.moveToNextPosition();
 				player.setAnimationState(AnimationState.NONE);
 			}
 			
-			if (player.updatePosition(deltaTime)) {
+			notcollision = player.updatePosition(deltaTime);
+			player.setVelocityY(0);
+			player.setVelocityX(0);
+			
+			if (notcollision) {
 				player.increaseGravity(deltaTime);
+				System.out.println("increasing gravity");
 			} else {
 				player.resetGravity();
 			}
 			
-			player.setVelocityY(0);
-			player.setVelocityX(0);
 
 		}
 	}

@@ -138,13 +138,13 @@ public class Player implements BlocksterObject{
 			}
 		}
 
-		setY(getY() + getVelocity().y);
+		setY(getY() + distance.y);
 		if(collisionBelow(this, blockLayer)) {
 			setY(getY() - Math.abs(getY() - ((int)getY()/blockLayer.getBlockHeight())
 														* blockLayer.getBlockHeight()));
 			collision = true;
 		} else {
-			setY(getY() + getVelocity().y);
+			setY(getY() + distance.y);
 		}
 		
 		return !collision;
