@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -12,9 +13,10 @@ import edu.chalmers.Blockster.core.AnimationState;
 import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Player;
 
-public class PlayerView extends Actor{
+public class PlayerView extends Actor {
 	private Player player;
 	private SpriteBatch batch;
+	private Sprite sprite;
 	private TextureRegion defaultSprite;
 	private HashMap<Movement, Animation> arrayOfAnimation;
 	
@@ -23,17 +25,14 @@ public class PlayerView extends Actor{
 		arrayOfAnimation = hashMap;
 		defaultSprite = texture; 
 		
-		float width = defaultSprite.getRegionWidth();
-		float height = defaultSprite.getRegionHeight();
-		setWidth(width);
-		setHeight(height);
-		setBounds(0, 0, width, height);
+		sprite = new Sprite();
+		setWidth(defaultSprite.getRegionWidth());
+		setHeight(defaultSprite.getRegionHeight());
 	}
 	
 	public void draw(SpriteBatch batch, float alpha){
-		TextureRegion activeSprite = chooseAnimation();
-		batch.draw(activeSprite, player.getX(), player.getY(), getOriginX(), getOriginY(),
-					getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+		sprite.setRegion(chooseAnimation());
+		batch.draw(sprite, getX(), getY());
 	}
 			
 		
@@ -48,9 +47,7 @@ public class PlayerView extends Actor{
 	}
 	
 	public TextureRegion getCurrentAnimation(Movement move, Float time){
-		 
-		return arrayOfAnimation.get(move).getKeyFrame(time, true);  
-		
+		return arrayOfAnimation.get(move).getKeyFrame(time, true);
 	}
 	
 	@Override
@@ -63,6 +60,14 @@ public class PlayerView extends Actor{
 	public void setWidth(float width) {
 		super.setWidth(width);
 		player.setWidth(width);
+	}
+	
+	public float getX() {
+		return player.getX();
+	}
+	
+	public float getY() {
+		return player.getY();
 	}
 
 }
