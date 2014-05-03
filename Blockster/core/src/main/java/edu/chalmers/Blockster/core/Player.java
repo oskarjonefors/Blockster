@@ -32,8 +32,8 @@ public class Player implements BlocksterObject{
 		velocity = new Vector2f(0, 0);
 	}
 	
-	public boolean attemptInteraction(Direction dir) {
-		return state.getInteraction().attemptInteraction(dir);
+	public void interact(Direction dir) {
+		state.getInteraction().interact(dir);
 	}
 	
 	public void endInteraction() {
@@ -78,6 +78,10 @@ public class Player implements BlocksterObject{
 	public void increaseGravity(float deltaTime) {
 		totalTime += deltaTime;
 		setVelocityY(-9.82F * totalTime * blockLayer.getBlockHeight());
+	}
+	
+	public boolean isInteracting() {
+		return (state == InteractionState.NONE);
 	}
 	
 	public boolean move(Vector2f distance) {

@@ -25,8 +25,8 @@ public abstract class InteractionState {
 		private static class NoInteraction implements PlayerInteraction {
 
 			@Override
-			public boolean attemptInteraction(Direction dir) {
-				return false;
+			public void interact(Direction dir) {
+				
 			}
 
 			@Override

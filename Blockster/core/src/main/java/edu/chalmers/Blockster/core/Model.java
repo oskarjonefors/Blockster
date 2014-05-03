@@ -301,7 +301,9 @@ public class Model implements Comparable<Model> {
 		 * Check if interaction on block was successful. If it wasn't, set a 
 		 * velocity on the player.
 		 */
-		if (!activePlayer.attemptInteraction(dir)) {
+		if (activePlayer.isInteracting()) {
+			activePlayer.interact(dir);
+		} else {
 			activePlayer.setDefaultVelocity(dir);
 		}
 	}
