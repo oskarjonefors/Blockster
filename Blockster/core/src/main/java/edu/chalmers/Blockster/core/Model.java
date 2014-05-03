@@ -295,6 +295,16 @@ public class Model implements Comparable<Model> {
 		//Wrapper method
 		setPlayerDefaultVelocity(dir, activePlayer);
 	}
+	
+	public void interactPlayer(Direction dir) {
+		/*
+		 * Check if interaction on block was successful. If it wasn't, set a 
+		 * velocity on the player.
+		 */
+		if (!activePlayer.attemptInteraction(dir)) {
+			activePlayer.setDefaultVelocity(dir);
+		}
+	}
 
 	/**
 	 * Attempt to move the currently grabbed block in the given direction.
@@ -451,7 +461,6 @@ public class Model implements Comparable<Model> {
 			
 			if (notcollision) {
 				player.increaseGravity(deltaTime);
-				System.out.println("increasing gravity");
 			} else {
 				player.resetGravity();
 			}
