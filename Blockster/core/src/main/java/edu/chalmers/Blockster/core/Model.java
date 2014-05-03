@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.vecmath.Vector2f;
-
 import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
 
@@ -38,12 +36,6 @@ public class Model implements Comparable<Model> {
 	
 	private Factory factory;
 	private final String name;
-	
-	private Vector2f cameraMoveVector;
-	
-
-	//TODO Change this
-	private final static String PLAYER_IMAGE_ADDRESS = "Player/still2.png";
 
 
 
