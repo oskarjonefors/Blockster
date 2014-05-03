@@ -33,7 +33,11 @@ public class Player implements BlocksterObject{
 	}
 	
 	public void interact(Direction dir) {
-		state.getInteraction().interact(dir);
+		if (isInteracting()) {
+			state.getInteraction().interact(dir);
+		} else {
+			setDefaultVelocity(dir);
+		}
 	}
 	
 	public void endInteraction() {

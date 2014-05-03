@@ -297,15 +297,7 @@ public class Model implements Comparable<Model> {
 	}
 	
 	public void interactPlayer(Direction dir) {
-		/*
-		 * Check if interaction on block was successful. If it wasn't, set a 
-		 * velocity on the player.
-		 */
-		if (activePlayer.isInteracting()) {
-			activePlayer.interact(dir);
-		} else {
-			activePlayer.setDefaultVelocity(dir);
-		}
+		activePlayer.interact(dir);
 	}
 
 	/**
