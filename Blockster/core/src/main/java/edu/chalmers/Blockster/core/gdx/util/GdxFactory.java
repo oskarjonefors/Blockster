@@ -13,7 +13,6 @@ import edu.chalmers.Blockster.core.Factory;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.Player;
 import edu.chalmers.Blockster.core.gdx.view.GdxMap;
-import edu.chalmers.Blockster.core.gdx.view.GdxPlayer;
 
 public class GdxFactory implements Factory {
 
