@@ -100,18 +100,15 @@ public class Model implements Comparable<Model> {
 		/* Check so that we are inside the bounds */
 		if (checkX >= 1 && checkX < blockLayer.getWidth()) {
 			
-			/* Check so that we actually are pulling it left or right
-			 * and if so, check if there is a block in the way behind
-			 * the player */
-			if (movement == Movement.PULL_LEFT) {
-				canMove = !(blockLayer.hasBlock(checkX - 1, checkY));
+			/* Check so that we actually are pulling it and if so,
+			 * check if there is a block in the way behind the player */
+			
+			if (movement.isPullMovement()) {
+				int deltaX = movement.getDirection().deltaX;
+				canMove = !(blockLayer.hasBlock(checkX + deltaX, checkY));
 			}
-			else if (movement == Movement.PULL_RIGHT) {
-				canMove = !(blockLayer.hasBlock(checkX + 1, checkY));
-			}
-		} else {
-			return false;
 		}
+		
 		return canMove;
 	}
 	
@@ -298,72 +295,72 @@ public class Model implements Comparable<Model> {
 	 * @return		True if the move was successful, otherwise false.
 	 */
 	public boolean attemptMoveBlock(Direction dir) {
-		
-			/* If there is no move currently being grabbed, return false */
-			if (getProcessedBlock() == null) {
-				return false;
-			}
-			
-			if (canMoveBlock(dir)) {
 
-				AnimationState anim = AnimationState.NONE;
+		/* If there is no move currently being grabbed, return false */
+		if (getProcessedBlock() == null) {
+			return false;
+		}
 
-				isMovingBlockAnimation = true;
+		if (canMoveBlock(dir)) {
 
-				/* Get a reference to the BlockLayer for brevity. */
-				BlockLayer blockLayer = map.getBlockLayer();
+			AnimationState anim = AnimationState.NONE;
 
-				/* Create a list to put the block to be moved in. */
-				List<Block> movingBlocks = new ArrayList<Block>();
+			isMovingBlockAnimation = true;
 
-				/* End condition for block adding loop */
-				boolean isDone = false;
+			/* Get a reference to the BlockLayer for brevity. */
+			BlockLayer blockLayer = map.getBlockLayer();
 
-				/* Origin of add process */
-				int origX = (int)getProcessedBlock().getX();
-				int origY = (int)getProcessedBlock().getY();
+			/* Create a list to put the block to be moved in. */
+			List<Block> movingBlocks = new ArrayList<Block>();
 
-				/* We've already established that the move is okay,
+			/* End condition for block adding loop */
+			boolean isDone = false;
+
+			/* Origin of add process */
+			int origX = (int)getProcessedBlock().getX();
+			int origY = (int)getProcessedBlock().getY();
+
+			/* We've already established that the move is okay,
 				so we don't need to change the Y coordinate. */
-				int checkX = (origX);
+			int checkX = (origX);
 
-				/* Loop to add all the blocks to be moved to the list. */
-				while (!isDone) {
-					if (blockLayer.hasBlock(checkX, origY)) {
-						movingBlocks.add(blockLayer.getBlock(checkX, origY));
-						checkX += dir.deltaX;
-					} else {
-						isDone = true;
-					}
-				}
-
-				if(isLiftingBlock) {
-
-					anim = new AnimationState(Movement.getPullMovement(dir));
-
+			/* Loop to add all the blocks to be moved to the list. */
+			while (!isDone) {
+				if (blockLayer.hasBlock(checkX, origY)) {
+					movingBlocks.add(blockLayer.getBlock(checkX, origY));
+					checkX += dir.deltaX;
 				} else {
-					float blockWidth = blockLayer.getBlockWidth();
-					float relativePositionSignum = getProcessedBlock().getX()
-							- activePlayer.getX() / blockWidth;
+					isDone = true;
+				}
+			}
 
-					anim = new AnimationState(Movement.getPushPullMovement(dir, relativePositionSignum));
-				}
-				
-				if (!canMovePlayer(dir, anim.getMovement())) {
-					return false;
-				}
-				
-				/* Add the blocks to be moved to the list */
-				for (Block block : movingBlocks) {
-					activeBlocks.add(block);
-					block.setAnimationState(anim);
-				}
-				lastDirection = dir;
-				activePlayer.setAnimationState(anim);
-				return true;
+			if(isLiftingBlock) {
+
+				anim = new AnimationState(Movement.getPullMovement(dir));
+
 			} else {
+				float blockWidth = blockLayer.getBlockWidth();
+				float relativePositionSignum = getProcessedBlock().getX()
+						- activePlayer.getX() / blockWidth;
+
+				anim = new AnimationState(Movement.getPushPullMovement(dir, relativePositionSignum));
+			}
+
+			if (!canMovePlayer(dir, anim.getMovement())) {
 				return false;
 			}
+
+			/* Add the blocks to be moved to the list */
+			for (Block block : movingBlocks) {
+				activeBlocks.add(block);
+				block.setAnimationState(anim);
+			}
+			lastDirection = dir;
+			activePlayer.setAnimationState(anim);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private void setPlayerDefaultVelocity(Direction dir, Player player) {

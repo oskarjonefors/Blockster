@@ -11,8 +11,8 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
 public enum Movement {
 	
 	NONE(0),
-	PULL_LEFT(LEFT, STANDARD_MOVE_DURATION, new LinearSpline(LEFT)),
-	PULL_RIGHT(RIGHT, STANDARD_MOVE_DURATION, new LinearSpline(RIGHT)),
+	PULL_LEFT(LEFT, STANDARD_MOVE_DURATION, new LinearSpline(LEFT), true),
+	PULL_RIGHT(RIGHT, STANDARD_MOVE_DURATION, new LinearSpline(RIGHT), true),
 	PUSH_LEFT(LEFT, STANDARD_MOVE_DURATION, new LinearSpline(LEFT)),
 	PUSH_RIGHT(RIGHT, STANDARD_MOVE_DURATION, new LinearSpline(RIGHT)),
 	LIFT_LEFT(UP_LEFT, STANDARD_MOVE_DURATION, new BezierSpline(UP_LEFT)),
@@ -24,15 +24,26 @@ public enum Movement {
 	private final Direction direction;
 	private final float duration;
 	private final Spline spline;
+	private boolean pullMovement;
 	
 	private Movement(float duration) {
-		this(Direction.NONE, duration, null);
+		this(Direction.NONE, duration, null, false);
 	}
 	
 	private Movement(Direction dir, float duration, Spline spline) {
+		this(dir, duration, spline, false);
+	}
+	
+	private Movement(Direction dir, float duration, Spline spline, 
+			boolean pullMovement) {
 		this.spline = spline;
 		direction = dir;
 		this.duration = duration;
+		this.pullMovement = pullMovement;
+	}
+	
+	public boolean isPullMovement() {
+		return pullMovement;
 	}
 
 	public Direction getDirection() {
