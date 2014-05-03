@@ -23,13 +23,9 @@ public class Model implements Comparable<Model> {
 	private Player activePlayer;
 	private List<Player> players;
 	private Set<Block> activeBlocks;
-	private Direction lastDirection;
 	private HashMap<Player, Block> liftedBlocks;
 	private List<Block> blocks;
 
-	private boolean isGrabbingBlockAnimation = false; //for animations
-	private boolean isMovingBlockAnimation = false;
-	private boolean isLiftingBlockAnimation = false;
 
 	private boolean isGrabbingBlock = false; 
 	private boolean isLiftingBlock = false;
@@ -68,8 +64,7 @@ public class Model implements Comparable<Model> {
 	
 	public boolean canGrabBlock(Block block) {
 		return block != null && getProcessedBlock() == null 
-				&& !isGrabbingBlockAnimation && !isLiftingBlockAnimation 
-				&& !isMovingBlockAnimation && (block.isMovable() || block.isLiftable());
+				&& (block.isMovable() || block.isLiftable());
 	}
 	
 	public boolean canLiftBlock(Block block) {
@@ -137,9 +132,6 @@ public class Model implements Comparable<Model> {
 		if (canGrabBlock(block)) {
 
 			liftedBlocks.put(activePlayer,block);
-
-
-			isGrabbingBlockAnimation = true;
 			isGrabbingBlock = true;
 
 			//TODO: Start grab animation
@@ -157,7 +149,6 @@ public class Model implements Comparable<Model> {
 	public void liftBlock() {
 		if (canLiftBlock(getProcessedBlock())) {
 			//If we are not already lifting a block, do so.
-			isLiftingBlockAnimation = true;
 			isLiftingBlock = true;
 			isGrabbingBlock = false;
 			BlockLayer blockLayer = map.getBlockLayer();
@@ -177,19 +168,9 @@ public class Model implements Comparable<Model> {
 			liftedBlocks.put(activePlayer, getProcessedBlock());
 		}
 	}
-
-	public void setActivePlayerDefaultVelocity(Direction dir) {
-		//Wrapper method
-		setPlayerDefaultVelocity(dir, activePlayer);
-	}
 	
 	public void interactPlayer(Direction dir) {
 		activePlayer.interact(dir);
-	}
-
-	private void setPlayerDefaultVelocity(Direction dir, Player player) {
-		lastDirection = dir;
-		player.setDefaultVelocity(dir);
 	}
 
 	
@@ -225,30 +206,7 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void stopProcessingBlock() {
-		System.out.println("Stop processing block");
-		if (isLiftingBlock) {
-			System.out.println("Stop lifting block");
-			BlockLayer blockLayer = map.getBlockLayer();
-			float blockWidth = blockLayer.getBlockWidth();
-			float blockHeight = blockLayer.getBlockHeight();
-			boolean hasBlock = blockLayer.hasBlock(
-					(int) (activePlayer.getX() / blockWidth) - lastDirection.deltaX,
-					(int) ((2 * activePlayer.getY() + activePlayer.getHeight()) / 2 / blockHeight));
-			
-			if (!hasBlock && getProcessedBlock() != null) {
-				System.out.println("Didn't have block");
-
-				AnimationState anim = new AnimationState(Movement.getPlaceMovement(lastDirection));
-
-				getProcessedBlock().setAnimationState(anim);
-				activeBlocks.add(getProcessedBlock());
-				liftedBlocks.remove(activePlayer);
-			}
-		}
-		
-		liftedBlocks.remove(activePlayer);
-		isGrabbingBlock = isLiftingBlock = isGrabbingBlockAnimation 
-				= isLiftingBlockAnimation = isMovingBlockAnimation = false;
+		activePlayer.endInteraction();
 	}
 
 	public void update(float deltaTime) {
