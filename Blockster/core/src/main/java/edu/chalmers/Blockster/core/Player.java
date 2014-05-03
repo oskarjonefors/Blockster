@@ -81,7 +81,7 @@ public class Player implements BlocksterObject{
 	}
 	
 	public boolean isInteracting() {
-		return (state == InteractionState.NONE);
+		return (state != InteractionState.NONE);
 	}
 	
 	public boolean move(Vector2f distance) {
