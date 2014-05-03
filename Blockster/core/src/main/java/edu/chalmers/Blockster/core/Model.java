@@ -444,7 +444,8 @@ public class Model implements Comparable<Model> {
 			boolean notcollision;
 			
 			
-			if (player.getAnimationState().isDone()) {
+			if (player.getAnimationState() != AnimationState.NONE 
+					&& player.getAnimationState().isDone()) {
 				player.moveToNextPosition();
 				player.setAnimationState(AnimationState.NONE);
 			}
