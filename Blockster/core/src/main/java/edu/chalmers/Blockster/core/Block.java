@@ -80,4 +80,6 @@ public interface Block extends BlocksterObject {
 	 * @param y	Y coordinate.
 	 */
 	public abstract void setY(float y);
+
+	public abstract void moveToNextPosition();
 }

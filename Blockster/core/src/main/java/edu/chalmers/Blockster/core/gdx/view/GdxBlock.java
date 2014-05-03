@@ -155,4 +155,13 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	public void setY(float y) {
 		super.setY(y);
 	}
+
+	@Override
+	public void moveToNextPosition() {
+		y += activeAnimation.getMovement().getDirection().deltaX;
+		y += activeAnimation.getMovement().getDirection().deltaY;
+		
+		setX(x);
+		setY(y);
+	}
 }

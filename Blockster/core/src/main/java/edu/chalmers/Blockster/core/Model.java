@@ -25,6 +25,7 @@ public class Model implements Comparable<Model> {
 	private Set<Block> activeBlocks;
 	private Direction lastDirection;
 	private HashMap<Player, Block> liftedBlocks;
+	private List<Block> blocks;
 
 	private boolean isGrabbingBlockAnimation = false; //for animations
 	private boolean isMovingBlockAnimation = false;
@@ -50,9 +51,19 @@ public class Model implements Comparable<Model> {
 		players = new ArrayList<Player>();
 		activeBlocks = Collections.synchronizedSet(new HashSet<Block>());
 		liftedBlocks = new HashMap<Player, Block>();
+		blocks = new ArrayList<Block>();
 		setStartPositions();
-
 		activePlayer = players.get(0);
+		
+		
+		BlockLayer blockLayer = map.getBlockLayer();
+		for (int x = 0; x < blockLayer.getWidth(); x++) {
+			for(int y = 0; y < blockLayer.getHeight(); y++) {
+				if (blockLayer.hasBlock(x, y)) {
+					blocks.add(blockLayer.getBlock(x, y));
+				}
+			}
+		}
 	}
 	
 	public boolean canGrabBlock(Block block) {
@@ -66,119 +77,6 @@ public class Model implements Comparable<Model> {
 		return block != null && block.isLiftable();
 				//&& isGrabbingBlock && !isGrabbingBlockAnimation &&
 				//!isLiftingBlockAnimation && !isMovingBlockAnimation;
-	}
-	
-	/**
-	 * This method is used when pulling a block and checks if the player
-	 * can continue to pull it or if there is something blocking the way
-	 * (this is usually taken care of by the collision avoidance, but when
-	 * moving a block then this isn't available).
-	 * 
-	 * @param dir
-	 * @return true if nothings blocking the way behind player, else false.
-	 */
-	public boolean canMovePlayer(Direction dir, Movement movement) {
-		
-		/* If the player isn't grabbing a block, then
-		 * there will be no need to check if you can
-		 * move player and therefore return false */
-		if (getProcessedBlock() == null) {
-			return false;
-		}
-		
-		/* Save the players position so we can check
-		 * the surroundings later.
-		 * Divide with 128(?) to get the right scale */
-		int checkX = (int)activePlayer.getX() / 128;
-		int checkY = (int)activePlayer.getY() / 128;
-		
-		/* Variable to track and set if it's possible to move */
-		boolean canMove = false;
-		
-		BlockLayer blockLayer = map.getBlockLayer();
-		
-		/* Check so that we are inside the bounds */
-		if (checkX >= 1 && checkX < blockLayer.getWidth()) {
-			
-			/* Check so that we actually are pulling it and if so,
-			 * check if there is a block in the way behind the player */
-			
-			if (movement.isPullMovement()) {
-				int deltaX = movement.getDirection().deltaX;
-				canMove = !(blockLayer.hasBlock(checkX + deltaX, checkY));
-			}
-		}
-		
-		return canMove;
-	}
-	
-	/**
-	 * Checks to see if the player can move the block that's currently grabbed
-	 * in the given direction.
-	 * 
-	 * @param dir	The direction to push the block
-	 * @return		True if block can be moved, false otherwise.
-	 */
-	public boolean canMoveBlock(Direction dir) {
-		
-		/* If the player is not grabbing a block, return false */
-		if (getProcessedBlock() == null) {
-			return false;
-			
-		/* If the grabbed block is not movable, return false */
-		} else if (!getProcessedBlock().isMovable()) {
-			return false;
-		}
-		
-		/* Save the original coordinates for brevity (korthet) */
-		int origX = (int)getProcessedBlock().getX();
-		int origY = (int)getProcessedBlock().getY();
-		
-		/* These coordinates will be changed when checking adjacent blocks */ 
-		int checkX = origX;
-		int checkY = origY;
-		
-		/* Will be set to true when the check is done and the loop can end */
-		boolean isDone = false;
-		
-		/* Result of the check when the loop is finished*/
-		boolean canMove = false;
-		
-		/* The layer that the blocks are in */
-		BlockLayer blockLayer = map.getBlockLayer();
-		
-		/* Keep checking while not done, and make sure not to step out of bounds */
-		while (!isDone && checkX >= 0 && checkX < blockLayer.getWidth()) {
-
-			/* Check if there is a block above the one at (checkX, checkY).
-			 * Blocks can only be moved if there are no other blocks
-			 * on top of them. First statement avoids going out of bounds. */
-			if(checkY < blockLayer.getHeight() && blockLayer.hasBlock(checkX, checkY + 1)) {
-				canMove = false;
-				isDone = true;
-			
-			/* Check if there is an empty space (no block) here. If so, the
-			 * previously checked blocks can be pushed/pulled to
-			 * fill up the empty space */
-			} else if(!blockLayer.hasBlock(checkX, checkY)) {
-				canMove = true;
-				isDone = true;
-				
-			/* If the checked block is movable, we can check the next block
-			 * in the given direction in the next iteration of the loop.
-			 */
-			} else if (blockLayer.getBlock(checkX, checkY).isMovable()) {
-				checkX = checkX + dir.deltaX;
-				
-			/* If the block is not movable, we cannot move neither this block
-			 * nor the previously checked ones.
-			 */
-			} else {
-				canMove = false;
-				isDone = true;
-			}
-		}
-		return canMove;
 	}
 
 	@Override
@@ -289,80 +187,6 @@ public class Model implements Comparable<Model> {
 		activePlayer.interact(dir);
 	}
 
-	/**
-	 * Attempt to move the currently grabbed block in the given direction.
-	 * @param dir	Direction to move the block in.
-	 * @return		True if the move was successful, otherwise false.
-	 */
-	public boolean attemptMoveBlock(Direction dir) {
-
-		/* If there is no move currently being grabbed, return false */
-		if (getProcessedBlock() == null) {
-			return false;
-		}
-
-		if (canMoveBlock(dir)) {
-
-			AnimationState anim = AnimationState.NONE;
-
-			isMovingBlockAnimation = true;
-
-			/* Get a reference to the BlockLayer for brevity. */
-			BlockLayer blockLayer = map.getBlockLayer();
-
-			/* Create a list to put the block to be moved in. */
-			List<Block> movingBlocks = new ArrayList<Block>();
-
-			/* End condition for block adding loop */
-			boolean isDone = false;
-
-			/* Origin of add process */
-			int origX = (int)getProcessedBlock().getX();
-			int origY = (int)getProcessedBlock().getY();
-
-			/* We've already established that the move is okay,
-				so we don't need to change the Y coordinate. */
-			int checkX = (origX);
-
-			/* Loop to add all the blocks to be moved to the list. */
-			while (!isDone) {
-				if (blockLayer.hasBlock(checkX, origY)) {
-					movingBlocks.add(blockLayer.getBlock(checkX, origY));
-					checkX += dir.deltaX;
-				} else {
-					isDone = true;
-				}
-			}
-
-			if(isLiftingBlock) {
-
-				anim = new AnimationState(Movement.getPullMovement(dir));
-
-			} else {
-				float blockWidth = blockLayer.getBlockWidth();
-				float relativePositionSignum = getProcessedBlock().getX()
-						- activePlayer.getX() / blockWidth;
-
-				anim = new AnimationState(Movement.getPushPullMovement(dir, relativePositionSignum));
-			}
-
-			if (!canMovePlayer(dir, anim.getMovement())) {
-				return false;
-			}
-
-			/* Add the blocks to be moved to the list */
-			for (Block block : movingBlocks) {
-				activeBlocks.add(block);
-				block.setAnimationState(anim);
-			}
-			lastDirection = dir;
-			activePlayer.setAnimationState(anim);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	private void setPlayerDefaultVelocity(Direction dir, Player player) {
 		lastDirection = dir;
 		player.setDefaultVelocity(dir);
@@ -428,7 +252,25 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void update(float deltaTime) {
+		
+		updateBlocks(deltaTime);
+		updatePlayers(deltaTime);
 
+	}
+	
+	private void updateBlocks(float deltaTime) {
+		for (Block block : blocks) {
+			if (block.getAnimationState() != AnimationState.NONE) {
+				block.getAnimationState().updatePosition(deltaTime);
+				if(block.getAnimationState().isDone()) {
+					block.moveToNextPosition();
+					block.setAnimationState(AnimationState.NONE);
+				}
+			}
+		}
+	}
+	
+	private void updatePlayers(float deltaTime) {
 		for (Player player : players) {
 			boolean notcollision;
 			

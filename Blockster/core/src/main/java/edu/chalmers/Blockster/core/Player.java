@@ -176,4 +176,22 @@ public class Player implements BlocksterObject{
 		}
 	}
 	
+	/**
+	 * This method is used when pulling a block and checks if the player
+	 * can continue to pull it or if there is something blocking the way
+	 * (this is usually taken care of by the collision avoidance, but when
+	 * moving a block then this isn't available).
+	 * 
+	 * @param movement
+	 * @return true if nothings blocking the way behind player, else false.
+	 */
+	public boolean canMove(Movement movement) {
+		int checkX = (int) (getX() / blockLayer.getBlockWidth());
+		int checkY = (int) (getY() / blockLayer.getBlockWidth());
+			
+		return checkX >= 1 && checkX < blockLayer.getWidth() && !blockLayer.
+				hasBlock(checkX + movement.getDirection().deltaX, checkY);
+			
+	}
+	
 }
