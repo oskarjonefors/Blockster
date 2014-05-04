@@ -40,7 +40,7 @@ public class GdxBlockLayer implements BlockLayer {
 	
 	@Override
 	public void setBlock(int x, int y, Block block){
-		layer.getCell(x, y).setTile((GdxBlock) block);
+		layer.getCell(x, y).setTile((Block) block);
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class GdxBlockLayer implements BlockLayer {
 	 * Inserts block into layer.
 	 * @param block the block to insert
 	 */
-	public void insertBlock(GdxBlock block) {
+	public void insertBlock(Block block) {
 		try {
 			block.setX(Math.round(block.getX()));
 			block.setY(Math.round(block.getY()));

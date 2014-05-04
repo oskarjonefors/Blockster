@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
+import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.BlockLayer;
 import edu.chalmers.Blockster.core.BlockMap;
 
@@ -37,7 +38,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 						Cell cell = tileLayer.getCell(x, y);
 						if (cell != null) {
 							TiledMapTile tile = cell.getTile();
-							GdxBlock block = new GdxBlock(tile);
+							Block block = new Block(tile);
 
 							block.setX(x);
 							block.setY(y);

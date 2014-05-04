@@ -10,7 +10,7 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
  * @author Emilia Nilsson and Eric Bjuhr
  *
  */
-public class Player implements BlocksterObject{
+public class Player extends BlocksterObject{
 	
 	private float posX;
 	private float posY;
@@ -27,6 +27,7 @@ public class Player implements BlocksterObject{
 	private InteractionState state = InteractionState.NONE;
 	
 	public Player(float startX, float startY, BlockLayer blockLayer) {
+		super(startX, startY, blockLayer);
 		this.posX = startX;
 		this.posY = startY;
 		this.blockLayer = blockLayer;
@@ -42,6 +43,7 @@ public class Player implements BlocksterObject{
 		posY = y;
 	}
 	
+	@Override
 	public float getX() {
 		//If there is an animation currently running then
 		//we want to return the relative position
@@ -51,6 +53,7 @@ public class Player implements BlocksterObject{
 		return posX;
 	}
 	
+	@Override
 	public float getY() {
 		//If there is an animation currently running then
 		//we want to return the relative position

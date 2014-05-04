@@ -14,7 +14,7 @@ public class MoveBlockAction extends MoveByAction {
 	private final Direction dir;
 	private final BlockMap map;
 	private final Model model;
-	private GdxBlock block;
+	private Block block;
 	
 	public MoveBlockAction(Direction dir, float duration, BlockMap map, Model model) {
 		super();
@@ -32,7 +32,7 @@ public class MoveBlockAction extends MoveByAction {
 	
 	public boolean act(float delta) {
 		if(getActor() != null) {
-			block = (GdxBlock)getActor();
+			block = (Block)getActor();
 		}
 		boolean done = super.act(delta);
 		GdxBlockLayer layer = (GdxBlockLayer)map.getBlockLayer();

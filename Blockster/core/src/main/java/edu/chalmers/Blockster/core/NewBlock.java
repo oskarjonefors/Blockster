@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 
 import edu.chalmers.Blockster.core.util.Direction;
 
-public class NewBlock implements BlocksterObject{
+public class NewBlock{
 
 	private float posX, posY, height, width;
 	private TiledMapTile tile;
@@ -20,7 +20,7 @@ public class NewBlock implements BlocksterObject{
 		
 	}
 	/**
-	 * Moves the block according to the player´s position
+	 * Moves the block according to the player��s position
 	 * @param playerX
 	 * @param playerY
 	 */

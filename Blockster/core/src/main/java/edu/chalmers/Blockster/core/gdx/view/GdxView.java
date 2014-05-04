@@ -36,8 +36,8 @@ public class GdxView implements ApplicationListener, Disposable {
 	private Model model;
 	private OrthogonalTiledMapRenderer renderer;
 	private Stage stage;
-	private List<GdxBlock> activeBlocks;
-	private List<GdxBlock> liftedBlocks;
+	private List<Block> activeBlocks;
+	private List<Block> liftedBlocks;
 	private Map<Player, PlayerView> players;
 	private Actor background;
 	private Vector3 cameraMoveVector;
@@ -78,8 +78,8 @@ public class GdxView implements ApplicationListener, Disposable {
 
 	
 		for (Block block : model.getActiveBlocks()) {
-			if (!activeBlocks.contains(block) || !((GdxBlock)block).hasParent()) {
-				GdxBlock gBlock = (GdxBlock)block;
+			if (!activeBlocks.contains(block) || !((Block)block).hasParent()) {
+				Block gBlock = (Block)block;
 
 				AnimationState anim = block.getAnimationState();
 
@@ -130,8 +130,8 @@ public class GdxView implements ApplicationListener, Disposable {
 		stage.addActor(background);
 		
 		
-		activeBlocks = new ArrayList<GdxBlock>();
-		liftedBlocks = new ArrayList<GdxBlock>();
+		activeBlocks = new ArrayList<Block>();
+		liftedBlocks = new ArrayList<Block>();
 	}
 	
 	public void transitCamera(){

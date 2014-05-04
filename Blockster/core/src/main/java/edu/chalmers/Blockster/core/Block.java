@@ -1,85 +1,169 @@
 package edu.chalmers.Blockster.core;
 
-import static edu.chalmers.Blockster.core.util.Direction.*;
-
-import com.badlogic.gdx.Gdx;
-
-import edu.chalmers.Blockster.core.util.Direction;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- * An interface to represent a block.
- * @author Oskar Jönefors
- *
+ * A block
+ * TODO: Add block specific attributes
+ * @author Eric Bjuhr, Oskar Jönefors, Emilia Nilsson
+ * 
  */
-public interface Block extends BlocksterObject {
-
-	/**
-	 * Check if the block is liftable.
-	 * @return True if block can be lifted, false otherwise.
-	 */
-	public abstract boolean isLiftable();
-
-	/**
-	 * Check if the block is movable.
-	 * @return True if it's movable, false otherwise.
-	 */
-	public abstract boolean isMovable();
-
-	/**
-	 * Check if the block is solid.
-	 * @return True if the block is solid. False otherwise.
-	 */
-	public abstract boolean isSolid();
-
-	/**
-	 * Get the animation state that currently is playing.
-	 * @return AnimationState currently playing.
-	 */
-
-	public abstract AnimationState getAnimationState();
-	/**
-	 * Get the elapsed animation time.
-	 * @return Elapsed animation time in float seconds.
-	 */
-	public abstract float getElapsedAnimationTime();
-
+public class Block extends BlocksterObject implements TiledMapTile {
 	
-	/**
-	 * Get the X coordinate of the block in the BlockMap.
-	 * @return A float x coordinate.
-	 */
-	public abstract float getX();
+	private boolean solid;
+	private boolean liftable;
+	private boolean movable;
+	private boolean weight;
+
+	private AnimationState activeAnimation = AnimationState.NONE;
+
+	private float animationTime;
+	private TiledMapTile tile;
+	private float posX;
+	private float posY;
+	private TextureRegion region;
+	private AnimationState animState;
+	private BlockLayer blockLayer;
 	
-	/**
-	 * Get the Y coordinate of the block in the BlockMap. 
-	 * @return A float y coordinate.
-	 */
-	public abstract float getY();
+	public Block(float posX, float posY, TiledMapTile tile, BlockLayer blockLayer) {
+		super(posX, posY, blockLayer);
+		this.tile = tile;
+		//this.animState = animState;
+		MapProperties props = tile.getProperties();
+		solid = props.containsKey("Solid");
+		liftable = props.containsKey("Liftable");
+		movable = props.containsKey("Movable");
+		weight = props.containsKey("Weight");
+		region = tile.getTextureRegion();
+		posX = 0;
+		posY = 0;
+		this.blockLayer = blockLayer;
+	}
 	
-	/**
-	 * Check to see if block is affected by gravity.
-	 * @return	True if block is affected by gravity, false otherwise.
-	 */
-	public abstract boolean hasWeight();
-	/**
-	 * Animate the block with the given animation..
-	 * @param anim The animation to play.
-	 */
-
-	public abstract void setAnimationState(AnimationState anim);
-
-
-	/**
-	 * Set the X coordinate of the block in the BlockMap.
-	 * @param x X coordinate.
-	 */
-	public abstract void setX(float x);
+	public void draw(SpriteBatch batch, float parentAlpha) {
+		batch.draw(region, getX()*region.getRegionWidth(), getY()*region.getRegionHeight(),
+				getOriginX(), getOriginY(), region.getRegionWidth(), region.getRegionHeight(),
+				getScaleX(), getScaleY(), getRotation());
+	}
 	
-	/**
-	 * Set the Y coordinate of the block in the BlockMap.
-	 * @param y	Y coordinate.
-	 */
-	public abstract void setY(float y);
+	public int getId() {
+		return tile.getId();
+	}
 
-	public abstract void moveToNextPosition();
+	public MapProperties getProperties() {
+		return tile.getProperties();
+	}
+
+	public TextureRegion getTextureRegion() {
+		return tile.getTextureRegion();
+	}
+
+	public TiledMapTile getTile() {
+		return tile;
+	}
+	
+	public boolean hasWeight() {
+		return weight;
+	}	
+	
+	/* (non-Javadoc)
+	 * @see edu.chalmers.Blockster.core.gdx.view.Block#isLiftable()
+	 */
+	public boolean isLiftable() {
+		return liftable;
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.chalmers.Blockster.core.gdx.view.Block#isMovable()
+	 */
+	public boolean isMovable() {
+		return movable;
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.chalmers.Blockster.core.gdx.view.Block#isSolid()
+	 */
+	public boolean isSolid() {
+		return solid;
+	}
+	
+	public void setId(int id) {
+		tile.setId(id);
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.chalmers.Blockster.core.gdx.view.Block#getAnimation()
+	 */
+	@Override
+
+	public AnimationState getAnimationState() {
+
+		return activeAnimation;
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.chalmers.Blockster.core.gdx.view.Block#setAnimation(edu.chalmers.Blockster.core.gdx.view.GdxBlock.Animation)
+	 */
+	@Override
+
+	public void setAnimationState(AnimationState anim) {
+
+		this.activeAnimation = anim;
+	}
+
+	public float getElapsedAnimationTime() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public BlendMode getBlendMode() {
+		// TODO Auto-generated method stub
+		return tile.getBlendMode();
+	}
+
+	@Override
+	public void setBlendMode(BlendMode arg0) {
+		// TODO Auto-generated method stub
+		tile.setBlendMode(arg0);
+	}
+
+	@Override
+	public float getX() {
+		if(animState != AnimationState.NONE) {
+			return posX + animState.getRelativePosition().x;
+		} else {
+			return posX;
+		}
+	}
+
+	@Override
+	public float getY() {
+		if(animState != AnimationState.NONE){
+			return posX + animState.getRelativePosition().y;
+		}
+		return posY;
+	}
+
+	@Override
+	public void setX(float x) {
+		super.setX(x);
+	}
+
+	@Override
+	public void setY(float y) {
+		super.setY(y);
+	}
+
+	public void moveToNextPosition() {
+		posX += activeAnimation.getMovement().getDirection().deltaX;
+		posY += activeAnimation.getMovement().getDirection().deltaY;
+		
+		setX(posX);
+		setY(posY);
+	}
 }
