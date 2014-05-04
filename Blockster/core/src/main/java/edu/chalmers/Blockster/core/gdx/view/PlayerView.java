@@ -6,13 +6,12 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import edu.chalmers.Blockster.core.AnimationState;
 import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Player;
 
-public class PlayerView extends Actor {
+public class PlayerView {
 	private Player player;
 	private Sprite sprite;
 	private TextureRegion defaultSprite;
@@ -29,7 +28,7 @@ public class PlayerView extends Actor {
 		setHeight(defaultSprite.getRegionHeight());
 	}
 	
-	public void draw(SpriteBatch batch, float alpha){
+	public void draw(SpriteBatch batch){
 		sprite.setRegion(chooseAnimation());
 		batch.draw(sprite, getX(), getY());
 	}
@@ -49,15 +48,11 @@ public class PlayerView extends Actor {
 		return arrayOfAnimation.get(move).getKeyFrame(time, true);
 	}
 	
-	@Override
 	public void setHeight(float height) {
-		super.setHeight(height);
 		player.setHeight(height);
 	}
 	
-	@Override
 	public void setWidth(float width) {
-		super.setWidth(width);
 		player.setWidth(width);
 	}
 	

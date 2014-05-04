@@ -11,6 +11,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
+
 import edu.chalmers.Blockster.core.AnimationState;
 import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.Movement;
@@ -89,23 +91,21 @@ public class GdxView implements ApplicationListener, Disposable {
 				Gdx.app.log("GdxView", "Added actor. Coordinates:" + gBlock.getX() + " " + gBlock.getY());
 			}
 		}
-		
-		for (Player player : model.getPlayers()) {
-			
-			if (!stage.getActors().contains(players.get(player), true)) {
-				stage.addActor(players.get(player));
-			}
-		}
+				
+
 		
 		/**
 		 *  renders the stage
 		 */
 		stage.act(Gdx.graphics.getDeltaTime());
-		stage.draw();		
+		stage.draw();
+		
+		drawPlayers();
+		
 		renderer.setView(camera);
 		renderer.render();
 	}
-	
+
 	/**
 	 * Initialize the view.
 	 */
@@ -200,7 +200,20 @@ public class GdxView implements ApplicationListener, Disposable {
 		// TODO Auto-generated method stub
 	}
 	
-	
+	public void drawPlayers() {
+		camera.update();
+		SpriteBatch batch = stage.getSpriteBatch();
+
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		
+		for (Player player : model.getPlayers()) {
+			PlayerView pView = players.get(player);
+			pView.draw(batch);
+		}
+		
+		batch.end();
+	}
 	
 
 }
