@@ -61,18 +61,6 @@ public class Model implements Comparable<Model> {
 			}
 		}
 	}
-	
-	public boolean canGrabBlock(Block block) {
-		return block != null && getProcessedBlock() == null 
-				&& (block.isMovable() || block.isLiftable());
-	}
-	
-	public boolean canLiftBlock(Block block) {
-		//TODO: Add additional tests
-		return block != null && block.isLiftable();
-				//&& isGrabbingBlock && !isGrabbingBlockAnimation &&
-				//!isLiftingBlockAnimation && !isMovingBlockAnimation;
-	}
 
 	@Override
 	public int compareTo(Model model) {
@@ -93,10 +81,6 @@ public class Model implements Comparable<Model> {
 	 */
 	public Player getActivePlayer() {
 		return activePlayer;
-	}
-	
-	public Block getAdjacentBlock(Direction dir) {
-		return Calculations.getAdjacentBlock(dir, activePlayer, map.getBlockLayer());
 	}
 	
 	/**
@@ -128,9 +112,7 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void grabBlock(Block block) {
-
-		if (canGrabBlock(block)) {
-
+		if (activePlayer.canGrabBlock(block)) {
 			liftedBlocks.put(activePlayer,block);
 			isGrabbingBlock = true;
 
@@ -147,7 +129,7 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void liftBlock() {
-		if (canLiftBlock(getProcessedBlock())) {
+		if (activePlayer.canLiftBlock(getProcessedBlock())) {
 			//If we are not already lifting a block, do so.
 			isLiftingBlock = true;
 			isGrabbingBlock = false;

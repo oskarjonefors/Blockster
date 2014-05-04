@@ -2,6 +2,7 @@ package edu.chalmers.Blockster.core;
 
 import javax.vecmath.*;
 
+import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
 import static edu.chalmers.Blockster.core.util.Calculations.*;
 
@@ -30,6 +31,20 @@ public class Player implements BlocksterObject{
 		this.blockLayer = blockLayer;
 		anim = AnimationState.NONE;
 		velocity = new Vector2f(0, 0);
+	}
+	
+	public boolean canGrabBlock(Block block) {
+		return block != null && !isInteracting() && isNextToBlock(block) &&
+				(block.isMovable() || block.isLiftable());
+	}
+	
+	public boolean canLiftBlock(Block block) {
+		return block != null && !isInteracting() &&
+				isNextToBlock(block) && block.isLiftable();
+	}
+	
+	public Block getAdjacentBlock(Direction dir) {
+		return Calculations.getAdjacentBlock(dir, this, blockLayer);
 	}
 	
 	public void interact(Direction dir) {
@@ -86,6 +101,12 @@ public class Player implements BlocksterObject{
 	
 	public boolean isInteracting() {
 		return (state != InteractionState.NONE);
+	}
+	
+	private boolean isNextToBlock(Block block) {
+		return block != null &&
+		Math.abs(block.getX() - getX()) < 0.5f &&
+		Math.abs(block.getY() - getY()) < 0.5f;
 	}
 	
 	public boolean move(Vector2f distance) {

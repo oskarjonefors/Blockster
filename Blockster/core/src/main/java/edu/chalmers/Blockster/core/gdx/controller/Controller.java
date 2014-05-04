@@ -154,7 +154,7 @@ public class Controller extends InputAdapter implements Disposable {
 	 * @param deltaTime The time between the current frame and the last one.
 	 */
 	public void update(float deltaTime) {
-		Block adjacentBlock = model.getAdjacentBlock(lastDirection);
+		Block adjacentBlock = model.getActivePlayer().getAdjacentBlock(lastDirection);
 
 		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
 			//Try to grab the adjacent block if possible and there is one.
