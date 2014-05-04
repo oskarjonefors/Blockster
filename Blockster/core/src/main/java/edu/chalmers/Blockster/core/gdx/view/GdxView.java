@@ -112,9 +112,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	public void init() {
 		players = new HashMap<Player, PlayerView>();
 		for (Player player : model.getPlayers()) {
-			Texture tex = new Texture("Player/still2.png");
-			TextureRegion texr = new TextureRegion(tex);
-			players.put(player, new PlayerView(player, null, texr));
+			players.put(player, createPlayerView(player));
 		}
 		
 		
@@ -209,11 +207,23 @@ public class GdxView implements ApplicationListener, Disposable {
 		
 		for (Player player : model.getPlayers()) {
 			PlayerView pView = players.get(player);
+			if (pView == null) {
+				players.put(player, pView = createPlayerView(player));
+			}
 			pView.draw(batch);
 		}
 		
 		batch.end();
 	}
 	
+	public PlayerView createPlayerView(Player player) {
 
+		Texture tex = new Texture("Player/still2.png");
+		TextureRegion texr = new TextureRegion(tex);
+		PlayerView pView = new PlayerView(player, null, texr);
+		
+		return pView;
+	}
+	
+	
 }
