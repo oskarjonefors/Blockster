@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+
 import edu.chalmers.Blockster.core.AnimationState;
 import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Block;
+import edu.chalmers.Blockster.core.Player;
 
 /**
  * A block
@@ -29,9 +31,11 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 	private float x;
 	private float y;
 	private TextureRegion region;
+	private AnimationState animState;
 	
 	public GdxBlock(TiledMapTile tile) {
 		this.tile = tile;
+		//this.animState = animState;
 		MapProperties props = tile.getProperties();
 		solid = props.containsKey("Solid");
 		liftable = props.containsKey("Liftable");
@@ -138,12 +142,19 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 
 	@Override
 	public float getX() {
-		return super.getX();
+		if(animState != AnimationState.NONE) {
+			return x + animState.getRelativePosition().x;
+		} else {
+			return x;
+		}
 	}
 
 	@Override
 	public float getY() {
-		return super.getY();
+		if(animState != AnimationState.NONE){
+			return x + animState.getRelativePosition().y;
+		}
+		return y;
 	}
 
 	@Override
@@ -158,7 +169,7 @@ public class GdxBlock extends Actor implements Block, TiledMapTile {
 
 	@Override
 	public void moveToNextPosition() {
-		y += activeAnimation.getMovement().getDirection().deltaX;
+		x += activeAnimation.getMovement().getDirection().deltaX;
 		y += activeAnimation.getMovement().getDirection().deltaY;
 		
 		setX(x);
