@@ -42,14 +42,18 @@ public class NewBlock implements BlocksterObject{
 		animationActive = true;
 		 
 		while(animationActive){
-			posX = animState.getRelativePosition().x;
-			posY = animState.getRelativePosition().y;
+			posX += animState.getRelativePosition().x;
+			posY += animState.getRelativePosition().y;
 			
 			if(animState.isDone()) {
 				animationActive = false;
 			}
 		}
 		
+	}
+	
+	public TiledMapTile getTile(){
+		return tile;
 	}
 	public void setHeight(float height){
 		this.height = height;
