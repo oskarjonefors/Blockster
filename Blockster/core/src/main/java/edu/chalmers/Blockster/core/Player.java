@@ -22,6 +22,9 @@ public class Player implements BlocksterObject{
 	private Vector2f defaultVelocity = new Vector2f(700, 700);
 	private float totalTime = 0;
 	private BlockLayer blockLayer;
+	private Block processedBlock;
+	private boolean isLiftingBlock;
+	private boolean isGrabbingBlock;
 	
 	private InteractionState state = InteractionState.NONE;
 	
@@ -68,6 +71,10 @@ public class Player implements BlocksterObject{
 		return height;
 	}
 	
+	public Block getProcessedBlock() {
+		return processedBlock;
+	}
+	
 	public Vector2f getVelocity() {
 		return velocity;
 	}
@@ -94,19 +101,52 @@ public class Player implements BlocksterObject{
 		return posY;
 	}
 	
+	public void grabBlock(Block block) {
+		if (canGrabBlock(block)) {
+			processedBlock = block;
+			isGrabbingBlock = true;
+		}
+	}
+	
 	public void increaseGravity(float deltaTime) {
 		totalTime += deltaTime;
 		setVelocityY(-9.82F * totalTime * blockLayer.getBlockHeight());
+	}
+	
+	public boolean isGrabbingBlock() {
+		return isGrabbingBlock;
 	}
 	
 	public boolean isInteracting() {
 		return (state != InteractionState.NONE);
 	}
 	
+	public boolean isLiftingBlock() {
+		return isLiftingBlock;
+	}
+	
 	private boolean isNextToBlock(Block block) {
 		return block != null &&
 		Math.abs(block.getX() - getX()) < 0.5f &&
 		Math.abs(block.getY() - getY()) < 0.5f;
+	}
+	
+	public void liftBlock() {
+		if (canLiftBlock(getProcessedBlock())) {
+			//If we are not already lifting a block, do so.
+			isLiftingBlock = true;
+			isGrabbingBlock = false;
+			float blockWidth = blockLayer.getBlockWidth();
+			
+			//Lift process
+			float relativePositionSignum = getProcessedBlock().getX()
+					- getX() / blockWidth;
+
+			AnimationState anim = relativePositionSignum > 0 ? 
+						new AnimationState(Movement.LIFT_LEFT) : 
+						new AnimationState(Movement.LIFT_RIGHT);
+			getProcessedBlock().setAnimationState(anim);
+		}
 	}
 	
 	public boolean move(Vector2f distance) {

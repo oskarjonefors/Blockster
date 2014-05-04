@@ -58,7 +58,7 @@ public enum Movement {
 		return duration;
 	}
 	
-	public Movement getLiftMovement(Direction dir) {
+	public static Movement getLiftMovement(Direction dir) {
 		if(dir != Direction.LEFT && dir != Direction.RIGHT) {
 			return NONE;
 		} else {

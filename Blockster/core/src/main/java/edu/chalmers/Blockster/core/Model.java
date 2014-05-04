@@ -18,23 +18,14 @@ import edu.chalmers.Blockster.core.util.Direction;
  */
 public class Model implements Comparable<Model> {
 
-
 	private BlockMap map;
 	private Player activePlayer;
 	private List<Player> players;
 	private Set<Block> activeBlocks;
-	private HashMap<Player, Block> liftedBlocks;
 	private List<Block> blocks;
-
-
-	private boolean isGrabbingBlock = false; 
-	private boolean isLiftingBlock = false;
 	public boolean isSwitchChar;
-	
 	private Factory factory;
 	private final String name;
-
-
 
 	public Model(Factory factory, String name) {
 		this.factory = factory;
@@ -46,11 +37,9 @@ public class Model implements Comparable<Model> {
 		this.map = factory.createMap();
 		players = new ArrayList<Player>();
 		activeBlocks = Collections.synchronizedSet(new HashSet<Block>());
-		liftedBlocks = new HashMap<Player, Block>();
 		blocks = new ArrayList<Block>();
 		setStartPositions();
 		activePlayer = players.get(0);
-		
 		
 		BlockLayer blockLayer = map.getBlockLayer();
 		for (int x = 0; x < blockLayer.getWidth(); x++) {
@@ -88,6 +77,12 @@ public class Model implements Comparable<Model> {
 	 * @return A set of blocks that are being lifted. Empty if there are none.
 	 */
 	public Map<Player, Block> getLiftedBlocks() {
+		Map liftedBlocks = new HashMap<Player, Block>();
+		for (Player player : getPlayers()) {
+			if (player.isLiftingBlock()) {
+				liftedBlocks.put(player, player.getProcessedBlock());
+			}
+		}
 		return liftedBlocks;
 	}
 	
@@ -108,53 +103,20 @@ public class Model implements Comparable<Model> {
 	}
 
 	public Block getProcessedBlock() {
-		return liftedBlocks.get(activePlayer);
+		return activePlayer.getProcessedBlock();
 	}
-
-	public void grabBlock(Block block) {
-		if (activePlayer.canGrabBlock(block)) {
-			liftedBlocks.put(activePlayer,block);
-			isGrabbingBlock = true;
-
-			//TODO: Start grab animation
-		}
-	}
-
+	
 	public boolean isGrabbingBlock() {
-		return isGrabbingBlock;
+		return activePlayer.isGrabbingBlock();
 	}
 
 	public boolean isLiftingBlock() {
-		return isLiftingBlock;
-	}
-
-	public void liftBlock() {
-		if (activePlayer.canLiftBlock(getProcessedBlock())) {
-			//If we are not already lifting a block, do so.
-			isLiftingBlock = true;
-			isGrabbingBlock = false;
-			BlockLayer blockLayer = map.getBlockLayer();
-			float blockWidth = blockLayer.getBlockWidth();
-			
-			//Lift process
-			float relativePositionSignum = getProcessedBlock().getX()
-					- activePlayer.getX() / blockWidth;
-
-			AnimationState anim = relativePositionSignum > 0 ? 
-						new AnimationState(Movement.LIFT_LEFT) : 
-						new AnimationState(Movement.LIFT_RIGHT);
-
-						
-			getProcessedBlock().setAnimationState(anim);
-			activeBlocks.add(getProcessedBlock());
-			liftedBlocks.put(activePlayer, getProcessedBlock());
-		}
+		return activePlayer.isLiftingBlock();
 	}
 	
 	public void interactPlayer(Direction dir) {
 		activePlayer.interact(dir);
 	}
-
 	
 	/**
 	 * Start controlling the next player.
@@ -166,7 +128,6 @@ public class Model implements Comparable<Model> {
 		activePlayer = getPlayers().get(nPlayer);
 		isSwitchChar = true;
 	}
-
 
 	public void resetStartPositions() {
 		float[][] startPositions = getPlayerStartingPositions(map);
@@ -192,10 +153,8 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void update(float deltaTime) {
-		
 		updateBlocks(deltaTime);
 		updatePlayers(deltaTime);
-
 	}
 	
 	private void updateBlocks(float deltaTime) {
@@ -214,7 +173,6 @@ public class Model implements Comparable<Model> {
 		for (Player player : players) {
 			boolean notcollision;
 			
-			
 			if (player.getAnimationState() != AnimationState.NONE 
 					&& player.getAnimationState().isDone()) {
 				player.moveToNextPosition();
@@ -230,8 +188,6 @@ public class Model implements Comparable<Model> {
 			} else {
 				player.resetGravity();
 			}
-			
-
 		}
 	}
 }
