@@ -1,14 +1,13 @@
 package edu.chalmers.Blockster.core;
 
 import javax.vecmath.*;
-
 import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
 import static edu.chalmers.Blockster.core.util.Calculations.*;
 
 /**
  * The model representing a player in the game Blockster
- * @author Emilia and Eric Bjuhr
+ * @author Emilia Nilsson and Eric Bjuhr
  *
  */
 public class Player implements BlocksterObject{
@@ -23,9 +22,8 @@ public class Player implements BlocksterObject{
 	private float totalTime = 0;
 	private BlockLayer blockLayer;
 	private Block processedBlock;
-	private boolean isLiftingBlock;
 	private boolean isGrabbingBlock;
-	
+	private boolean isLiftingBlock;
 	private InteractionState state = InteractionState.NONE;
 	
 	public Player(float startX, float startY, BlockLayer blockLayer) {
@@ -36,51 +34,12 @@ public class Player implements BlocksterObject{
 		velocity = new Vector2f(0, 0);
 	}
 	
-	public boolean canGrabBlock(Block block) {
-		return block != null && !isInteracting() && isNextToBlock(block) &&
-				(block.isMovable() || block.isLiftable());
-	}
-	
-	public boolean canLiftBlock(Block block) {
-		return block != null && !isInteracting() &&
-				isNextToBlock(block) && block.isLiftable();
-	}
-	
-	public Block getAdjacentBlock(Direction dir) {
-		return Calculations.getAdjacentBlock(dir, this, blockLayer);
-	}
-	
-	public void interact(Direction dir) {
-		if (isInteracting()) {
-			state.getInteraction().interact(dir);
-		} else {
-			setDefaultVelocity(dir);
-		}
-	}
-	
-	public void endInteraction() {
-		state.getInteraction().endInteraction();
-		state = InteractionState.NONE;
+	public void setX(float x) {
+		posX = x;
 	}
 
-	public AnimationState getAnimationState() {
-		return anim;
-	}
-	
-	public float getHeight() {
-		return height;
-	}
-	
-	public Block getProcessedBlock() {
-		return processedBlock;
-	}
-	
-	public Vector2f getVelocity() {
-		return velocity;
-	}
-	
-	public float getWidth() {
-		return width;
+	public void setY(float y) {
+		posY = y;
 	}
 	
 	public float getX() {
@@ -101,11 +60,53 @@ public class Player implements BlocksterObject{
 		return posY;
 	}
 	
-	public void grabBlock(Block block) {
-		if (canGrabBlock(block)) {
-			processedBlock = block;
-			isGrabbingBlock = true;
+	public void setWidth(float width) {
+		this.width = width;
+	}
+	
+	public void setHeight(float height) {
+		this.height = height;
+	}
+	
+	public float getWidth() {
+		return width;
+	}
+	
+	public float getHeight() {
+		return height;
+	}
+	
+	public void setAnimationState(AnimationState anim) {
+		this.anim = anim;
+	}
+	
+	public AnimationState getAnimationState() {
+		return this.anim;
+	}
+	
+	public Vector2f getVelocity() {
+		return velocity;
+	}
+	
+	public void setVelocityX(float velocityX) {
+		if(Math.abs(velocityX) > defaultVelocity.x) {
+			velocity.x = Math.signum(velocityX) * defaultVelocity.x;
+		} else {
+			velocity.x = velocityX;
 		}
+	}
+	
+	public void setVelocityY(float velocityY) {
+		if(Math.abs(velocityY) > defaultVelocity.y) {
+			velocity.y = Math.signum(velocityY) * defaultVelocity.y;
+		} else {
+			velocity.y = velocityY;
+		}
+	}
+	
+	public void setDefaultVelocity(Direction dir) {
+		setVelocityX(getVelocity().x + dir.deltaX * defaultVelocity.x);
+		setVelocityY(getVelocity().y + dir.deltaY * defaultVelocity.y);
 	}
 	
 	public void increaseGravity(float deltaTime) {
@@ -113,40 +114,79 @@ public class Player implements BlocksterObject{
 		setVelocityY(-9.82F * totalTime * blockLayer.getBlockHeight());
 	}
 	
+	public void resetGravity() {
+		totalTime = 0;
+	}
+	
+	public Block getProcessedBlock() {
+		return processedBlock;
+	}
+	
+	public void grabBlock(Block block) {
+		if (canGrabBlock(block)) {
+			processedBlock = block;
+			isGrabbingBlock = true;
+		}
+	}
+	
+	private boolean canGrabBlock(Block block) {
+		return block != null && !isInteracting() && isNextToBlock(block) &&
+				(block.isMovable() || block.isLiftable());
+	}
+	
 	public boolean isGrabbingBlock() {
 		return isGrabbingBlock;
 	}
 	
-	public boolean isInteracting() {
-		return (state != InteractionState.NONE);
+	public void liftBlock() {
+		if (canLiftBlock(getProcessedBlock())) {
+			//Lift process
+			float relativePositionSignum = getProcessedBlock().getX()
+								- getX() / blockLayer.getBlockWidth();
+			AnimationState anim = relativePositionSignum > 0 ?
+						new AnimationState(Movement.LIFT_LEFT) :
+						new AnimationState(Movement.LIFT_RIGHT);
+			getProcessedBlock().setAnimationState(anim);
+			
+			isLiftingBlock = true;
+			isGrabbingBlock = false;
+		}
+	}
+	
+	private boolean canLiftBlock(Block block) {
+		return block != null && !isInteracting() &&
+				isNextToBlock(block) && block.isLiftable();
 	}
 	
 	public boolean isLiftingBlock() {
 		return isLiftingBlock;
 	}
 	
-	private boolean isNextToBlock(Block block) {
+	public Block getAdjacentBlock(Direction dir) {
+		return Calculations.getAdjacentBlock(dir, this, blockLayer);
+	}
+	
+	public boolean isNextToBlock(Block block) {
 		return block != null &&
 		Math.abs(block.getX() - getX()) < 0.5f &&
 		Math.abs(block.getY() - getY()) < 0.5f;
 	}
 	
-	public void liftBlock() {
-		if (canLiftBlock(getProcessedBlock())) {
-			//If we are not already lifting a block, do so.
-			isLiftingBlock = true;
-			isGrabbingBlock = false;
-			float blockWidth = blockLayer.getBlockWidth();
-			
-			//Lift process
-			float relativePositionSignum = getProcessedBlock().getX()
-					- getX() / blockWidth;
-
-			AnimationState anim = relativePositionSignum > 0 ? 
-						new AnimationState(Movement.LIFT_LEFT) : 
-						new AnimationState(Movement.LIFT_RIGHT);
-			getProcessedBlock().setAnimationState(anim);
+	public void interact(Direction dir) {
+		if (isInteracting()) {
+			state.getInteraction().interact(dir);
+		} else {
+			setDefaultVelocity(dir);
 		}
+	}
+	
+	public boolean isInteracting() {
+		return (state != InteractionState.NONE);
+	}
+	
+	public void endInteraction() {
+		state.getInteraction().endInteraction();
+		state = InteractionState.NONE;
 	}
 	
 	public boolean move(Vector2f distance) {
@@ -178,51 +218,6 @@ public class Player implements BlocksterObject{
 		posY += anim.getMovement().getDirection().deltaY 
 					* blockLayer.getBlockHeight();
 	}
-	
-	public void resetGravity() {
-		totalTime = 0;
-	}
-	
-	public void setAnimationState(AnimationState anim) {
-		this.anim = anim;
-	}
-	
-	public void setDefaultVelocity(Direction dir) {
-		setVelocityX(getVelocity().x + dir.deltaX * defaultVelocity.x);
-		setVelocityY(getVelocity().y + dir.deltaY * defaultVelocity.y);
-	}
-	
-	public void setHeight(float height) {
-		this.height = height;
-	}
-	
-	public void setVelocityX(float velocityX) {
-		if (Math.abs(velocityX) > Math.abs(defaultVelocity.x)) {
-			velocity.x = Math.signum(velocityX) * defaultVelocity.x;
-		} else {
-			velocity.x = velocityX;
-		}
-	}
-	
-	public void setVelocityY(float velocityY) {
-		if (Math.abs(velocityY) > Math.abs(defaultVelocity.y)) {
-			velocity.y = Math.signum(velocityY) * defaultVelocity.y;
-		} else {
-			velocity.y = velocityY;
-		}
-	}
-	
-	public void setWidth(float width) {
-		this.width = width;
-	}
-	
-	public void setX(float x) {
-		posX = x;
-	}
-
-	public void setY(float y) {
-		posY = y;
-	}
 
 	public boolean updatePosition(float deltaTime) {
 		if (anim != AnimationState.NONE) {
@@ -244,7 +239,7 @@ public class Player implements BlocksterObject{
 	 * moving a block then this isn't available).
 	 * 
 	 * @param movement
-	 * @return true if nothings blocking the way behind player, else false.
+	 * @return true if nothing is blocking the way behind player, else false.
 	 */
 	public boolean canMove(Movement movement) {
 		int checkX = (int) (getX() / blockLayer.getBlockWidth());
