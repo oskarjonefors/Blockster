@@ -1,6 +1,6 @@
 package edu.chalmers.Blockster.core;
 
-public class BlocksterObject {
+public abstract class BlocksterObject {
 	private float posX;
 	private float posY;
 	private float height;
@@ -9,7 +9,14 @@ public class BlocksterObject {
 	private BlockLayer blockLayer;
 	
 	public BlocksterObject(float startX, float startY, BlockLayer blockLayer) {
-		
+		this.posX = posX;
+		this.posY = posY;
+		this.blockLayer = blockLayer;
+		anim = AnimationState.NONE;
+	}
+	
+	public BlockLayer getBlockLayer(){
+		return blockLayer;
 	}
 	
 	public float getHeight() {
@@ -29,10 +36,19 @@ public class BlocksterObject {
 	}
 	
 	public float getX() {
+		//If there is an animation currently running then
+		//we want to return the relative position
+		if ( anim != AnimationState.NONE) {
+			return posX + anim.getRelativePosition().x;
+		}
 		return posX;
 	}
 	
+	
 	public float getY() {
+		if (anim != AnimationState.NONE){
+			return posY + anim.getRelativePosition().y;
+		}
 		return posY;
 	}
 	
@@ -42,6 +58,13 @@ public class BlocksterObject {
 	
 	public void setY(float posY) {
 		this.posY = posY;
+	}
+	public void moveToNextPosition(){
+		posX += anim.getMovement().getDirection().deltaX 
+				* blockLayer.getBlockWidth();
+		
+		posY += anim.getMovement().getDirection().deltaY 
+				* blockLayer.getBlockHeight();
 	}
 	
 	public AnimationState getAnimationState() {

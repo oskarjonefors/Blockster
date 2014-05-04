@@ -12,15 +12,10 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
  */
 public class Player extends BlocksterObject{
 	
-	private float posX;
-	private float posY;
-	private float height;
-	private float width;
-	private AnimationState anim;
+	
 	private Vector2f velocity;
 	private Vector2f defaultVelocity = new Vector2f(700, 700);
 	private float totalTime = 0;
-	private BlockLayer blockLayer;
 	private Block processedBlock;
 	private boolean isGrabbingBlock;
 	private boolean isLiftingBlock;
@@ -28,63 +23,48 @@ public class Player extends BlocksterObject{
 	
 	public Player(float startX, float startY, BlockLayer blockLayer) {
 		super(startX, startY, blockLayer);
-		this.posX = startX;
-		this.posY = startY;
-		this.blockLayer = blockLayer;
-		anim = AnimationState.NONE;
 		velocity = new Vector2f(0, 0);
 	}
 	
 	public void setX(float x) {
-		posX = x;
+		super.setX(x);
 	}
 
 	public void setY(float y) {
-		posY = y;
+		super.setY(y);
 	}
 	
 	@Override
 	public float getX() {
-		//If there is an animation currently running then
-		//we want to return the relative position
-		if (anim != AnimationState.NONE) {
-			return posX + anim.getRelativePosition().x;
-		}
-		return posX;
+		return super.getX();
 	}
-	
 	@Override
 	public float getY() {
-		//If there is an animation currently running then
-		//we want to return the relative position
-		if (anim != AnimationState.NONE) {
-			return posY + anim.getRelativePosition().y;
-		}
-		return posY;
+		return super.getY();
 	}
-	
+	@Override
 	public void setWidth(float width) {
-		this.width = width;
+		super.setWidth(width);
 	}
-	
+	@Override
 	public void setHeight(float height) {
-		this.height = height;
+		super.setHeight(height);
 	}
-	
+	@Override
 	public float getWidth() {
-		return width;
+		return super.getWidth();
 	}
-	
+	@Override
 	public float getHeight() {
-		return height;
+		return super.getHeight();
 	}
-	
+	@Override
 	public void setAnimationState(AnimationState anim) {
-		this.anim = anim;
+		super.setAnimationState(anim);
 	}
-	
+	@Override
 	public AnimationState getAnimationState() {
-		return this.anim;
+		return super.getAnimationState();
 	}
 	
 	public Vector2f getVelocity() {
@@ -114,7 +94,7 @@ public class Player extends BlocksterObject{
 	
 	public void increaseGravity(float deltaTime) {
 		totalTime += deltaTime;
-		setVelocityY(-9.82F * totalTime * blockLayer.getBlockHeight());
+		setVelocityY(-9.82F * totalTime * getBlockLayer().getBlockHeight());
 	}
 	
 	public void resetGravity() {
@@ -145,7 +125,7 @@ public class Player extends BlocksterObject{
 		if (canLiftBlock(getProcessedBlock())) {
 			//Lift process
 			float relativePositionSignum = getProcessedBlock().getX()
-								- getX() / blockLayer.getBlockWidth();
+								- getX() / getBlockLayer().getBlockWidth();
 			AnimationState anim = relativePositionSignum > 0 ?
 						new AnimationState(Movement.LIFT_LEFT) :
 						new AnimationState(Movement.LIFT_RIGHT);
@@ -166,7 +146,7 @@ public class Player extends BlocksterObject{
 	}
 	
 	public Block getAdjacentBlock(Direction dir) {
-		return Calculations.getAdjacentBlock(dir, this, blockLayer);
+		return Calculations.getAdjacentBlock(dir, this, getBlockLayer());
 	}
 	
 	public boolean isNextToBlock(Block block) {
@@ -197,17 +177,17 @@ public class Player extends BlocksterObject{
 		boolean collision = false;
 
 		setX(getX() + distance.x);
-		if (collisionEitherCorner(this, blockLayer)) {
+		if (collisionEitherCorner(this, getBlockLayer())) {
 			setX(previousPosition[0]);
 			collision = true;
 		}
 
 		setY(getY() + distance.y);
-		if (collisionEitherCorner(this, blockLayer)) {
+		if (collisionEitherCorner(this, getBlockLayer())) {
 			setY(previousPosition[1]);
 			if (distance.y < 0) {
-				setY(((int)getY()/blockLayer.getBlockHeight())
-							* blockLayer.getBlockHeight());
+				setY(((int)getY()/getBlockLayer().getBlockHeight())
+							* getBlockLayer().getBlockHeight());
 			}
 			collision = true;
 		}
@@ -216,15 +196,12 @@ public class Player extends BlocksterObject{
 	}
 	
 	public void moveToNextPosition() {
-		posX += anim.getMovement().getDirection().deltaX 
-					* blockLayer.getBlockWidth();
-		posY += anim.getMovement().getDirection().deltaY 
-					* blockLayer.getBlockHeight();
+		super.moveToNextPosition();
 	}
 
 	public boolean updatePosition(float deltaTime) {
-		if (anim != AnimationState.NONE) {
-			anim.updatePosition(deltaTime);
+		if (getAnimationState() != AnimationState.NONE) {
+			getAnimationState().updatePosition(deltaTime);
 			return false;
 		} else {
 			Vector2f distance = new Vector2f();
@@ -245,10 +222,11 @@ public class Player extends BlocksterObject{
 	 * @return true if nothing is blocking the way behind player, else false.
 	 */
 	public boolean canMove(Movement movement) {
-		int checkX = (int) (getX() / blockLayer.getBlockWidth());
-		int checkY = (int) (getY() / blockLayer.getBlockWidth());
+		BlockLayer bLayer = getBlockLayer();
+		int checkX = (int) (getX() / bLayer.getBlockWidth());
+		int checkY = (int) (getY() / bLayer.getBlockWidth());
 			
-		return checkX >= 1 && checkX < blockLayer.getWidth() && !blockLayer.
+		return checkX >= 1 && checkX < bLayer.getWidth() && !bLayer.
 				hasBlock(checkX + movement.getDirection().deltaX, checkY);
 			
 	}

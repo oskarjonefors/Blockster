@@ -23,31 +23,21 @@ public class Block extends BlocksterObject implements TiledMapTile {
 
 	private float animationTime;
 	private TiledMapTile tile;
-	private float posX;
-	private float posY;
 	private TextureRegion region;
-	private AnimationState animState;
-	private BlockLayer blockLayer;
 	
 	public Block(float posX, float posY, TiledMapTile tile, BlockLayer blockLayer) {
 		super(posX, posY, blockLayer);
 		this.tile = tile;
-		//this.animState = animState;
 		MapProperties props = tile.getProperties();
 		solid = props.containsKey("Solid");
 		liftable = props.containsKey("Liftable");
 		movable = props.containsKey("Movable");
 		weight = props.containsKey("Weight");
 		region = tile.getTextureRegion();
-		posX = 0;
-		posY = 0;
-		this.blockLayer = blockLayer;
 	}
 	
 	public void draw(SpriteBatch batch, float parentAlpha) {
-		batch.draw(region, getX()*region.getRegionWidth(), getY()*region.getRegionHeight(),
-				getOriginX(), getOriginY(), region.getRegionWidth(), region.getRegionHeight(),
-				getScaleX(), getScaleY(), getRotation());
+		batch.draw(region, getX(), getY());
 	}
 	
 	public int getId() {
@@ -102,7 +92,7 @@ public class Block extends BlocksterObject implements TiledMapTile {
 
 	public AnimationState getAnimationState() {
 
-		return activeAnimation;
+		return super.getAnimationState();
 	}
 	
 	/* (non-Javadoc)
@@ -112,7 +102,7 @@ public class Block extends BlocksterObject implements TiledMapTile {
 
 	public void setAnimationState(AnimationState anim) {
 
-		this.activeAnimation = anim;
+		super.setAnimationState(anim);
 	}
 
 	public float getElapsedAnimationTime() {
@@ -134,19 +124,12 @@ public class Block extends BlocksterObject implements TiledMapTile {
 
 	@Override
 	public float getX() {
-		if(animState != AnimationState.NONE) {
-			return posX + animState.getRelativePosition().x;
-		} else {
-			return posX;
-		}
+		return super.getX();
 	}
 
 	@Override
 	public float getY() {
-		if(animState != AnimationState.NONE){
-			return posX + animState.getRelativePosition().y;
-		}
-		return posY;
+		return super.getY();
 	}
 
 	@Override
@@ -160,10 +143,6 @@ public class Block extends BlocksterObject implements TiledMapTile {
 	}
 
 	public void moveToNextPosition() {
-		posX += activeAnimation.getMovement().getDirection().deltaX;
-		posY += activeAnimation.getMovement().getDirection().deltaY;
-		
-		setX(posX);
-		setY(posY);
+		super.moveToNextPosition();
 	}
 }
