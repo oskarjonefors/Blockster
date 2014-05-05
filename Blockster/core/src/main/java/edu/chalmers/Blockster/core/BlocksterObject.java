@@ -1,5 +1,7 @@
 package edu.chalmers.Blockster.core;
 
+import edu.chalmers.Blockster.core.util.AnimationState;
+
 public abstract class BlocksterObject {
 	private float posX;
 	private float posY;

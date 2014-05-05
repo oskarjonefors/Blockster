@@ -1,8 +1,6 @@
-package edu.chalmers.Blockster.core;
+package edu.chalmers.Blockster.core.util;
 
 import javax.vecmath.Vector2f;
-
-import edu.chalmers.Blockster.core.util.Direction;
 
 /**
  * A Spline representing a linear movement.

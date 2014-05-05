@@ -1,8 +1,6 @@
-package edu.chalmers.Blockster.core;
+package edu.chalmers.Blockster.core.util;
 
 import static edu.chalmers.Blockster.core.util.Direction.*;
-import edu.chalmers.Blockster.core.util.Direction;
-
 import static edu.chalmers.Blockster.core.util.Calculations.*;
 
 /**

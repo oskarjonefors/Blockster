@@ -20,11 +20,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
-import edu.chalmers.Blockster.core.AnimationState;
-import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.Player;
+import edu.chalmers.Blockster.core.util.AnimationState;
 import edu.chalmers.Blockster.core.util.Direction;
+import edu.chalmers.Blockster.core.util.Movement;
 
 /**
  * @author Joel Tegman, Oskar Jönefors

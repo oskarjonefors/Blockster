@@ -3,7 +3,9 @@ package edu.chalmers.Blockster.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.chalmers.Blockster.core.util.AnimationState;
 import edu.chalmers.Blockster.core.util.Direction;
+import edu.chalmers.Blockster.core.util.Movement;
 
 public class BlockGrabbedInteraction implements PlayerInteraction {
 	

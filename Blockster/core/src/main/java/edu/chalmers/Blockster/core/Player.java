@@ -2,8 +2,10 @@ package edu.chalmers.Blockster.core;
 
 import javax.vecmath.*;
 
+import edu.chalmers.Blockster.core.util.AnimationState;
 import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
+import edu.chalmers.Blockster.core.util.Movement;
 import static edu.chalmers.Blockster.core.util.Calculations.*;
 
 /**

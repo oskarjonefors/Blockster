@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.chalmers.Blockster.core.util.AnimationState;
 import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
+import edu.chalmers.Blockster.core.util.Factory;
 
 /**
  * A class to represent a stage.

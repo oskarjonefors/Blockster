@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import edu.chalmers.Blockster.core.AnimationState;
-import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Player;
+import edu.chalmers.Blockster.core.util.AnimationState;
+import edu.chalmers.Blockster.core.util.Movement;
 
 public class PlayerView {
 	private Player player;
