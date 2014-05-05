@@ -1,4 +1,4 @@
-package edu.chalmers.Blockster.core;
+package edu.chalmers.Blockster.core.objects;
 
 import edu.chalmers.Blockster.core.util.AnimationState;
 

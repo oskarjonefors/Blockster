@@ -12,8 +12,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
-import edu.chalmers.Blockster.core.Block;
-import edu.chalmers.Blockster.core.BlockMap;
+import edu.chalmers.Blockster.core.objects.Block;
+import edu.chalmers.Blockster.core.objects.BlockMap;
 
 /**
  * 

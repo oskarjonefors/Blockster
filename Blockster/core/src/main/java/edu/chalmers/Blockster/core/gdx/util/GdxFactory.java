@@ -7,11 +7,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
-import edu.chalmers.Blockster.core.BlockMap;
-import edu.chalmers.Blockster.core.BlockMap;
 import edu.chalmers.Blockster.core.Model;
-import edu.chalmers.Blockster.core.Player;
 import edu.chalmers.Blockster.core.gdx.view.GdxMap;
+import edu.chalmers.Blockster.core.objects.BlockMap;
+import edu.chalmers.Blockster.core.objects.Player;
 import edu.chalmers.Blockster.core.util.Factory;
 
 public class GdxFactory implements Factory {

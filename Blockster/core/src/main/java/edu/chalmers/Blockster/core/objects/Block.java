@@ -1,4 +1,4 @@
-package edu.chalmers.Blockster.core;
+package edu.chalmers.Blockster.core.objects;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.chalmers.Blockster.core.objects.Block;
+import edu.chalmers.Blockster.core.objects.BlockMap;
+import edu.chalmers.Blockster.core.objects.Player;
 import edu.chalmers.Blockster.core.util.AnimationState;
 import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;

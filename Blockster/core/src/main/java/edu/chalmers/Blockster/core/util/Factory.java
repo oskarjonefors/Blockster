@@ -1,7 +1,7 @@
 package edu.chalmers.Blockster.core.util;
 
-import edu.chalmers.Blockster.core.BlockMap;
-import edu.chalmers.Blockster.core.Player;
+import edu.chalmers.Blockster.core.objects.BlockMap;
+import edu.chalmers.Blockster.core.objects.Player;
 
 public interface Factory {
 	

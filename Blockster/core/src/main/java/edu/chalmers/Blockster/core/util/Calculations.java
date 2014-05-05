@@ -2,10 +2,10 @@ package edu.chalmers.Blockster.core.util;
 
 import static edu.chalmers.Blockster.core.util.Direction.LEFT;
 import static edu.chalmers.Blockster.core.util.Direction.RIGHT;
-import edu.chalmers.Blockster.core.Block;
-import edu.chalmers.Blockster.core.BlockMap;
-import edu.chalmers.Blockster.core.Player;
-import edu.chalmers.Blockster.core.BlocksterObject;
+import edu.chalmers.Blockster.core.objects.Block;
+import edu.chalmers.Blockster.core.objects.BlockMap;
+import edu.chalmers.Blockster.core.objects.BlocksterObject;
+import edu.chalmers.Blockster.core.objects.Player;
 
 public class Calculations {
 	

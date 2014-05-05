@@ -1,7 +1,8 @@
-package edu.chalmers.Blockster.core;
+package edu.chalmers.Blockster.core.objects;
 
 import javax.vecmath.*;
 
+import edu.chalmers.Blockster.core.interactions.InteractionState;
 import edu.chalmers.Blockster.core.util.AnimationState;
 import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
