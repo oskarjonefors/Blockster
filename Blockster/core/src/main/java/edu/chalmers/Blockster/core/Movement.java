@@ -10,7 +10,7 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
  */
 public enum Movement {
 	
-	NONE(0),
+	NONE,
 	PULL_LEFT(LEFT, STANDARD_MOVE_DURATION, new LinearSpline(LEFT), true),
 	PULL_RIGHT(RIGHT, STANDARD_MOVE_DURATION, new LinearSpline(RIGHT), true),
 	PUSH_LEFT(LEFT, STANDARD_MOVE_DURATION, new LinearSpline(LEFT)),
@@ -26,8 +26,8 @@ public enum Movement {
 	private final Spline spline;
 	private boolean pullMovement;
 	
-	private Movement(float duration) {
-		this(Direction.NONE, duration, null, false);
+	private Movement() {
+		this(Direction.NONE, 0, new LinearSpline(Direction.NONE), false);
 	}
 	
 	private Movement(Direction dir, float duration, Spline spline) {
