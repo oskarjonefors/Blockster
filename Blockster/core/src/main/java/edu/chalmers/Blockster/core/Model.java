@@ -161,22 +161,20 @@ public class Model implements Comparable<Model> {
 	
 	private void updatePlayers(float deltaTime) {
 		for (Player player : players) {
-			boolean notcollision;
-			
 			if (player.getAnimationState() != AnimationState.NONE 
 					&& player.getAnimationState().isDone()) {
 				player.moveToNextPosition();
 				player.setAnimationState(AnimationState.NONE);
 			}
 			
-			notcollision = player.updatePosition(deltaTime);
+			player.updatePosition(deltaTime);
 			player.setVelocityY(0);
 			player.setVelocityX(0);
 			
-			if (notcollision) {
-				player.increaseGravity(deltaTime);
-			} else {
+			if (player.collidedVertically()) {
 				player.resetGravity();
+			} else {
+				player.increaseGravity(deltaTime);
 			}
 		}
 	}

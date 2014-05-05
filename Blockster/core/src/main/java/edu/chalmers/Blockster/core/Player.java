@@ -22,6 +22,9 @@ public class Player extends BlocksterObject{
 	private boolean isLiftingBlock;
 	private InteractionState state = InteractionState.NONE;
 	
+	private boolean collidedHorisontally = false;
+	private boolean collidedVertically = false;
+	
 	public Player(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer);
 		velocity = new Vector2f(0, 0);
@@ -173,14 +176,15 @@ public class Player extends BlocksterObject{
 		state = InteractionState.NONE;
 	}
 	
-	public boolean move(Vector2f distance) {
+	public void move(Vector2f distance) {
 		float[] previousPosition = { getX(), getY() };
-		boolean collision = false;
+		collidedHorisontally = false;
+		collidedVertically = false;
 
 		setX(getX() + distance.x);
 		if (collisionEitherCorner(this, getBlockLayer())) {
 			setX(previousPosition[0]);
-			collision = true;
+			collidedHorisontally = true;
 		}
 
 		setY(getY() + distance.y);
@@ -190,26 +194,22 @@ public class Player extends BlocksterObject{
 				setY(((int)getY()/getBlockLayer().getBlockHeight())
 							* getBlockLayer().getBlockHeight());
 			}
-			collision = true;
+			collidedVertically = true;
 		}
-		
-		return !collision;
 	}
 	
 	public void moveToNextPosition() {
 		super.moveToNextPosition();
 	}
 
-	public boolean updatePosition(float deltaTime) {
+	public void updatePosition(float deltaTime) {
 		if (getAnimationState() != AnimationState.NONE) {
 			getAnimationState().updatePosition(deltaTime);
-			return false;
 		} else {
 			Vector2f distance = new Vector2f();
 			distance.x = velocity.x * deltaTime;
 			distance.y = velocity.y * deltaTime;
-			
-			return move(distance);
+			move(distance);
 		}
 	}
 	
@@ -230,6 +230,14 @@ public class Player extends BlocksterObject{
 		return checkX >= 1 && checkX < bLayer.getWidth() && !bLayer.
 				hasBlock(checkX + movement.getDirection().deltaX, checkY);
 			
+	}
+	
+	public boolean collidedHorisontally() {
+		return collidedHorisontally;
+	}
+	
+	public boolean collidedVertically() {
+		return collidedVertically;
 	}
 	
 }
