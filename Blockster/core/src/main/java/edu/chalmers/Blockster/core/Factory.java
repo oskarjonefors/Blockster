@@ -4,6 +4,6 @@ public interface Factory {
 	
 	public BlockMap createMap();
 
-	public Player createPlayer(float startX, float startY, BlockLayer blockLayer);
+	public Player createPlayer(float startX, float startY, BlockMap blockLayer);
 
 }

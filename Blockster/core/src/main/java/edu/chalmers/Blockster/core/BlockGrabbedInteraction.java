@@ -8,11 +8,11 @@ import edu.chalmers.Blockster.core.util.Direction;
 public class BlockGrabbedInteraction implements PlayerInteraction {
 	
 	private Block activeBlock; 
-	private BlockLayer blockLayer;
+	private BlockMap blockLayer;
 	private Player player;
 	
 	public BlockGrabbedInteraction(Player player, 
-			Block activeBlock, BlockLayer blockLayer) {
+			Block activeBlock, BlockMap blockLayer) {
 		this.activeBlock = activeBlock;
 		this.blockLayer = blockLayer;
 		this.player = player;

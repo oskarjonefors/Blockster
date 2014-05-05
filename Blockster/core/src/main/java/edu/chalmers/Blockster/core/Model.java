@@ -37,18 +37,8 @@ public class Model implements Comparable<Model> {
 		this.map = factory.createMap();
 		players = new ArrayList<Player>();
 		activeBlocks = Collections.synchronizedSet(new HashSet<Block>());
-		blocks = new ArrayList<Block>();
 		setStartPositions();
 		activePlayer = players.get(0);
-		
-		BlockLayer blockLayer = map.getBlockLayer();
-		for (int x = 0; x < blockLayer.getWidth(); x++) {
-			for(int y = 0; y < blockLayer.getHeight(); y++) {
-				if (blockLayer.hasBlock(x, y)) {
-					blocks.add(blockLayer.getBlock(x, y));
-				}
-			}
-		}
 	}
 
 	@Override
@@ -143,7 +133,7 @@ public class Model implements Comparable<Model> {
 	private void setStartPositions() {
 		for (float[] startPosition : getPlayerStartingPositions(map)) {
 			Player player = factory.createPlayer(startPosition[0], 
-					startPosition[1], map.getBlockLayer());
+					startPosition[1], map);
 			players.add(player);
 		}
 	}
@@ -158,7 +148,7 @@ public class Model implements Comparable<Model> {
 	}
 	
 	private void updateBlocks(float deltaTime) {
-		for (Block block : blocks) {
+		for (Block block : map.getBlocks()) {
 			if (block.getAnimationState() != AnimationState.NONE) {
 				block.getAnimationState().updatePosition(deltaTime);
 				if(block.getAnimationState().isDone()) {

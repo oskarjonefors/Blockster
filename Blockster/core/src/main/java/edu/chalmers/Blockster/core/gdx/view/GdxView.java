@@ -21,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.Blockster.core.AnimationState;
-import edu.chalmers.Blockster.core.Block;
 import edu.chalmers.Blockster.core.Movement;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.Player;
@@ -36,8 +35,8 @@ public class GdxView implements ApplicationListener, Disposable {
 	private Model model;
 	private OrthogonalTiledMapRenderer renderer;
 	private Stage stage;
-	private List<Block> activeBlocks;
-	private List<Block> liftedBlocks;
+	private List<BlockView> activeBlocks;
+	private List<BlockView> liftedBlocks;
 	private Map<Player, PlayerView> players;
 	private Actor background;
 	private Vector3 cameraMoveVector;
@@ -75,24 +74,6 @@ public class GdxView implements ApplicationListener, Disposable {
 						(model.getActivePlayer().getY()*0.7f - 
 								(background.getHeight() / 2) - 
 								camera.viewportHeight / 2));
-
-	
-		for (Block block : model.getActiveBlocks()) {
-			if (!activeBlocks.contains(block) || !((Block)block).hasParent()) {
-				Block gBlock = (Block)block;
-
-				AnimationState anim = block.getAnimationState();
-
-				
-				activeBlocks.add(gBlock);
-				stage.addActor(gBlock);
-				gBlock.setOrigin(gBlock.getX(), gBlock.getY());
-				((GdxBlockLayer) model.getMap().getBlockLayer()).removeBlock(block);
-				Gdx.app.log("GdxView", "Added actor. Coordinates:" + gBlock.getX() + " " + gBlock.getY());
-			}
-		}
-				
-
 		
 		/**
 		 *  renders the stage
@@ -130,8 +111,8 @@ public class GdxView implements ApplicationListener, Disposable {
 		stage.addActor(background);
 		
 		
-		activeBlocks = new ArrayList<Block>();
-		liftedBlocks = new ArrayList<Block>();
+		activeBlocks = new ArrayList<BlockView>();
+		liftedBlocks = new ArrayList<BlockView>();
 	}
 	
 	public void transitCamera(){
@@ -224,6 +205,5 @@ public class GdxView implements ApplicationListener, Disposable {
 		
 		return pView;
 	}
-	
 	
 }

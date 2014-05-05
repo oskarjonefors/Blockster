@@ -6,17 +6,17 @@ public abstract class BlocksterObject {
 	private float height;
 	private float width;
 	private AnimationState anim;
-	private BlockLayer blockLayer;
-	
-	public BlocksterObject(float startX, float startY, BlockLayer blockLayer) {
+	private BlockMap blockMap;
+
+	public BlocksterObject(float startX, float startY, BlockMap blockMap) {
 		this.posX = startX;
 		this.posY = startY;
-		this.blockLayer = blockLayer;
+		this.blockMap = blockMap;
 		anim = AnimationState.NONE;
 	}
 	
-	public BlockLayer getBlockLayer(){
-		return blockLayer;
+	public BlockMap getBlockLayer(){
+		return blockMap;
 	}
 	
 	public float getHeight() {
@@ -61,10 +61,10 @@ public abstract class BlocksterObject {
 	}
 	public void moveToNextPosition(){
 		posX += anim.getMovement().getDirection().deltaX 
-				* blockLayer.getBlockWidth();
+				* blockMap.getBlockWidth();
 		
 		posY += anim.getMovement().getDirection().deltaY 
-				* blockLayer.getBlockHeight();
+				* blockMap.getBlockHeight();
 	}
 	
 	public AnimationState getAnimationState() {

@@ -1,6 +1,7 @@
 package edu.chalmers.Blockster.core;
 
 import javax.vecmath.*;
+
 import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
 import static edu.chalmers.Blockster.core.util.Calculations.*;
@@ -21,7 +22,7 @@ public class Player extends BlocksterObject{
 	private boolean isLiftingBlock;
 	private InteractionState state = InteractionState.NONE;
 	
-	public Player(float startX, float startY, BlockLayer blockLayer) {
+	public Player(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer);
 		velocity = new Vector2f(0, 0);
 	}
@@ -222,7 +223,7 @@ public class Player extends BlocksterObject{
 	 * @return true if nothing is blocking the way behind player, else false.
 	 */
 	public boolean canMove(Movement movement) {
-		BlockLayer bLayer = getBlockLayer();
+		BlockMap bLayer = getBlockLayer();
 		int checkX = (int) (getX() / bLayer.getBlockWidth());
 		int checkY = (int) (getY() / bLayer.getBlockWidth());
 			

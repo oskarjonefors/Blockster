@@ -3,7 +3,7 @@ package edu.chalmers.Blockster.core.util;
 import static edu.chalmers.Blockster.core.util.Direction.LEFT;
 import static edu.chalmers.Blockster.core.util.Direction.RIGHT;
 import edu.chalmers.Blockster.core.Block;
-import edu.chalmers.Blockster.core.BlockLayer;
+import edu.chalmers.Blockster.core.BlockMap;
 import edu.chalmers.Blockster.core.Player;
 import edu.chalmers.Blockster.core.BlocksterObject;
 
@@ -20,7 +20,7 @@ public class Calculations {
 	public final static int CHECK_LEFT_FLAG = 1 << 6;
 	public final static int CHECK_UP_LEFT_FLAG = 1 << 7;
 	
-	public static boolean collisionEitherCorner(BlocksterObject player, BlockLayer blockLayer) {
+	public static boolean collisionEitherCorner(BlocksterObject player, BlockMap blockLayer) {
 		try {
 			return collisionUpperLeft(player, blockLayer) ||
 					collisionUpperRight(player, blockLayer) ||
@@ -32,7 +32,7 @@ public class Calculations {
 	}
 
 	private static boolean collisionLowerLeft(BlocksterObject player, 
-			BlockLayer blockLayer) {
+			BlockMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
 		
@@ -41,7 +41,7 @@ public class Calculations {
 	}
 
 	private static boolean collisionLowerRight(BlocksterObject player, 
-			BlockLayer blockLayer) {
+			BlockMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
 		
@@ -50,7 +50,7 @@ public class Calculations {
 	}
 	
 	private static boolean collisionUpperLeft(BlocksterObject player, 
-			BlockLayer blockLayer) {
+			BlockMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
 		
@@ -59,7 +59,7 @@ public class Calculations {
 	}
 	
 	private static boolean collisionUpperRight(BlocksterObject player, 
-			BlockLayer blockLayer) {
+			BlockMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
 		
@@ -68,19 +68,19 @@ public class Calculations {
 	}
 	
 	public static boolean collisionSurroundingBlocks(Player player,
-			BlockLayer blockLayer, int flags) {
+			BlockMap blockLayer, int flags) {
 		return collisionSurroundingBlocks(player, blockLayer, 
 				blockLayer.getBlockWidth(), blockLayer.getBlockHeight(),
 				flags);
 	}
 	
 	public static boolean collisionSurroundingBlocks(Block block,
-			BlockLayer blockLayer, int flags) {
+			BlockMap blockLayer, int flags) {
 		return collisionSurroundingBlocks(block, blockLayer, 1, 1, flags);
 	}
 	
 	private static boolean collisionSurroundingBlocks(BlocksterObject pos,
-			 BlockLayer blockLayer, float scaleX, float scaleY, int flags) {
+			 BlockMap blockLayer, float scaleX, float scaleY, int flags) {
 		boolean collision = false;
 		
 		if ((flags & CHECK_UP_FLAG) != 0) {
@@ -134,30 +134,29 @@ public class Calculations {
 		return collision;
 	}
 	
-	private static boolean isSolid(BlockLayer blockLayer, int x, int y) {
+	private static boolean isSolid(BlockMap blockLayer, int x, int y) {
 		return blockLayer.hasBlock(x, y) && blockLayer.getBlock(x,y).isSolid();
 	}
 	
 	public static Block getAdjacentBlock(Direction dir, Player player
-			, BlockLayer blockLayer) {
+			, BlockMap blockLayer) {
 		float blockWidth = blockLayer.getBlockWidth();
 		float blockHeight = blockLayer.getBlockHeight();
 		Block block = null;
 
 		try {
 			if (dir == LEFT) {
-				Block adjacentBlockLeft = blockLayer.getBlock(
+				block = blockLayer.getBlock(
 						(int) (player.getX() / blockWidth) - 1,
 						(int) ((2 * player.getY() + player.getHeight()) / 2 / blockHeight));
-				block = adjacentBlockLeft;
+				
 			}
 
 			if (dir == RIGHT) {
-				Block adjacentBlockRight = blockLayer.getBlock(
+				block = blockLayer.getBlock(
 						(int) ((player.getX() + player.getWidth()) / blockWidth) + 1,
 						(int) ((2 * player.getY() + player.getHeight()) / 2 / blockHeight));
 
-				block = adjacentBlockRight;
 			}
 		} catch (NullPointerException e) {
 			block = null;
