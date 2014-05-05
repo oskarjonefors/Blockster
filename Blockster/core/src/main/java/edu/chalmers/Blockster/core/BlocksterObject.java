@@ -9,8 +9,8 @@ public abstract class BlocksterObject {
 	private BlockLayer blockLayer;
 	
 	public BlocksterObject(float startX, float startY, BlockLayer blockLayer) {
-		this.posX = posX;
-		this.posY = posY;
+		this.posX = startX;
+		this.posY = startY;
 		this.blockLayer = blockLayer;
 		anim = AnimationState.NONE;
 	}
