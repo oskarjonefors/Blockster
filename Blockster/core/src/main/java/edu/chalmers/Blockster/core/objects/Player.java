@@ -73,7 +73,9 @@ public class Player extends BlocksterObject{
 	}
 	
 	public void grabBlock(Block block) {
+		System.out.println("Trying to grab block at " + block.getX() + " " + block.getY());
 		if (canGrabBlock(block)) {
+			System.out.println("Can grab block at " + block.getX() + " " + block.getY());
 			processedBlock = block;
 			isGrabbingBlock = true;
 			interaction = new BlockGrabbedInteraction(this, block, blockMap);
@@ -81,6 +83,11 @@ public class Player extends BlocksterObject{
 	}
 	
 	private boolean canGrabBlock(Block block) {
+		System.out.print("block != null = " + (block != null) + "|");
+		System.out.print("!isInteracting() = " + !isInteracting() + "|");
+		System.out.println("isNextToBlock = " + isNextToBlock(block) + "|");
+		System.out.println("isMovable || isLiftable = " + (block.isMovable() || block.isLiftable()));
+		
 		return block != null && !isInteracting() && isNextToBlock(block) &&
 				(block.isMovable() || block.isLiftable());
 	}
@@ -90,7 +97,9 @@ public class Player extends BlocksterObject{
 	}
 	
 	public void liftBlock() {
+		System.out.println("Trying to lift block at " + getProcessedBlock().getX() + " " + getProcessedBlock().getY());
 		if (canLiftBlock(getProcessedBlock())) {
+			System.out.println("Can lift block at " + getProcessedBlock().getX() + " " + getProcessedBlock().getY());
 			//Lift process
 			float relativePositionSignum = getProcessedBlock().getX()
 								- getX() / getBlockLayer().getBlockWidth();
@@ -118,9 +127,11 @@ public class Player extends BlocksterObject{
 	}
 	
 	public boolean isNextToBlock(Block block) {
+		System.out.println("X: " + Math.abs(block.getX() - (getX() / blockMap.getBlockWidth())) + " Y: " + 
+				Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())));
 		return block != null &&
-		Math.abs(block.getX() - getX()) < 0.5f &&
-		Math.abs(block.getY() - getY()) < 0.5f;
+		Math.abs(block.getX() - (getX() / blockMap.getBlockWidth())) < 1f &&
+		Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) < 1f;
 	}
 	
 	public void interact(Direction dir) {

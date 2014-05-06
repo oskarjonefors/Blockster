@@ -29,7 +29,9 @@ public class PlayerView {
 	}
 	
 	public void draw(SpriteBatch batch){
-		sprite.setRegion(chooseAnimation());
+		sprite.setRegion(defaultSprite);
+		//TODO: Choose the right animation frame
+		//sprite.setRegion(chooseAnimation());
 		batch.draw(sprite, getX(), getY());
 	}
 			
