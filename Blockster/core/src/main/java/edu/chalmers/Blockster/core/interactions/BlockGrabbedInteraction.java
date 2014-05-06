@@ -10,7 +10,7 @@ import edu.chalmers.Blockster.core.util.AnimationState;
 import edu.chalmers.Blockster.core.util.Direction;
 import edu.chalmers.Blockster.core.util.Movement;
 
-public class BlockGrabbedInteraction implements PlayerInteraction {
+public class BlockGrabbedInteraction extends PlayerInteraction {
 	
 	private Block activeBlock; 
 	private BlockMap blockLayer;

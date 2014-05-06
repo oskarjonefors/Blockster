@@ -8,7 +8,7 @@ public abstract class BlocksterObject {
 	private float height;
 	private float width;
 	private AnimationState anim;
-	private BlockMap blockMap;
+	protected BlockMap blockMap;
 
 	public BlocksterObject(float startX, float startY, BlockMap blockMap) {
 		this.posX = startX;

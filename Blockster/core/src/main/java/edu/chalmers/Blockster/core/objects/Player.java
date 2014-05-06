@@ -2,7 +2,8 @@ package edu.chalmers.Blockster.core.objects;
 
 import javax.vecmath.*;
 
-import edu.chalmers.Blockster.core.interactions.InteractionState;
+import edu.chalmers.Blockster.core.interactions.BlockGrabbedInteraction;
+import edu.chalmers.Blockster.core.interactions.PlayerInteraction;
 import edu.chalmers.Blockster.core.util.AnimationState;
 import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
@@ -23,7 +24,7 @@ public class Player extends BlocksterObject{
 	private Block processedBlock;
 	private boolean isGrabbingBlock;
 	private boolean isLiftingBlock;
-	private InteractionState state = InteractionState.NONE;
+	private PlayerInteraction interaction = PlayerInteraction.NONE;
 	
 	private boolean collidedHorisontally = false;
 	private boolean collidedVertically = false;
@@ -75,6 +76,7 @@ public class Player extends BlocksterObject{
 		if (canGrabBlock(block)) {
 			processedBlock = block;
 			isGrabbingBlock = true;
+			interaction = new BlockGrabbedInteraction(this, block, blockMap);
 		}
 	}
 	
@@ -123,19 +125,19 @@ public class Player extends BlocksterObject{
 	
 	public void interact(Direction dir) {
 		if (isInteracting()) {
-			state.getInteraction().interact(dir);
+			interaction.interact(dir);
 		} else {
 			setDefaultVelocity(dir);
 		}
 	}
 	
 	public boolean isInteracting() {
-		return (state != InteractionState.NONE);
+		return (interaction != PlayerInteraction.NONE);
 	}
 	
 	public void endInteraction() {
-		state.getInteraction().endInteraction();
-		state = InteractionState.NONE;
+		interaction.endInteraction();
+		interaction = PlayerInteraction.NONE;
 	}
 	
 	public void move(Vector2f distance) {

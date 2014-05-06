@@ -2,7 +2,7 @@ package edu.chalmers.Blockster.core.interactions;
 
 import edu.chalmers.Blockster.core.util.Direction;
 
-public class BlockLiftedInteraction implements PlayerInteraction {
+public class BlockLiftedInteraction extends PlayerInteraction {
 
 	@Override
 	public void interact(Direction dir) {
