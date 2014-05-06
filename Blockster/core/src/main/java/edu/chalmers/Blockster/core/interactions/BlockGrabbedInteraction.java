@@ -84,7 +84,12 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 
 	@Override
 	public void endInteraction() {
+		player.setGrabbing(false);
+	}
 
+	@Override
+	public void startInteraction() {
+		player.setGrabbing(true);
 	}
 	
 

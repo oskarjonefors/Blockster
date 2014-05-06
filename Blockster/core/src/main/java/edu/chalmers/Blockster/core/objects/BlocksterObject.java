@@ -74,7 +74,9 @@ public abstract class BlocksterObject {
 	}
 	
 	public void setAnimationState(AnimationState anim) {
-		this.anim = anim;
+		if (this.anim != AnimationState.NONE || this.anim.isDone()) {
+			this.anim = anim;
+		}
 	}
 	
 }

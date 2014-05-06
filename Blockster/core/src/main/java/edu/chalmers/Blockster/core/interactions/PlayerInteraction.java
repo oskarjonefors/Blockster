@@ -17,11 +17,17 @@ public abstract class PlayerInteraction {
 		public void endInteraction() {
 			
 		}
-		
+
+		@Override
+		public void startInteraction() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 	
 	public abstract void interact(Direction dir);
 
 	public abstract void endInteraction();
 	
+	public abstract void startInteraction();
 }

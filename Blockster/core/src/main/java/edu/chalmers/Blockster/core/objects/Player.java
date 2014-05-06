@@ -3,6 +3,7 @@ package edu.chalmers.Blockster.core.objects;
 import javax.vecmath.*;
 
 import edu.chalmers.Blockster.core.interactions.BlockGrabbedInteraction;
+import edu.chalmers.Blockster.core.interactions.BlockLiftedInteraction;
 import edu.chalmers.Blockster.core.interactions.PlayerInteraction;
 import edu.chalmers.Blockster.core.util.AnimationState;
 import edu.chalmers.Blockster.core.util.Calculations;
@@ -97,21 +98,11 @@ public class Player extends BlocksterObject{
 	}
 	
 	public void liftBlock() {
-		if(isLiftingBlock()) {
-			AnimationState anim = new AnimationState(Movement.PLACE_LEFT);
-			getProcessedBlock().setAnimationState(anim);
-			isLiftingBlock = false;
-		} else if (canLiftBlock(getProcessedBlock())) {
+		if (canLiftBlock(getProcessedBlock())) {
 			System.out.println("Can lift block at " + getProcessedBlock().getX() + " " + getProcessedBlock().getY());
-			//Lift process
-			float relativePositionSignum = getProcessedBlock().getX()
-								- getX() / getBlockLayer().getBlockWidth();
-			AnimationState anim = relativePositionSignum > 0 ?
-						new AnimationState(Movement.LIFT_LEFT) :
-						new AnimationState(Movement.LIFT_RIGHT);
-			getProcessedBlock().setAnimationState(anim);
-			
+			//Lift process			
 			isLiftingBlock = true;
+			interaction = new BlockLiftedInteraction(this, getProcessedBlock(), blockMap);
 			isGrabbingBlock = false;
 		}
 	}
@@ -218,6 +209,20 @@ public class Player extends BlocksterObject{
 	
 	public boolean collidedVertically() {
 		return collidedVertically;
+	}
+
+	public void setGrabbing(boolean b) {
+		if(b) {
+			float relativePositionSignum = getProcessedBlock().getX()
+					- getX() / blockMap.getBlockWidth();
+			AnimationState anim = relativePositionSignum > 0 ?
+			AnimationState.GRAB_RIGHT :
+			AnimationState.GRAB_LEFT;
+			setAnimationState(anim);
+		} else {
+			setAnimationState(AnimationState.NONE);
+		}
+		
 	}
 	
 }

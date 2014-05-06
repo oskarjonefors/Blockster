@@ -12,7 +12,8 @@ import javax.vecmath.Vector2f;
 public class AnimationState {
 	
 	public final static AnimationState NONE = new AnimationState(Movement.NONE);
-
+	public final static AnimationState GRAB_LEFT = new AnimationState(Movement.NONE);
+	public final static AnimationState GRAB_RIGHT = new AnimationState(Movement.NONE);
 	
 	private float elapsedTime;
 	private Movement move;
