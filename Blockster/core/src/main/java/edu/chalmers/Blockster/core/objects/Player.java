@@ -33,47 +33,6 @@ public class Player extends BlocksterObject{
 		velocity = new Vector2f(0, 0);
 	}
 	
-	public void setX(float x) {
-		super.setX(x);
-	}
-
-	public void setY(float y) {
-		super.setY(y);
-	}
-	
-	@Override
-	public float getX() {
-		return super.getX();
-	}
-	@Override
-	public float getY() {
-		return super.getY();
-	}
-	@Override
-	public void setWidth(float width) {
-		super.setWidth(width);
-	}
-	@Override
-	public void setHeight(float height) {
-		super.setHeight(height);
-	}
-	@Override
-	public float getWidth() {
-		return super.getWidth();
-	}
-	@Override
-	public float getHeight() {
-		return super.getHeight();
-	}
-	@Override
-	public void setAnimationState(AnimationState anim) {
-		super.setAnimationState(anim);
-	}
-	@Override
-	public AnimationState getAnimationState() {
-		return super.getAnimationState();
-	}
-	
 	public Vector2f getVelocity() {
 		return velocity;
 	}
