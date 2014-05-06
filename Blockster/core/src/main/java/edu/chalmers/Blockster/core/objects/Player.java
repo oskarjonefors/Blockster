@@ -109,7 +109,7 @@ public class Player extends BlocksterObject{
 			AnimationState anim = relativePositionSignum > 0 ?
 						new AnimationState(Movement.LIFT_LEFT) :
 						new AnimationState(Movement.LIFT_RIGHT);
-			getProcessedBlock(). (anim);
+			getProcessedBlock().setAnimationState(anim);
 			
 			isLiftingBlock = true;
 			isGrabbingBlock = false;
