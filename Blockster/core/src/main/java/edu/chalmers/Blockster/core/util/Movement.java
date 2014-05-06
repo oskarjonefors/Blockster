@@ -8,24 +8,27 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
  */
 public enum Movement {
 	
-	NONE,
+	NONE(0),
 	PULL_LEFT(LEFT, STANDARD_MOVE_DURATION, new LinearSpline(LEFT), true),
 	PULL_RIGHT(RIGHT, STANDARD_MOVE_DURATION, new LinearSpline(RIGHT), true),
 	PUSH_LEFT(LEFT, STANDARD_MOVE_DURATION, new LinearSpline(LEFT)),
 	PUSH_RIGHT(RIGHT, STANDARD_MOVE_DURATION, new LinearSpline(RIGHT)),
+	MOVE_LEFT(LEFT, STANDARD_MOVE_DURATION, new LinearSpline(LEFT)),
+	MOVE_RIGHT(RIGHT, STANDARD_MOVE_DURATION, new LinearSpline(RIGHT)),
 	LIFT_LEFT(UP_LEFT, STANDARD_MOVE_DURATION, new BezierSpline(UP_LEFT)),
 	LIFT_RIGHT(UP_RIGHT, STANDARD_MOVE_DURATION, new BezierSpline(UP_RIGHT)), 
 	PLACE_LEFT(DOWN_LEFT, STANDARD_MOVE_DURATION, new BezierSpline(DOWN_LEFT)), 
 	PLACE_RIGHT(DOWN_RIGHT, STANDARD_MOVE_DURATION, new BezierSpline(DOWN_RIGHT)),
-	MOVE_DOWN(DOWN, STANDARD_MOVE_DURATION, new LinearSpline(DOWN));
+	MOVE_DOWN(DOWN, STANDARD_MOVE_DURATION, new LinearSpline(DOWN)),
+	WAIT(STANDARD_MOVE_DURATION);
 	
 	private final Direction direction;
 	private final float duration;
 	private final Spline spline;
 	private boolean pullMovement;
 	
-	private Movement() {
-		this(Direction.NONE, 0, new LinearSpline(Direction.NONE), false);
+	private Movement(float duration) {
+		this(Direction.NONE, duration, new LinearSpline(Direction.NONE), false);
 	}
 	
 	private Movement(Direction dir, float duration, Spline spline) {
@@ -97,6 +100,14 @@ public enum Movement {
 			return NONE;
 		} else {
 			return dir == Direction.LEFT ? PLACE_LEFT : PLACE_RIGHT;
+		}
+	}
+	
+	public static Movement getMoveMovement(Direction dir) {
+		if (dir != Direction.LEFT && dir != Direction.RIGHT) {
+			return NONE;
+		} else {
+			return dir == Direction.LEFT ? MOVE_LEFT : MOVE_RIGHT;
 		}
 	}
 

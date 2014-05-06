@@ -79,6 +79,7 @@ public class Player extends BlocksterObject{
 			processedBlock = block;
 			isGrabbingBlock = true;
 			interaction = new BlockGrabbedInteraction(this, block, blockMap);
+			interaction.startInteraction();
 		}
 	}
 	
@@ -101,8 +102,8 @@ public class Player extends BlocksterObject{
 		if (canLiftBlock(getProcessedBlock())) {
 			System.out.println("Can lift block at " + getProcessedBlock().getX() + " " + getProcessedBlock().getY());
 			//Lift process			
-			isLiftingBlock = true;
 			interaction = new BlockLiftedInteraction(this, getProcessedBlock(), blockMap);
+			interaction.startInteraction();
 			isGrabbingBlock = false;
 		}
 	}
@@ -168,10 +169,6 @@ public class Player extends BlocksterObject{
 			collidedVertically = true;
 		}
 	}
-	
-	public void moveToNextPosition() {
-		super.moveToNextPosition();
-	}
 
 	public void updatePosition(float deltaTime) {
 		if (getAnimationState() != AnimationState.NONE) {
@@ -213,16 +210,19 @@ public class Player extends BlocksterObject{
 
 	public void setGrabbing(boolean b) {
 		if(b) {
-			float relativePositionSignum = getProcessedBlock().getX()
-					- getX() / blockMap.getBlockWidth();
-			AnimationState anim = relativePositionSignum > 0 ?
-			AnimationState.GRAB_RIGHT :
-			AnimationState.GRAB_LEFT;
-			setAnimationState(anim);
+			Direction dir = Calculations.getDirection(getX(), getProcessedBlock()
+					.getX() * blockMap.getBlockWidth());
+			setAnimationState(dir == Direction.LEFT ? AnimationState.GRAB_LEFT :
+				AnimationState.GRAB_RIGHT);
 		} else {
 			setAnimationState(AnimationState.NONE);
+			processedBlock = null;
 		}
 		
+	}
+
+	public void setLifting(boolean b) {
+		isLiftingBlock = b;
 	}
 	
 }

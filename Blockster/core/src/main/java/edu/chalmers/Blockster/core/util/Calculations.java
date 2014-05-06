@@ -163,4 +163,8 @@ public class Calculations {
 		}
 		return block;
 	}
+	
+	public static Direction getDirection(float x1, float x2) {
+		return ((x1	- x2) > 0 ? Direction.RIGHT : Direction.LEFT);
+	}
 }

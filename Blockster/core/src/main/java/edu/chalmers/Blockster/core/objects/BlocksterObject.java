@@ -7,7 +7,7 @@ public abstract class BlocksterObject {
 	private float posY;
 	private float height;
 	private float width;
-	private AnimationState anim;
+	protected AnimationState anim;
 	protected BlockMap blockMap;
 
 	public BlocksterObject(float startX, float startY, BlockMap blockMap) {
@@ -35,6 +35,14 @@ public abstract class BlocksterObject {
 	
 	public void setWidth(float width) {
 		this.width = width;
+	}
+	
+	public float getOriginX() {
+		return posX;
+	}
+	
+	public float getOriginY() {
+		return posY;
 	}
 	
 	public float getX() {
@@ -76,6 +84,11 @@ public abstract class BlocksterObject {
 	public void setAnimationState(AnimationState anim) {
 		if (this.anim != AnimationState.NONE || this.anim.isDone()) {
 			this.anim = anim;
+			if (this instanceof Player) {
+				System.out.println(anim.getMovement());
+			} else {
+				System.out.println("Block: "+anim.getMovement());
+			}
 		}
 	}
 	

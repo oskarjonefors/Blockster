@@ -40,4 +40,10 @@ public class Block extends BlocksterObject {
 		return x*x*x*y;
 	}
 	
+	@Override
+	public void moveToNextPosition() {
+		setX(getOriginX() + anim.getMovement().getDirection().deltaX);
+		setY(getOriginY() + anim.getMovement().getDirection().deltaY);
+	}
+	
 }

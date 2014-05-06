@@ -125,7 +125,8 @@ public class GdxMap extends TiledMap implements BlockMap {
 	@Override
 	public boolean hasBlock(int x, int y) {
 		return blockLayer.getCell(x, y) != null 
-				&& blockLayer.getCell(x, y).getTile() != null;
+				&& blockLayer.getCell(x, y).getTile() != null
+				&& blockLayer.getCell(x, y).getTile().getTextureRegion() != null;
 	}
 	
 	public Set<Block> getBlocks() {

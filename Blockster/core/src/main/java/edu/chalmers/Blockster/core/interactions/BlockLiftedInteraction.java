@@ -4,6 +4,7 @@ import edu.chalmers.Blockster.core.objects.Block;
 import edu.chalmers.Blockster.core.objects.BlockMap;
 import edu.chalmers.Blockster.core.objects.Player;
 import edu.chalmers.Blockster.core.util.AnimationState;
+import edu.chalmers.Blockster.core.util.Calculations;
 import edu.chalmers.Blockster.core.util.Direction;
 import edu.chalmers.Blockster.core.util.Movement;
 
@@ -22,16 +23,34 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 
 	@Override
 	public void interact(Direction dir) {
-
+		if(canPerformMove(dir)) {
+			AnimationState anim = new AnimationState(Movement.getMoveMovement(dir));
+			player.setAnimationState(anim);
+			block.setAnimationState(anim);
+		}
 	}
 
 	@Override
 	public void endInteraction() {
+		player.setLifting(false);
 	}
 
 	@Override
 	public void startInteraction() {
-		block.setAnimationState(anim);
+		block.setAnimationState(new AnimationState(Movement.getLiftMovement
+				(Calculations.getDirection(player.getX(),
+						block.getX() * blockMap.getBlockWidth()))));
+		player.setLifting(true);
+	}
+	
+	public boolean canPerformMove(Direction dir) {
+		int flag = 0;
+		if (dir == Direction.LEFT) {
+			flag = Calculations.CHECK_LEFT_FLAG | Calculations.CHECK_DOWN_LEFT_FLAG;
+		} else {
+			flag = Calculations.CHECK_RIGHT_FLAG | Calculations.CHECK_DOWN_RIGHT_FLAG;
+		}
+		return !Calculations.collisionSurroundingBlocks(block, blockMap, flag);
 	}
 
 }

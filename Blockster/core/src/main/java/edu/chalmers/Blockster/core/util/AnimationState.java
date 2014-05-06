@@ -14,6 +14,10 @@ public class AnimationState {
 	public final static AnimationState NONE = new AnimationState(Movement.NONE);
 	public final static AnimationState GRAB_LEFT = new AnimationState(Movement.NONE);
 	public final static AnimationState GRAB_RIGHT = new AnimationState(Movement.NONE);
+	public final static AnimationState LIFT_LEFT = new AnimationState(Movement.WAIT);
+	public final static AnimationState LIFT_RIGHT = new AnimationState(Movement.WAIT);
+	public final static AnimationState PLACE_LEFT = new AnimationState(Movement.WAIT);
+	public final static AnimationState PLACE_RIGHT = new AnimationState(Movement.WAIT);
 	
 	private float elapsedTime;
 	private Movement move;
