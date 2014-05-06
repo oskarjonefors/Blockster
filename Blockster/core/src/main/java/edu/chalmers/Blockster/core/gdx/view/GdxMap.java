@@ -80,7 +80,10 @@ public class GdxMap extends TiledMap implements BlockMap {
 	
 	@Override
 	public void setBlock(int x, int y, Block block){
-		blockLayer.getCell(x, y).setTile(blocks.get(block));
+		Cell cell = new Cell();
+		cell.setTile(blocks.get(block));
+		
+		blockLayer.setCell(x, y, cell);
 	}
 
 	@Override

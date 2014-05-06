@@ -42,8 +42,10 @@ public class Block extends BlocksterObject {
 	
 	@Override
 	public void moveToNextPosition() {
+		blockMap.setBlock((int) getOriginX(), (int) getOriginY(), null);
 		setX(getOriginX() + anim.getMovement().getDirection().deltaX);
 		setY(getOriginY() + anim.getMovement().getDirection().deltaY);
+		blockMap.setBlock((int) getOriginX(), (int) getOriginY(), this);
 	}
 	
 }
