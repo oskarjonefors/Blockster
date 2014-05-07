@@ -11,25 +11,30 @@ import javax.vecmath.Vector2f;
 
 public class AnimationState {
 	
-	public final static AnimationState NONE = new AnimationState(Movement.NONE);
-	public final static AnimationState GRAB_LEFT = new AnimationState(Movement.NONE);
-	public final static AnimationState GRAB_RIGHT = new AnimationState(Movement.NONE);
-	public final static AnimationState LIFT_LEFT = new AnimationState(Movement.WAIT);
-	public final static AnimationState LIFT_RIGHT = new AnimationState(Movement.WAIT);
-	public final static AnimationState PLACE_LEFT = new AnimationState(Movement.WAIT);
-	public final static AnimationState PLACE_RIGHT = new AnimationState(Movement.WAIT);
+	public final static AnimationState NONE = new AnimationState(Movement.NONE, "NONE");
+	public final static AnimationState GRAB_LEFT = new AnimationState(Movement.NONE, "GRAB_LEFT");
+	public final static AnimationState GRAB_RIGHT = new AnimationState(Movement.NONE, "GRAB_RIGHT");
+	public final static AnimationState LIFT_LEFT = new AnimationState(Movement.WAIT, "LIFT_LEFT");
+	public final static AnimationState LIFT_RIGHT = new AnimationState(Movement.WAIT, "LIFT_RIGHT");
+	public final static AnimationState PLACE_LEFT = new AnimationState(Movement.WAIT, "PLACE_LEFT");
+	public final static AnimationState PLACE_RIGHT = new AnimationState(Movement.WAIT, "PLACE_RIGHT");
 	
 	private float elapsedTime;
 	private Movement move;
-	
+	private String name;
 
 	/**
 	 * Create an animation with the given movement.
 	 * @param move	Movement to animate.
 	 */
 	public AnimationState (Movement move) {
+		this(move, null);
+	}
+	
+	public AnimationState (Movement move, String name) {
 		elapsedTime = 0f;
 		this.move = move;
+		this.name = name;
 	}
 	
 	public Movement getMovement() {
@@ -54,6 +59,14 @@ public class AnimationState {
 	 */
 	public boolean isDone() {
 		return(elapsedTime >= move.getDuration());
+	}
+	
+	public String toString() {
+		if(name == null) {
+			return move.name();
+		} else {
+			return name;
+		}
 	}
 	
 	/**

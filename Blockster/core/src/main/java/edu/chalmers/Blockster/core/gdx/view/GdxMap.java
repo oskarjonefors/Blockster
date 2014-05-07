@@ -153,15 +153,14 @@ public class GdxMap extends TiledMap implements BlockMap {
 	@Override
 	public void insertFinishedBlocks() {
 		Set<Block> doneBlocks = new HashSet<Block>();
-		for (Block block : activeBlocks) {
+		for (Block block : getActiveBlocks()) {
 			if (block.getAnimationState().isDone()) {
 				insertBlock(block);
-				System.out.println("Inserting "+block);
 				doneBlocks.add(block);
+				block.setAnimationState(AnimationState.NONE);
 			}
 		}
-		
-		activeBlocks.removeAll(doneBlocks);
+		activeBlocks.remove(doneBlocks);
 	}
 
 	@Override
@@ -178,7 +177,6 @@ public class GdxMap extends TiledMap implements BlockMap {
 			if(block.getAnimationState().isDone()) {
 				System.out.println("Animation on "+block+" is done");
 				block.moveToNextPosition();
-				block.setAnimationState(AnimationState.NONE);	
 			}
 		}
 	}

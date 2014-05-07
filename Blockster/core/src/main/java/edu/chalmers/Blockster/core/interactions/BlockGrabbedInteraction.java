@@ -25,7 +25,8 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	
 	@Override
 	public void interact(Direction dir) {
-
+		
+		System.out.println("Interacting: " + dir.name());
 		float relativePosition = activeBlock.getX() 
 				- player.getX() / blockLayer.getBlockWidth();
 		Movement movement = Movement.getPushPullMovement(dir, relativePosition);

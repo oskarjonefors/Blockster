@@ -33,14 +33,6 @@ public class Block extends BlocksterObject {
 	public boolean hasWeight() {
 		return properties.contains("weight");
 	}
-
-	@Override
-	public int hashCode() {
-		int x = (int) (11 * getX());
-		int y = (int) (23 * getY());
-		
-		return x*x*x*y;
-	}
 	
 	@Override
 	public void moveToNextPosition() {
@@ -48,7 +40,7 @@ public class Block extends BlocksterObject {
 		System.out.println("Removing "+this);
 		setX(getOriginX() + anim.getMovement().getDirection().deltaX);
 		setY(getOriginY() + anim.getMovement().getDirection().deltaY);
-		System.out.println("Moved "+this);
+		System.out.println("Moved "+this+" ("+anim.getMovement().getDirection()+") (" + anim.getMovement() + ") (" + anim + ")");
 	}
 	
 	public void setAnimationState(AnimationState anim) {
