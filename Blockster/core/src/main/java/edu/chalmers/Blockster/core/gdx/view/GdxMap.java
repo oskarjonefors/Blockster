@@ -85,10 +85,13 @@ public class GdxMap extends TiledMap implements BlockMap {
 	
 	@Override
 	public void setBlock(int x, int y, Block block){
-		Cell cell = new Cell();
-		cell.setTile(blocks.get(block));
-		
-		blockLayer.setCell(x, y, cell);
+		if (block != null) {
+			Cell cell = new Cell();
+			cell.setTile(blocks.get(block));
+			blockLayer.setCell(x, y, cell);
+		} else {
+			blockLayer.setCell(x, y, null);
+		}
 	}
 
 	@Override
@@ -156,6 +159,8 @@ public class GdxMap extends TiledMap implements BlockMap {
 			}
 		}
 		activeBlocks.removeAll(doneBlocks);
+		if (activeBlocks.size() != 0)
+			System.out.println(activeBlocks.size());
 	}
 
 	@Override
