@@ -45,6 +45,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 			moveableBlocks = getMoveableBlocks(dir);
 			for (Block block : moveableBlocks) {
 				block.setAnimationState(new AnimationState(movement));
+				blockLayer.setBlock((int) block.getX(), (int) block.getY(), null);
 			}
 			
 			if (!moveableBlocks.isEmpty()) {
