@@ -82,13 +82,8 @@ public abstract class BlocksterObject {
 	}
 	
 	public void setAnimationState(AnimationState anim) {
-		if (this.anim != AnimationState.NONE || this.anim.isDone()) {
+		if (this.anim == AnimationState.NONE || this.anim.isDone()) {
 			this.anim = anim;
-			if (this instanceof Player) {
-				System.out.println(anim.getMovement());
-			} else {
-				System.out.println("Block: "+anim.getMovement());
-			}
 		}
 	}
 	

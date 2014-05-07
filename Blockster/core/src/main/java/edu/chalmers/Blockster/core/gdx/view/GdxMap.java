@@ -1,7 +1,9 @@
 package edu.chalmers.Blockster.core.gdx.view;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import edu.chalmers.Blockster.core.objects.Block;
 import edu.chalmers.Blockster.core.objects.BlockMap;
+import edu.chalmers.Blockster.core.util.AnimationState;
 
 /**
  * 
@@ -25,6 +28,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 
 	private TiledMapTileLayer blockLayer;
 	private Map<Block, BlockView> blocks;
+	private Set<Block> activeBlocks;
 
 	public GdxMap (TiledMap map) {
 		super();
@@ -32,6 +36,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 		blockLayer = (TiledMapTileLayer) 
 				map.getLayers().get(0);
 		blocks = new HashMap<Block, BlockView>();
+		activeBlocks = new HashSet<Block>();
 
 		getLayers().add(blockLayer);
 
@@ -110,8 +115,8 @@ public class GdxMap extends TiledMap implements BlockMap {
 	 */
 	public void insertBlock(Block block) {
 		try {
-			int x = Math.round(block.getX());
-			int y = Math.round(block.getY());
+			int x = Math.round(block.getOriginX());
+			int y = Math.round(block.getOriginY());
 			
 			if (blockLayer.getCell(x, y) == null) {
 				blockLayer.setCell(x, y, new Cell());
@@ -138,5 +143,43 @@ public class GdxMap extends TiledMap implements BlockMap {
 	
 	public Collection<BlockView> getBlockViews() {
 		return blocks.values();
+	}
+
+	@Override
+	public Set<Block> getActiveBlocks() {
+		return activeBlocks;
+	}
+
+	@Override
+	public void insertFinishedBlocks() {
+		Set<Block> doneBlocks = new HashSet<Block>();
+		for (Block block : activeBlocks) {
+			if (block.getAnimationState().isDone()) {
+				insertBlock(block);
+				System.out.println("Inserting "+block);
+				doneBlocks.add(block);
+			}
+		}
+		
+		activeBlocks.removeAll(doneBlocks);
+	}
+
+	@Override
+	public void addActiveBlock(Block block) {
+		activeBlocks.add(block);
+		System.out.println("Adding active "+block);
+	}
+
+	@Override
+	public void updateActiveBlocks(float deltaTime) {
+		for (Block block : activeBlocks) {
+			block.getAnimationState().updatePosition(deltaTime);
+			System.out.println("Updating "+block);
+			if(block.getAnimationState().isDone()) {
+				System.out.println("Animation on "+block+" is done");
+				block.moveToNextPosition();
+				block.setAnimationState(AnimationState.NONE);	
+			}
+		}
 	}
 }

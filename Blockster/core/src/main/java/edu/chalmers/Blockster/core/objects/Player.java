@@ -84,12 +84,6 @@ public class Player extends BlocksterObject{
 	}
 	
 	private boolean canGrabBlock(Block block) {
-		if(block != null) {
-			System.out.print("block != null = " + (block != null) + "|");
-			System.out.print("!isInteracting() = " + !isInteracting() + "|");
-			System.out.println("isNextToBlock = " + isNextToBlock(block) + "|");
-			System.out.println("isMovable || isLiftable = " + (block.isMovable() || block.isLiftable()));
-		}
 		return block != null && !isLiftingBlock() && !isInteracting() && isNextToBlock(block) &&
 				(block.isMovable() || block.isLiftable());
 	}
@@ -140,7 +134,8 @@ public class Player extends BlocksterObject{
 	}
 	
 	public boolean isInteracting() {
-		return (interaction != PlayerInteraction.NONE);
+		return (interaction != PlayerInteraction.NONE
+			&&  getAnimationState() == AnimationState.NONE);
 	}
 	
 	public void endInteraction() {

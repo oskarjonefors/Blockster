@@ -57,4 +57,13 @@ public interface BlockMap {
 	public boolean hasBlock(int x, int y);
 	
 	public Set<Block> getBlocks();
+	
+	public Set<Block> getActiveBlocks();
+	
+	public void insertFinishedBlocks();
+	
+	public void updateActiveBlocks(float deltaTime);
+	
+	public void addActiveBlock(Block block);
+	
 }
