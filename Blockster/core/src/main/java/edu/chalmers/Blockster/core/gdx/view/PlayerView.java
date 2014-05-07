@@ -51,7 +51,10 @@ public class PlayerView {
 				return walkAnimations.get(player.getDirection()).getKeyFrame(walkAnimTime, true);
 			} 
 		} else {
+			/**
 			return getCurrentAnimation(move, animState.getElapsedTime());
+			*/
+			return defaultSprite;
 		}
 	}
 	
