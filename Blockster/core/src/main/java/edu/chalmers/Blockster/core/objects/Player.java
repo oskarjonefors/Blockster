@@ -20,7 +20,7 @@ public class Player extends BlocksterObject{
 	
 	
 	private Vector2f velocity;
-	private Vector2f defaultVelocity = new Vector2f(700, 700);
+	private Vector2f defaultVelocity;
 	private float totalTime = 0;
 	private Block processedBlock;
 	private boolean isGrabbingBlock;
@@ -35,6 +35,7 @@ public class Player extends BlocksterObject{
 	public Player(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer, blockLayer.getBlockWidth(), blockLayer.getBlockHeight());
 		velocity = new Vector2f(0, 0);
+		defaultVelocity = new Vector2f(700, 55 * blockMap.getBlockHeight());
 	}
 	
 	public Vector2f getVelocity() {
@@ -159,6 +160,7 @@ public class Player extends BlocksterObject{
 				collidedHorisontally = true;
 			} else {
 				collidedHorisontally = false;
+				collidedVertically = false;
 			}
 		}
 
@@ -173,12 +175,14 @@ public class Player extends BlocksterObject{
 				collidedVertically = true;
 			} else {
 				collidedVertically = false;
+				collidedHorisontally = false;
 			}
 		}
 	}
 
 	public void updatePosition(float deltaTime) {
 		if (getAnimationState() != AnimationState.NONE) {
+			System.out.println("Moving "+this);
 			getAnimationState().updatePosition(deltaTime);
 		} else {
 			Vector2f distance = new Vector2f();
@@ -239,6 +243,6 @@ public class Player extends BlocksterObject{
 	
 	public Direction getDirection(){
 		return dir;
-	}
+	}	
 	
 }

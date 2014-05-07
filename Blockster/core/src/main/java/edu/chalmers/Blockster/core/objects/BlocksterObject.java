@@ -74,11 +74,11 @@ public abstract class BlocksterObject {
 		this.posY = posY;
 	}
 	public void moveToNextPosition(){
-		posX += anim.getMovement().getDirection().deltaX 
-				* blockMap.getBlockWidth();
+		posX += anim.getMovement().getDirection().deltaX * scaleX;
+		posY += anim.getMovement().getDirection().deltaY * scaleY;
 		
-		posY += anim.getMovement().getDirection().deltaY 
-				* blockMap.getBlockHeight();
+		System.out.println("Moved "+this+" ("+anim.getMovement().getDirection()
+				+") (" + anim.getMovement() + ") (" + anim + ")");
 	}
 	
 	public AnimationState getAnimationState() {
@@ -86,9 +86,17 @@ public abstract class BlocksterObject {
 	}
 	
 	public void setAnimationState(AnimationState anim) {
-		if (this.anim == AnimationState.NONE || this.anim.isDone()) {
+		if (this.anim.isDone()) {
+			System.out.println("Giving animation state "+anim+" to "+this);
 			this.anim = anim;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return (this.getClass().getSimpleName()+": (" 
+							+ Math.round(getX() * 10) / (10 * scaleX)  + ", " 
+							+ Math.round(getY() * 10) / (10 * scaleY) + ")");
 	}
 	
 }

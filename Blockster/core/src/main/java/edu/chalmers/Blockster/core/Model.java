@@ -159,13 +159,13 @@ public class Model implements Comparable<Model> {
 	
 	private void updatePlayers(float deltaTime) {
 		for (Player player : players) {
+			player.updatePosition(deltaTime);
 			if (player.getAnimationState() != AnimationState.NONE 
 					&& player.getAnimationState().isDone()) {
 				player.moveToNextPosition();
 				player.setAnimationState(AnimationState.NONE);
 			}
 			
-			player.updatePosition(deltaTime);
 			player.setVelocityY(0);
 			player.setVelocityX(0);
 			

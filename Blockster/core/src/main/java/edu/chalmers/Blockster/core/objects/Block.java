@@ -38,21 +38,14 @@ public class Block extends BlocksterObject {
 	public void moveToNextPosition() {
 		blockMap.setBlock((int) getOriginX(), (int) getOriginY(), null);
 		System.out.println("Removing "+this);
-		setX(getOriginX() + anim.getMovement().getDirection().deltaX);
-		setY(getOriginY() + anim.getMovement().getDirection().deltaY);
-		System.out.println("Moved "+this+" ("+anim.getMovement().getDirection()+") (" + anim.getMovement() + ") (" + anim + ")");
+		super.moveToNextPosition();
+		
 	}
 	
 	public void setAnimationState(AnimationState anim) {
 		super.setAnimationState(anim);
 		if (anim != AnimationState.NONE)
 			blockMap.addActiveBlock(this);
-	}
-	
-	@Override
-	public String toString() {
-		return ("Block: (" + Math.round(getX() * 1000) / 1000  + ", " 
-							+ Math.round(getY() * 1000) / 1000 + ")");
 	}
 	
 }
