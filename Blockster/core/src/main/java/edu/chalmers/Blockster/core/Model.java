@@ -109,8 +109,8 @@ public class Model implements Comparable<Model> {
 		return activePlayer.isLiftingBlock();
 	}
 	
-	public void interactPlayer(Direction dir) {
-		activePlayer.interact(dir);
+	public void interactPlayer() {
+		activePlayer.interact();
 	}
 	
 	/**

@@ -35,7 +35,6 @@ public class Controller extends InputAdapter implements Disposable {
 
 	private Model model;
 
-	private Direction lastDirection = NONE;
 	private boolean hasMovedBlock = false;
 
 	private final ArrayList<MapChangeListener> stageListenerList = new ArrayList<MapChangeListener>();
@@ -158,19 +157,22 @@ public class Controller extends InputAdapter implements Disposable {
 	 * @param deltaTime The time between the current frame and the last one.
 	 */
 	public void update(float deltaTime) {
-		Block adjacentBlock = model.getActivePlayer().getAdjacentBlock(lastDirection);
 
 		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
 			//Try to grab the adjacent block if possible and there is one.
-			model.getActivePlayer().grabBlock(adjacentBlock);
+			model.getActivePlayer().grabBlock();
+			
 		} 
 
 		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving left
 
-			lastDirection = LEFT;
-			model.interactPlayer(lastDirection);
-			model.getActivePlayer().setDirection(lastDirection);
+			model.getActivePlayer().setDirection(LEFT);
+			model.interactPlayer();
+			if (model.getActivePlayer().isGrabbingBlock() 
+					|| model.getActivePlayer().isLiftingBlock()) {
+				hasMovedBlock = true;
+			}
 		}
 		
 		if ((keyFlags & LEFT_BUTTON_UP_FLAG) != 0) {
@@ -186,9 +188,12 @@ public class Controller extends InputAdapter implements Disposable {
 
 		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving right
-			lastDirection = RIGHT;
-			model.interactPlayer(lastDirection);
-			model.getActivePlayer().setDirection(lastDirection);
+			model.getActivePlayer().setDirection(RIGHT);
+			model.interactPlayer();
+			if (model.getActivePlayer().isGrabbingBlock() 
+					|| model.getActivePlayer().isLiftingBlock()) {
+				hasMovedBlock = true;
+			}
 		}
 
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {

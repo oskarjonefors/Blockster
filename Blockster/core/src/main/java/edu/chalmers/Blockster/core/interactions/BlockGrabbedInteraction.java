@@ -58,7 +58,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	public List<Block> getMoveableBlocks(Direction dir) {
 		/* Create a list to put the block to be moved in. */
 		List<Block> movingBlocks = new ArrayList<Block>();
-
+		
 		/* Origin of add process */
 		int origX = (int) activeBlock.getX();
 		int origY = (int) activeBlock.getY();

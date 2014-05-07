@@ -102,29 +102,15 @@ public class GdxMap extends TiledMap implements BlockMap {
 	}
 	
 	/**
-	 * Removes block from layer.
-	 * @param block the block to remove
-	 */
-	public void removeBlock(BlockView block) {
-		blockLayer.setCell((int)block.getX(), (int)block.getY(), null);
-	}
-	
-	/**
 	 * Inserts block into layer.
 	 * @param block the block to insert
 	 */
 	public void insertBlock(Block block) {
 		try {
-			int x = Math.round(block.getOriginX());
-			int y = Math.round(block.getOriginY());
+			int x = Math.round(block.getX());
+			int y = Math.round(block.getY());
 			
-			if (blockLayer.getCell(x, y) == null) {
-				blockLayer.setCell(x, y, new Cell());
-			}
-			
-			if (blockLayer.getCell(x, y).getTile() == null) {
-				setBlock(x, y, block);
-			}
+			setBlock(x, y, block);
 			System.out.println("Inserted " + block);
 		} catch (NullPointerException e) {
 			Gdx.app.log("Layer", "NullPointer");

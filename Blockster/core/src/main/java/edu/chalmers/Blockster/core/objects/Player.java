@@ -75,7 +75,8 @@ public class Player extends BlocksterObject{
 		return processedBlock;
 	}
 	
-	public void grabBlock(Block block) {
+	public void grabBlock() {
+		Block block = getAdjacentBlock();
 		if (canGrabBlock(block)) {
 			System.out.println("Can grab block at " + block.getX() + " " + block.getY());
 			processedBlock = block;
@@ -113,7 +114,7 @@ public class Player extends BlocksterObject{
 		return isLiftingBlock;
 	}
 	
-	public Block getAdjacentBlock(Direction dir) {
+	public Block getAdjacentBlock() {
 		return Calculations.getAdjacentBlock(dir, this, getBlockLayer());
 	}
 	
@@ -127,7 +128,7 @@ public class Player extends BlocksterObject{
 		Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) < 1f;
 	}
 	
-	public void interact(Direction dir) {
+	public void interact() {
 		if (isInteracting()) {
 			if (getAnimationState().isDone()) {
 				interaction.interact(dir);
@@ -145,27 +146,34 @@ public class Player extends BlocksterObject{
 	public void endInteraction() {
 		interaction.endInteraction();
 		interaction = PlayerInteraction.NONE;
+		System.out.println("ENDING INTERACTION");
 	}
 	
 	public void move(Vector2f distance) {
 		float[] previousPosition = { getX(), getY() };
-		collidedHorisontally = false;
-		collidedVertically = false;
-
-		setX(getX() + distance.x);
-		if (collisionEitherCorner(this, getBlockLayer())) {
-			setX(previousPosition[0]);
-			collidedHorisontally = true;
+		
+		if (Math.abs(distance.x) > 0 ) {
+			setX(getX() + distance.x);
+			if (collisionEitherCorner(this, getBlockLayer())) {
+				setX(previousPosition[0]);
+				collidedHorisontally = true;
+			} else {
+				collidedHorisontally = false;
+			}
 		}
 
-		setY(getY() + distance.y);
-		if (collisionEitherCorner(this, getBlockLayer())) {
-			setY(previousPosition[1]);
-			if (distance.y < 0) {
-				setY(((int)getY()/getBlockLayer().getBlockHeight())
-							* getBlockLayer().getBlockHeight());
+		if (Math.abs(distance.y) > 0 ) {
+			setY(getY() + distance.y);
+			if (collisionEitherCorner(this, getBlockLayer())) {
+				setY(previousPosition[1]);
+				if (distance.y < 0) {
+					setY(((int)getY()/getBlockLayer().getBlockHeight())
+								* getBlockLayer().getBlockHeight());
+				}
+				collidedVertically = true;
+			} else {
+				collidedVertically = false;
 			}
-			collidedVertically = true;
 		}
 	}
 
@@ -176,7 +184,8 @@ public class Player extends BlocksterObject{
 			Vector2f distance = new Vector2f();
 			distance.x = velocity.x * deltaTime;
 			distance.y = velocity.y * deltaTime;
-			move(distance);
+			if (Math.abs(Math.hypot(distance.x, distance.y)) > 0)
+				move(distance);
 		}
 	}
 	
@@ -209,8 +218,8 @@ public class Player extends BlocksterObject{
 
 	public void setGrabbing(boolean b) {
 		if(b) {
-			Direction dir = Calculations.getDirection(getX(), getProcessedBlock()
-					.getX() * blockMap.getBlockWidth());
+			/*Direction dir = Calculations.getDirection(getX(), getProcessedBlock()
+					.getX() * blockMap.getBlockWidth());*/
 			setAnimationState(dir == Direction.LEFT ? AnimationState.GRAB_LEFT :
 				AnimationState.GRAB_RIGHT);
 		} else {
