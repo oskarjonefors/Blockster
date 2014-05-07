@@ -7,12 +7,16 @@ public abstract class BlocksterObject {
 	private float posY;
 	private float height;
 	private float width;
+	private float scaleX;
+	private float scaleY;
 	protected AnimationState anim;
 	protected BlockMap blockMap;
 
-	public BlocksterObject(float startX, float startY, BlockMap blockMap) {
+	public BlocksterObject(float startX, float startY, BlockMap blockMap, float scaleX, float scaleY) {
 		this.posX = startX;
 		this.posY = startY;
+		this.scaleX = scaleX;
+		this.scaleY = scaleY;
 		this.blockMap = blockMap;
 		anim = AnimationState.NONE;
 	}
@@ -49,7 +53,7 @@ public abstract class BlocksterObject {
 		//If there is an animation currently running then
 		//we want to return the relative position
 		if ( anim != AnimationState.NONE) {
-			return posX + anim.getRelativePosition().x;
+			return posX + anim.getRelativePosition().x * scaleX;
 		}
 		return posX;
 	}
@@ -57,7 +61,7 @@ public abstract class BlocksterObject {
 	
 	public float getY() {
 		if (anim != AnimationState.NONE){
-			return posY + anim.getRelativePosition().y;
+			return posY + anim.getRelativePosition().y * scaleY;
 		}
 		return posY;
 	}

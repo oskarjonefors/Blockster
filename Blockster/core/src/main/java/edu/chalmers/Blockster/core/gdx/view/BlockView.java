@@ -25,8 +25,8 @@ public class BlockView implements TiledMapTile {
 		region = tile.getTextureRegion();
 	}
 	
-	public void draw(SpriteBatch batch, float parentAlpha) {
-		batch.draw(region, getX(), getY());
+	public void draw(SpriteBatch batch) {
+		batch.draw(region, getX()*128, getY()*128);
 	}
 	
 	public int getId() {

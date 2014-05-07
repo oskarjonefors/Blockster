@@ -33,7 +33,7 @@ public class Player extends BlocksterObject{
 	private Direction dir = Direction.NONE;
 	
 	public Player(float startX, float startY, BlockMap blockLayer) {
-		super(startX, startY, blockLayer);
+		super(startX, startY, blockLayer, blockLayer.getBlockWidth(), blockLayer.getBlockHeight());
 		velocity = new Vector2f(0, 0);
 	}
 	
@@ -129,7 +129,9 @@ public class Player extends BlocksterObject{
 	
 	public void interact(Direction dir) {
 		if (isInteracting()) {
-			interaction.interact(dir);
+			if (getAnimationState().isDone()) {
+				interaction.interact(dir);
+			}
 		} else {
 			setDefaultVelocity(dir);
 		}

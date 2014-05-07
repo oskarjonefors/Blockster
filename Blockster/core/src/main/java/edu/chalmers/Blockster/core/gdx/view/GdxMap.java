@@ -125,6 +125,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 			if (blockLayer.getCell(x, y).getTile() == null) {
 				setBlock(x, y, block);
 			}
+			System.out.println("Inserted " + block);
 		} catch (NullPointerException e) {
 			Gdx.app.log("Layer", "NullPointer");
 		}
@@ -141,6 +142,14 @@ public class GdxMap extends TiledMap implements BlockMap {
 		return blocks.keySet();
 	}
 	
+	public BlockView getBlockView(Block block) {
+		if (blocks.containsKey(block)) {
+			return blocks.get(block);
+		} else {
+			return null;
+		}
+	}
+	
 	public Collection<BlockView> getBlockViews() {
 		return blocks.values();
 	}
@@ -153,14 +162,14 @@ public class GdxMap extends TiledMap implements BlockMap {
 	@Override
 	public void insertFinishedBlocks() {
 		Set<Block> doneBlocks = new HashSet<Block>();
-		for (Block block : getActiveBlocks()) {
+		for (Block block : activeBlocks) {
 			if (block.getAnimationState().isDone()) {
 				insertBlock(block);
 				doneBlocks.add(block);
 				block.setAnimationState(AnimationState.NONE);
 			}
 		}
-		activeBlocks.remove(doneBlocks);
+		activeBlocks.removeAll(doneBlocks);
 	}
 
 	@Override

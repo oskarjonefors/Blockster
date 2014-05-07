@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.Blockster.core.Model;
+import edu.chalmers.Blockster.core.objects.Block;
 import edu.chalmers.Blockster.core.objects.Player;
 import edu.chalmers.Blockster.core.util.AnimationFactory;
 import edu.chalmers.Blockster.core.util.AnimationState;
@@ -76,13 +77,14 @@ public class GdxView implements ApplicationListener, Disposable {
 								(background.getHeight() / 2) - 
 								camera.viewportHeight / 2));
 		
+
 		/**
 		 *  renders the stage
 		 */
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 		
-		drawPlayers();
+		drawObjects();
 		
 		renderer.setView(camera);
 		renderer.render();
@@ -180,12 +182,8 @@ public class GdxView implements ApplicationListener, Disposable {
 		// TODO Auto-generated method stub
 	}
 	
-	public void drawPlayers() {
-		camera.update();
-		SpriteBatch batch = stage.getSpriteBatch();
+	public void drawPlayers(SpriteBatch batch) {
 
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
 		
 		for (Player player : model.getPlayers()) {
 			PlayerView pView = players.get(player);
@@ -195,9 +193,33 @@ public class GdxView implements ApplicationListener, Disposable {
 			pView.draw(batch);
 		}
 		
-		batch.end();
+		
 	}
 	
+	public void drawBlocks(SpriteBatch batch) {
+		GdxMap map = (GdxMap)model.getMap();
+		
+		for (Block block : map.getActiveBlocks()) {
+			BlockView bView = map.getBlockView(block);
+			if (bView != null) {
+				bView.draw(batch);
+			}
+		}
+	}
+	
+	public void drawObjects() {
+		camera.update();
+		SpriteBatch batch = stage.getSpriteBatch();
+
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		
+		drawPlayers(batch);
+		drawBlocks(batch);
+		
+		batch.end();
+	}
+ 	
 	public PlayerView createPlayerView(Player player) {
 
 		Texture tex = new Texture("Player/still2.png");

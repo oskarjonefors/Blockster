@@ -10,7 +10,7 @@ public class Block extends BlocksterObject {
 	private Set<String> properties;
 	
 	public Block(float startX, float startY, BlockMap blockLayer) {
-		super(startX, startY, blockLayer);
+		super(startX, startY, blockLayer, 1, 1);
 		properties = new HashSet<String>();
 	}
 	

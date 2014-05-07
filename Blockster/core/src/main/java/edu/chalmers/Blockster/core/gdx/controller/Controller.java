@@ -200,7 +200,7 @@ public class Controller extends InputAdapter implements Disposable {
 				hasMovedBlock = false;
 			}
 			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
-			//System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
+			System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
 		}
 
 		if ((keyFlags & MENU_BUTTON_UP_FLAG) != 0) {
