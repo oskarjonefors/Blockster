@@ -39,6 +39,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 				System.out.println("Can pull");
 				activeBlock.setAnimationState(new AnimationState(movement));
 				player.setAnimationState(new AnimationState(movement));
+				blockLayer.setBlock((int) activeBlock.getX(), (int) activeBlock.getY(), null);
 			}
 		} else {
 			moveableBlocks = getMoveableBlocks(dir);
