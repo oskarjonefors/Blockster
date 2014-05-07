@@ -111,8 +111,8 @@ public class GdxMap extends TiledMap implements BlockMap {
 	 */
 	public void insertBlock(Block block) {
 		try {
-			int x = Math.round(block.getOriginX());
-			int y = Math.round(block.getOriginY());
+			int x = Math.round(block.getX());
+			int y = Math.round(block.getY());
 			
 			setBlock(x, y, block);
 			System.out.println("Inserted " + block);
@@ -154,9 +154,9 @@ public class GdxMap extends TiledMap implements BlockMap {
 		Set<Block> doneBlocks = new HashSet<Block>();
 		for (Block block : activeBlocks) {
 			if (block.getAnimationState().isDone()) {
+				block.setAnimationState(AnimationState.NONE);
 				insertBlock(block);
 				doneBlocks.add(block);
-				block.setAnimationState(AnimationState.NONE);
 			}
 		}
 		activeBlocks.removeAll(doneBlocks);
