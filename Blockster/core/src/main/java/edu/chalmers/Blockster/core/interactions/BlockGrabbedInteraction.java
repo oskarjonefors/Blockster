@@ -35,7 +35,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 
 		System.out.println((movement.isPullMovement() ? "IS" : "ISN'T")+ " PULL MOVEMENT ("+movement.name()+")");
 		if (movement.isPullMovement()) {
-			if (player.canMove(movement)) {
+			if (player.canMove(dir)) {
 				System.out.println("Can pull");
 				activeBlock.setAnimationState(new AnimationState(movement));
 				player.setAnimationState(new AnimationState(movement));

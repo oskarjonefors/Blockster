@@ -75,10 +75,10 @@ public class GdxMap extends TiledMap implements BlockMap {
 	
 	@Override
 	public Block getBlock(int x, int y){
-		for (Block block : blocks.keySet()) {
-			if ((int) block.getX() == x && (int) block.getY() == y) {
-				return block;
-			}
+		Cell cell = blockLayer.getCell(x, y);
+		if (cell != null) {
+			BlockView bView = (BlockView) cell.getTile();
+			return bView.getBlock();
 		}
 		return null;
 	}
@@ -90,6 +90,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 			cell.setTile(blocks.get(block));
 			blockLayer.setCell(x, y, cell);
 		} else {
+			System.out.println("Removing cell at ("+x+", "+y+")");
 			blockLayer.setCell(x, y, null);
 		}
 	}
@@ -110,8 +111,8 @@ public class GdxMap extends TiledMap implements BlockMap {
 	 */
 	public void insertBlock(Block block) {
 		try {
-			int x = Math.round(block.getX());
-			int y = Math.round(block.getY());
+			int x = Math.round(block.getOriginX());
+			int y = Math.round(block.getOriginY());
 			
 			setBlock(x, y, block);
 			System.out.println("Inserted " + block);

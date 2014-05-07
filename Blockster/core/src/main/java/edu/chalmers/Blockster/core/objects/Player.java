@@ -198,13 +198,13 @@ public class Player extends BlocksterObject{
 	 * @param movement
 	 * @return true if nothing is blocking the way behind player, else false.
 	 */
-	public boolean canMove(Movement movement) {
+	public boolean canMove(Direction dir) {
 		BlockMap bLayer = getBlockLayer();
 		int checkX = (int) (getX() / bLayer.getBlockWidth());
 		int checkY = (int) (getY() / bLayer.getBlockWidth());
 			
 		return checkX >= 1 && checkX < bLayer.getWidth() && !bLayer.
-				hasBlock(checkX + movement.getDirection().deltaX, checkY);
+				hasBlock(checkX + dir.deltaX, checkY);
 			
 	}
 	

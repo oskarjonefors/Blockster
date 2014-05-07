@@ -51,7 +51,8 @@ public class Block extends BlocksterObject {
 	
 	@Override
 	public String toString() {
-		return ("Block: (" + getOriginX() + ", " + getOriginY() + ")");
+		return ("Block: (" + Math.round(getX() * 1000) / 1000  + ", " 
+							+ Math.round(getY() * 1000) / 1000 + ")");
 	}
 	
 }

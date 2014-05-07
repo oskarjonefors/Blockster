@@ -19,6 +19,10 @@ public class BlockView implements TiledMapTile {
 	private TextureRegion region;
 	private Block block;
 	
+	public Block getBlock() {
+		return block;
+	}
+
 	public BlockView(Block block, TiledMapTile tile) {
 		this.block = block;
 		this.tile = tile;
