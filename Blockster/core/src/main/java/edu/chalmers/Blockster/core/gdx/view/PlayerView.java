@@ -2,6 +2,7 @@ package edu.chalmers.Blockster.core.gdx.view;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import edu.chalmers.Blockster.core.objects.Player;
 import edu.chalmers.Blockster.core.util.AnimationState;
+import edu.chalmers.Blockster.core.util.Direction;
 import edu.chalmers.Blockster.core.util.Movement;
 
 public class PlayerView {
@@ -16,11 +18,15 @@ public class PlayerView {
 	private Sprite sprite;
 	private TextureRegion defaultSprite;
 	private HashMap<Movement, Animation> arrayOfAnimation;
+	private HashMap<Direction, Animation> walkAnimations;
 	
-	public PlayerView(Player player, HashMap<Movement, Animation> hashMap, 
-			TextureRegion texture) {
+	private float walkAnimTime;
+	
+	public PlayerView(Player player, HashMap<Movement, Animation> arrayOfAnimation,
+			HashMap<Direction, Animation> walkAnimations, TextureRegion texture) {
 		this.player = player;
-		arrayOfAnimation = hashMap;
+		this.arrayOfAnimation = arrayOfAnimation;
+		this.walkAnimations = walkAnimations;
 		defaultSprite = texture; 
 		
 		sprite = new Sprite();
@@ -29,9 +35,7 @@ public class PlayerView {
 	}
 	
 	public void draw(SpriteBatch batch){
-		sprite.setRegion(defaultSprite);
-		//TODO: Choose the right animation frame
-		//sprite.setRegion(chooseAnimation());
+		sprite.setRegion(chooseAnimation());
 		batch.draw(sprite, getX(), getY());
 	}
 			
@@ -39,8 +43,13 @@ public class PlayerView {
 	public TextureRegion chooseAnimation(){
 		AnimationState animState = player.getAnimationState();
 		Movement move = animState.getMovement();
+		walkAnimTime += Gdx.graphics.getDeltaTime();
 		if (move == Movement.NONE) {
-			return defaultSprite;
+			if (player.getDirection() == Direction.NONE) {
+				return defaultSprite;
+			} else {
+				return walkAnimations.get(player.getDirection()).getKeyFrame(walkAnimTime, true);
+			} 
 		} else {
 			return getCurrentAnimation(move, animState.getElapsedTime());
 		}

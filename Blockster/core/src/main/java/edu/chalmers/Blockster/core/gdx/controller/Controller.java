@@ -30,6 +30,8 @@ public class Controller extends InputAdapter implements Disposable {
 	private final static int MENU_BUTTON_UP_FLAG = 1 << 4;
 	private final static int SWITCH_CHARACTER_BUTTON_UP_FLAG = 1 << 5;
 	private final static int RESTART_STAGE_BUTTON_R_FLAG = 1 << 6;
+	private final static int LEFT_BUTTON_UP_FLAG = 1 << 7;
+	private final static int RIGHT_BUTTON_UP_FLAG = 1 << 8;
 
 	private Model model;
 
@@ -113,11 +115,13 @@ public class Controller extends InputAdapter implements Disposable {
 		if (keyCode == Keys.LEFT) {
 			//Stop going/pushing/pulling left.
 			keyFlags &= ~LEFT_BUTTON_DOWN_FLAG;
+			keyFlags |= LEFT_BUTTON_UP_FLAG;
 		}
 
 		if (keyCode == Keys.RIGHT) {
 			//Stop going/pushing/pulling right.
 			keyFlags &= ~RIGHT_BUTTON_DOWN_FLAG;
+			keyFlags |= RIGHT_BUTTON_UP_FLAG;
 		}
 
 		if (keyCode == Keys.SPACE) {
@@ -166,13 +170,25 @@ public class Controller extends InputAdapter implements Disposable {
 
 			lastDirection = LEFT;
 			model.interactPlayer(lastDirection);
+			model.getActivePlayer().setDirection(lastDirection);
+		}
+		
+		if ((keyFlags & LEFT_BUTTON_UP_FLAG) != 0) {
+			model.getActivePlayer().setDefaultVelocity(Direction.NONE);
+			keyFlags &= ~LEFT_BUTTON_UP_FLAG;
+		}
+		
+		if ((keyFlags & RIGHT_BUTTON_UP_FLAG) != 0) {
+			model.getActivePlayer().setDefaultVelocity(Direction.NONE);
+			keyFlags &= ~RIGHT_BUTTON_UP_FLAG;
+
 		}
 
 		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving right
 			lastDirection = RIGHT;
 			model.interactPlayer(lastDirection);
-			
+			model.getActivePlayer().setDirection(lastDirection);
 		}
 
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {

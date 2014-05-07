@@ -30,6 +30,8 @@ public class Player extends BlocksterObject{
 	private boolean collidedHorisontally = false;
 	private boolean collidedVertically = false;
 	
+	private Direction dir = Direction.NONE;
+	
 	public Player(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer);
 		velocity = new Vector2f(0, 0);
@@ -218,6 +220,14 @@ public class Player extends BlocksterObject{
 
 	public void setLifting(boolean b) {
 		isLiftingBlock = b;
+	}
+	
+	public void setDirection(Direction dir){
+		this.dir = dir;
+	}
+	
+	public Direction getDirection(){
+		return dir;
 	}
 	
 }

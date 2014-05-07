@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.objects.Player;
+import edu.chalmers.Blockster.core.util.AnimationFactory;
 import edu.chalmers.Blockster.core.util.AnimationState;
 import edu.chalmers.Blockster.core.util.Direction;
 import edu.chalmers.Blockster.core.util.Movement;
@@ -201,7 +202,9 @@ public class GdxView implements ApplicationListener, Disposable {
 
 		Texture tex = new Texture("Player/still2.png");
 		TextureRegion texr = new TextureRegion(tex);
-		PlayerView pView = new PlayerView(player, null, texr);
+		AnimationFactory animF = new AnimationFactory();
+		System.out.println("hit kom");
+		PlayerView pView = new PlayerView(player, animF.getArrayOfAnimations(), animF.getWalkAnimations(), texr);
 		
 		return pView;
 	}
