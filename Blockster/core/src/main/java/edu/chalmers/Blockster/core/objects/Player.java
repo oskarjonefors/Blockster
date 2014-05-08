@@ -54,9 +54,6 @@ public class Player extends BlocksterObject implements PhysicalObject{
 	
 	public void setGrabbing(boolean b) {
 		if(b) {
-			/*Direction dir = Calculations.getDirection(getX(), getProcessedBlock()
-
-			.getX() * blockMap.getBlockWidth());*/
 			setAnimationState(getDirection() == Direction.LEFT ? AnimationState.GRAB_LEFT : AnimationState.GRAB_RIGHT);
 		} else {
 			setAnimationState(AnimationState.NONE);

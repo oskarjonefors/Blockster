@@ -1,9 +1,5 @@
 package edu.chalmers.Blockster.core.util;
 
-import edu.chalmers.Blockster.core.objects.Block;
-import edu.chalmers.Blockster.core.objects.BlocksterObject;
-import edu.chalmers.Blockster.core.objects.Player;
-
 public class Calculations {
 	
 
@@ -17,7 +13,7 @@ public class Calculations {
 	public final static int CHECK_LEFT_FLAG = 1 << 6;
 	public final static int CHECK_UP_LEFT_FLAG = 1 << 7;
 	
-	public static boolean collisionEitherCorner(BlocksterObject player, GridMap blockLayer) {
+	public static boolean collisionEitherCorner(PhysicalObject player, GridMap blockLayer) {
 		try {
 			return collisionUpperLeft(player, blockLayer) ||
 					collisionUpperRight(player, blockLayer) ||
@@ -28,7 +24,7 @@ public class Calculations {
 		}
 	}
 
-	private static boolean collisionLowerLeft(BlocksterObject player, 
+	private static boolean collisionLowerLeft(PhysicalObject player, 
 			GridMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
@@ -37,7 +33,7 @@ public class Calculations {
 				(int) (player.getY() / tileHeight));
 	}
 
-	private static boolean collisionLowerRight(BlocksterObject player, 
+	private static boolean collisionLowerRight(PhysicalObject player, 
 			GridMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
@@ -46,7 +42,7 @@ public class Calculations {
 				(int) (player.getY() / tileHeight));
 	}
 	
-	private static boolean collisionUpperLeft(BlocksterObject player, 
+	private static boolean collisionUpperLeft(PhysicalObject player, 
 			GridMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
@@ -55,7 +51,7 @@ public class Calculations {
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
 	}
 	
-	private static boolean collisionUpperRight(BlocksterObject player, 
+	private static boolean collisionUpperRight(PhysicalObject player, 
 			GridMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
@@ -64,21 +60,10 @@ public class Calculations {
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
 	}
 	
-	public static boolean collisionSurroundingBlocks(Player player,
-			GridMap blockLayer, int flags) {
-		return collisionSurroundingBlocks(player, blockLayer, 
-				blockLayer.getBlockWidth(), blockLayer.getBlockHeight(),
-				flags);
-	}
-	
-	public static boolean collisionSurroundingBlocks(Block block,
-			GridMap blockLayer, int flags) {
-		return collisionSurroundingBlocks(block, blockLayer, 1, 1, flags);
-	}
-	
-	private static boolean collisionSurroundingBlocks(BlocksterObject pos,
-			 GridMap blockLayer, float scaleX, float scaleY, int flags) {
+	public static boolean collisionSurroundingBlocks(PhysicalObject pos,
+			 GridMap blockLayer, int flags) {
 		boolean collision = false;
+		float scaleX = pos.getScaleX(), scaleY = pos.getScaleY();
 		
 		if ((flags & CHECK_UP_FLAG) != 0) {
 			collision |= isSolid(blockLayer,
