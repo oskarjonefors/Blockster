@@ -1,4 +1,4 @@
-package edu.chalmers.Blockster.core.interactions;
+package edu.chalmers.Blockster.core.objects.interactions;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package edu.chalmers.Blockster.core.interactions;
+package edu.chalmers.Blockster.core.objects.interactions;
 
 import edu.chalmers.Blockster.core.objects.movement.Direction;
 

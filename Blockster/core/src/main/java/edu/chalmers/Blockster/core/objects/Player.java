@@ -2,9 +2,9 @@ package edu.chalmers.Blockster.core.objects;
 
 import javax.vecmath.*;
 
-import edu.chalmers.Blockster.core.interactions.BlockGrabbedInteraction;
-import edu.chalmers.Blockster.core.interactions.BlockLiftedInteraction;
-import edu.chalmers.Blockster.core.interactions.PlayerInteraction;
+import edu.chalmers.Blockster.core.objects.interactions.BlockGrabbedInteraction;
+import edu.chalmers.Blockster.core.objects.interactions.BlockLiftedInteraction;
+import edu.chalmers.Blockster.core.objects.interactions.PlayerInteraction;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
 import edu.chalmers.Blockster.core.objects.movement.Movement;
