@@ -3,10 +3,11 @@ package edu.chalmers.Blockster.core.objects;
 import java.util.HashSet;
 import java.util.Set;
 
+import edu.chalmers.Blockster.core.objects.interactions.Interactable;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.util.GridObject;
 
-public class Block extends BlocksterObject implements GridObject {
+public class Block extends BlocksterObject implements GridObject, Interactable {
 
 	private Set<String> properties;
 	
@@ -48,5 +49,7 @@ public class Block extends BlocksterObject implements GridObject {
 		if (anim != AnimationState.NONE)
 			blockMap.addActiveBlock(this);
 	}
+
+
 	
 }

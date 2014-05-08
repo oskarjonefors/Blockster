@@ -1,23 +1,21 @@
 package edu.chalmers.Blockster.core.objects.interactions;
 
-import edu.chalmers.Blockster.core.objects.Block;
-import edu.chalmers.Blockster.core.objects.BlockMap;
-import edu.chalmers.Blockster.core.objects.Player;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
 import edu.chalmers.Blockster.core.objects.movement.Movement;
 import edu.chalmers.Blockster.core.util.Calculations;
+import edu.chalmers.Blockster.core.util.GridMap;
 
 public class BlockLiftedInteraction extends PlayerInteraction {
 	
-	private Player player;
-	private Block block;
-	private BlockMap blockMap;
+	private Interactor interactor;
+	private Interactable interacted;
+	private GridMap blockMap;
 	
-	public BlockLiftedInteraction(Player player, Block block,
-			BlockMap blockMap) {
-		this.player = player;
-		this.block = block;
+	public BlockLiftedInteraction(Interactor interactor, Interactable interacted,
+			GridMap blockMap) {
+		this.interactor = interactor;
+		this.interacted = interacted;
 		this.blockMap = blockMap; 
 	}
 
@@ -25,22 +23,22 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 	public void interact(Direction dir) {
 		if(canPerformMove(dir)) {
 			AnimationState anim = new AnimationState(Movement.getMoveMovement(dir));
-			player.setAnimationState(anim);
-			block.setAnimationState(anim);
+			interactor.setAnimationState(anim);
+			interacted.setAnimationState(anim);
 		}
 	}
 
 	@Override
 	public void endInteraction() {
-		player.setLifting(false);
+		interactor.setLifting(false);
 	}
 
 	@Override
 	public void startInteraction() {
-		block.setAnimationState(new AnimationState(Movement.getLiftMovement
-				(Direction.getDirection(player.getX(),
-						block.getX() * blockMap.getBlockWidth()))));
-		player.setLifting(true);
+		interacted.setAnimationState(new AnimationState(Movement.getLiftMovement
+				(Direction.getDirection(interactor.getX(),
+						interacted.getX() * blockMap.getBlockWidth()))));
+		interactor.setLifting(true);
 	}
 	
 	public boolean canPerformMove(Direction dir) {
@@ -50,7 +48,7 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 		} else {
 			flag = Calculations.CHECK_RIGHT_FLAG | Calculations.CHECK_DOWN_RIGHT_FLAG;
 		}
-		return !Calculations.collisionSurroundingBlocks(block, blockMap, flag);
+		return !Calculations.collisionSurroundingBlocks(interacted, blockMap, flag);
 	}
 
 }

@@ -2,11 +2,12 @@ package edu.chalmers.Blockster.core.objects;
 
 import javax.vecmath.Vector2f;
 
+import edu.chalmers.Blockster.core.objects.interactions.Interactable;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
 import edu.chalmers.Blockster.core.util.PhysicalObject;
 
-public abstract class BlocksterObject implements PhysicalObject {
+public abstract class BlocksterObject {
 	private float posX;
 	private float posY;
 	private float height;
@@ -180,6 +181,10 @@ public abstract class BlocksterObject implements PhysicalObject {
 		return (this.getClass().getSimpleName()+": (" 
 							+ Math.round(getX() * 10) / (10 * scaleX)  + ", " 
 							+ Math.round(getY() * 10) / (10 * scaleY) + ")");
+	}
+	
+	public void removeFromGrid() {
+		blockMap.setBlock((int) getX(), (int) getY(), null);
 	}
 	
 }

@@ -4,6 +4,7 @@ import javax.vecmath.*;
 
 import edu.chalmers.Blockster.core.objects.interactions.BlockGrabbedInteraction;
 import edu.chalmers.Blockster.core.objects.interactions.BlockLiftedInteraction;
+import edu.chalmers.Blockster.core.objects.interactions.Interactor;
 import edu.chalmers.Blockster.core.objects.interactions.PlayerInteraction;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
@@ -15,7 +16,7 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
  * @author Emilia Nilsson and Eric Bjuhr
  *
  */
-public class Player extends BlocksterObject {
+public class Player extends BlocksterObject implements Interactor {
 	
 
 	public boolean DANCE = false;
