@@ -1,5 +1,7 @@
 package edu.chalmers.Blockster.core.objects;
 
+import javax.vecmath.Vector2f;
+
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
 
@@ -10,6 +12,9 @@ public abstract class BlocksterObject {
 	private float width;
 	private float scaleX;
 	private float scaleY;
+	private float totalTime = 0;
+	private Vector2f velocity;
+	protected Vector2f defaultVelocity;
 	private Direction dir = Direction.NONE;
 	protected AnimationState anim;
 	protected BlockMap blockMap;
@@ -21,6 +26,7 @@ public abstract class BlocksterObject {
 		this.scaleY = scaleY;
 		this.blockMap = blockMap;
 		anim = AnimationState.NONE;
+		velocity = new Vector2f(0, 0);
 	}
 	
 	public Block getAdjacentBlock() {
@@ -124,6 +130,40 @@ public abstract class BlocksterObject {
 	public Direction getDirection(){
 		return dir;
 	}	
+	
+	public Vector2f getVelocity() {
+		return velocity;
+	}
+	
+	public void setVelocityX(float velocityX) {
+		if(Math.abs(velocityX) > defaultVelocity.x) {
+			velocity.x = Math.signum(velocityX) * defaultVelocity.x;
+		} else {
+			velocity.x = velocityX;
+		}
+	}
+	
+	public void setVelocityY(float velocityY) {
+		if(Math.abs(velocityY) > defaultVelocity.y) {
+			velocity.y = Math.signum(velocityY) * defaultVelocity.y;
+		} else {
+			velocity.y = velocityY;
+		}
+	}
+	
+	public void setDefaultVelocity(Direction dir) {
+		setVelocityX(getVelocity().x + dir.deltaX * defaultVelocity.x);
+		setVelocityY(getVelocity().y + dir.deltaY * defaultVelocity.y);
+	}
+	
+	public void increaseGravity(float deltaTime) {
+		totalTime += deltaTime;
+		setVelocityY(-9.82F * totalTime * getBlockLayer().getBlockHeight());
+	}
+	
+	public void resetGravity() {
+		totalTime = 0;
+	}
 	
 	@Override
 	public String toString() {

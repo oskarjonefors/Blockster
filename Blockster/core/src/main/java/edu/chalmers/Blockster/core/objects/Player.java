@@ -7,8 +7,6 @@ import edu.chalmers.Blockster.core.objects.interactions.BlockLiftedInteraction;
 import edu.chalmers.Blockster.core.objects.interactions.PlayerInteraction;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
-import edu.chalmers.Blockster.core.objects.movement.Movement;
-import edu.chalmers.Blockster.core.util.Calculations;
 import static edu.chalmers.Blockster.core.util.Calculations.*;
 
 /**
@@ -18,10 +16,6 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
  */
 public class Player extends BlocksterObject{
 	
-	
-	private Vector2f velocity;
-	private Vector2f defaultVelocity;
-	private float totalTime = 0;
 	private Block processedBlock;
 	private boolean isGrabbingBlock;
 	private boolean isLiftingBlock;
@@ -32,42 +26,7 @@ public class Player extends BlocksterObject{
 	
 	public Player(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer, blockLayer.getBlockWidth(), blockLayer.getBlockHeight());
-		velocity = new Vector2f(0, 0);
 		defaultVelocity = new Vector2f(700, 55 * blockMap.getBlockHeight());
-	}
-	
-	public Vector2f getVelocity() {
-		return velocity;
-	}
-	
-	public void setVelocityX(float velocityX) {
-		if(Math.abs(velocityX) > defaultVelocity.x) {
-			velocity.x = Math.signum(velocityX) * defaultVelocity.x;
-		} else {
-			velocity.x = velocityX;
-		}
-	}
-	
-	public void setVelocityY(float velocityY) {
-		if(Math.abs(velocityY) > defaultVelocity.y) {
-			velocity.y = Math.signum(velocityY) * defaultVelocity.y;
-		} else {
-			velocity.y = velocityY;
-		}
-	}
-	
-	public void setDefaultVelocity(Direction dir) {
-		setVelocityX(getVelocity().x + dir.deltaX * defaultVelocity.x);
-		setVelocityY(getVelocity().y + dir.deltaY * defaultVelocity.y);
-	}
-	
-	public void increaseGravity(float deltaTime) {
-		totalTime += deltaTime;
-		setVelocityY(-9.82F * totalTime * getBlockLayer().getBlockHeight());
-	}
-	
-	public void resetGravity() {
-		totalTime = 0;
 	}
 	
 	public Block getProcessedBlock() {
@@ -180,8 +139,8 @@ public class Player extends BlocksterObject{
 			getAnimationState().updatePosition(deltaTime);
 		} else {
 			Vector2f distance = new Vector2f();
-			distance.x = velocity.x * deltaTime;
-			distance.y = velocity.y * deltaTime;
+			distance.x = getVelocity().x * deltaTime;
+			distance.y = getVelocity().y * deltaTime;
 			if (Math.abs(Math.hypot(distance.x, distance.y)) > 0)
 				move(distance);
 		}
