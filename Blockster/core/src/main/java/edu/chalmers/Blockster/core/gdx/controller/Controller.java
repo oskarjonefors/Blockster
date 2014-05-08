@@ -65,13 +65,103 @@ public class Controller extends InputAdapter implements Disposable {
 		Gdx.input.setInputProcessor(null);
 	}
 
+	private void handleDancing() {
+		if ((keyFlags & DANCE_BUTTON_FLAG) != 0) {
+			//Dance
+			keyFlags &= ~DANCE_BUTTON_FLAG;
+			model.getActivePlayer().setDancing(true);
+		}
+		
+		if ((keyFlags & DANCE_BUTTON_UP_FLAG) != 0) {
+
+			keyFlags &= ~DANCE_BUTTON_UP_FLAG;
+			model.getActivePlayer().setDancing(false);
+		}
+	}
+
+	private void handleGameConditions() {
+		if ((keyFlags & MENU_BUTTON_UP_FLAG) != 0) {
+			// Opening the level menu
+			keyFlags &= ~MENU_BUTTON_UP_FLAG;
+			System.out.println("Removing flag: "+MENU_BUTTON_UP_FLAG);
+		}
+
+		if ((keyFlags & SWITCH_CHARACTER_BUTTON_UP_FLAG) != 0) {
+			// Switching active character
+			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;
+			
+			model.nextPlayer();
+		}
+		
+		if ((keyFlags & RESTART_STAGE_BUTTON_R_FLAG) != 0) {
+			//Restart stage
+			keyFlags &= ~RESTART_STAGE_BUTTON_R_FLAG;
+			model.init();
+			setModel(model);
+		}
+	}
+	
+	private void handleInteractions() {
+		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
+			//Try to grab the adjacent block if possible and there is one.
+			model.getActivePlayer().grabBlock();
+			
+		} 
+
+		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
+			//Grab button was released
+			if (!hasMovedBlock && !model.isLiftingBlock()) {
+				model.getActivePlayer().liftBlock();
+			} else {
+				model.stopProcessingBlock();
+				hasMovedBlock = false;
+			}
+			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
+			System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
+		}
+	}
+	
+	private void handleMovement() {
+		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
+			// Character is moving left
+
+			model.getActivePlayer().setDirection(LEFT);
+			model.interactPlayer();
+			if (model.getActivePlayer().isGrabbingBlock() 
+					|| model.getActivePlayer().isLiftingBlock()) {
+				hasMovedBlock = true;
+			}
+		}
+		
+		if ((keyFlags & LEFT_BUTTON_UP_FLAG) != 0) {
+			model.getActivePlayer().setDefaultVelocity(Direction.NONE);
+			keyFlags &= ~LEFT_BUTTON_UP_FLAG;
+		}
+		
+		if ((keyFlags & RIGHT_BUTTON_UP_FLAG) != 0) {
+			model.getActivePlayer().setDefaultVelocity(Direction.NONE);
+			keyFlags &= ~RIGHT_BUTTON_UP_FLAG;
+
+		}
+
+		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
+			// Character is moving right
+			model.getActivePlayer().setDirection(RIGHT);
+			model.interactPlayer();
+			if (model.getActivePlayer().isGrabbingBlock() 
+					|| model.getActivePlayer().isLiftingBlock()) {
+				hasMovedBlock = true;
+			}
+		}
+	}
+	
 	/**
 	 * Initiates the listener.
 	 */
 	private void init() {
 		Gdx.input.setInputProcessor(this);
 	}
-
+	
 	/**
 	 * This method is called each time a key has been pressed
 	 * @see com.badlogic.gdx.InputAdapter#keyDown(int)
@@ -112,7 +202,23 @@ public class Controller extends InputAdapter implements Disposable {
 	/**
 	 * This method is called each time a key as been released.
 	 * 
-	 * @see com.badlogic.gdx.InputAdapter#keyUp(int)
+	 * @see com.badl		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
+			//Try to grab the adjacent block if possible and there is one.
+			model.getActivePlayer().grabBlock();
+			
+		} 
+
+		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
+			//Grab button was released
+			if (!hasMovedBlock && !model.isLiftingBlock()) {
+				model.getActivePlayer().liftBlock();
+			} else {
+				model.stopProcessingBlock();
+				hasMovedBlock = false;
+			}
+			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
+			System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
+		}ogic.gdx.InputAdapter#keyUp(int)
 	 */
 	@Override
 	public boolean keyUp(int keyCode) {
@@ -167,89 +273,12 @@ public class Controller extends InputAdapter implements Disposable {
 	 * Updates the game flow.
 	 * @param deltaTime The time between the current frame and the last one.
 	 */
-	public void update(float deltaTime) {
+	public void update() {
 
-		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
-			//Try to grab the adjacent block if possible and there is one.
-			model.getActivePlayer().grabBlock();
-			
-		} 
-
-		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
-			// Character is moving left
-
-			model.getActivePlayer().setDirection(LEFT);
-			model.interactPlayer();
-			if (model.getActivePlayer().isGrabbingBlock() 
-					|| model.getActivePlayer().isLiftingBlock()) {
-				hasMovedBlock = true;
-			}
-		}
-		
-		if ((keyFlags & LEFT_BUTTON_UP_FLAG) != 0) {
-			model.getActivePlayer().setDefaultVelocity(Direction.NONE);
-			keyFlags &= ~LEFT_BUTTON_UP_FLAG;
-		}
-		
-		if ((keyFlags & RIGHT_BUTTON_UP_FLAG) != 0) {
-			model.getActivePlayer().setDefaultVelocity(Direction.NONE);
-			keyFlags &= ~RIGHT_BUTTON_UP_FLAG;
-
-		}
-
-		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
-			// Character is moving right
-			model.getActivePlayer().setDirection(RIGHT);
-			model.interactPlayer();
-			if (model.getActivePlayer().isGrabbingBlock() 
-					|| model.getActivePlayer().isLiftingBlock()) {
-				hasMovedBlock = true;
-			}
-		}
-
-		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
-			//Grab button was released
-			if (!hasMovedBlock && !model.isLiftingBlock()) {
-				model.getActivePlayer().liftBlock();
-			} else {
-				model.stopProcessingBlock();
-				hasMovedBlock = false;
-			}
-			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
-			System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
-		}
-
-		if ((keyFlags & MENU_BUTTON_UP_FLAG) != 0) {
-			// Opening the level menu
-			keyFlags &= ~MENU_BUTTON_UP_FLAG;
-			System.out.println("Removing flag: "+MENU_BUTTON_UP_FLAG);
-		}
-
-		if ((keyFlags & SWITCH_CHARACTER_BUTTON_UP_FLAG) != 0) {
-			// Switching active character
-			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;
-			
-			model.nextPlayer();
-		}
-		
-		if ((keyFlags & RESTART_STAGE_BUTTON_R_FLAG) != 0) {
-			//Restart stage
-			keyFlags &= ~RESTART_STAGE_BUTTON_R_FLAG;
-			model.init();
-			setModel(model);
-		}
-		
-		if ((keyFlags & DANCE_BUTTON_FLAG) != 0) {
-			//Dance
-			keyFlags &= ~DANCE_BUTTON_FLAG;
-			model.getActivePlayer().setDancing(true);
-		}
-		
-		if ((keyFlags & DANCE_BUTTON_UP_FLAG) != 0) {
-
-			keyFlags &= ~DANCE_BUTTON_UP_FLAG;
-			model.getActivePlayer().setDancing(false);
-		}
+		handleMovement();
+		handleInteractions();
+		handleDancing();
+		handleGameConditions();
 
 	}
 

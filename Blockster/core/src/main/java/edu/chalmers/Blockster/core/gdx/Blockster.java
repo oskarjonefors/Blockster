@@ -110,7 +110,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	public void render () {
 		/*Update the world controller with the time
 			elapsed between the last two frames. */ 
-		controller.update(Gdx.graphics.getDeltaTime());
+		controller.update();
 		
 		/* Update the model with the time elapsed between
 		 * the last two frames.
