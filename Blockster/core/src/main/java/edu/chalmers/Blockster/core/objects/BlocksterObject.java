@@ -5,13 +5,7 @@ import javax.vecmath.Vector2f;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
 
-public abstract class BlocksterObject {
-	private float posX;
-	private float posY;
-	private float height;
-	private float width;
-	private float scaleX;
-	private float scaleY;
+public abstract class BlocksterObject extends ScaledObject {
 	private float totalTime = 0;
 	private Vector2f velocity;
 	protected Vector2f defaultVelocity;
@@ -20,10 +14,7 @@ public abstract class BlocksterObject {
 	protected BlockMap blockMap;
 
 	public BlocksterObject(float startX, float startY, BlockMap blockMap, float scaleX, float scaleY) {
-		this.posX = startX;
-		this.posY = startY;
-		this.scaleX = scaleX;
-		this.scaleY = scaleY;
+		super(startX, startY, scaleX, scaleY);
 		this.blockMap = blockMap;
 		anim = AnimationState.NONE;
 		velocity = new Vector2f(0, 0);
@@ -56,66 +47,34 @@ public abstract class BlocksterObject {
 		return blockMap;
 	}
 	
-	public float getHeight() {
-		return height;
-	}
-	
-	public float getWidth() {
-		return width;
-	}
-	
-	public void setHeight(float height) {
-		this.height = height;
-	}
-	
-	public void setWidth(float width) {
-		this.width = width;
-	}
-	
 	public float getOriginX() {
-		return posX;
+		return x;
 	}
 	
 	public float getOriginY() {
-		return posY;
+		return y;
 	}
 	
 	public float getX() {
 		//If there is an animation currently running then
 		//we want to return the relative position
 		if ( anim != AnimationState.NONE) {
-			return posX + anim.getRelativePosition().x * scaleX;
+			return x + anim.getRelativePosition().x * scaleX;
 		}
-		return posX;
+		return x;
 	}
 	
 	
 	public float getY() {
 		if (anim != AnimationState.NONE){
-			return posY + anim.getRelativePosition().y * scaleY;
+			return y + anim.getRelativePosition().y * scaleY;
 		}
-		return posY;
-	}
-	
-	public void setX(float posX) {
-		this.posX = posX;
-	}
-	
-	public void setY(float posY) {
-		this.posY = posY;
-	}
-	
-	public float getScaleX() {
-		return scaleX;
-	}
-	
-	public float getScaleY() {
-		return scaleY;
+		return y;
 	}
 	
 	public void moveToNextPosition(){
-		posX += anim.getMovement().getDirection().deltaX * scaleX;
-		posY += anim.getMovement().getDirection().deltaY * scaleY;
+		x += anim.getMovement().getDirection().deltaX * scaleX;
+		y += anim.getMovement().getDirection().deltaY * scaleY;
 		
 		System.out.println("Moved "+this+" ("+anim.getMovement().getDirection()
 				+") (" + anim.getMovement() + ") (" + anim + ")");
