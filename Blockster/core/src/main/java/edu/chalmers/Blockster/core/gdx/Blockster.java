@@ -34,7 +34,7 @@ public class Blockster extends Game implements MapChangeListener {
 	private Model stage;
 	private Map<Model, GdxView> stages;
 	
-	private void addStagesToMap(Map<Model, GdxView> stageMap, File[] maps) {
+	private void addStagesToMap(Map<Model, GdxView> stageMap, File... maps) {
 		TmxMapLoader loader = new TmxMapLoader();
 		for (File mapFile : maps) {
 			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
