@@ -62,6 +62,14 @@ public interface BlockMap extends GridMap {
 	
 	public Set<Block> getActiveBlocks();
 	
+	/**
+	 * Get a float array of the player starting positions in the map.
+	 * They are structured as such: float[playerNo][n] 
+	 * where n:0 = X coordinate, n:1 = Y coordinate.
+	 * @return
+	 */
+	public float[][] getPlayerStartingPositions();
+	
 	public void insertFinishedBlocks();
 	
 	public void updateActiveBlocks(float deltaTime);

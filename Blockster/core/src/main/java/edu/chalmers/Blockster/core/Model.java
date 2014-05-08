@@ -92,7 +92,7 @@ public class Model implements Comparable<Model> {
 	}
 
 	private float[][] getPlayerStartingPositions(BlockMap map) {
-		return new float[][] {{700, 1000}, {2500, 1000}};
+		return map.getPlayerStartingPositions();
 	}
 
 	public Block getProcessedBlock() {

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -28,10 +29,12 @@ public class GdxMap extends TiledMap implements BlockMap {
 	private TiledMapTileLayer blockLayer;
 	private Map<Block, BlockView> blocks;
 	private Set<Block> activeBlocks;
+	private float[][] playerStartingPositions;
 
 	public GdxMap (TiledMap map) {
 		super();
-
+		playerStartingPositions = getPlayerStartingPositions(map);
+		
 		blockLayer = (TiledMapTileLayer) 
 				map.getLayers().get(0);
 		blocks = new HashMap<Block, BlockView>();
@@ -62,6 +65,63 @@ public class GdxMap extends TiledMap implements BlockMap {
 		}
 	}
 
+	private float[][] getPlayerStartingPositions(TiledMap map) {
+		
+		MapProperties mapProps = map.getProperties();
+		
+		if(!map.getProperties().containsKey("nbrOfPlayers")) {
+			throw new IllegalArgumentException("Given map does not contain"
+					+ "\"nbrOfPlayers\" property.");
+		}
+		
+		int nbrOfPlayers;
+		
+		try {
+			nbrOfPlayers = Integer.parseInt((String)mapProps.get("nbrOfPlayers"));
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("Given map's nbrOfPlayers value "
+					+ mapProps.get("nbrOfPlayers") + " is incorrect. Should be a number 0 <= 10");
+		}
+			
+		if(nbrOfPlayers < 0 || nbrOfPlayers > 10) {
+			throw new IllegalArgumentException("Given nbrOfPlayers value " +
+					+ nbrOfPlayers + " is incorrect. Should be a number 0 <= 10");
+		}
+		
+		float[][] startingPositions = new float[nbrOfPlayers][2];
+		
+		for(int i = 1; i <= nbrOfPlayers ; i++) {
+			if(!mapProps.containsKey("playerStart" + i)) {
+				throw new IllegalArgumentException("Given map does not contain"
+						+ " starting position playerStart" + i + " for player " + i);
+			}
+			
+			String playerStart = (String)mapProps.get("playerStart" + i);
+			String[] playerStarts = playerStart.split(":");
+			float[] playerStartFloats = new float[playerStarts.length];
+			
+			for(int j = 0; j < playerStarts.length; j++) {
+				try {
+					playerStartFloats[j] = Float.parseFloat(playerStarts[j]);
+				} catch (NumberFormatException e) {
+					throw new IllegalArgumentException("Field player start has wrong"
+							+ " format: " + playerStart + ". Should be an float position"
+									+ " with the following format: x:y");
+				}
+			}
+			
+			if (playerStarts.length != 2 || playerStarts.length != playerStartFloats.length) {
+
+			}
+			startingPositions[i - 1] = playerStartFloats;
+		}
+		return startingPositions;
+	}
+	
+	public float[][] getPlayerStartingPositions() {
+		return playerStartingPositions;
+	}
+	
 	@Override
 	public float getBlockWidth(){
 		return blockLayer.getTileWidth();

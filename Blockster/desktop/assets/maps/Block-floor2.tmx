@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="25" height="25" tilewidth="128" tileheight="128">
+ <properties>
+  <property name="nbrOfPlayers" value="2"/>
+  <property name="playerStart1" value="700:1000"/>
+  <property name="playerStart2" value="2500:1000"/>
+ </properties>
  <tileset firstgid="1" name="TileSet" tilewidth="128" tileheight="128">
   <image source="TileSet.png" width="640" height="256"/>
   <tile id="0">
