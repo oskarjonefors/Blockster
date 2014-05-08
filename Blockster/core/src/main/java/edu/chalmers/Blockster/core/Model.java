@@ -14,7 +14,6 @@ import edu.chalmers.Blockster.core.objects.Player;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
 import edu.chalmers.Blockster.core.util.Calculations;
-import edu.chalmers.Blockster.core.util.Factory;
 
 /**
  * A class to represent a stage.
