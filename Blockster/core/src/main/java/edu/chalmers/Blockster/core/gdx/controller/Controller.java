@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.MapChangeListener;
-import edu.chalmers.Blockster.core.objects.Block;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
 
 /**

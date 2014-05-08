@@ -8,7 +8,6 @@ import edu.chalmers.Blockster.core.objects.interactions.Interactor;
 import edu.chalmers.Blockster.core.objects.interactions.PlayerInteraction;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
-import edu.chalmers.Blockster.core.util.PhysicalObject;
 import static edu.chalmers.Blockster.core.util.Calculations.*;
 
 /**

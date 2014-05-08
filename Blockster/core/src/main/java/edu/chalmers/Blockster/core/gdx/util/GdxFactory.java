@@ -16,6 +16,7 @@ public class GdxFactory implements Factory {
 		this.map = map;
 	}
 	
+	@Override
 	public BlockMap createMap() {
 		GdxMap gMap = new GdxMap(map);
 		return gMap;

@@ -20,18 +20,22 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 		properties.add(property.toLowerCase());
 	}
 	
+	@Override
 	public boolean isSolid() {
 		return properties.contains("solid");
 	}
 	
+	@Override
 	public boolean isLiftable() {
 		return properties.contains("liftable");
 	}
 	
+	@Override
 	public boolean isMovable() {
 		return properties.contains("movable");
 	}
 	
+	@Override
 	public boolean hasWeight() {
 		return properties.contains("weight");
 	}
@@ -44,6 +48,7 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 		
 	}
 	
+	@Override
 	public void setAnimationState(AnimationState anim) {
 		super.setAnimationState(anim);
 		if (anim != AnimationState.NONE)

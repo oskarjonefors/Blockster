@@ -8,9 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -22,11 +19,10 @@ import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.MapChangeListener;
 import edu.chalmers.Blockster.core.gdx.controller.Controller;
 import edu.chalmers.Blockster.core.gdx.util.GdxFactory;
-import edu.chalmers.Blockster.core.gdx.view.GdxMap;
 import edu.chalmers.Blockster.core.gdx.view.GdxView;
 /**
  * 
- * @author Oskar Jönefors, Eric Bjuhr
+ * @author Oskar J��nefors, Eric Bjuhr
  *
  */
 public class Blockster extends Game implements ApplicationListener, MapChangeListener {
@@ -34,8 +30,6 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	//Constant useful for logging.
 	public static final String LOG = Blockster.class.getSimpleName();
 
-	//A libgdx helper class that logs current FPS each second
-	private FPSLogger fpsLogger;
 	private Controller controller;
 	private GdxView viewer;
 	private Model stage;

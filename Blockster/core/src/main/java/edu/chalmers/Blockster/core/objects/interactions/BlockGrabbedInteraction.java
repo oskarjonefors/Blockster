@@ -3,9 +3,6 @@ package edu.chalmers.Blockster.core.objects.interactions;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.chalmers.Blockster.core.objects.Block;
-import edu.chalmers.Blockster.core.objects.BlockMap;
-import edu.chalmers.Blockster.core.objects.Player;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
 import edu.chalmers.Blockster.core.objects.movement.Movement;

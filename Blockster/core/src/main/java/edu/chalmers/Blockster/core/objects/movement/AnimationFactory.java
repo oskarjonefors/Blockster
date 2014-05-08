@@ -1,6 +1,5 @@
 package edu.chalmers.Blockster.core.objects.movement;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;

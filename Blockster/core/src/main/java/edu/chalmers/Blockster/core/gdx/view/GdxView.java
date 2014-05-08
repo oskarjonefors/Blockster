@@ -1,11 +1,7 @@
 package edu.chalmers.Blockster.core.gdx.view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import javax.vecmath.Vector2f;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -14,7 +10,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,9 +19,6 @@ import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.objects.Block;
 import edu.chalmers.Blockster.core.objects.Player;
 import edu.chalmers.Blockster.core.objects.movement.AnimationFactory;
-import edu.chalmers.Blockster.core.objects.movement.AnimationState;
-import edu.chalmers.Blockster.core.objects.movement.Direction;
-import edu.chalmers.Blockster.core.objects.movement.Movement;
 
 /**
  * @author Joel Tegman, Oskar Jönefors
@@ -37,8 +29,6 @@ public class GdxView implements ApplicationListener, Disposable {
 	private Model model;
 	private OrthogonalTiledMapRenderer renderer;
 	private Stage stage;
-	private List<BlockView> activeBlocks;
-	private List<BlockView> liftedBlocks;
 	private Map<Player, PlayerView> players;
 	private Actor background;
 	private Vector3 cameraMoveVector;
@@ -57,6 +47,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	/**
 	 * Render the view.
 	 */
+	@Override
 	public void render(){
 
 		/* Checks if the camera should transit between the players */
@@ -112,10 +103,6 @@ public class GdxView implements ApplicationListener, Disposable {
 		background = new GdxBackgroundActor(new TextureRegion(tex));
 		background.setScale(5);
 		stage.addActor(background);
-		
-		
-		activeBlocks = new ArrayList<BlockView>();
-		liftedBlocks = new ArrayList<BlockView>();
 	}
 	
 	public void transitCamera(){
@@ -159,6 +146,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	}
 	
 	
+	@Override
 	public void resize(int width, int height){
 		camera.viewportHeight = height*5;
 		camera.viewportWidth = width*5;

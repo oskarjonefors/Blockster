@@ -2,22 +2,18 @@ package edu.chalmers.Blockster.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import edu.chalmers.Blockster.core.objects.Block;
 import edu.chalmers.Blockster.core.objects.BlockMap;
 import edu.chalmers.Blockster.core.objects.Player;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
-import edu.chalmers.Blockster.core.objects.movement.Direction;
-import edu.chalmers.Blockster.core.util.Calculations;
 
 /**
  * A class to represent a stage.
- * @author Oskar Jönefors, Eric Bjuhr, Emilia Nilsson
+ * @author Oskar J��nefors, Eric Bjuhr, Emilia Nilsson
  * 
  */
 public class Model implements Comparable<Model> {
@@ -26,7 +22,6 @@ public class Model implements Comparable<Model> {
 	private Player activePlayer;
 	private List<Player> players;
 	private Set<Block> activeBlocks;
-	private List<Block> blocks;
 	public boolean isSwitchChar;
 	private Factory factory;
 	private final String name;
@@ -64,20 +59,6 @@ public class Model implements Comparable<Model> {
 	 */
 	public Player getActivePlayer() {
 		return activePlayer;
-	}
-	
-	/**
-	 * Get the blocks that are currently being lifted by a player.
-	 * @return A set of blocks that are being lifted. Empty if there are none.
-	 */
-	public Map<Player, Block> getLiftedBlocks() {
-		Map liftedBlocks = new HashMap<Player, Block>();
-		for (Player player : getPlayers()) {
-			if (player.isLiftingBlock()) {
-				liftedBlocks.put(player, player.getProcessedBlock());
-			}
-		}
-		return liftedBlocks;
 	}
 	
 	public BlockMap getMap() {
