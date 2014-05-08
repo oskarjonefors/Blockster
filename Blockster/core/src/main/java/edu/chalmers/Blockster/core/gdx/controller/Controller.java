@@ -32,6 +32,7 @@ public class Controller extends InputAdapter implements Disposable {
 	private final static int LEFT_BUTTON_UP_FLAG = 1 << 7;
 	private final static int RIGHT_BUTTON_UP_FLAG = 1 << 8;
 	private final static int DANCE_BUTTON_FLAG = 1 << 9;
+	private final static int DANCE_BUTTON_UP_FLAG = 1 << 10;
 
 	private Model model;
 
@@ -145,7 +146,8 @@ public class Controller extends InputAdapter implements Disposable {
 		
 		if (keyCode == Keys.D) {
 			//Stop dancing
-			keyFlags |= DANCE_BUTTON_FLAG;
+			keyFlags &= ~DANCE_BUTTON_FLAG;
+			keyFlags |= DANCE_BUTTON_UP_FLAG;
 		}
 		return false;
 	}
@@ -240,7 +242,13 @@ public class Controller extends InputAdapter implements Disposable {
 		if ((keyFlags & DANCE_BUTTON_FLAG) != 0) {
 			//Dance
 			keyFlags &= ~DANCE_BUTTON_FLAG;
-			model.getActivePlayer();
+			model.getActivePlayer().setDancing(true);
+		}
+		
+		if ((keyFlags & DANCE_BUTTON_UP_FLAG) != 0) {
+
+			keyFlags &= ~DANCE_BUTTON_UP_FLAG;
+			model.getActivePlayer().setDancing(false);
 		}
 
 	}

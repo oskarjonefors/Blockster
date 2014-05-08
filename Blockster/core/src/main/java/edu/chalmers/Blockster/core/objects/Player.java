@@ -18,7 +18,7 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
 public class Player extends BlocksterObject implements Interactor {
 	
 
-	public boolean DANCE = false;
+	private boolean dancing = false;
 	
 	private Block processedBlock;
 	private boolean isGrabbingBlock;
@@ -184,5 +184,13 @@ public class Player extends BlocksterObject implements Interactor {
 	
 	public boolean collidedVertically() {
 		return collidedVertically;
+	}
+
+	public void setDancing(boolean b) {
+		dancing = true;
+	}
+	
+	public boolean isDancing() {
+		return dancing;
 	}
 }
