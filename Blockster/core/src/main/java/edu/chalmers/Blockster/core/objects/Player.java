@@ -16,11 +16,13 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
  */
 public class Player extends BlocksterObject{
 	
+
+	public boolean DANCE = false;
+	
 	private Block processedBlock;
 	private boolean isGrabbingBlock;
 	private boolean isLiftingBlock;
 	private PlayerInteraction interaction = PlayerInteraction.NONE;
-	
 	private boolean collidedHorisontally = false;
 	private boolean collidedVertically = false;
 	
@@ -189,5 +191,4 @@ public class Player extends BlocksterObject{
 	public void setLifting(boolean b) {
 		isLiftingBlock = b;
 	}
-	
 }

@@ -16,7 +16,7 @@ import edu.chalmers.Blockster.core.objects.movement.Direction;
 
 /**
  * Class to handle input and updating the model.
- * @author Eric Bjuhr, Oskar Jönefors
+ * @author Eric Bjuhr, Oskar J��nefors
  *
  */
 public class Controller extends InputAdapter implements Disposable {
@@ -32,6 +32,7 @@ public class Controller extends InputAdapter implements Disposable {
 	private final static int RESTART_STAGE_BUTTON_R_FLAG = 1 << 6;
 	private final static int LEFT_BUTTON_UP_FLAG = 1 << 7;
 	private final static int RIGHT_BUTTON_UP_FLAG = 1 << 8;
+	private final static int DANCE_BUTTON_FLAG = 1 << 9;
 
 	private Model model;
 
@@ -101,6 +102,10 @@ public class Controller extends InputAdapter implements Disposable {
 			//Restart level
 			keyFlags |= RESTART_STAGE_BUTTON_R_FLAG;
 		}
+		if (keyCode == Keys.D) {
+			//Dance
+			keyFlags |= DANCE_BUTTON_FLAG;
+		}
 		return false;
 	}
 
@@ -137,6 +142,11 @@ public class Controller extends InputAdapter implements Disposable {
 		if (keyCode == Keys.SHIFT_LEFT || keyCode == Keys.SHIFT_RIGHT) {
 			//Switch character
 			keyFlags |= SWITCH_CHARACTER_BUTTON_UP_FLAG;
+		}
+		
+		if (keyCode == Keys.D) {
+			//Stop dancing
+			keyFlags |= DANCE_BUTTON_FLAG;
 		}
 		return false;
 	}
@@ -226,6 +236,12 @@ public class Controller extends InputAdapter implements Disposable {
 			keyFlags &= ~RESTART_STAGE_BUTTON_R_FLAG;
 			model.init();
 			setModel(model);
+		}
+		
+		if ((keyFlags & DANCE_BUTTON_FLAG) != 0) {
+			//Dance
+			keyFlags &= ~DANCE_BUTTON_FLAG;
+			model.getActivePlayer();
 		}
 
 	}

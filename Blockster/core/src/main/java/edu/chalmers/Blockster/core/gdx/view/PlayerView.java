@@ -19,6 +19,7 @@ public class PlayerView {
 	private TextureRegion defaultSprite;
 	private HashMap<Movement, Animation> arrayOfAnimation;
 	private HashMap<Direction, Animation> walkAnimations;
+	private Animation danceAnimation;
 	
 	private float walkAnimTime;
 	
@@ -56,6 +57,9 @@ public class PlayerView {
 			*/
 			return defaultSprite;
 		}
+		/*if (player.DANCE == true) {
+			return danceAnimation.getKeyFrame(stateTime);
+		}*/
 	}
 	
 	public TextureRegion getCurrentAnimation(Movement move, Float time){
