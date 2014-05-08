@@ -7,6 +7,8 @@ import edu.chalmers.Blockster.core.objects.interactions.BlockLiftedInteraction;
 import edu.chalmers.Blockster.core.objects.interactions.PlayerInteraction;
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
+import edu.chalmers.Blockster.core.util.Calculations;
+import edu.chalmers.Blockster.core.util.PhysicalObject;
 import static edu.chalmers.Blockster.core.util.Calculations.*;
 
 /**
@@ -14,7 +16,7 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
  * @author Emilia Nilsson and Eric Bjuhr
  *
  */
-public class Player extends BlocksterObject{
+public class Player extends BlocksterObject implements PhysicalObject{
 	
 
 	public boolean DANCE = false;
@@ -30,7 +32,7 @@ public class Player extends BlocksterObject{
 		super(startX, startY, blockLayer, blockLayer.getBlockWidth(), blockLayer.getBlockHeight());
 		defaultVelocity = new Vector2f(700, 55 * blockMap.getBlockHeight());
 	}
-	
+
 	public Block getProcessedBlock() {
 		return processedBlock;
 	}
@@ -51,6 +53,18 @@ public class Player extends BlocksterObject{
 				(block.isMovable() || block.isLiftable());
 	}
 	
+	public void setGrabbing(boolean b) {
+		if(b) {
+			/*Direction dir = Calculations.getDirection(getX(), getProcessedBlock()
+
+			.getX() * blockMap.getBlockWidth());*/
+			setAnimationState(dir == Direction.LEFT ? AnimationState.GRAB_LEFT : AnimationState.GRAB_RIGHT);
+		} else {
+			setAnimationState(AnimationState.NONE);
+			processedBlock = null;
+		}
+	}
+	
 	public boolean isGrabbingBlock() {
 		return isGrabbingBlock;
 	}
@@ -68,6 +82,11 @@ public class Player extends BlocksterObject{
 	private boolean canLiftBlock(Block block) {
 		return block != null && !isInteracting() &&
 				isNextToBlock(block) && block.isLiftable();
+	}
+	
+	public void setLifting(boolean lift) {
+		isLiftingBlock = lift;
+		
 	}
 	
 	public boolean isLiftingBlock() {
@@ -173,22 +192,5 @@ public class Player extends BlocksterObject{
 	
 	public boolean collidedVertically() {
 		return collidedVertically;
-	}
-
-	public void setGrabbing(boolean b) {
-		if(b) {
-			/*Direction dir = Calculations.getDirection(getX(), getProcessedBlock()
-					.getX() * blockMap.getBlockWidth());*/
-			setAnimationState(getDirection() == Direction.LEFT ? AnimationState.GRAB_LEFT :
-				AnimationState.GRAB_RIGHT);
-		} else {
-			setAnimationState(AnimationState.NONE);
-			processedBlock = null;
-		}
-		
-	}
-
-	public void setLifting(boolean b) {
-		isLiftingBlock = b;
 	}
 }
