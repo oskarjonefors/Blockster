@@ -15,7 +15,7 @@ import static edu.chalmers.Blockster.core.util.Calculations.*;
  * @author Emilia Nilsson and Eric Bjuhr
  *
  */
-public class Player extends BlocksterObject implements PhysicalObject{
+public class Player extends BlocksterObject {
 	
 
 	public boolean DANCE = false;
