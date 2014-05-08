@@ -35,8 +35,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 		super();
 		playerStartingPositions = getPlayerStartingPositions(map);
 		
-		blockLayer = (TiledMapTileLayer) 
-				map.getLayers().get(0);
+		blockLayer = (TiledMapTileLayer) map.getLayers().get(0);
 		blocks = new HashMap<Block, BlockView>();
 		activeBlocks = new HashSet<Block>();
 
@@ -69,7 +68,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 		
 		MapProperties mapProps = map.getProperties();
 		
-		if(!map.getProperties().containsKey("nbrOfPlayers")) {
+		if(!mapProps.containsKey("nbrOfPlayers")) {
 			throw new IllegalArgumentException("Given map does not contain"
 					+ "\"nbrOfPlayers\" property.");
 		}
@@ -119,7 +118,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 	}
 	
 	public float[][] getPlayerStartingPositions() {
-		return playerStartingPositions;
+		return playerStartingPositions.clone();
 	}
 	
 	@Override
@@ -219,8 +218,6 @@ public class GdxMap extends TiledMap implements BlockMap {
 			}
 		}
 		activeBlocks.removeAll(doneBlocks);
-		if (activeBlocks.size() != 0)
-			System.out.println(activeBlocks.size());
 	}
 
 	@Override

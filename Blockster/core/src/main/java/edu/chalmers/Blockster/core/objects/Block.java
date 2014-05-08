@@ -1,6 +1,7 @@
 package edu.chalmers.Blockster.core.objects;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import edu.chalmers.Blockster.core.objects.interactions.Interactable;
@@ -17,7 +18,7 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 	}
 	
 	public void setProperty(String property) {
-		properties.add(property.toLowerCase());
+		properties.add(property.toLowerCase(Locale.ENGLISH));
 	}
 	
 	@Override

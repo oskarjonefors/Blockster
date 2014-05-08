@@ -56,15 +56,18 @@ public class GdxView implements ApplicationListener, Disposable {
 		}
 
 		/* Follow the active player */
-		camera.position.set(model.getActivePlayer().getX(),
-				model.getActivePlayer().getY(), 0);
+		Player activePlayer = model.getActivePlayer();
+		float activePlayerX = activePlayer.getX();
+		float activePlayerY = activePlayer.getY();
+		
+		camera.position.set(activePlayerX, activePlayerY, 0);
 
 		/* Move the background with the player */
 		background.setPosition(
-				(model.getActivePlayer().getX()*0.7f - 
-						background.getScaleX()*background.getWidth() - 
+				(activePlayerX * 0.7f - 
+						background.getScaleX() * background.getWidth() - 
 						camera.viewportWidth / 2),
-						(model.getActivePlayer().getY()*0.7f - 
+						(activePlayerY * 0.7f - 
 								(background.getHeight() / 2) - 
 								camera.viewportHeight / 2));
 		
@@ -214,9 +217,8 @@ public class GdxView implements ApplicationListener, Disposable {
 		TextureRegion texr = new TextureRegion(tex);
 		AnimationFactory animF = new AnimationFactory();
 		System.out.println("hit kom");
-		PlayerView pView = new PlayerView(player, animF.getArrayOfAnimations(), animF.getWalkAnimations(), texr);
-		
-		return pView;
+		return (new PlayerView(player, animF.getArrayOfAnimations(),
+				animF.getWalkAnimations(), texr));
 	}
 	
 }

@@ -32,7 +32,7 @@ public class Model implements Comparable<Model> {
 		init();
 	}
 	
-	public void init() {
+	public final void init() {
 		this.map = factory.createMap();
 		players = new ArrayList<Player>();
 		activeBlocks = Collections.synchronizedSet(new HashSet<Block>());
@@ -49,8 +49,7 @@ public class Model implements Comparable<Model> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
+		return prime * result + ((name == null) ? 0 : name.hashCode());
 	}
 
 	@Override
@@ -115,10 +114,8 @@ public class Model implements Comparable<Model> {
 	 * Start controlling the next player.
 	 */
 	public void nextPlayer() {
-		int pIndex = getPlayers().indexOf(activePlayer);
-		int nbrPlayers = getPlayers().size();
-		int nPlayer = (pIndex + 1) % nbrPlayers;
-		activePlayer = getPlayers().get(nPlayer);
+		int pIndex = players.indexOf(activePlayer);
+		activePlayer = players.get((pIndex + 1) % players.size());
 		isSwitchChar = true;
 	}
 

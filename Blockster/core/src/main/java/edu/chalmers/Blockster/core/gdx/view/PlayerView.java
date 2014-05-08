@@ -66,11 +66,11 @@ public class PlayerView {
 		return arrayOfAnimation.get(move).getKeyFrame(time, true);
 	}
 	
-	public void setHeight(float height) {
+	public final void setHeight(float height) {
 		player.setHeight(height);
 	}
 	
-	public void setWidth(float width) {
+	public final void setWidth(float width) {
 		player.setWidth(width);
 	}
 	

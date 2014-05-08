@@ -73,11 +73,12 @@ public abstract class BlocksterObject extends ScaledObject {
 	}
 	
 	public void moveToNextPosition(){
-		x += anim.getMovement().getDirection().deltaX * scaleX;
-		y += anim.getMovement().getDirection().deltaY * scaleY;
+		Direction dir = anim.getMovement().getDirection();
+		x += dir.deltaX * scaleX;
+		y += dir.deltaY * scaleY;
 		
-		System.out.println("Moved "+this+" ("+anim.getMovement().getDirection()
-				+") (" + anim.getMovement() + ") (" + anim + ")");
+		System.out.println("Moved "+this+" ("+dir+") (" + anim.getMovement()
+				+ ") (" + anim + ")");
 	}
 	
 	public AnimationState getAnimationState() {
@@ -120,8 +121,9 @@ public abstract class BlocksterObject extends ScaledObject {
 	}
 	
 	public void setDefaultVelocity(Direction dir) {
-		setVelocityX(getVelocity().x + dir.deltaX * defaultVelocity.x);
-		setVelocityY(getVelocity().y + dir.deltaY * defaultVelocity.y);
+		Vector2f velocity = getVelocity();
+		setVelocityX(velocity.x + dir.deltaX * defaultVelocity.x);
+		setVelocityY(velocity.y + dir.deltaY * defaultVelocity.y);
 	}
 	
 	public void increaseGravity(float deltaTime) {

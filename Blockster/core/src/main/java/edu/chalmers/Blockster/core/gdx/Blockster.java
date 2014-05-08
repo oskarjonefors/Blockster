@@ -11,7 +11,6 @@ import java.util.TreeMap;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
@@ -25,7 +24,7 @@ import edu.chalmers.Blockster.core.gdx.view.GdxView;
  * @author Oskar J��nefors, Eric Bjuhr
  *
  */
-public class Blockster extends Game implements ApplicationListener, MapChangeListener {
+public class Blockster extends Game implements MapChangeListener {
 	
 	//Constant useful for logging.
 	public static final String LOG = Blockster.class.getSimpleName();
@@ -35,7 +34,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 	private Model stage;
 	private Map<Model, GdxView> stages;
 	
-	private void addStagesToMap(Map<Model, GdxView> list, File[] maps) {
+	private void addStagesToMap(Map<Model, GdxView> stageMap, File[] maps) {
 		TmxMapLoader loader = new TmxMapLoader();
 		for (File mapFile : maps) {
 			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
@@ -45,7 +44,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 			GdxView view = new GdxView(stage);
 			view.init();
 			
-			list.put(stage, view);
+			stageMap.put(stage, view);
 		}
 	}
 	
@@ -96,7 +95,7 @@ public class Blockster extends Game implements ApplicationListener, MapChangeLis
 		return directory.listFiles(ff);
 	}
 
-	private void loadStages() throws SecurityException, IOException {
+	private void loadStages() throws IOException {
 		stages = Collections.synchronizedMap(new TreeMap<Model, GdxView>());
 		addStagesToMap(stages, listFilesInDirectory(new File("assets/maps/"), ".tmx"));
 	}

@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.MapChangeListener;
+import edu.chalmers.Blockster.core.objects.Player;
 import edu.chalmers.Blockster.core.objects.movement.Direction;
 
 /**
@@ -122,34 +123,32 @@ public class Controller extends InputAdapter implements Disposable {
 	}
 	
 	private void handleMovement() {
+		Player activePlayer = model.getActivePlayer();
 		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving left
-
-			model.getActivePlayer().setDirection(LEFT);
+			activePlayer.setDirection(LEFT);
 			model.interactPlayer();
-			if (model.getActivePlayer().isGrabbingBlock() 
-					|| model.getActivePlayer().isLiftingBlock()) {
+			if (activePlayer.isGrabbingBlock() 
+					|| activePlayer.isLiftingBlock()) {
 				hasMovedBlock = true;
 			}
 		}
 		
 		if ((keyFlags & LEFT_BUTTON_UP_FLAG) != 0) {
-			model.getActivePlayer().setDefaultVelocity(Direction.NONE);
+			activePlayer.setDefaultVelocity(Direction.NONE);
 			keyFlags &= ~LEFT_BUTTON_UP_FLAG;
 		}
 		
 		if ((keyFlags & RIGHT_BUTTON_UP_FLAG) != 0) {
-			model.getActivePlayer().setDefaultVelocity(Direction.NONE);
+			activePlayer.setDefaultVelocity(Direction.NONE);
 			keyFlags &= ~RIGHT_BUTTON_UP_FLAG;
-
 		}
 
 		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving right
-			model.getActivePlayer().setDirection(RIGHT);
+			activePlayer.setDirection(RIGHT);
 			model.interactPlayer();
-			if (model.getActivePlayer().isGrabbingBlock() 
-					|| model.getActivePlayer().isLiftingBlock()) {
+			if (activePlayer.isGrabbingBlock() 	|| activePlayer.isLiftingBlock()) {
 				hasMovedBlock = true;
 			}
 		}
