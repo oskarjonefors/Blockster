@@ -13,7 +13,7 @@ import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 
 /**
  * A class to represent a stage.
- * @author Oskar J��nefors, Eric Bjuhr, Emilia Nilsson
+ * @author Oskar Jönefors, Eric Bjuhr, Emilia Nilsson
  * 
  */
 public class Model implements Comparable<Model> {
@@ -45,6 +45,16 @@ public class Model implements Comparable<Model> {
 		return name.compareTo(model.getName());
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj != null && obj.getClass() == getClass()) {
+			Model mod = (Model)obj;
+			return name.equals(mod.getName());
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Return the blocks that are currently out of the grid and moving.
 	 * @return A list of blocks that are out of the grid. Empty if there are none.
