@@ -104,6 +104,15 @@ public abstract class BlocksterObject {
 	public void setY(float posY) {
 		this.posY = posY;
 	}
+	
+	public float getScaleX() {
+		return scaleX;
+	}
+	
+	public float getScaleY() {
+		return scaleY;
+	}
+	
 	public void moveToNextPosition(){
 		posX += anim.getMovement().getDirection().deltaX * scaleX;
 		posY += anim.getMovement().getDirection().deltaY * scaleY;
