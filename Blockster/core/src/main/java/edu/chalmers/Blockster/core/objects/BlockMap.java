@@ -2,11 +2,13 @@ package edu.chalmers.Blockster.core.objects;
 
 import java.util.Set;
 
+import edu.chalmers.Blockster.core.util.GridMap;
+
 /**
  * An interface representing a grid layer of blocks in a BlockMap.
  */
 
-public interface BlockMap {
+public interface BlockMap extends GridMap {
 
 	/**
 	 * Get the width of the block in pixels.

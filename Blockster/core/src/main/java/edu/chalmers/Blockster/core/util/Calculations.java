@@ -1,7 +1,6 @@
 package edu.chalmers.Blockster.core.util;
 
 import edu.chalmers.Blockster.core.objects.Block;
-import edu.chalmers.Blockster.core.objects.BlockMap;
 import edu.chalmers.Blockster.core.objects.BlocksterObject;
 import edu.chalmers.Blockster.core.objects.Player;
 
@@ -18,7 +17,7 @@ public class Calculations {
 	public final static int CHECK_LEFT_FLAG = 1 << 6;
 	public final static int CHECK_UP_LEFT_FLAG = 1 << 7;
 	
-	public static boolean collisionEitherCorner(BlocksterObject player, BlockMap blockLayer) {
+	public static boolean collisionEitherCorner(BlocksterObject player, GridMap blockLayer) {
 		try {
 			return collisionUpperLeft(player, blockLayer) ||
 					collisionUpperRight(player, blockLayer) ||
@@ -30,7 +29,7 @@ public class Calculations {
 	}
 
 	private static boolean collisionLowerLeft(BlocksterObject player, 
-			BlockMap blockLayer) {
+			GridMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
 		
@@ -39,7 +38,7 @@ public class Calculations {
 	}
 
 	private static boolean collisionLowerRight(BlocksterObject player, 
-			BlockMap blockLayer) {
+			GridMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
 		
@@ -48,7 +47,7 @@ public class Calculations {
 	}
 	
 	private static boolean collisionUpperLeft(BlocksterObject player, 
-			BlockMap blockLayer) {
+			GridMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
 		
@@ -57,7 +56,7 @@ public class Calculations {
 	}
 	
 	private static boolean collisionUpperRight(BlocksterObject player, 
-			BlockMap blockLayer) {
+			GridMap blockLayer) {
 		float tileWidth = blockLayer.getBlockWidth();
 		float tileHeight = blockLayer.getBlockHeight();
 		
@@ -66,19 +65,19 @@ public class Calculations {
 	}
 	
 	public static boolean collisionSurroundingBlocks(Player player,
-			BlockMap blockLayer, int flags) {
+			GridMap blockLayer, int flags) {
 		return collisionSurroundingBlocks(player, blockLayer, 
 				blockLayer.getBlockWidth(), blockLayer.getBlockHeight(),
 				flags);
 	}
 	
 	public static boolean collisionSurroundingBlocks(Block block,
-			BlockMap blockLayer, int flags) {
+			GridMap blockLayer, int flags) {
 		return collisionSurroundingBlocks(block, blockLayer, 1, 1, flags);
 	}
 	
 	private static boolean collisionSurroundingBlocks(BlocksterObject pos,
-			 BlockMap blockLayer, float scaleX, float scaleY, int flags) {
+			 GridMap blockLayer, float scaleX, float scaleY, int flags) {
 		boolean collision = false;
 		
 		if ((flags & CHECK_UP_FLAG) != 0) {
@@ -132,7 +131,7 @@ public class Calculations {
 		return collision;
 	}
 	
-	private static boolean isSolid(BlockMap blockLayer, int x, int y) {
+	private static boolean isSolid(GridMap blockLayer, int x, int y) {
 		return blockLayer.hasBlock(x, y) && blockLayer.getBlock(x,y).isSolid();
 	}
 }

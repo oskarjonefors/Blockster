@@ -4,8 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import edu.chalmers.Blockster.core.objects.movement.AnimationState;
+import edu.chalmers.Blockster.core.util.GridObject;
 
-public class Block extends BlocksterObject {
+public class Block extends BlocksterObject implements GridObject {
 
 	private Set<String> properties;
 	
