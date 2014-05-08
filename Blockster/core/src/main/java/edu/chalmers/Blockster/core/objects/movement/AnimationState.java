@@ -1,4 +1,4 @@
-package edu.chalmers.Blockster.core.util;
+package edu.chalmers.Blockster.core.objects.movement;
 import javax.vecmath.Vector2f;
 
 

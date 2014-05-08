@@ -6,9 +6,9 @@ import java.util.List;
 import edu.chalmers.Blockster.core.objects.Block;
 import edu.chalmers.Blockster.core.objects.BlockMap;
 import edu.chalmers.Blockster.core.objects.Player;
-import edu.chalmers.Blockster.core.util.AnimationState;
-import edu.chalmers.Blockster.core.util.Direction;
-import edu.chalmers.Blockster.core.util.Movement;
+import edu.chalmers.Blockster.core.objects.movement.AnimationState;
+import edu.chalmers.Blockster.core.objects.movement.Direction;
+import edu.chalmers.Blockster.core.objects.movement.Movement;
 
 public class BlockGrabbedInteraction extends PlayerInteraction {
 	

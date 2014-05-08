@@ -5,10 +5,10 @@ import javax.vecmath.*;
 import edu.chalmers.Blockster.core.interactions.BlockGrabbedInteraction;
 import edu.chalmers.Blockster.core.interactions.BlockLiftedInteraction;
 import edu.chalmers.Blockster.core.interactions.PlayerInteraction;
-import edu.chalmers.Blockster.core.util.AnimationState;
+import edu.chalmers.Blockster.core.objects.movement.AnimationState;
+import edu.chalmers.Blockster.core.objects.movement.Direction;
+import edu.chalmers.Blockster.core.objects.movement.Movement;
 import edu.chalmers.Blockster.core.util.Calculations;
-import edu.chalmers.Blockster.core.util.Direction;
-import edu.chalmers.Blockster.core.util.Movement;
 import static edu.chalmers.Blockster.core.util.Calculations.*;
 
 /**
@@ -29,8 +29,6 @@ public class Player extends BlocksterObject{
 	
 	private boolean collidedHorisontally = false;
 	private boolean collidedVertically = false;
-	
-	private Direction dir = Direction.NONE;
 	
 	public Player(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer, blockLayer.getBlockWidth(), blockLayer.getBlockHeight());
@@ -115,10 +113,6 @@ public class Player extends BlocksterObject{
 		return isLiftingBlock;
 	}
 	
-	public Block getAdjacentBlock() {
-		return Calculations.getAdjacentBlock(dir, this, getBlockLayer());
-	}
-	
 	public boolean isNextToBlock(Block block) {
 		if(block != null) {
 		System.out.println("X: " + Math.abs(block.getX() - (getX() / blockMap.getBlockWidth())) + " Y: " + 
@@ -132,10 +126,10 @@ public class Player extends BlocksterObject{
 	public void interact() {
 		if (isInteracting()) {
 			if (getAnimationState().isDone()) {
-				interaction.interact(dir);
+				interaction.interact(getDirection());
 			}
 		} else {
-			setDefaultVelocity(dir);
+			setDefaultVelocity(getDirection());
 		}
 	}
 	
@@ -224,7 +218,7 @@ public class Player extends BlocksterObject{
 		if(b) {
 			/*Direction dir = Calculations.getDirection(getX(), getProcessedBlock()
 					.getX() * blockMap.getBlockWidth());*/
-			setAnimationState(dir == Direction.LEFT ? AnimationState.GRAB_LEFT :
+			setAnimationState(getDirection() == Direction.LEFT ? AnimationState.GRAB_LEFT :
 				AnimationState.GRAB_RIGHT);
 		} else {
 			setAnimationState(AnimationState.NONE);
@@ -236,13 +230,5 @@ public class Player extends BlocksterObject{
 	public void setLifting(boolean b) {
 		isLiftingBlock = b;
 	}
-	
-	public void setDirection(Direction dir){
-		this.dir = dir;
-	}
-	
-	public Direction getDirection(){
-		return dir;
-	}	
 	
 }

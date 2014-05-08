@@ -1,6 +1,6 @@
 package edu.chalmers.Blockster.core.gdx.controller;
 
-import static edu.chalmers.Blockster.core.util.Direction.*;
+import static edu.chalmers.Blockster.core.objects.movement.Direction.*;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Disposable;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.MapChangeListener;
 import edu.chalmers.Blockster.core.objects.Block;
-import edu.chalmers.Blockster.core.util.Direction;
+import edu.chalmers.Blockster.core.objects.movement.Direction;
 
 /**
  * Class to handle input and updating the model.

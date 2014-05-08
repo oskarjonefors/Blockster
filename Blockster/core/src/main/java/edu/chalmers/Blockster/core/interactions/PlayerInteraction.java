@@ -1,6 +1,6 @@
 package edu.chalmers.Blockster.core.interactions;
 
-import edu.chalmers.Blockster.core.util.Direction;
+import edu.chalmers.Blockster.core.objects.movement.Direction;
 
 public abstract class PlayerInteraction {
 

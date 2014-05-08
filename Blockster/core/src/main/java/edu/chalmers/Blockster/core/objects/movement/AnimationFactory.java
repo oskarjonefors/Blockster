@@ -1,4 +1,4 @@
-package edu.chalmers.Blockster.core.util;
+package edu.chalmers.Blockster.core.objects.movement;
 
 import java.util.ArrayList;
 import java.util.HashMap;

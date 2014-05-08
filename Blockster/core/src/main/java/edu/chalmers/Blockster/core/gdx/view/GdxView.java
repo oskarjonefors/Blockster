@@ -23,10 +23,10 @@ import com.badlogic.gdx.utils.Disposable;
 import edu.chalmers.Blockster.core.Model;
 import edu.chalmers.Blockster.core.objects.Block;
 import edu.chalmers.Blockster.core.objects.Player;
-import edu.chalmers.Blockster.core.util.AnimationFactory;
-import edu.chalmers.Blockster.core.util.AnimationState;
-import edu.chalmers.Blockster.core.util.Direction;
-import edu.chalmers.Blockster.core.util.Movement;
+import edu.chalmers.Blockster.core.objects.movement.AnimationFactory;
+import edu.chalmers.Blockster.core.objects.movement.AnimationState;
+import edu.chalmers.Blockster.core.objects.movement.Direction;
+import edu.chalmers.Blockster.core.objects.movement.Movement;
 
 /**
  * @author Joel Tegman, Oskar Jönefors

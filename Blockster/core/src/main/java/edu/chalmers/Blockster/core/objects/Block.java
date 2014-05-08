@@ -3,7 +3,7 @@ package edu.chalmers.Blockster.core.objects;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.chalmers.Blockster.core.util.AnimationState;
+import edu.chalmers.Blockster.core.objects.movement.AnimationState;
 
 public class Block extends BlocksterObject {
 

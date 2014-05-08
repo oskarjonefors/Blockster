@@ -3,10 +3,10 @@ package edu.chalmers.Blockster.core.interactions;
 import edu.chalmers.Blockster.core.objects.Block;
 import edu.chalmers.Blockster.core.objects.BlockMap;
 import edu.chalmers.Blockster.core.objects.Player;
-import edu.chalmers.Blockster.core.util.AnimationState;
+import edu.chalmers.Blockster.core.objects.movement.AnimationState;
+import edu.chalmers.Blockster.core.objects.movement.Direction;
+import edu.chalmers.Blockster.core.objects.movement.Movement;
 import edu.chalmers.Blockster.core.util.Calculations;
-import edu.chalmers.Blockster.core.util.Direction;
-import edu.chalmers.Blockster.core.util.Movement;
 
 public class BlockLiftedInteraction extends PlayerInteraction {
 	
@@ -38,7 +38,7 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 	@Override
 	public void startInteraction() {
 		block.setAnimationState(new AnimationState(Movement.getLiftMovement
-				(Calculations.getDirection(player.getX(),
+				(Direction.getDirection(player.getX(),
 						block.getX() * blockMap.getBlockWidth()))));
 		player.setLifting(true);
 	}

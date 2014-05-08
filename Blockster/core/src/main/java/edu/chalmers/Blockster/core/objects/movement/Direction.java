@@ -1,4 +1,4 @@
-package edu.chalmers.Blockster.core.util;
+package edu.chalmers.Blockster.core.objects.movement;
 
 /**
  * 
@@ -14,5 +14,9 @@ public enum Direction {
 	private Direction(int deltaX, int deltaY) {
 		this.deltaX = deltaX;
 		this.deltaY = deltaY;
+	}
+	
+	public static Direction getDirection(float x1, float x2) {
+		return ((x1	- x2) > 0 ? Direction.RIGHT : Direction.LEFT);
 	}
 }

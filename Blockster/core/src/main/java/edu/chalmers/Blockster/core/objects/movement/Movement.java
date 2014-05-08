@@ -1,6 +1,6 @@
-package edu.chalmers.Blockster.core.util;
+package edu.chalmers.Blockster.core.objects.movement;
 
-import static edu.chalmers.Blockster.core.util.Direction.*;
+import static edu.chalmers.Blockster.core.objects.movement.Direction.*;
 import static edu.chalmers.Blockster.core.util.Calculations.*;
 
 /**

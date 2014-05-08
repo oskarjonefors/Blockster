@@ -1,6 +1,7 @@
 package edu.chalmers.Blockster.core.objects;
 
-import edu.chalmers.Blockster.core.util.AnimationState;
+import edu.chalmers.Blockster.core.objects.movement.AnimationState;
+import edu.chalmers.Blockster.core.objects.movement.Direction;
 
 public abstract class BlocksterObject {
 	private float posX;
@@ -9,6 +10,7 @@ public abstract class BlocksterObject {
 	private float width;
 	private float scaleX;
 	private float scaleY;
+	private Direction dir = Direction.NONE;
 	protected AnimationState anim;
 	protected BlockMap blockMap;
 
@@ -19,6 +21,29 @@ public abstract class BlocksterObject {
 		this.scaleY = scaleY;
 		this.blockMap = blockMap;
 		anim = AnimationState.NONE;
+	}
+	
+	public Block getAdjacentBlock() {
+		Block block = null;
+
+		try {
+			if (dir == Direction.LEFT) {
+				block = blockMap.getBlock(
+						(int) (getX() / scaleX) - 1,
+						(int) ((2 * getY() + getHeight()) / 2 / scaleY));
+				
+			}
+
+			if (dir == Direction.RIGHT) {
+				block = blockMap.getBlock(
+						(int) ((getX() + getWidth()) / scaleX) + 1,
+						(int) ((2 * getY() + getHeight()) / 2 / scaleY));
+
+			}
+		} catch (NullPointerException e) {
+			block = null;
+		}
+		return block;
 	}
 	
 	public BlockMap getBlockLayer(){
@@ -91,6 +116,14 @@ public abstract class BlocksterObject {
 			this.anim = anim;
 		}
 	}
+	
+	public void setDirection(Direction dir){
+		this.dir = dir;
+	}
+	
+	public Direction getDirection(){
+		return dir;
+	}	
 	
 	@Override
 	public String toString() {
