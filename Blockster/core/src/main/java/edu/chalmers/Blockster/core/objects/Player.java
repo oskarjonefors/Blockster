@@ -66,10 +66,11 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	public void liftBlock() {
-		if (canLiftBlock(getProcessedBlock())) {
-			System.out.println("Can lift block at " + getProcessedBlock().getX() + " " + getProcessedBlock().getY());
+		Block processedBlock = getProcessedBlock();
+		if (canLiftBlock(processedBlock)) {
+			System.out.println("Can lift block at " + processedBlock.getX() + " " + processedBlock.getY());
 			//Lift process			
-			interaction = new BlockLiftedInteraction(this, getProcessedBlock(), blockMap);
+			interaction = new BlockLiftedInteraction(this, processedBlock, blockMap);
 			interaction.startInteraction();
 			isGrabbingBlock = false;
 		}
@@ -147,13 +148,14 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public void updatePosition(float deltaTime) {
-		if (getAnimationState() != AnimationState.NONE) {
+		AnimationState anim = getAnimationState();
+		if (anim != AnimationState.NONE) {
 			System.out.println("Moving "+this);
-			getAnimationState().updatePosition(deltaTime);
+			anim.updatePosition(deltaTime);
 		} else {
-			Vector2f distance = new Vector2f();
-			distance.x = getVelocity().x * deltaTime;
-			distance.y = getVelocity().y * deltaTime;
+			Vector2f velocity = getVelocity();
+			Vector2f distance = new Vector2f(velocity.x * deltaTime,
+					velocity.y * deltaTime);
 			if (Math.abs(Math.hypot(distance.x, distance.y)) > 0)
 				move(distance);
 		}
@@ -170,10 +172,11 @@ public class Player extends BlocksterObject implements Interactor {
 	 */
 	public boolean canMove(Direction dir) {
 		BlockMap bLayer = getBlockLayer();
-		int checkX = (int) (getX() / bLayer.getBlockWidth());
-		int checkY = (int) (getY() / bLayer.getBlockWidth());
+		float blockWidth = bLayer.getBlockWidth();
+		int checkX = (int) (getX() / blockWidth);
+		int checkY = (int) (getY() / blockWidth);
 			
-		return checkX >= 1 && checkX < bLayer.getWidth() && !bLayer.
+		return checkX >= 1 && checkX < blockWidth && !bLayer.
 				hasBlock(checkX + dir.deltaX, checkY);
 			
 	}
