@@ -58,7 +58,7 @@ public class Player extends BlocksterObject implements Interactor {
 		} else {
 			setAnimationState(AnimationState.NONE);
 			processedBlock = null;
-			isGrabbingBlock = false;
+			grabbingBlock = false;
 		}
 	}
 	
