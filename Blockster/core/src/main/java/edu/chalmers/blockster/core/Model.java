@@ -23,7 +23,7 @@ public class Model implements Comparable<Model> {
 	private List<Player> players;
 	private Set<Block> activeBlocks;
 	public boolean isSwitchChar;
-	private Factory factory;
+	private final Factory factory;
 	private final String name;
 
 	public Model(Factory factory, String name) {
@@ -48,14 +48,14 @@ public class Model implements Comparable<Model> {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		final int result = 1;
 		return prime * result + ((name == null) ? 0 : name.hashCode());
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (obj != null && obj.getClass() == getClass()) {
-			Model mod = (Model)obj;
+			final Model mod = (Model)obj;
 			return name.equals(mod.getName());
 		} else {
 			return false;
@@ -114,13 +114,13 @@ public class Model implements Comparable<Model> {
 	 * Start controlling the next player.
 	 */
 	public void nextPlayer() {
-		int pIndex = players.indexOf(activePlayer);
+		final int pIndex = players.indexOf(activePlayer);
 		activePlayer = players.get((pIndex + 1) % players.size());
 		isSwitchChar = true;
 	}
 
 	public void resetStartPositions() {
-		float[][] startPositions = getPlayerStartingPositions(map);
+		final float[][] startPositions = getPlayerStartingPositions(map);
 		for (int i = 0; i < startPositions.length; i++) {
 			players.get(i).setX(startPositions[i][0]);
 			players.get(i).setY(startPositions[i][1]);
@@ -131,8 +131,8 @@ public class Model implements Comparable<Model> {
 	}
 
 	private void setStartPositions() {
-		for (float[] startPosition : getPlayerStartingPositions(map)) {
-			Player player = factory.createPlayer(startPosition[0], 
+		for (final float[] startPosition : getPlayerStartingPositions(map)) {
+			final Player player = factory.createPlayer(startPosition[0], 
 					startPosition[1], map);
 			players.add(player);
 		}
@@ -153,7 +153,7 @@ public class Model implements Comparable<Model> {
 	}
 	
 	private void updatePlayers(float deltaTime) {
-		for (Player player : players) {
+		for (final Player player : players) {
 			player.updatePosition(deltaTime);
 			if (player.getAnimationState() != AnimationState.NONE 
 					&& player.getAnimationState().isDone()) {
