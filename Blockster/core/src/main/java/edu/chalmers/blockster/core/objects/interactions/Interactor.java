@@ -5,6 +5,8 @@ import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.util.PhysicalObject;
 
 public interface Interactor extends PhysicalObject {
+	
+	Direction getDirection();
 
 	void setAnimationState(AnimationState anim);
 	

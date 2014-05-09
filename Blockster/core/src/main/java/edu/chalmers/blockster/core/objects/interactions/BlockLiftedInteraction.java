@@ -32,6 +32,15 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 	@Override
 	public void endInteraction() {
 		interactor.setLifting(false);
+		
+		final Direction dir = interactor.getDirection();
+		
+		interacted.setAnimationState(new AnimationState(Movement.getPlaceMovement(dir)));
+		
+		final AnimationState interactorAnim = dir == Direction.LEFT ?
+				AnimationState.PLACE_LEFT : AnimationState.PLACE_RIGHT;
+		
+		interactor.setAnimationState(interactorAnim);
 	}
 
 	@Override
