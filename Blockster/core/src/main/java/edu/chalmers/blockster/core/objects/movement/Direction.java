@@ -16,7 +16,11 @@ public enum Direction {
 		this.deltaY = deltaY;
 	}
 	
+	/**
+	 * Returns in which horizontal direction x2 is compared to x1
+	 * @return Direction
+	 */
 	public static Direction getDirection(float x1, float x2) {
-		return ((x1	- x2) > 0 ? Direction.RIGHT : Direction.LEFT);
+		return ((x1	- x2) > 0 ? Direction.LEFT : Direction.RIGHT);
 	}
 }

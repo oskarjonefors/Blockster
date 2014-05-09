@@ -67,6 +67,7 @@ public class Player extends BlocksterObject implements Interactor {
 	
 	public void liftBlock() {
 		Block processedBlock = getProcessedBlock();
+		System.out.println("Trying to lift block " + processedBlock);
 		if (canLiftBlock(processedBlock)) {
 			System.out.println("Can lift block at " + processedBlock.getX() + " " + processedBlock.getY());
 			//Lift process			
@@ -77,7 +78,7 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	private boolean canLiftBlock(Block block) {
-		return block != null && !isInteracting() &&
+		return block != null && grabbingBlock &&
 				isNextToBlock(block) && block.isLiftable();
 	}
 	
