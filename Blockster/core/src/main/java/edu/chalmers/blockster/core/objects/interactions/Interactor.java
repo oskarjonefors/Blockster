@@ -6,12 +6,12 @@ import edu.chalmers.blockster.core.util.PhysicalObject;
 
 public interface Interactor extends PhysicalObject {
 
-	public void setAnimationState(AnimationState anim);
+	void setAnimationState(AnimationState anim);
 	
-	public void setLifting(boolean b);
+	void setLifting(boolean b);
 
-	public boolean canMove(Direction dir);
+	boolean canMove(Direction dir);
 
-	public void setGrabbing(boolean b);
+	void setGrabbing(boolean b);
 	
 }

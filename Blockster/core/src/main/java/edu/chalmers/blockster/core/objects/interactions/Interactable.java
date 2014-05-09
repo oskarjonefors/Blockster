@@ -6,8 +6,8 @@ import edu.chalmers.blockster.core.util.PhysicalObject;
 
 public interface Interactable extends PhysicalObject, GridObject {
 
-	public void setAnimationState(AnimationState anim);
+	void setAnimationState(AnimationState anim);
 
-	public void removeFromGrid();
+	void removeFromGrid();
 	
 }

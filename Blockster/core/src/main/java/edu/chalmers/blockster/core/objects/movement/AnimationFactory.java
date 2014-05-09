@@ -1,6 +1,7 @@
 package edu.chalmers.blockster.core.objects.movement;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationFactory {
 
-	private HashMap<Movement, Animation> arrayOfAnimations;
-	private HashMap<Direction, Animation> walkAnimations;
+	private final Map<Movement, Animation> arrayOfAnimations;
+	private final Map<Direction, Animation> walkAnimations;
 	
 	private float picHeight = 50f;
 	private float picWidth = 32f;
@@ -73,11 +74,11 @@ public class AnimationFactory {
 		
 	}
 	
-	public HashMap<Direction, Animation> getWalkAnimations(){
+	public Map<Direction, Animation> getWalkAnimations(){
 		return walkAnimations;
 	}
 	
-	public HashMap<Movement, Animation> getArrayOfAnimations(){
+	public Map<Movement, Animation> getArrayOfAnimations(){
 		return arrayOfAnimations;
 	}
 	
