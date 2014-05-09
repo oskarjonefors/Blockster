@@ -2,7 +2,6 @@ package edu.chalmers.blockster.core.util;
 
 public class Calculations {
 	
-
 	public final static float STANDARD_MOVE_DURATION = 0.2f;
 	public final static int CHECK_UP_FLAG = 1 << 0;
 	public final static int CHECK_UP_RIGHT_FLAG = 1 << 1;
@@ -12,6 +11,8 @@ public class Calculations {
 	public final static int CHECK_DOWN_LEFT_FLAG = 1 << 5;
 	public final static int CHECK_LEFT_FLAG = 1 << 6;
 	public final static int CHECK_UP_LEFT_FLAG = 1 << 7;
+	
+	private Calculations() {}
 	
 	public static boolean collisionEitherCorner(PhysicalObject player, GridMap blockLayer) {
 		try {
@@ -26,8 +27,8 @@ public class Calculations {
 
 	private static boolean collisionLowerLeft(PhysicalObject player, 
 			GridMap blockLayer) {
-		float tileWidth = blockLayer.getBlockWidth();
-		float tileHeight = blockLayer.getBlockHeight();
+		final float tileWidth = blockLayer.getBlockWidth();
+		final float tileHeight = blockLayer.getBlockHeight();
 		
 		return isSolid(blockLayer, (int) (player.getX() / tileWidth),
 				(int) (player.getY() / tileHeight));
@@ -35,8 +36,8 @@ public class Calculations {
 
 	private static boolean collisionLowerRight(PhysicalObject player, 
 			GridMap blockLayer) {
-		float tileWidth = blockLayer.getBlockWidth();
-		float tileHeight = blockLayer.getBlockHeight();
+		final float tileWidth = blockLayer.getBlockWidth();
+		final float tileHeight = blockLayer.getBlockHeight();
 		
 		return isSolid(blockLayer, (int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) (player.getY() / tileHeight));
@@ -44,8 +45,8 @@ public class Calculations {
 	
 	private static boolean collisionUpperLeft(PhysicalObject player, 
 			GridMap blockLayer) {
-		float tileWidth = blockLayer.getBlockWidth();
-		float tileHeight = blockLayer.getBlockHeight();
+		final float tileWidth = blockLayer.getBlockWidth();
+		final float tileHeight = blockLayer.getBlockHeight();
 		
 		return isSolid(blockLayer, (int) (player.getX() / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
@@ -53,8 +54,8 @@ public class Calculations {
 	
 	private static boolean collisionUpperRight(PhysicalObject player, 
 			GridMap blockLayer) {
-		float tileWidth = blockLayer.getBlockWidth();
-		float tileHeight = blockLayer.getBlockHeight();
+		final float tileWidth = blockLayer.getBlockWidth();
+		final float tileHeight = blockLayer.getBlockHeight();
 		
 		return isSolid(blockLayer, (int) ((player.getX() + player.getWidth()) / tileWidth),
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
@@ -63,7 +64,8 @@ public class Calculations {
 	public static boolean collisionSurroundingBlocks(PhysicalObject pos,
 			 GridMap blockLayer, int flags) {
 		boolean collision = false;
-		float scaleX = pos.getScaleX(), scaleY = pos.getScaleY();
+		final float scaleX = pos.getScaleX();
+		final float scaleY = pos.getScaleY();
 		
 		if ((flags & CHECK_UP_FLAG) != 0) {
 			collision |= isSolid(blockLayer,

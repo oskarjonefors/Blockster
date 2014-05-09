@@ -2,15 +2,15 @@ package edu.chalmers.blockster.core.util;
 
 public interface PhysicalObject {
 	
-	public float getX();
+	float getX();
 	
-	public float getY();
+	float getY();
 	
-	public float getHeight();
+	float getHeight();
 	
-	public float getWidth();
+	float getWidth();
 	
-	public float getScaleX();
+	float getScaleX();
 	
-	public float getScaleY();
+	float getScaleY();
 }

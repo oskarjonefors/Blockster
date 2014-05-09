@@ -2,16 +2,16 @@ package edu.chalmers.blockster.core.util;
 
 public interface GridMap {
 
-	public float getBlockWidth();
+	float getBlockWidth();
 
-	public float getBlockHeight();
+	float getBlockHeight();
 
-	public int getHeight();
+	int getHeight();
 
-	public int getWidth();
+	int getWidth();
 
-	public GridObject getBlock(int x, int y);
+	GridObject getBlock(int x, int y);
 
-	public boolean hasBlock(int x, int y);
+	boolean hasBlock(int x, int y);
 
 }

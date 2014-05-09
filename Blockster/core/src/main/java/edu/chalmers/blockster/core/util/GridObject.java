@@ -2,13 +2,13 @@ package edu.chalmers.blockster.core.util;
 
 public interface GridObject {
 
-	public boolean isSolid();
+	boolean isSolid();
 	
-	public boolean isMovable();
+	boolean isMovable();
 	
-	public boolean isLiftable();
+	boolean isLiftable();
 	
-	public boolean hasWeight();
+	boolean hasWeight();
 	
 	
 }
