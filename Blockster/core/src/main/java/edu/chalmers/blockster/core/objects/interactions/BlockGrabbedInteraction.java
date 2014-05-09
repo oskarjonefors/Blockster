@@ -10,9 +10,9 @@ import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlockGrabbedInteraction extends PlayerInteraction {
 	
-	private Interactable interactable; 
-	private GridMap blockLayer;
-	private Interactor interactor;
+	private final Interactable interactable; 
+	private final GridMap blockLayer;
+	private final Interactor interactor;
 	
 	public BlockGrabbedInteraction(Interactor interactor, 
 			Interactable interactable, GridMap blockLayer) {
@@ -25,9 +25,9 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	public void interact(Direction dir) {
 		
 		System.out.println("Interacting: " + dir.name());
-		float relativePosition = interactable.getX() 
+		final float relativePosition = interactable.getX() 
 				- interactor.getX() / blockLayer.getBlockWidth();
-		Movement movement = Movement.getPushPullMovement(dir, relativePosition);
+		final Movement movement = Movement.getPushPullMovement(dir, relativePosition);
 		List<Interactable> moveableInteractables;
 		
 
@@ -41,7 +41,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 			}
 		} else {
 			moveableInteractables = getMoveableInteractables(dir);
-			for (Interactable interactable : moveableInteractables) {
+			for (final Interactable interactable : moveableInteractables) {
 				interactable.setAnimationState(new AnimationState(movement));
 				interactable.removeFromGrid();
 			}
@@ -57,19 +57,20 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	
 	public List<Interactable> getMoveableInteractables(Direction dir) {
 		/* Create a list to put the block to be moved in. */
-		List<Interactable> movingBlocks = new ArrayList<Interactable>();
+		final List<Interactable> movingBlocks = new ArrayList<Interactable>();
 		
 		/* Origin of add process */
-		int origX = (int) interactable.getX();
-		int origY = (int) interactable.getY();
+		final int origY = (int) interactable.getY();
 		
 		if (origY >= blockLayer.getHeight()) {
 			return movingBlocks;
 		}
+		
+		final int origX = (int) interactable.getX();
 
 		/* We've already established that the move is okay,
 			so we don't need to change the Y coordinate. */
-		int checkX = (origX);
+		int checkX = origX;
 
 		/* Loop to add all the blocks to be moved to the list. */
 		while (blockLayer.hasBlock(checkX, origY) && checkX > 0 

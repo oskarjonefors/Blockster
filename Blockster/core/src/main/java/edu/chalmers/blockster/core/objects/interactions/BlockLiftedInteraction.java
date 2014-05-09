@@ -8,9 +8,9 @@ import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlockLiftedInteraction extends PlayerInteraction {
 	
-	private Interactor interactor;
-	private Interactable interacted;
-	private GridMap blockMap;
+	private final Interactor interactor;
+	private final Interactable interacted;
+	private final GridMap blockMap;
 	
 	public BlockLiftedInteraction(Interactor interactor, Interactable interacted,
 			GridMap blockMap) {
@@ -22,7 +22,8 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 	@Override
 	public void interact(Direction dir) {
 		if(canPerformMove(dir)) {
-			AnimationState anim = new AnimationState(Movement.getMoveMovement(dir));
+			final AnimationState anim = 
+					new AnimationState(Movement.getMoveMovement(dir));
 			interactor.setAnimationState(anim);
 			interacted.setAnimationState(anim);
 		}
