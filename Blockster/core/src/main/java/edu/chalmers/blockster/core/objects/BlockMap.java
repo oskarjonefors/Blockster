@@ -14,25 +14,25 @@ public interface BlockMap extends GridMap {
 	 * Get the width of the block in pixels.
 	 * @return Block width in pixels.
 	 */
-	public float getBlockWidth();
+	float getBlockWidth();
 
 	/**
 	 * Get the height of the block in pixels.
 	 * @return Block height in pixels.
 	 */
-	public float getBlockHeight();
+	float getBlockHeight();
 	
 	/**
 	 * Get the height of the layer in blocks.
 	 * @return The width of the layer in blocks.
 	 */
-	public int getHeight();
+	int getHeight();
 	
 	/**
 	 * Get the width of the layer in blocks.
 	 * @return The width of the layer in blocks.
 	 */
-	public int getWidth();
+	int getWidth();
 
 	/**
 	 * Insert the given block into the layer at the given coordinates.
@@ -40,7 +40,7 @@ public interface BlockMap extends GridMap {
 	 * @param y	Y coordinate
 	 * @param block
 	 */
-	public void setBlock(int x, int y, Block block);
+	void setBlock(int x, int y, Block block);
 
 	/**
 	 * Get the Block at the given coordinates, or null if there is none.
@@ -48,7 +48,7 @@ public interface BlockMap extends GridMap {
 	 * @param y	Y coordinate
 	 * @return	A Block, or null if no Block is found at the given coordinates.
 	 */
-	public Block getBlock(int x, int y);
+	Block getBlock(int x, int y);
 	
 	/**
 	 * Check to see if there is a block at the given coordinates.
@@ -56,11 +56,11 @@ public interface BlockMap extends GridMap {
 	 * @param y	Y coordinate to check
 	 * @return	True if there is a block at (x,y), otherwise false. 
 	 */
-	public boolean hasBlock(int x, int y);
+	boolean hasBlock(int x, int y);
 	
-	public Set<Block> getBlocks();
+	Set<Block> getBlocks();
 	
-	public Set<Block> getActiveBlocks();
+	Set<Block> getActiveBlocks();
 	
 	/**
 	 * Get a float array of the player starting positions in the map.
@@ -68,12 +68,12 @@ public interface BlockMap extends GridMap {
 	 * where n:0 = X coordinate, n:1 = Y coordinate.
 	 * @return
 	 */
-	public float[][] getPlayerStartingPositions();
+	float[][] getPlayerStartingPositions();
 	
-	public void insertFinishedBlocks();
+	void insertFinishedBlocks();
 	
-	public void updateActiveBlocks(float deltaTime);
+	void updateActiveBlocks(float deltaTime);
 	
-	public void addActiveBlock(Block block);
+	void addActiveBlock(Block block);
 	
 }

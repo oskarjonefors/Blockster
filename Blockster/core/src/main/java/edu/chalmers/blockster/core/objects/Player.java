@@ -21,11 +21,11 @@ public class Player extends BlocksterObject implements Interactor {
 	private boolean dancing = false;
 	
 	private Block processedBlock;
-	private boolean isGrabbingBlock;
-	private boolean isLiftingBlock;
+	private boolean grabbingBlock;
+	private boolean liftingBlock;
 	private PlayerInteraction interaction = PlayerInteraction.NONE;
-	private boolean collidedHorisontally = false;
-	private boolean collidedVertically = false;
+	private boolean horizontalCollision;
+	private boolean verticalCollision;
 	
 	public Player(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer, blockLayer.getBlockWidth(), blockLayer.getBlockHeight());
@@ -37,11 +37,11 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	public void grabBlock() {
-		Block block = getAdjacentBlock();
+		final Block block = getAdjacentBlock();
 		if (canGrabBlock(block)) {
 			System.out.println("Can grab block at " + block.getX() + " " + block.getY());
 			processedBlock = block;
-			isGrabbingBlock = true;
+			grabbingBlock = true;
 			interaction = new BlockGrabbedInteraction(this, block, blockMap);
 			interaction.startInteraction();
 		}
@@ -62,7 +62,7 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	public boolean isGrabbingBlock() {
-		return isGrabbingBlock;
+		return grabbingBlock;
 	}
 	
 	public void liftBlock() {
@@ -72,7 +72,7 @@ public class Player extends BlocksterObject implements Interactor {
 			//Lift process			
 			interaction = new BlockLiftedInteraction(this, processedBlock, blockMap);
 			interaction.startInteraction();
-			isGrabbingBlock = false;
+			grabbingBlock = false;
 		}
 	}
 	
@@ -82,12 +82,12 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	public void setLifting(boolean lift) {
-		isLiftingBlock = lift;
+		liftingBlock = lift;
 		
 	}
 	
 	public boolean isLiftingBlock() {
-		return isLiftingBlock;
+		return liftingBlock;
 	}
 	
 	public boolean isNextToBlock(Block block) {
@@ -124,10 +124,10 @@ public class Player extends BlocksterObject implements Interactor {
 			setX(getX() + distance.x);
 			if (collisionEitherCorner(this, getBlockLayer())) {
 				setX(previousPosition[0]);
-				collidedHorisontally = true;
+				horizontalCollision = true;
 			} else {
-				collidedHorisontally = false;
-				collidedVertically = false;
+				horizontalCollision = false;
+				verticalCollision = false;
 			}
 		}
 
@@ -139,25 +139,26 @@ public class Player extends BlocksterObject implements Interactor {
 					setY(((int)getY()/getBlockLayer().getBlockHeight())
 								* getBlockLayer().getBlockHeight());
 				}
-				collidedVertically = true;
+				verticalCollision = true;
 			} else {
-				collidedVertically = false;
-				collidedHorisontally = false;
+				verticalCollision = false;
+				horizontalCollision = false;
 			}
 		}
 	}
 
 	public void updatePosition(float deltaTime) {
-		AnimationState anim = getAnimationState();
-		if (anim != AnimationState.NONE) {
+		final AnimationState anim = getAnimationState();
+		if (anim == AnimationState.NONE) {
+			final Vector2f velocity = getVelocity();
+			final Vector2f distance = new Vector2f(velocity.x * deltaTime,
+					velocity.y * deltaTime);
+			if (Math.abs(Math.hypot(distance.x, distance.y)) > 0) {
+				move(distance);
+			}
+		} else {
 			System.out.println("Moving "+this);
 			anim.updatePosition(deltaTime);
-		} else {
-			Vector2f velocity = getVelocity();
-			Vector2f distance = new Vector2f(velocity.x * deltaTime,
-					velocity.y * deltaTime);
-			if (Math.abs(Math.hypot(distance.x, distance.y)) > 0)
-				move(distance);
 		}
 	}
 	
@@ -171,10 +172,10 @@ public class Player extends BlocksterObject implements Interactor {
 	 * @return true if nothing is blocking the way behind player, else false.
 	 */
 	public boolean canMove(Direction dir) {
-		BlockMap bLayer = getBlockLayer();
-		float blockWidth = bLayer.getBlockWidth();
-		int checkX = (int) (getX() / blockWidth);
-		int checkY = (int) (getY() / blockWidth);
+		final BlockMap bLayer = getBlockLayer();
+		final float blockWidth = bLayer.getBlockWidth();
+		final int checkX = (int) (getX() / blockWidth);
+		final int checkY = (int) (getY() / blockWidth);
 			
 		return checkX >= 1 && checkX < blockWidth && !bLayer.
 				hasBlock(checkX + dir.deltaX, checkY);
@@ -182,11 +183,11 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	public boolean collidedHorisontally() {
-		return collidedHorisontally;
+		return horizontalCollision;
 	}
 	
 	public boolean collidedVertically() {
-		return collidedVertically;
+		return verticalCollision;
 	}
 
 	public void setDancing(boolean b) {
