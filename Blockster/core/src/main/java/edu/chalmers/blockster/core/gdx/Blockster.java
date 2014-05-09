@@ -35,13 +35,13 @@ public class Blockster extends Game implements MapChangeListener {
 	private Map<Model, GdxView> stages;
 	
 	private void addStagesToMap(Map<Model, GdxView> stageMap, File... maps) {
-		TmxMapLoader loader = new TmxMapLoader();
-		for (File mapFile : maps) {
+		final TmxMapLoader loader = new TmxMapLoader();
+		for (final File mapFile : maps) {
 			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
-			TiledMap map = loader.load("maps/"+mapFile.getName());
-			Model stage = new Model(new GdxFactory(map), mapFile.getName());
+			final TiledMap map = loader.load("maps/"+mapFile.getName());
+			final Model stage = new Model(new GdxFactory(map), mapFile.getName());
 			
-			GdxView view = new GdxView(stage);
+			final GdxView view = new GdxView(stage);
 			view.init();
 			
 			stageMap.put(stage, view);
@@ -66,9 +66,9 @@ public class Blockster extends Game implements MapChangeListener {
 
 			Gdx.app.log(Blockster.LOG, "Setting stage");
 			
-			Iterator<Model> modelIterator = stages.keySet().iterator();
+			final Iterator<Model> modelIterator = stages.keySet().iterator();
 			//modelIterator.next();
-			Model model = modelIterator.next();
+			final Model model = modelIterator.next();
 			
 			controller.setModel(model);
 		} catch (SecurityException | IOException e) {
@@ -85,7 +85,7 @@ public class Blockster extends Game implements MapChangeListener {
 	
 	private File[] listFilesInDirectory(File directory, final String fileEnding) {
 		
-		FileFilter ff = new FileFilter() {
+		final FileFilter ff = new FileFilter() {
 			@Override
 			public boolean accept(File f) {
 				return f.getName().endsWith(fileEnding);

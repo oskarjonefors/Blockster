@@ -3,6 +3,7 @@ package edu.chalmers.blockster.core.gdx.controller;
 import static edu.chalmers.blockster.core.objects.movement.Direction.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -21,7 +22,7 @@ import edu.chalmers.blockster.core.objects.movement.Direction;
  */
 public class Controller extends InputAdapter implements Disposable {
 
-	private volatile int keyFlags = 0;
+	private volatile int keyFlags;
 
 	private final static int LEFT_BUTTON_DOWN_FLAG = 1 << 0;
 	private final static int RIGHT_BUTTON_DOWN_FLAG = 1 << 1;
@@ -37,9 +38,9 @@ public class Controller extends InputAdapter implements Disposable {
 
 	private Model model;
 
-	private boolean hasMovedBlock = false;
+	private boolean hasMovedBlock;
 
-	private final ArrayList<MapChangeListener> stageListenerList = new ArrayList<MapChangeListener>();
+	private final List<MapChangeListener> stageListenerList = new ArrayList<MapChangeListener>();
 
 	/**
 	 * Creates a new controller for the Blockster application. The controller
@@ -111,11 +112,11 @@ public class Controller extends InputAdapter implements Disposable {
 
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
 			//Grab button was released
-			if (!hasMovedBlock && !model.isLiftingBlock()) {
-				model.getActivePlayer().liftBlock();
-			} else {
+			if (hasMovedBlock || model.isLiftingBlock()) {
 				model.stopProcessingBlock();
 				hasMovedBlock = false;
+			} else {
+				model.getActivePlayer().liftBlock();
 			}
 			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
 			System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
@@ -123,7 +124,7 @@ public class Controller extends InputAdapter implements Disposable {
 	}
 	
 	private void handleMovement() {
-		Player activePlayer = model.getActivePlayer();
+		final Player activePlayer = model.getActivePlayer();
 		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving left
 			activePlayer.setDirection(LEFT);
@@ -135,12 +136,12 @@ public class Controller extends InputAdapter implements Disposable {
 		}
 		
 		if ((keyFlags & LEFT_BUTTON_UP_FLAG) != 0) {
-			activePlayer.setDefaultVelocity(Direction.NONE);
+			activePlayer.setDefaultVelocity(NONE);
 			keyFlags &= ~LEFT_BUTTON_UP_FLAG;
 		}
 		
 		if ((keyFlags & RIGHT_BUTTON_UP_FLAG) != 0) {
-			activePlayer.setDefaultVelocity(Direction.NONE);
+			activePlayer.setDefaultVelocity(NONE);
 			keyFlags &= ~RIGHT_BUTTON_UP_FLAG;
 		}
 
@@ -263,7 +264,7 @@ public class Controller extends InputAdapter implements Disposable {
 	 */
 	public void setModel(Model model) {
 		this.model = model;
-		for (MapChangeListener sl : stageListenerList) {
+		for (final MapChangeListener sl : stageListenerList) {
 			sl.stageChanged(model);
 		}
 	}
