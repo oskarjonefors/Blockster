@@ -1,6 +1,6 @@
 package edu.chalmers.blockster.core.util;
 
-public class Calculations {
+public final class Calculations {
 	
 	public final static float STANDARD_MOVE_DURATION = 0.2f;
 	public final static int CHECK_UP_FLAG = 1 << 0;
