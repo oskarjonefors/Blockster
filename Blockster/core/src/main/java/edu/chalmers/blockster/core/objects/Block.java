@@ -10,7 +10,7 @@ import edu.chalmers.blockster.core.util.GridObject;
 
 public class Block extends BlocksterObject implements GridObject, Interactable {
 
-	private Set<String> properties;
+	private final Set<String> properties;
 	
 	public Block(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer, 1, 1);
@@ -52,8 +52,9 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 	@Override
 	public void setAnimationState(AnimationState anim) {
 		super.setAnimationState(anim);
-		if (anim != AnimationState.NONE)
+		if (anim != AnimationState.NONE) {
 			blockMap.addActiveBlock(this);
+		}
 	}
 
 

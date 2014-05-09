@@ -6,8 +6,8 @@ import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
 public class BlocksterObject extends ScaledObject {
-	private float totalTime = 0;
-	private Vector2f velocity;
+	private float totalTime;
+	private final Vector2f velocity;
 	protected Vector2f defaultVelocity;
 	private Direction dir = Direction.NONE;
 	protected AnimationState anim;
@@ -73,7 +73,7 @@ public class BlocksterObject extends ScaledObject {
 	}
 	
 	public void moveToNextPosition(){
-		Direction dir = anim.getMovement().getDirection();
+		final Direction dir = anim.getMovement().getDirection();
 		x += dir.deltaX * scaleX;
 		y += dir.deltaY * scaleY;
 		
@@ -121,7 +121,7 @@ public class BlocksterObject extends ScaledObject {
 	}
 	
 	public void setDefaultVelocity(Direction dir) {
-		Vector2f velocity = getVelocity();
+		final Vector2f velocity = getVelocity();
 		setVelocityX(velocity.x + dir.deltaX * defaultVelocity.x);
 		setVelocityY(velocity.y + dir.deltaY * defaultVelocity.y);
 	}
@@ -137,9 +137,9 @@ public class BlocksterObject extends ScaledObject {
 	
 	@Override
 	public String toString() {
-		return (this.getClass().getSimpleName()+": (" 
+		return this.getClass().getSimpleName()+": (" 
 							+ Math.round(getX() * 10) / (10 * scaleX)  + ", " 
-							+ Math.round(getY() * 10) / (10 * scaleY) + ")");
+							+ Math.round(getY() * 10) / (10 * scaleY) + ")";
 	}
 	
 	public void removeFromGrid() {
