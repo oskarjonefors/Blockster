@@ -60,10 +60,10 @@ public enum Movement {
 	}
 	
 	public static Movement getLiftMovement(Direction dir) {
-		if(dir != Direction.LEFT && dir != Direction.RIGHT) {
-			return NONE;
-		} else {
+		if(dir == Direction.LEFT || dir == Direction.RIGHT) {
 			return dir == Direction.LEFT ? LIFT_RIGHT : LIFT_LEFT;
+		} else {
+			return NONE;
 		}
 	}
 	
@@ -80,34 +80,34 @@ public enum Movement {
 	}
 	
 	public static Movement getPullMovement(Direction dir) {
-		if (dir != Direction.LEFT && dir != Direction.RIGHT) {
-			return NONE;
-		} else {
+		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
 			return dir == Direction.LEFT ? PULL_LEFT : PULL_RIGHT;
+		} else {
+			return NONE;
 		}
 	}
 	
 	public static Movement getPushMovement(Direction dir) {
-		if (dir != Direction.LEFT && dir != Direction.RIGHT) {
-			return NONE;
-		} else {
+		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
 			return dir == Direction.LEFT ? PUSH_LEFT : PUSH_RIGHT;
+		} else {
+			return NONE;
 		}
 	}
 	
 	public static Movement getPlaceMovement(Direction dir) {
-		if (dir != Direction.LEFT && dir != Direction.RIGHT) {
-			return NONE;
-		} else {
+		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
 			return dir == Direction.LEFT ? PLACE_LEFT : PLACE_RIGHT;
+		} else {
+			return NONE;
 		}
 	}
 	
 	public static Movement getMoveMovement(Direction dir) {
-		if (dir != Direction.LEFT && dir != Direction.RIGHT) {
-			return NONE;
-		} else {
+		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
 			return dir == Direction.LEFT ? MOVE_LEFT : MOVE_RIGHT;
+		} else {
+			return NONE;
 		}
 	}
 

@@ -8,7 +8,7 @@ import javax.vecmath.Vector2f;
  *
  */
 public class LinearSpline implements Spline {
-	private Direction dir;
+	private final Direction dir;
 	
 	/**
 	 * Create a spline in the given direction.

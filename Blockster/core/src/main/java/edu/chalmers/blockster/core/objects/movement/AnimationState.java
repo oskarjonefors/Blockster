@@ -50,7 +50,7 @@ public class AnimationState {
 	 * @return a Vector2f with the current relative position
 	 */
 	public Vector2f getRelativePosition() {
-		return move.getSpline().getPosition((elapsedTime / move.getDuration() * 100f));
+		return move.getSpline().getPosition(elapsedTime / move.getDuration() * 100f);
 	}
 	
 	/**

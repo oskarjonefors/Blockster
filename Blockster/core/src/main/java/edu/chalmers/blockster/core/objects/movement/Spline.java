@@ -19,5 +19,5 @@ public interface Spline {
 	 * 			If percentage is negative or higher than 100, the vector will
 	 * 			be (0, 0).
 	 */
-	public Vector2f getPosition(float percent);
+	Vector2f getPosition(float percent);
 }
