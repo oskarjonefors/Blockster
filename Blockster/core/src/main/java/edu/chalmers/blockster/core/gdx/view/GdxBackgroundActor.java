@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class GdxBackgroundActor extends Actor {
 
-	private TextureRegion region;
+	private final TextureRegion region;
 	
 	/**
 	 * 

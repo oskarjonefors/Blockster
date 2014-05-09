@@ -15,9 +15,9 @@ import edu.chalmers.blockster.core.objects.Block;
  */
 public class BlockView implements TiledMapTile {
 	
-	private TiledMapTile tile;
-	private TextureRegion region;
-	private Block block;
+	private final TiledMapTile tile;
+	private final TextureRegion region;
+	private final Block block;
 	
 	public Block getBlock() {
 		return block;

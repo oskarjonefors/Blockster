@@ -26,10 +26,10 @@ import edu.chalmers.blockster.core.objects.movement.AnimationState;
  */
 public class GdxMap extends TiledMap implements BlockMap {
 
-	private TiledMapTileLayer blockLayer;
-	private Map<Block, BlockView> blocks;
-	private Set<Block> activeBlocks;
-	private float[][] playerStartingPositions;
+	private final TiledMapTileLayer blockLayer;
+	private final Map<Block, BlockView> blocks;
+	private final Set<Block> activeBlocks;
+	private final float[][] playerStartingPositions;
 
 	public GdxMap (TiledMap map) {
 		super();
@@ -43,20 +43,20 @@ public class GdxMap extends TiledMap implements BlockMap {
 
 		for (int x = 0; x < blockLayer.getWidth(); x++) {
 			for (int y = 0; y < blockLayer.getHeight(); y++) {
-				Cell cell = blockLayer.getCell(x, y);
+				final Cell cell = blockLayer.getCell(x, y);
 				if (cell != null) {
-					TiledMapTile tile = cell.getTile();
-					Block block = new Block(x, y, this);
-					BlockView bView = new BlockView(block, tile);
+					final TiledMapTile tile = cell.getTile();
+					final Block block = new Block(x, y, this);
+					final BlockView bView = new BlockView(block, tile);
 					
 					cell.setTile(bView);
 					blockLayer.setCell(x, y, cell);
 					blocks.put(block, bView);
 					
 					
-					Iterator<String> properties = tile.getProperties().getKeys();
+					final Iterator<String> properties = tile.getProperties().getKeys();
 					while(properties.hasNext()) {
-						String property = properties.next();
+						final String property = properties.next();
 						block.setProperty(property);
 					}
 				}
@@ -66,7 +66,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 
 	private float[][] getPlayerStartingPositions(TiledMap map) {
 		
-		MapProperties mapProps = map.getProperties();
+		final MapProperties mapProps = map.getProperties();
 		
 		if(!mapProps.containsKey("nbrOfPlayers")) {
 			throw new IllegalArgumentException("Given map does not contain"
@@ -95,8 +95,8 @@ public class GdxMap extends TiledMap implements BlockMap {
 						+ " starting position playerStart" + i + " for player " + i);
 			}
 			
-			String playerStart = (String)mapProps.get("playerStart" + i);
-			String[] playerStarts = playerStart.split(":");
+			final String playerStart = (String)mapProps.get("playerStart" + i);
+			final String[] playerStarts = playerStart.split(":");
 			float[] playerStartFloats = new float[playerStarts.length];
 			
 			for(int j = 0; j < playerStarts.length; j++) {
@@ -107,10 +107,6 @@ public class GdxMap extends TiledMap implements BlockMap {
 							+ " format: " + playerStart + ". Should be an float position"
 									+ " with the following format: x:y");
 				}
-			}
-			
-			if (playerStarts.length != 2 || playerStarts.length != playerStartFloats.length) {
-
 			}
 			startingPositions[i - 1] = playerStartFloats;
 		}
@@ -133,9 +129,9 @@ public class GdxMap extends TiledMap implements BlockMap {
 	
 	@Override
 	public Block getBlock(int x, int y){
-		Cell cell = blockLayer.getCell(x, y);
+		final Cell cell = blockLayer.getCell(x, y);
 		if (cell != null) {
-			BlockView bView = (BlockView) cell.getTile();
+			final BlockView bView = (BlockView) cell.getTile();
 			return bView.getBlock();
 		}
 		return null;
@@ -143,13 +139,13 @@ public class GdxMap extends TiledMap implements BlockMap {
 	
 	@Override
 	public void setBlock(int x, int y, Block block){
-		if (block != null) {
-			Cell cell = new Cell();
-			cell.setTile(blocks.get(block));
-			blockLayer.setCell(x, y, cell);
-		} else {
+		if (block == null) {
 			System.out.println("Removing cell at ("+x+", "+y+")");
 			blockLayer.setCell(x, y, null);
+		} else {
+			final Cell cell = new Cell();
+			cell.setTile(blocks.get(block));
+			blockLayer.setCell(x, y, cell);
 		}
 	}
 
@@ -168,15 +164,10 @@ public class GdxMap extends TiledMap implements BlockMap {
 	 * @param block the block to insert
 	 */
 	public void insertBlock(Block block) {
-		try {
-			int x = Math.round(block.getX());
-			int y = Math.round(block.getY());
-			
+			final int x = Math.round(block.getX());
+			final int y = Math.round(block.getY());
 			setBlock(x, y, block);
 			System.out.println("Inserted " + block);
-		} catch (NullPointerException e) {
-			Gdx.app.log("Layer", "NullPointer");
-		}
 	}
 
 	@Override
@@ -209,8 +200,8 @@ public class GdxMap extends TiledMap implements BlockMap {
 
 	@Override
 	public void insertFinishedBlocks() {
-		Set<Block> doneBlocks = new HashSet<Block>();
-		for (Block block : activeBlocks) {
+		final Set<Block> doneBlocks = new HashSet<Block>();
+		for (final Block block : activeBlocks) {
 			if (block.getAnimationState().isDone()) {
 				block.setAnimationState(AnimationState.NONE);
 				insertBlock(block);
@@ -228,7 +219,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 
 	@Override
 	public void updateActiveBlocks(float deltaTime) {
-		for (Block block : activeBlocks) {
+		for (final Block block : activeBlocks) {
 			block.getAnimationState().updatePosition(deltaTime);
 			System.out.println("Updating "+block);
 			if(block.getAnimationState().isDone()) {
