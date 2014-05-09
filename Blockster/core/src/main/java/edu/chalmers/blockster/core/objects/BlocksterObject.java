@@ -5,7 +5,7 @@ import javax.vecmath.Vector2f;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
-public abstract class BlocksterObject extends ScaledObject {
+public class BlocksterObject extends ScaledObject {
 	private float totalTime = 0;
 	private Vector2f velocity;
 	protected Vector2f defaultVelocity;

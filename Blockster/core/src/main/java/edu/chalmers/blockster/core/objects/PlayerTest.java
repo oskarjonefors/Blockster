@@ -40,9 +40,10 @@ public class PlayerTest {
 	@Test
 	public void testGetAdjecentBlock() {		
 
-		player.setX(383 - player.getWidth() );
+//		player.setX(383 - player.getWidth() );
 		player.setDirection(Direction.RIGHT);
-		assertTrue(player.getAdjacentBlock() != null);
+		Block block = blockMap.getBlock(3, 2);
+		assertTrue(player.getAdjacentBlock() == block);
 		
 	}
 
