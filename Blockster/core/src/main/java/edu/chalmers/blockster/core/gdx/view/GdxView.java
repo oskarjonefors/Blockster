@@ -26,12 +26,11 @@ import edu.chalmers.blockster.core.objects.movement.AnimationFactory;
 public class GdxView implements ApplicationListener, Disposable {
 
 	private OrthographicCamera camera;
-	private Model model;
+	private final Model model;
 	private OrthogonalTiledMapRenderer renderer;
 	private Stage stage;
 	private Map<Player, PlayerView> players;
 	private Actor background;
-	private Vector3 cameraMoveVector;
 
 	
 	public GdxView(Model model) {
@@ -56,20 +55,20 @@ public class GdxView implements ApplicationListener, Disposable {
 		}
 
 		/* Follow the active player */
-		Player activePlayer = model.getActivePlayer();
-		float activePlayerX = activePlayer.getX();
-		float activePlayerY = activePlayer.getY();
+		final Player activePlayer = model.getActivePlayer();
+		final float activePlayerX = activePlayer.getX();
+		final float activePlayerY = activePlayer.getY();
 		
 		camera.position.set(activePlayerX, activePlayerY, 0);
 
 		/* Move the background with the player */
 		background.setPosition(
-				(activePlayerX * 0.7f - 
+				activePlayerX * 0.7f - 
 						background.getScaleX() * background.getWidth() - 
-						camera.viewportWidth / 2),
-						(activePlayerY * 0.7f - 
-								(background.getHeight() / 2) - 
-								camera.viewportHeight / 2));
+						camera.viewportWidth / 2,
+						activePlayerY * 0.7f - 
+								background.getHeight() / 2 - 
+								camera.viewportHeight / 2);
 		
 
 		/**
@@ -89,7 +88,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	 */
 	public void init() {
 		players = new HashMap<Player, PlayerView>();
-		for (Player player : model.getPlayers()) {
+		for (final Player player : model.getPlayers()) {
 			players.put(player, createPlayerView(player));
 		}
 		
@@ -102,14 +101,14 @@ public class GdxView implements ApplicationListener, Disposable {
 		
 
 		/* Add the background */
-		Texture tex = new Texture("maps/background-11.jpg");
+		final Texture tex = new Texture("maps/background-11.jpg");
 		background = new GdxBackgroundActor(new TextureRegion(tex));
 		background.setScale(5);
 		stage.addActor(background);
 	}
 	
 	public void transitCamera(){
-		cameraMoveVector = new Vector3(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0);
+		Vector3 cameraMoveVector = new Vector3(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0);
 
 		/* Set the "direction" of the cameraMoveVector towards the active player */
 		cameraMoveVector.sub(camera.position);
@@ -122,15 +121,15 @@ public class GdxView implements ApplicationListener, Disposable {
 		camera.translate(cameraMoveVector);
 
 		background.setPosition(
-				(camera.position.x*0.7f - 
+				camera.position.x*0.7f - 
 						background.getScaleX()*background.getWidth() - 
-						camera.viewportWidth / 2),
-						(camera.position.y*0.7f - 
+						camera.viewportWidth / 2,
+						camera.position.y*0.7f - 
 								(background.getHeight() / 2) - 
-								camera.viewportHeight / 2));
+								camera.viewportHeight / 2);
 
 
-		boolean cameraInPlace = camera.position.epsilonEquals(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0, 30f);
+		final boolean cameraInPlace = camera.position.epsilonEquals(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0, 30f);
 
 		if (cameraInPlace) {
 			model.isSwitchChar = false;
@@ -176,7 +175,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	public void drawPlayers(SpriteBatch batch) {
 
 		
-		for (Player player : model.getPlayers()) {
+		for (final Player player : model.getPlayers()) {
 			PlayerView pView = players.get(player);
 			if (pView == null) {
 				players.put(player, pView = createPlayerView(player));
@@ -188,10 +187,10 @@ public class GdxView implements ApplicationListener, Disposable {
 	}
 	
 	public void drawBlocks(SpriteBatch batch) {
-		GdxMap map = (GdxMap)model.getMap();
+		final GdxMap map = (GdxMap)model.getMap();
 		
-		for (Block block : map.getActiveBlocks()) {
-			BlockView bView = map.getBlockView(block);
+		for (final Block block : map.getActiveBlocks()) {
+			final BlockView bView = map.getBlockView(block);
 			if (bView != null) {
 				bView.draw(batch);
 			}
@@ -200,7 +199,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	
 	public void drawObjects() {
 		camera.update();
-		SpriteBatch batch = stage.getSpriteBatch();
+		final SpriteBatch batch = stage.getSpriteBatch();
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -213,12 +212,11 @@ public class GdxView implements ApplicationListener, Disposable {
  	
 	public PlayerView createPlayerView(Player player) {
 
-		Texture tex = new Texture("Player/still2.png");
-		TextureRegion texr = new TextureRegion(tex);
-		AnimationFactory animF = new AnimationFactory();
+		final Texture tex = new Texture("Player/still2.png");
+		final TextureRegion texr = new TextureRegion(tex);
+		final AnimationFactory animF = new AnimationFactory();
 		System.out.println("hit kom");
-		return (new PlayerView(player, animF.getArrayOfAnimations(),
-				animF.getWalkAnimations(), texr));
+		return new PlayerView(player, animF.getArrayOfAnimations(),
+				animF.getWalkAnimations(), texr);
 	}
-	
 }

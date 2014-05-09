@@ -1,6 +1,6 @@
 package edu.chalmers.blockster.core.gdx.view;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -14,17 +14,17 @@ import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class PlayerView {
-	private Player player;
-	private Sprite sprite;
-	private TextureRegion defaultSprite;
-	private HashMap<Movement, Animation> arrayOfAnimation;
-	private HashMap<Direction, Animation> walkAnimations;
+	private final Player player;
+	private final Sprite sprite;
+	private final TextureRegion defaultSprite;
+	private final Map<Movement, Animation> arrayOfAnimation;
+	private final Map<Direction, Animation> walkAnimations;
 	private Animation danceAnimation;
 	
 	private float walkAnimTime;
 	
-	public PlayerView(Player player, HashMap<Movement, Animation> arrayOfAnimation,
-			HashMap<Direction, Animation> walkAnimations, TextureRegion texture) {
+	public PlayerView(Player player, Map<Movement, Animation> arrayOfAnimation,
+			Map<Direction, Animation> walkAnimations, TextureRegion texture) {
 		this.player = player;
 		this.arrayOfAnimation = arrayOfAnimation;
 		this.walkAnimations = walkAnimations;
@@ -42,8 +42,8 @@ public class PlayerView {
 			
 		
 	public TextureRegion chooseAnimation(){
-		AnimationState animState = player.getAnimationState();
-		Movement move = animState.getMovement();
+		final AnimationState animState = player.getAnimationState();
+		final Movement move = animState.getMovement();
 		walkAnimTime += Gdx.graphics.getDeltaTime();
 		if (move == Movement.NONE) {
 			if (player.getDirection() == Direction.NONE) {
