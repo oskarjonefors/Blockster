@@ -31,12 +31,12 @@ public class ScaledObject implements PhysicalObject {
 
 	@Override
 	public float getScaleX() {
-		return 0;
+		return scaleX;
 	}
 
 	@Override
 	public float getScaleY() {
-		return 0;
+		return scaleY;
 	}
 
 	@Override

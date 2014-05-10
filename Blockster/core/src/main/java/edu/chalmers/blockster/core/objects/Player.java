@@ -33,6 +33,29 @@ public class Player extends BlocksterObject implements Interactor {
 		defaultVelocity = new Vector2f(700, 55 * blockMap.getBlockHeight());
 	}
 
+	private boolean canGrabBlock(Block block) {
+		return block != null && !isLiftingBlock() && !isInteracting() && isNextToBlock(block) &&
+				(block.isMovable() || block.isLiftable());
+	}
+	
+	private boolean canLiftBlock(Block block) {
+		return block != null && grabbingBlock &&
+				isNextToBlock(block) && block.isLiftable();
+	}
+	
+	public boolean collidedHorisontally() {
+		return horizontalCollision;
+	}
+	
+	public boolean collidedVertically() {
+		return verticalCollision;
+	}
+	
+	public void endInteraction() {
+		interaction.endInteraction();
+		System.out.println("ENDING INTERACTION");
+	}
+	
 	public Block getProcessedBlock() {
 		return processedBlock;
 	}
@@ -48,52 +71,27 @@ public class Player extends BlocksterObject implements Interactor {
 		}
 	}
 	
-	private boolean canGrabBlock(Block block) {
-		return block != null && !isLiftingBlock() && !isInteracting() && isNextToBlock(block) &&
-				(block.isMovable() || block.isLiftable());
+	public void interact() {
+		if (isInteracting()) {
+			if (getAnimationState().isDone()) {
+				interaction.interact(getDirection());
+			}
+		} else {
+			setDefaultVelocity(getDirection());
+		}
 	}
 	
-	public void setGrabbing(boolean b) {
-		grabbingBlock = b;
-		if(b) {
-			setAnimationState(getDirection() == Direction.LEFT ? AnimationState.GRAB_LEFT : AnimationState.GRAB_RIGHT);
-		} else {
-			setAnimationState(AnimationState.NONE);
-			processedBlock = null;
-		}
+	public boolean isDancing() {
+		return dancing;
 	}
 	
 	public boolean isGrabbingBlock() {
 		return grabbingBlock;
 	}
 	
-	public void liftBlock() {
-		Block processedBlock = getProcessedBlock();
-		System.out.println("Trying to lift block " + processedBlock);
-		if (canLiftBlock(processedBlock)) {
-			System.out.println("Can lift block at " + processedBlock.getX() + " " + processedBlock.getY());
-			//Lift process			
-			interaction = new BlockLiftedInteraction(this, processedBlock, blockMap);
-			interaction.startInteraction();
-			grabbingBlock = false;
-		}
-	}
-	
-	private boolean canLiftBlock(Block block) {
-		return block != null && grabbingBlock &&
-				isNextToBlock(block) && block.isLiftable();
-	}
-	
-	public void setLifting(boolean lift) {
-		liftingBlock = lift;
-		if(lift) {
-			setAnimationState(getDirection() == Direction.LEFT ?
-					AnimationState.LIFT_LEFT : AnimationState.LIFT_RIGHT);
-		} else {
-			setAnimationState(getDirection() == Direction.LEFT ?
-					AnimationState.LIFT_LEFT : AnimationState.LIFT_RIGHT);
-			processedBlock = null;
-		}
+	public boolean isInteracting() {
+		return (interaction != PlayerInteraction.NONE
+			&&  getAnimationState() == AnimationState.NONE);
 	}
 	
 	public boolean isLiftingBlock() {
@@ -105,26 +103,17 @@ public class Player extends BlocksterObject implements Interactor {
 		Math.abs(block.getX() - ((int) getX() / blockMap.getBlockWidth())) <= 1.1f &&
 		Math.abs(block.getY() - ((int) getY() / blockMap.getBlockHeight())) <= 1.1f;
 	}
-	
-	public void interact() {
-		if (isInteracting()) {
-			if (getAnimationState().isDone()) {
-				interaction.interact(getDirection());
-			}
-		} else {
-			setDefaultVelocity(getDirection());
+
+	public void liftBlock() {
+		Block processedBlock = getProcessedBlock();
+		System.out.println("Trying to lift block " + processedBlock);
+		if (canLiftBlock(processedBlock)) {
+			System.out.println("Can lift block at " + processedBlock.getX() + " " + processedBlock.getY());
+			//Lift process			
+			interaction = new BlockLiftedInteraction(this, processedBlock, blockMap);
+			interaction.startInteraction();
+			grabbingBlock = false;
 		}
-	}
-	
-	public boolean isInteracting() {
-		return (interaction != PlayerInteraction.NONE
-			&&  getAnimationState() == AnimationState.NONE);
-	}
-	
-	public void endInteraction() {
-		interaction.endInteraction();
-		interaction = PlayerInteraction.NONE;
-		System.out.println("ENDING INTERACTION");
 	}
 	
 	public void move(Vector2f distance) {
@@ -156,7 +145,35 @@ public class Player extends BlocksterObject implements Interactor {
 			}
 		}
 	}
+	
+	public void setDancing(boolean b) {
+		dancing = true;
+	}
+	
+	public void setGrabbing(boolean b) {
+		grabbingBlock = b;
+		if(b) {
+			setAnimationState(getDirection() == Direction.LEFT ? AnimationState.GRAB_LEFT : AnimationState.GRAB_RIGHT);
+		} else {
+			setAnimationState(AnimationState.NONE);
+			interaction = PlayerInteraction.NONE;
+			processedBlock = null;
+		}
+	}
 
+	public void setLifting(boolean lift) {
+		liftingBlock = lift;
+		if(lift) {
+			setAnimationState(getDirection() == Direction.LEFT ?
+					AnimationState.LIFT_LEFT : AnimationState.LIFT_RIGHT);
+		} else {
+			setAnimationState(getDirection() == Direction.LEFT ?
+					AnimationState.LIFT_LEFT : AnimationState.LIFT_RIGHT);
+			interaction = PlayerInteraction.NONE;
+			processedBlock = null;
+		}
+	}
+	
 	public void updatePosition(float deltaTime) {
 		final AnimationState anim = getAnimationState();
 		if (anim == AnimationState.NONE) {
@@ -170,41 +187,5 @@ public class Player extends BlocksterObject implements Interactor {
 			System.out.println("Moving "+this);
 			anim.updatePosition(deltaTime);
 		}
-	}
-	
-	/**
-	 * This method is used when pulling a block and checks if the player
-	 * can continue to pull it or if there is something blocking the way
-	 * (this is usually taken care of by the collision avoidance, but when
-	 * moving a block then this isn't available).
-	 * 
-	 * @param movement
-	 * @return true if nothing is blocking the way behind player, else false.
-	 */
-	public boolean canMove(Direction dir) {
-		final BlockMap bLayer = getBlockLayer();
-		final float blockWidth = bLayer.getBlockWidth();
-		final int checkX = (int) (getX() / blockWidth);
-		final int checkY = (int) (getY() / blockWidth);
-			
-		return checkX >= 1 && checkX < blockWidth && !bLayer.
-				hasBlock(checkX + dir.deltaX, checkY);
-			
-	}
-	
-	public boolean collidedHorisontally() {
-		return horizontalCollision;
-	}
-	
-	public boolean collidedVertically() {
-		return verticalCollision;
-	}
-
-	public void setDancing(boolean b) {
-		dancing = true;
-	}
-	
-	public boolean isDancing() {
-		return dancing;
 	}
 }

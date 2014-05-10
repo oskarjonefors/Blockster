@@ -20,6 +20,26 @@ public class BlocksterObject extends ScaledObject {
 		velocity = new Vector2f(0, 0);
 	}
 	
+	/**
+	 * This method is used when pulling a block and checks if the player
+	 * can continue to pull it or if there is something blocking the way
+	 * (this is usually taken care of by the collision avoidance, but when
+	 * moving a block then this isn't available).
+	 * 
+	 * @param movement
+	 * @return true if nothing is blocking the way behind player, else false.
+	 */
+	public boolean canMove(Direction dir) {
+		final BlockMap bLayer = getBlockLayer();
+		final float blockWidth = bLayer.getBlockWidth();
+		final int checkX = (int) (getOriginX() / getScaleX());
+		final int checkY = (int) (getOriginY() / getScaleY());
+		
+		return checkX >= 1 && checkX < blockWidth && !bLayer.
+				hasBlock(checkX + dir.deltaX, checkY + dir.deltaY);
+			
+	}
+	
 	public Block getAdjacentBlock() {
 		Block block = null;
 
@@ -43,16 +63,29 @@ public class BlocksterObject extends ScaledObject {
 		return block;
 	}
 	
+	public AnimationState getAnimationState() {
+		return anim;
+	}
+	
 	public BlockMap getBlockLayer(){
 		return blockMap;
+	}
+	
+	public Direction getDirection(){
+		return dir;
 	}
 	
 	public float getOriginX() {
 		return x;
 	}
 	
+	
 	public float getOriginY() {
 		return y;
+	}
+	
+	public Vector2f getVelocity() {
+		return velocity;
 	}
 	
 	public float getX() {
@@ -64,12 +97,16 @@ public class BlocksterObject extends ScaledObject {
 		return x;
 	}
 	
-	
 	public float getY() {
 		if (anim != AnimationState.NONE){
 			return y + anim.getRelativePosition().y * scaleY;
 		}
 		return y;
+	}
+	
+	public void increaseGravity(float deltaTime) {
+		totalTime += deltaTime;
+		setVelocityY(-9.82F * totalTime * getBlockLayer().getBlockHeight());
 	}
 	
 	public void moveToNextPosition(){
@@ -79,10 +116,14 @@ public class BlocksterObject extends ScaledObject {
 		
 		System.out.println("Moved "+this+" ("+dir+") (" + anim.getMovement()
 				+ ") (" + anim + ")");
+	}	
+	
+	public void removeFromGrid() {
+		blockMap.setBlock((int) getX(), (int) getY(), null);
 	}
 	
-	public AnimationState getAnimationState() {
-		return anim;
+	public void resetGravity() {
+		totalTime = 0;
 	}
 	
 	public void setAnimationState(AnimationState anim) {
@@ -92,16 +133,14 @@ public class BlocksterObject extends ScaledObject {
 		}
 	}
 	
-	public void setDirection(Direction dir){
-		this.dir = dir;
+	public void setDefaultVelocity(Direction dir) {
+		final Vector2f velocity = getVelocity();
+		setVelocityX(velocity.x + dir.deltaX * defaultVelocity.x);
+		setVelocityY(velocity.y + dir.deltaY * defaultVelocity.y);
 	}
 	
-	public Direction getDirection(){
-		return dir;
-	}	
-	
-	public Vector2f getVelocity() {
-		return velocity;
+	public void setDirection(Direction dir){
+		this.dir = dir;
 	}
 	
 	public void setVelocityX(float velocityX) {
@@ -120,30 +159,11 @@ public class BlocksterObject extends ScaledObject {
 		}
 	}
 	
-	public void setDefaultVelocity(Direction dir) {
-		final Vector2f velocity = getVelocity();
-		setVelocityX(velocity.x + dir.deltaX * defaultVelocity.x);
-		setVelocityY(velocity.y + dir.deltaY * defaultVelocity.y);
-	}
-	
-	public void increaseGravity(float deltaTime) {
-		totalTime += deltaTime;
-		setVelocityY(-9.82F * totalTime * getBlockLayer().getBlockHeight());
-	}
-	
-	public void resetGravity() {
-		totalTime = 0;
-	}
-	
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName()+": (" 
 							+ Math.round(getX() * 10) / (10 * scaleX)  + ", " 
 							+ Math.round(getY() * 10) / (10 * scaleY) + ")";
-	}
-	
-	public void removeFromGrid() {
-		blockMap.setBlock((int) getX(), (int) getY(), null);
 	}
 	
 }

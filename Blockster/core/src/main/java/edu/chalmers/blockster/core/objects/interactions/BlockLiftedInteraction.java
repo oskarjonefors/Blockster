@@ -36,26 +36,33 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 	@Override
 	public void endInteraction() {
 		final Direction dir = interactor.getDirection();
-		interacted.setAnimationState(new AnimationState(Movement.getPlaceMovement(dir)));
-		interactor.setLifting(false);
+		AnimationState anim = new AnimationState(Movement.getPlaceMovement(dir));
+		
+		if (interacted.canMove(anim.getMovement().getDirection())) {
+			interactor.setLifting(false);
+			interacted.setAnimationState(anim);
+			interacted.removeFromGrid();
+		} else {
+			System.out.println("COULD NOT END INTERACTION");
+		}
 	}
 
 	@Override
 	public void startInteraction() {
 		final Direction dir = Direction.getDirection(interactor.getX(),
 				interacted.getX() * blockMap.getBlockWidth());
-		interacted.setAnimationState(new AnimationState(Movement.getLiftMovement(dir)));
-		interactor.setLifting(true);
+		AnimationState anim = new AnimationState(Movement.getLiftMovement(dir));
+		
+		if (interacted.canMove(anim.getMovement().getDirection())) {
+			interactor.setLifting(true);
+			interacted.setAnimationState(anim);
+			interacted.removeFromGrid();
+		}
 	}
 	
 	public boolean canPerformMove(Direction dir) {
-		int flag = 0;
-		if (dir == Direction.LEFT) {
-			flag = Calculations.CHECK_LEFT_FLAG | Calculations.CHECK_DOWN_LEFT_FLAG;
-		} else {
-			flag = Calculations.CHECK_RIGHT_FLAG | Calculations.CHECK_DOWN_RIGHT_FLAG;
-		}
-		return !Calculations.collisionSurroundingBlocks(interacted, blockMap, flag);
+		return interactor.canMove(dir) && interacted.canMove(dir);
+		
 	}
 
 }
