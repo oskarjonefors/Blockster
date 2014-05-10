@@ -12,6 +12,7 @@ public abstract class BlocksterObject extends ScaledObject {
 	private Direction dir = Direction.NONE;
 	protected AnimationState anim;
 	protected BlockMap blockMap;
+	protected boolean directionChanged = false;
 
 	public BlocksterObject(float startX, float startY, BlockMap blockMap, float scaleX, float scaleY) {
 		super(startX, startY, scaleX, scaleY);
@@ -131,6 +132,7 @@ public abstract class BlocksterObject extends ScaledObject {
 	}
 	
 	public void setDirection(Direction dir){
+		directionChanged |= (this.dir != dir);
 		this.dir = dir;
 	}
 	

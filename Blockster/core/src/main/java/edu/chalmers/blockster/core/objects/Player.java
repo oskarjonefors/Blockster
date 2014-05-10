@@ -27,6 +27,7 @@ public class Player extends BlocksterObject implements Interactor {
 	private PlayerInteraction interaction = PlayerInteraction.NONE;
 	private boolean horizontalCollision;
 	private boolean verticalCollision;
+	private int wait = 0;
 	
 	public Player(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer, blockLayer.getBlockWidth(), blockLayer.getBlockHeight());
@@ -86,7 +87,16 @@ public class Player extends BlocksterObject implements Interactor {
 	public void interact() {
 		if (isInteracting()) {
 			if (getAnimationState().isDone()) {
-				interaction.interact(getDirection());
+				if (!directionChanged || !isLiftingBlock()) {
+					interaction.interact(getDirection());
+					directionChanged = false;
+				} else {
+					wait++;
+					if (wait > 5) {
+						directionChanged = false;
+					}
+				}
+				
 			}
 		} else {
 			System.out.println("Not interacting");
