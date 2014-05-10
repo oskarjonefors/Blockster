@@ -94,6 +94,7 @@ public class Player extends BlocksterObject implements Interactor {
 					wait++;
 					if (wait > 5) {
 						directionChanged = false;
+						wait = 0;
 					}
 				}
 				
