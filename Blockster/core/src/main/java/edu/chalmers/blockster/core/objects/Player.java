@@ -25,6 +25,7 @@ public class Player extends BlocksterObject implements Interactor {
 	private Block processedBlock;
 	private boolean grabbingBlock;
 	private boolean liftingBlock;
+	private boolean climbingBlock;
 	private PlayerInteraction interaction = PlayerInteraction.NONE;
 	private boolean horizontalCollision;
 	private boolean verticalCollision;
@@ -133,6 +134,10 @@ public class Player extends BlocksterObject implements Interactor {
 		return isInteracting() || getAnimationState() != AnimationState.NONE;
 	}
 	
+	public boolean isClimbing() {
+		return climbingBlock;
+	}
+	
 	public boolean isDancing() {
 		return dancing;
 	}
@@ -199,6 +204,13 @@ public class Player extends BlocksterObject implements Interactor {
 		}
 	}
 	
+	public void setClimbing(boolean climb) {
+		climbingBlock = climb;
+		if(!climb) {
+			interaction = PlayerInteraction.NONE;
+		}
+	}
+	
 	public void setDancing(boolean b) {
 		dancing = true;
 	}
@@ -236,6 +248,7 @@ public class Player extends BlocksterObject implements Interactor {
 			if (Math.abs(Math.hypot(distance.x, distance.y)) > 0) {
 				move(distance);
 			}
+			
 		} else {
 			System.out.println("Moving "+this);
 			anim.updatePosition(deltaTime);

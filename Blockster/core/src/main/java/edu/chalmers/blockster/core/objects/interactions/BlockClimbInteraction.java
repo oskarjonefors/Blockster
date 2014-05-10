@@ -19,16 +19,12 @@ public class BlockClimbInteraction extends PlayerInteraction {
 	
 	@Override
 	public void interact(Direction dir) {
-		final AnimationState anim = interactor.getAnimationState();
-		if (anim != AnimationState.NONE && anim.isDone()) {
-			interactor.setAnimationState(AnimationState.NONE);
-		}
+		
 	}
 
 	@Override
 	public void endInteraction() {
-		// TODO Auto-generated method stub
-
+		interactor.setClimbing(false);
 	}
 
 	@Override
@@ -37,6 +33,7 @@ public class BlockClimbInteraction extends PlayerInteraction {
 				interactor.getX() / interactor.getScaleX(), interactable.getX());
 		AnimationState climb = new AnimationState(Movement.getClimbMovement(dir));
 		interactor.setAnimationState(climb);
+		interactor.setClimbing(true);
 	}
 
 }
