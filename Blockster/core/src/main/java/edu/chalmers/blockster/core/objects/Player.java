@@ -8,6 +8,7 @@ import edu.chalmers.blockster.core.objects.interactions.Interactor;
 import edu.chalmers.blockster.core.objects.interactions.PlayerInteraction;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
+import edu.chalmers.blockster.core.objects.movement.Movement;
 import static edu.chalmers.blockster.core.util.Calculations.*;
 
 /**
@@ -53,12 +54,12 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	public void setGrabbing(boolean b) {
+		grabbingBlock = b;
 		if(b) {
 			setAnimationState(getDirection() == Direction.LEFT ? AnimationState.GRAB_LEFT : AnimationState.GRAB_RIGHT);
 		} else {
 			setAnimationState(AnimationState.NONE);
 			processedBlock = null;
-			grabbingBlock = false;
 		}
 	}
 	
@@ -85,7 +86,14 @@ public class Player extends BlocksterObject implements Interactor {
 	
 	public void setLifting(boolean lift) {
 		liftingBlock = lift;
-		
+		if(lift) {
+			setAnimationState(getDirection() == Direction.LEFT ?
+					AnimationState.LIFT_LEFT : AnimationState.LIFT_RIGHT);
+		} else {
+			setAnimationState(getDirection() == Direction.LEFT ?
+					AnimationState.LIFT_LEFT : AnimationState.LIFT_RIGHT);
+			processedBlock = null;
+		}
 	}
 	
 	public boolean isLiftingBlock() {

@@ -21,26 +21,23 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 
 	@Override
 	public void interact(Direction dir) {
+		System.out.println("Interacting: " + dir.name());
+		
 		if(canPerformMove(dir)) {
+			System.out.println("Can move");
 			final AnimationState anim = 
 					new AnimationState(Movement.getMoveMovement(dir));
 			interactor.setAnimationState(anim);
 			interacted.setAnimationState(anim);
+			interacted.removeFromGrid();
 		}
 	}
 
 	@Override
 	public void endInteraction() {
-		interactor.setLifting(false);
-		
 		final Direction dir = interactor.getDirection();
-		
 		interacted.setAnimationState(new AnimationState(Movement.getPlaceMovement(dir)));
-		
-		final AnimationState interactorAnim = dir == Direction.LEFT ?
-				AnimationState.PLACE_LEFT : AnimationState.PLACE_RIGHT;
-		
-		interactor.setAnimationState(interactorAnim);
+		interactor.setLifting(false);
 	}
 
 	@Override
@@ -49,11 +46,6 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 				interacted.getX() * blockMap.getBlockWidth());
 		interacted.setAnimationState(new AnimationState(Movement.getLiftMovement(dir)));
 		interactor.setLifting(true);
-		
-		final AnimationState anim = dir == Direction.LEFT ?
-				AnimationState.LIFT_RIGHT : AnimationState.LIFT_LEFT;
-		
-		interactor.setAnimationState(anim);
 	}
 	
 	public boolean canPerformMove(Direction dir) {
