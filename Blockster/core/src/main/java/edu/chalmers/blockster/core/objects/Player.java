@@ -43,6 +43,18 @@ public class Player extends BlocksterObject implements Interactor {
 				isNextToBlock(block) && block.isLiftable();
 	}
 	
+	public boolean canMove(Direction dir) {
+		final BlockMap bLayer = getBlockLayer();
+		final float blockWidth = bLayer.getBlockWidth();
+		final int checkX = (int) (getOriginX() / getScaleX());
+		final int checkY = (int) (getOriginY() / getScaleY());
+		
+		return checkX >= 1 && checkX < blockWidth && !bLayer.
+				hasBlock(checkX + dir.deltaX, checkY + dir.deltaY)
+				&& bLayer.hasBlock(checkX + dir.deltaX, checkY + dir.deltaY - 1);
+			
+	}
+	
 	public boolean collidedHorisontally() {
 		return horizontalCollision;
 	}

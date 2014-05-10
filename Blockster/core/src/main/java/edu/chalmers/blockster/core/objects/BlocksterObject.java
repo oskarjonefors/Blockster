@@ -5,7 +5,7 @@ import javax.vecmath.Vector2f;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
-public class BlocksterObject extends ScaledObject {
+public abstract class BlocksterObject extends ScaledObject {
 	private float totalTime;
 	private final Vector2f velocity;
 	protected Vector2f defaultVelocity;
@@ -29,16 +29,7 @@ public class BlocksterObject extends ScaledObject {
 	 * @param movement
 	 * @return true if nothing is blocking the way behind player, else false.
 	 */
-	public boolean canMove(Direction dir) {
-		final BlockMap bLayer = getBlockLayer();
-		final float blockWidth = bLayer.getBlockWidth();
-		final int checkX = (int) (getOriginX() / getScaleX());
-		final int checkY = (int) (getOriginY() / getScaleY());
-		
-		return checkX >= 1 && checkX < blockWidth && !bLayer.
-				hasBlock(checkX + dir.deltaX, checkY + dir.deltaY);
-			
-	}
+	public abstract boolean canMove(Direction dir);
 	
 	public Block getAdjacentBlock() {
 		Block block = null;
