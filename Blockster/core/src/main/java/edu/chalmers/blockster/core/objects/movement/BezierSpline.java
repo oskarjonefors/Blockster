@@ -10,7 +10,7 @@ import javax.vecmath.Vector2f;
 public class BezierSpline implements Spline {
 	
 	private final Direction dir;
-	private boolean isClimbing;
+	private boolean isLifting;
 	
 	/**
 	 * Create a spline in the given direction.
@@ -21,9 +21,9 @@ public class BezierSpline implements Spline {
 		this.dir = dir;
 		
 		if (dir.deltaY > 0) {
-			isClimbing = true;
+			isLifting = true;
 		} else {
-			isClimbing = false;
+			isLifting = false;
 		}
 	}
 	
@@ -34,18 +34,18 @@ public class BezierSpline implements Spline {
 		}
 		float offsetX;
 		float offsetY;
-		final double t = (double)(percent / 100);
+		final double t = (double)(1 - percent / 100);
 		
 		// If movement is climbing, set x to 0, else 1
-		final int x1 = isClimbing ? 0 : 1;
-		final int x2 = isClimbing ? 1 : 0;
+		final int x1 = isLifting ? 0 : dir.deltaX;
+		final int x2 = dir.deltaX;
 		offsetX = (float) (2*t*(1-t)*x1 + Math.pow((double)(1-t), 2)*x2);
 		
-		final int y1 = isClimbing ? 1 : 0;
-		final int y2 = isClimbing ? 1 : -1;
+		final int y1 = isLifting ? dir.deltaY : 0;
+		final int y2 = dir.deltaY;
 		offsetY = (float) (2 * t * (1 - t) * y1 + Math.pow((double)(1 - t), 2) * y2);
 		
-		return new Vector2f(offsetX*dir.deltaX, offsetY);
+		return new Vector2f(offsetX, offsetY);
 	}
 
 }
