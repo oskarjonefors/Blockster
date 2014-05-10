@@ -168,7 +168,7 @@ public class Player extends BlocksterObject implements Interactor {
 					AnimationState.LIFT_LEFT : AnimationState.LIFT_RIGHT);
 		} else {
 			setAnimationState(getDirection() == Direction.LEFT ?
-					AnimationState.LIFT_LEFT : AnimationState.LIFT_RIGHT);
+					AnimationState.PLACE_LEFT : AnimationState.PLACE_RIGHT);
 			interaction = PlayerInteraction.NONE;
 			processedBlock = null;
 		}

@@ -3,14 +3,14 @@ package edu.chalmers.blockster.core.util;
 public final class Calculations {
 	
 	public final static float STANDARD_MOVE_DURATION = 0.2f;
-	public final static int CHECK_UP_FLAG = 1 << 0;
+	/*public final static int CHECK_UP_FLAG = 1 << 0;
 	public final static int CHECK_UP_RIGHT_FLAG = 1 << 1;
 	public final static int CHECK_RIGHT_FLAG = 1 << 2;
 	public final static int CHECK_DOWN_RIGHT_FLAG = 1 << 3;
 	public final static int CHECK_DOWN_FLAG = 1 << 4;
 	public final static int CHECK_DOWN_LEFT_FLAG = 1 << 5;
 	public final static int CHECK_LEFT_FLAG = 1 << 6;
-	public final static int CHECK_UP_LEFT_FLAG = 1 << 7;
+	public final static int CHECK_UP_LEFT_FLAG = 1 << 7;*/
 	
 	private Calculations() {}
 	
@@ -61,7 +61,7 @@ public final class Calculations {
 				(int) ((player.getY() + player.getHeight()) / tileHeight));
 	}
 	
-	public static boolean collisionSurroundingBlocks(PhysicalObject pos,
+	/*public static boolean collisionSurroundingBlocks(PhysicalObject pos,
 			 GridMap blockLayer, int flags) {
 		boolean collision = false;
 		final float scaleX = pos.getScaleX();
@@ -116,7 +116,7 @@ public final class Calculations {
 		}
 		
 		return collision;
-	}
+	}*/
 	
 	private static boolean isSolid(GridMap blockLayer, int x, int y) {
 		return blockLayer.hasBlock(x, y) && blockLayer.getBlock(x,y).isSolid();
