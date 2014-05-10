@@ -47,9 +47,7 @@ public class Model implements Comparable<Model> {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		final int result = 1;
-		return prime * result + ((name == null) ? 0 : name.hashCode());
+		return 31 + ((name == null) ? 0 : name.hashCode());
 	}
 
 	@Override
