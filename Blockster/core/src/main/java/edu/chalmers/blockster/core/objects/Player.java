@@ -92,7 +92,7 @@ public class Player extends BlocksterObject implements Interactor {
 					directionChanged = false;
 				} else {
 					wait++;
-					if (wait > 5) {
+					if (wait > 2) {
 						directionChanged = false;
 						wait = 0;
 					}
