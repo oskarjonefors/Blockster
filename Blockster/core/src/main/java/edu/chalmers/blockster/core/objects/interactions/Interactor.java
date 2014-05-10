@@ -12,8 +12,6 @@ public interface Interactor extends PhysicalObject {
 
 	void setAnimationState(AnimationState anim);
 	
-	void setClimbing(boolean b);
-	
 	void setLifting(boolean b);
 
 	boolean canMove(Direction dir);

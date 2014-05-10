@@ -1,8 +1,6 @@
 package edu.chalmers.blockster.core.objects;
 
 import javax.vecmath.*;
-
-import edu.chalmers.blockster.core.objects.interactions.BlockClimbInteraction;
 import edu.chalmers.blockster.core.objects.interactions.BlockGrabbedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.BlockLiftedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.Interactor;
@@ -25,7 +23,6 @@ public class Player extends BlocksterObject implements Interactor {
 	private Block processedBlock;
 	private boolean grabbingBlock;
 	private boolean liftingBlock;
-	private boolean climbingBlock;
 	private PlayerInteraction interaction = PlayerInteraction.NONE;
 	private boolean horizontalCollision;
 	private boolean verticalCollision;
@@ -77,8 +74,9 @@ public class Player extends BlocksterObject implements Interactor {
 		System.out.println("Can we climb block?");
 		if(canClimbBlock(block)) {
 			System.out.println("We can climb block!");
-			interaction = new BlockClimbInteraction(this, block, blockMap);
-			interaction.startInteraction();
+			Direction dir = Direction.getDirection(getX() / blockMap.getBlockWidth(), block.getX());
+			AnimationState climb = new AnimationState(Movement.getClimbMovement(dir));
+			setAnimationState(climb);
 		}
 	}
 	
@@ -132,10 +130,6 @@ public class Player extends BlocksterObject implements Interactor {
 	
 	public boolean isBusy() {
 		return isInteracting() || getAnimationState() != AnimationState.NONE;
-	}
-	
-	public boolean isClimbing() {
-		return climbingBlock;
 	}
 	
 	public boolean isDancing() {
@@ -201,13 +195,6 @@ public class Player extends BlocksterObject implements Interactor {
 				verticalCollision = false;
 				horizontalCollision = false;
 			}
-		}
-	}
-	
-	public void setClimbing(boolean climb) {
-		climbingBlock = climb;
-		if(!climb) {
-			interaction = PlayerInteraction.NONE;
 		}
 	}
 	
