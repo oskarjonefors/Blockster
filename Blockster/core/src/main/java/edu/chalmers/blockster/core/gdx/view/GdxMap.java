@@ -34,16 +34,19 @@ public class GdxMap extends TiledMap implements BlockMap {
 	public GdxMap (TiledMap map) {
 		super();
 		playerStartingPositions = getPlayerStartingPositions(map);
-		
-		blockLayer = (TiledMapTileLayer) map.getLayers().get(0);
+		final TiledMapTileLayer tileLayer = (TiledMapTileLayer) map.getLayers().get(0);
+		blockLayer = new TiledMapTileLayer(tileLayer.getWidth(), 
+				tileLayer.getHeight(), (int) tileLayer.getTileWidth(), 
+				(int) tileLayer.getTileHeight());
+
 		blocks = new HashMap<Block, BlockView>();
 		activeBlocks = new HashSet<Block>();
 
 		getLayers().add(blockLayer);
 
-		for (int x = 0; x < blockLayer.getWidth(); x++) {
-			for (int y = 0; y < blockLayer.getHeight(); y++) {
-				final Cell cell = blockLayer.getCell(x, y);
+		for (int x = 0; x < tileLayer.getWidth(); x++) {
+			for (int y = 0; y < tileLayer.getHeight(); y++) {
+				final Cell cell = tileLayer.getCell(x, y);
 				if (cell != null) {
 					final TiledMapTile tile = cell.getTile();
 					final Block block = new Block(x, y, this);
