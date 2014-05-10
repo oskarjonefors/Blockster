@@ -33,4 +33,9 @@ public class LinearSpline implements Spline {
 		return new Vector2f(offsetX, offsetY);
 	}
 
+	@Override
+	public Direction getDirection() {
+		return dir;
+	}
+
 }

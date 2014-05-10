@@ -48,4 +48,9 @@ public class BezierSpline implements Spline {
 		return new Vector2f(offsetX, offsetY);
 	}
 
+	@Override
+	public Direction getDirection() {
+		return dir;
+	}
+
 }

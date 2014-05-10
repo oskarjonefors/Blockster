@@ -20,4 +20,6 @@ public interface Spline {
 	 * 			be (0, 0).
 	 */
 	Vector2f getPosition(float percent);
+	
+	Direction getDirection();
 }
