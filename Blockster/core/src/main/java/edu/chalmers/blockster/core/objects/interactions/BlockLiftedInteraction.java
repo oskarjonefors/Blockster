@@ -25,10 +25,9 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 		
 		if(canPerformMove(dir)) {
 			System.out.println("Can move");
-			final AnimationState anim = 
-					new AnimationState(Movement.getMoveMovement(dir));
-			interactor.setAnimationState(anim);
-			interacted.setAnimationState(anim);
+			Movement move = Movement.getMoveMovement(dir);
+			interactor.setAnimationState(new AnimationState(move));
+			interacted.setAnimationState(new AnimationState(move));
 			interacted.removeFromGrid();
 		}
 	}
