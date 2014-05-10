@@ -100,8 +100,10 @@ public class Player extends BlocksterObject implements Interactor {
 	
 	public boolean isNextToBlock(Block block) {
 		return block != null &&
-		Math.abs(block.getX() - ((int) getX() / blockMap.getBlockWidth())) <= 1.1f &&
-		Math.abs(block.getY() - ((int) getY() / blockMap.getBlockHeight())) <= 1.1f;
+			Math.abs(block.getX() - (Math.round(getX()) / 
+					blockMap.getBlockWidth())) <= 1.1f &&
+			Math.abs(block.getY() - (Math.round(getY()) / 
+					blockMap.getBlockHeight())) <= 1.1f;
 	}
 
 	public void liftBlock() {
