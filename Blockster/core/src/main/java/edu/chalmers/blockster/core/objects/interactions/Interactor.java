@@ -7,6 +7,8 @@ import edu.chalmers.blockster.core.util.PhysicalObject;
 public interface Interactor extends PhysicalObject {
 	
 	Direction getDirection();
+	
+	AnimationState getAnimationState();
 
 	void setAnimationState(AnimationState anim);
 	

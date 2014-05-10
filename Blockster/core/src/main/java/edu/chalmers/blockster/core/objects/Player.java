@@ -2,6 +2,7 @@ package edu.chalmers.blockster.core.objects;
 
 import javax.vecmath.*;
 
+import edu.chalmers.blockster.core.objects.interactions.BlockClimbInteraction;
 import edu.chalmers.blockster.core.objects.interactions.BlockGrabbedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.BlockLiftedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.Interactor;
@@ -34,6 +35,20 @@ public class Player extends BlocksterObject implements Interactor {
 		defaultVelocity = new Vector2f(700, 55 * blockMap.getBlockHeight());
 	}
 
+	private boolean canClimbBlock(Block block) {
+		if (block == null) {
+			return false;
+		}
+		final int blockX = (int)block.getX();
+		final int blockY = (int)block.getY();
+		final int playerGridX = (int)(getX() / getScaleX());
+		final int playerGridY = (int)(getY() / getScaleY());
+		
+		return block != null && !isGrabbingBlock() && !isLiftingBlock() &&
+				isNextToBlock(block) && !blockMap.hasBlock(blockX, blockY + 1) &&
+				!blockMap.hasBlock(playerGridX, playerGridY + 1);
+	}
+	
 	private boolean canGrabBlock(Block block) {
 		return block != null && !isLiftingBlock() && !isBusy() && isNextToBlock(block) &&
 				(block.isMovable() || block.isLiftable());
@@ -54,6 +69,16 @@ public class Player extends BlocksterObject implements Interactor {
 				hasBlock(checkX + dir.deltaX, checkY + dir.deltaY)
 				&& bLayer.hasBlock(checkX + dir.deltaX, checkY + dir.deltaY - 1);
 			
+	}
+	
+	public void climbBlock() {
+		final Block block = getAdjacentBlock();
+		System.out.println("Can we climb block?");
+		if(canClimbBlock(block)) {
+			System.out.println("We can climb block!");
+			interaction = new BlockClimbInteraction(this, block, blockMap);
+			interaction.startInteraction();
+		}
 	}
 	
 	public boolean collidedHorisontally() {
@@ -100,7 +125,6 @@ public class Player extends BlocksterObject implements Interactor {
 				
 			}
 		} else {
-			System.out.println("Not interacting");
 			setDefaultVelocity(getDirection());
 		}
 	}

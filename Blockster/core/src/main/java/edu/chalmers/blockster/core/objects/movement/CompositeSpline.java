@@ -19,9 +19,9 @@ public class CompositeSpline implements Spline {
 	
 	@Override
 	public Vector2f getPosition(float percent) {
-		final int nbrOfSplines = partialSplines.size();
-		return partialSplines.get((int) percent * nbrOfSplines)
-				.getPosition((percent * nbrOfSplines) % 1);
+		final int splineIndices = partialSplines.size() - 1;
+		return partialSplines.get((int)(percent * splineIndices / 100))
+				.getPosition((percent * splineIndices) % 1);
 	}
 
 }

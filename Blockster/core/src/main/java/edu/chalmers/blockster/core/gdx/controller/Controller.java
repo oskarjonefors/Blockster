@@ -23,6 +23,7 @@ import edu.chalmers.blockster.core.objects.movement.Direction;
 public class Controller extends InputAdapter implements Disposable {
 
 	private volatile int keyFlags;
+	private volatile int climbFlags;
 
 	private final static int LEFT_BUTTON_DOWN_FLAG = 1 << 0;
 	private final static int RIGHT_BUTTON_DOWN_FLAG = 1 << 1;
@@ -35,6 +36,8 @@ public class Controller extends InputAdapter implements Disposable {
 	private final static int RIGHT_BUTTON_UP_FLAG = 1 << 8;
 	private final static int DANCE_BUTTON_FLAG = 1 << 9;
 	private final static int DANCE_BUTTON_UP_FLAG = 1 << 10;
+	private final static int CLIMB_BUTTON_DOWN_FLAG = 1 << 0;
+	private final static int CLIMB_BUTTON_UP_FLAG = 1 << 1;
 
 	private Model model;
 
@@ -104,10 +107,11 @@ public class Controller extends InputAdapter implements Disposable {
 	}
 	
 	private void handleInteractions() {
+		final Player activePlayer = model.getActivePlayer();
+		
 		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
 			//Try to grab the adjacent block if possible and there is one.
-			model.getActivePlayer().grabBlock();
-			
+			activePlayer.grabBlock();
 		} 
 
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
@@ -116,7 +120,7 @@ public class Controller extends InputAdapter implements Disposable {
 				model.stopProcessingBlock();
 				hasMovedBlock = false;
 			} else {
-				model.getActivePlayer().liftBlock();
+				activePlayer.liftBlock();
 			}
 			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
 			System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
@@ -152,6 +156,13 @@ public class Controller extends InputAdapter implements Disposable {
 			if (activePlayer.isGrabbingBlock() 	|| activePlayer.isLiftingBlock()) {
 				hasMovedBlock = true;
 			}
+		}
+	
+		if ((climbFlags & CLIMB_BUTTON_DOWN_FLAG) != 0) {
+			if(!activePlayer.isGrabbingBlock()) {
+				activePlayer.climbBlock();
+			}
+			climbFlags &= ~CLIMB_BUTTON_DOWN_FLAG;
 		}
 	}
 	
@@ -196,6 +207,11 @@ public class Controller extends InputAdapter implements Disposable {
 			//Dance
 			keyFlags |= DANCE_BUTTON_FLAG;
 		}
+		
+		if (keyCode == Keys.UP) {
+			climbFlags |= CLIMB_BUTTON_DOWN_FLAG;
+		}
+		
 		return false;
 	}
 
@@ -255,6 +271,12 @@ public class Controller extends InputAdapter implements Disposable {
 			keyFlags &= ~DANCE_BUTTON_FLAG;
 			keyFlags |= DANCE_BUTTON_UP_FLAG;
 		}
+		
+		if (keyCode == Keys.UP) {
+			climbFlags &= ~CLIMB_BUTTON_DOWN_FLAG;
+			climbFlags |= CLIMB_BUTTON_UP_FLAG;
+		}
+		
 		return false;
 	}
 

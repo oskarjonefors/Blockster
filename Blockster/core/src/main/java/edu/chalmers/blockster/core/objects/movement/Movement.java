@@ -19,6 +19,8 @@ public enum Movement {
 	LIFT_RIGHT(UP_RIGHT, STANDARD_MOVE_DURATION, new BezierSpline(UP_RIGHT)), 
 	PLACE_LEFT(DOWN_LEFT, STANDARD_MOVE_DURATION, new BezierSpline(DOWN_LEFT)), 
 	PLACE_RIGHT(DOWN_RIGHT, STANDARD_MOVE_DURATION, new BezierSpline(DOWN_RIGHT)),
+	CLIMB_LEFT(UP_LEFT, STANDARD_MOVE_DURATION, new CompositeSpline(UP, LEFT)),
+	CLIMB_RIGHT(UP_RIGHT, STANDARD_MOVE_DURATION, new CompositeSpline(UP, RIGHT)),
 	MOVE_DOWN(DOWN, STANDARD_MOVE_DURATION, new LinearSpline(DOWN)),
 	WAIT(STANDARD_MOVE_DURATION);
 	
@@ -57,6 +59,14 @@ public enum Movement {
 	 */
 	public float getDuration() {
 		return duration;
+	}
+	
+	public static Movement getClimbMovement(Direction dir) {
+		if(dir == Direction.LEFT || dir == Direction.RIGHT) {
+			return dir == Direction.LEFT ? CLIMB_LEFT : CLIMB_RIGHT;
+		} else {
+			return NONE;
+		}
 	}
 	
 	public static Movement getLiftMovement(Direction dir) {
