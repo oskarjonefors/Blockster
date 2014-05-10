@@ -51,7 +51,6 @@ public class CompositeSpline implements Spline {
 				.getPosition((percent * nbrOfSplines) % 100);
 		
 		if (currentSplineIndex > 0) {
-			Vector2f offsetToAdd = sumOfSplines(currentSplineIndex - 1);
 			currentOffset.add(sumOfSplines(currentSplineIndex - 1));
 		}
 		
