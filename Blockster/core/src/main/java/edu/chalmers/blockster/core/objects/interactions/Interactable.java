@@ -15,6 +15,8 @@ public interface Interactable extends PhysicalObject, GridObject {
 	
 	boolean canMove(Direction dir);
 	
+	boolean hasWeight();
+	
 	boolean isLifted();
 	
 }

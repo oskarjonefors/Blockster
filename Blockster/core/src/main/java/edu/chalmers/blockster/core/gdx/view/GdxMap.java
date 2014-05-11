@@ -214,7 +214,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 				doneBlocks.add(block);
 				
 				if (!hasBlock((int)block.getX(), (int)(block.getY() - 1)) &&
-					!block.isLifted()) {
+					!block.isLifted() && block.hasWeight()) {
 					fallingBlocks.add(block);
 					block.fallDown();
 				}
