@@ -285,7 +285,7 @@ public class Controller extends InputAdapter implements Disposable {
 			miscFlags |= CLIMB_BUTTON_UP_FLAG;
 		}
 		
-		if (keyCode == Keys.F) {
+		if (keyCode == Keys.F11) {
 			miscFlags |= TOGGLE_FULLSCREEN_FLAG;
 		}
 		
