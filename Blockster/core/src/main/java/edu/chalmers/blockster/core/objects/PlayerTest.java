@@ -118,5 +118,14 @@ public class PlayerTest {
 		 
 		 assertTrue(correct);
 	 }
+	 
+	 @Test
+	 public void testLiftBlock(){
+		 
+		 block.setProperty("liftable");
+		 player.grabBlock();
+		 
+		 assertTrue(player.isLiftingBlock());
+	 }
 
 }
