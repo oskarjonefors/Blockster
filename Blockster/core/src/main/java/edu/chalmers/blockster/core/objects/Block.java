@@ -14,11 +14,13 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 
 	private final Set<String> properties;
 	private boolean lifted;
+	private boolean falling;
 	
 	public Block(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer, 1, 1);
 		properties = new HashSet<String>();
 		lifted = false;
+		falling = false;
 	}
 	
 	public void setProperty(String property) {
@@ -69,7 +71,6 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 	
 	@Override
 	public void moveToNextPosition() {
-		blockMap.setBlock((int) getOriginX(), (int) getOriginY(), null);
 		System.out.println("Removing "+this);
 		super.moveToNextPosition();
 	}
@@ -84,6 +85,10 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 	
 	public void setLifted(boolean lifted) {
 		this.lifted = lifted;
+	}
+	
+	public boolean isFalling() {
+		return falling;
 	}
 
 

@@ -202,26 +202,15 @@ public class GdxMap extends TiledMap implements BlockMap {
 		return activeBlocks;
 	}
 
-	@Override
-	public void insertFinishedBlocks() {
-		final Set<Block> doneBlocks = new HashSet<Block>();
-		final Set<Block> fallingBlocks = new HashSet<Block>();
-		
-		for (final Block block : activeBlocks) {
-			if (block.getAnimationState().isDone()) {
-				block.setAnimationState(AnimationState.NONE);
-				insertBlock(block);
-				doneBlocks.add(block);
-				
-				if (!hasBlock((int)block.getX(), (int)(block.getY() - 1)) &&
-					!block.isLifted() && block.hasWeight()) {
-					fallingBlocks.add(block);
-					block.fallDown();
-				}
-			}
+	private void insertFinishedBlock(Block block) {
+		block.setAnimationState(AnimationState.NONE);
+		if (!hasBlock((int)block.getX(), (int)(block.getY() - 1)) &&
+				!block.isLifted() && block.hasWeight()) {
+			block.fallDown();
+		} else {
+			insertBlock(block);
+			activeBlocks.remove(block);
 		}
-		activeBlocks.removeAll(doneBlocks);
-		activeBlocks.addAll(fallingBlocks);
 	}
 
 	@Override
@@ -233,12 +222,13 @@ public class GdxMap extends TiledMap implements BlockMap {
 	@Override
 	public void updateActiveBlocks(float deltaTime) {
 		
-		for (final Block block : activeBlocks) {
+		for (final Block block : new HashSet<Block>(activeBlocks)) {
 			block.getAnimationState().updatePosition(deltaTime);
 			System.out.println("Updating "+block);
 			if(block.getAnimationState().isDone()) {
 				System.out.println("Animation on "+block+" is done");
 				block.moveToNextPosition();
+				insertFinishedBlock(block);
 			}
 		}
 	}

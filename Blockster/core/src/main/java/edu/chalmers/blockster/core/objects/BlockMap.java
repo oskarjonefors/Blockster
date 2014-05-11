@@ -70,10 +70,9 @@ public interface BlockMap extends GridMap {
 	 */
 	float[][] getPlayerStartingPositions();
 	
-	void insertFinishedBlocks();
-	
 	void updateActiveBlocks(float deltaTime);
 	
 	void addActiveBlock(Block block);
+
 	
 }

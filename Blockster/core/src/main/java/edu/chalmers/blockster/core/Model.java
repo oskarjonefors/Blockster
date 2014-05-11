@@ -147,7 +147,6 @@ public class Model implements Comparable<Model> {
 	
 	private void updateBlocks(float deltaTime) {
 		map.updateActiveBlocks(deltaTime);
-		map.insertFinishedBlocks();
 	}
 	
 	private void updatePlayers(float deltaTime) {
