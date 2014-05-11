@@ -155,6 +155,13 @@ public class GdxView implements ApplicationListener, Disposable {
 		camera.update();
 		}
 	
+	public void toggleFullScreen() {
+		if(Gdx.graphics.isFullscreen()) {
+			Gdx.graphics.setDisplayMode(800, 600, false);
+		} else {
+			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode());
+		}
+	}
 
 	@Override
 	public void create() {

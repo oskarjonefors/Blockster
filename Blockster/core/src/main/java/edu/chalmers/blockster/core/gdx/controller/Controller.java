@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.blockster.core.MapChangeListener;
 import edu.chalmers.blockster.core.Model;
+import edu.chalmers.blockster.core.gdx.view.GdxView;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
@@ -23,7 +24,7 @@ import edu.chalmers.blockster.core.objects.movement.Direction;
 public class Controller extends InputAdapter implements Disposable {
 
 	private volatile int keyFlags;
-	private volatile int climbFlags;
+	private volatile int miscFlags;
 
 	private final static int LEFT_BUTTON_DOWN_FLAG = 1 << 0;
 	private final static int RIGHT_BUTTON_DOWN_FLAG = 1 << 1;
@@ -38,8 +39,10 @@ public class Controller extends InputAdapter implements Disposable {
 	private final static int DANCE_BUTTON_UP_FLAG = 1 << 10;
 	private final static int CLIMB_BUTTON_DOWN_FLAG = 1 << 0;
 	private final static int CLIMB_BUTTON_UP_FLAG = 1 << 1;
+	private final static int TOGGLE_FULLSCREEN_FLAG = 1 << 2;
 
 	private Model model;
+	private GdxView view;
 
 	private boolean hasMovedBlock;
 
@@ -104,6 +107,11 @@ public class Controller extends InputAdapter implements Disposable {
 			model.init();
 			setModel(model);
 		}
+		
+		if ((miscFlags & TOGGLE_FULLSCREEN_FLAG) != 0) {
+			miscFlags &= ~TOGGLE_FULLSCREEN_FLAG;
+			view.toggleFullScreen();
+		}
 	}
 	
 	private void handleInteractions() {
@@ -158,11 +166,11 @@ public class Controller extends InputAdapter implements Disposable {
 			}
 		}
 	
-		if ((climbFlags & CLIMB_BUTTON_DOWN_FLAG) != 0) {
+		if ((miscFlags & CLIMB_BUTTON_DOWN_FLAG) != 0) {
 			if(!activePlayer.isGrabbingBlock()) {
 				activePlayer.climbBlock();
 			}
-			climbFlags &= ~CLIMB_BUTTON_DOWN_FLAG;
+			miscFlags &= ~CLIMB_BUTTON_DOWN_FLAG;
 		}
 	}
 	
@@ -209,7 +217,7 @@ public class Controller extends InputAdapter implements Disposable {
 		}
 		
 		if (keyCode == Keys.UP) {
-			climbFlags |= CLIMB_BUTTON_DOWN_FLAG;
+			miscFlags |= CLIMB_BUTTON_DOWN_FLAG;
 		}
 		
 		return false;
@@ -273,8 +281,12 @@ public class Controller extends InputAdapter implements Disposable {
 		}
 		
 		if (keyCode == Keys.UP) {
-			climbFlags &= ~CLIMB_BUTTON_DOWN_FLAG;
-			climbFlags |= CLIMB_BUTTON_UP_FLAG;
+			miscFlags &= ~CLIMB_BUTTON_DOWN_FLAG;
+			miscFlags |= CLIMB_BUTTON_UP_FLAG;
+		}
+		
+		if (keyCode == Keys.F) {
+			miscFlags |= TOGGLE_FULLSCREEN_FLAG;
 		}
 		
 		return false;
@@ -291,6 +303,12 @@ public class Controller extends InputAdapter implements Disposable {
 		}
 	}
 
+	
+	public void setView(GdxView view) {
+		this.view = view;
+		System.out.println("Set the view to " + view);
+	}
+	
 	/**
 	 * Updates the game flow.
 	 * @param deltaTime The time between the current frame and the last one.
