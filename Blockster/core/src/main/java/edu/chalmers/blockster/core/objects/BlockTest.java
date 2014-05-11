@@ -48,17 +48,14 @@ public class BlockTest {
 
 	@Test
 	public void testSetAnimationState() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testBlock() {
-		fail("Not yet implemented");
+		block.setAnimationState(anim);
+		assertTrue(anim.getMovement() == Movement.PULL_RIGHT);
 	}
 
 	@Test
 	public void testSetProperty() {
-		fail("Not yet implemented");
+		block.setProperty("liftable");
+		assertTrue(block.isLiftable());
 	}
 
 	@Test
