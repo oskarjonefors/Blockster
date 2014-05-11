@@ -25,7 +25,7 @@ public class ModelTest {
 	private class TestHelper {
 		private String name;
 		
-		private TestHelper(String name) {
+		public TestHelper(String name) {
 			this.name = name;
 		}
 		
@@ -69,9 +69,9 @@ public class ModelTest {
 		final int model3Hash = model3.hashCode();
 		final int model4Hash = model4.hashCode();
 		
-		assertFalse(modelHash != model2Hash);
-		assertTrue(model2Hash == model3Hash);
-		assertFalse(model3Hash != model4Hash);
+		assertNotSame(modelHash, model2Hash);
+		assertSame(model2Hash, model3Hash);
+		assertNotSame(model3Hash, model4Hash);
 	}
 
 	@Test
@@ -86,9 +86,9 @@ public class ModelTest {
 
 	@Test
 	public void testCompareTo() {
-		assertFalse(model.compareTo(model2) == 0);
-		assertTrue(model2.compareTo(model3) == 0);
-		assertFalse(model3.compareTo(model4) == 0);
+		assertNotSame(model.compareTo(model2), 0);
+		assertSame(model2.compareTo(model3), 0);
+		assertNotSame(model3.compareTo(model4), 0);
 	}
 
 	@Test
@@ -128,7 +128,7 @@ public class ModelTest {
 	@Test
 	public void testGetPlayers() {
 		assertFalse(model.getPlayers().isEmpty());
-		assertTrue(model.getPlayers().size() == 2);
+		assertSame(model.getPlayers().size(), 2);
 	}
 
 	@Test
@@ -153,18 +153,18 @@ public class ModelTest {
 
 	@Test
 	public void testNextPlayer() {
-		Player p1 = model.getActivePlayer();
+		final Player p1 = model.getActivePlayer();
 		
 		model.nextPlayer();
 		
-		Player p2 = model.getActivePlayer();
+		final Player p2 = model.getActivePlayer();
 		
 		model.nextPlayer();
 		
-		Player p3 = model.getActivePlayer();
+		final Player p3 = model.getActivePlayer();
 		
 		assertFalse(p1.equals(p2));
-		assertTrue(p1.equals(p3));
+		assertEquals(p1, p3);
 	}
 
 	@Test
