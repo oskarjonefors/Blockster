@@ -152,8 +152,7 @@ public class Player extends BlocksterObject implements Interactor {
 		return block != null &&
 			Math.abs(block.getX() - (Math.round(getX()) / 
 					blockMap.getBlockWidth())) <= 1.1f &&
-			Math.abs(block.getY() - (Math.round(getY()) / 
-					blockMap.getBlockHeight())) <= 1.1f;
+			block.getY() == (getY() / blockMap.getBlockHeight());
 	}
 
 	public void liftBlock() {
