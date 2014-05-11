@@ -40,6 +40,7 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 		if (interacted.canMove(anim.getMovement().getDirection())) {
 			interactor.setLifting(false);
 			interacted.setAnimationState(anim);
+			interacted.setLifted(false);
 			interacted.removeFromGrid();
 		} else {
 			System.out.println("COULD NOT END INTERACTION");
@@ -55,6 +56,7 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 		if (interacted.canMove(anim.getMovement().getDirection())) {
 			interactor.setLifting(true);
 			interacted.setAnimationState(anim);
+			interacted.setLifted(true);
 			interacted.removeFromGrid();
 		}
 	}

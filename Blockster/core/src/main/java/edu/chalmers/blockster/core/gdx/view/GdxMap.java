@@ -17,6 +17,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
+import edu.chalmers.blockster.core.objects.movement.Movement;
 
 /**
  * 
@@ -204,14 +205,23 @@ public class GdxMap extends TiledMap implements BlockMap {
 	@Override
 	public void insertFinishedBlocks() {
 		final Set<Block> doneBlocks = new HashSet<Block>();
+		final Set<Block> fallingBlocks = new HashSet<Block>();
+		
 		for (final Block block : activeBlocks) {
 			if (block.getAnimationState().isDone()) {
 				block.setAnimationState(AnimationState.NONE);
 				insertBlock(block);
 				doneBlocks.add(block);
+				
+				if (!hasBlock((int)block.getX(), (int)(block.getY() - 1)) &&
+					!block.isLifted()) {
+					fallingBlocks.add(block);
+					block.fallDown();
+				}
 			}
 		}
 		activeBlocks.removeAll(doneBlocks);
+		activeBlocks.addAll(fallingBlocks);
 	}
 
 	@Override
@@ -222,6 +232,7 @@ public class GdxMap extends TiledMap implements BlockMap {
 
 	@Override
 	public void updateActiveBlocks(float deltaTime) {
+		
 		for (final Block block : activeBlocks) {
 			block.getAnimationState().updatePosition(deltaTime);
 			System.out.println("Updating "+block);

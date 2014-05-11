@@ -4,6 +4,7 @@ public final class Calculations {
 	
 	public final static float STANDARD_MOVE_DURATION = 0.2f;
 	public final static float MOVE_LIFTED_BLOCK_DURATION = 0.15f;
+	public final static float BLOCK_FALL_DURATION = 0.05f;
 	/*public final static int CHECK_UP_FLAG = 1 << 0;
 	public final static int CHECK_UP_RIGHT_FLAG = 1 << 1;
 	public final static int CHECK_RIGHT_FLAG = 1 << 2;
