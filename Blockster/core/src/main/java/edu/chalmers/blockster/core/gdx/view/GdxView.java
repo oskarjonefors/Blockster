@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -86,13 +87,15 @@ public class GdxView implements ApplicationListener, Disposable {
 			players.put(player, createPlayerView(player));
 		}
 		
-		
-		//BlockLayer layer = model.getMap().getBlockLayer();
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		camera = new OrthographicCamera();
 		renderer = new OrthogonalTiledMapRenderer((GdxMap) model.getMap());
 		stage.setCamera(camera);
 		
+		/* Set the window size to match the screen resolution */
+		DisplayMode desktop = Gdx.graphics.getDesktopDisplayMode();
+		Gdx.graphics.setDisplayMode((int)(desktop.width * 0.75), (int)(desktop.height * 0.75), false);
+		setZoom();
 
 		/* Add the background */
 		final Texture tex = new Texture("maps/background-11.jpg");
@@ -147,13 +150,22 @@ public class GdxView implements ApplicationListener, Disposable {
 		camera.viewportHeight = height*5;
 		camera.viewportWidth = width*5;
 		camera.update();
+		System.out.println("Resizing to " + width + " x " + height);
 		}
 	
+	public void setZoom() {
+		camera.zoom = 700f / Gdx.graphics.getWidth();
+	}
+	
 	public void toggleFullScreen() {
+		final DisplayMode desktop = Gdx.graphics.getDesktopDisplayMode();
+		
 		if(Gdx.graphics.isFullscreen()) {
-			Gdx.graphics.setDisplayMode(800, 600, false);
+			Gdx.graphics.setDisplayMode((int)(desktop.width * 0.75), (int)(desktop.height * 0.75), false);
+			setZoom();
 		} else {
-			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode());
+			Gdx.graphics.setDisplayMode(desktop);
+			setZoom();
 		}
 	}
 
