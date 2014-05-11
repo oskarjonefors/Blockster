@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
@@ -17,7 +16,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
-import edu.chalmers.blockster.core.objects.movement.Movement;
 
 /**
  * 

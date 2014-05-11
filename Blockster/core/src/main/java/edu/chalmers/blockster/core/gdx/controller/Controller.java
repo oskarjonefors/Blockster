@@ -1,6 +1,8 @@
 package edu.chalmers.blockster.core.gdx.controller;
 
-import static edu.chalmers.blockster.core.objects.movement.Direction.*;
+import static edu.chalmers.blockster.core.objects.movement.Direction.LEFT;
+import static edu.chalmers.blockster.core.objects.movement.Direction.NONE;
+import static edu.chalmers.blockster.core.objects.movement.Direction.RIGHT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +16,10 @@ import edu.chalmers.blockster.core.MapChangeListener;
 import edu.chalmers.blockster.core.Model;
 import edu.chalmers.blockster.core.gdx.view.GdxView;
 import edu.chalmers.blockster.core.objects.Player;
-import edu.chalmers.blockster.core.objects.movement.Direction;
-
+ 
 /**
  * Class to handle input and updating the model.
- * @author Eric Bjuhr, Oskar J��nefors
+ * @author Eric Bjuhr, Oskar Jönefors
  *
  */
 public class Controller extends InputAdapter implements Disposable {

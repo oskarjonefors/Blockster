@@ -3,7 +3,6 @@ package edu.chalmers.blockster.core.objects.interactions;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
-import edu.chalmers.blockster.core.util.Calculations;
 import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlockLiftedInteraction extends PlayerInteraction {
