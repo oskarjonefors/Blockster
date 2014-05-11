@@ -23,44 +23,55 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	
 	@Override
 	public void interact(Direction dir) {
-		
+
 		System.out.println("Interacting: " + dir.name());
 		final float relativePosition = interactable.getX() 
 				- interactor.getX() / blockLayer.getBlockWidth();
 		final Movement movement = Movement.getPushPullMovement(dir, relativePosition);
 		List<Interactable> moveableInteractables;
-		
+
 		final int checkX = (int)interactable.getX();
 		final int checkY = (int)interactable.getY() + 1;
-		
-		
+
+		/*if (Math.abs(interactable.getX() - (Math.round(interactor.getX()) / 
+				interactor.getScaleX())) > 1.1f &&
+		Math.abs(interactable.getY() - (Math.round(interactor.getY()) / 
+				interactor.getScaleY())) > 1.1f) {
+			endInteraction();
+		}*/
+
 		if (!blockLayer.hasBlock(checkX, checkY) ||
 				!blockLayer.getBlock(checkX, checkY).hasWeight()) { 
 
-			System.out.println((movement.isPullMovement() ? "IS" : "ISN'T")+ " PULL MOVEMENT ("+movement.name()+")");
-			if (movement.isPullMovement()) {
-				if (interactor.canMove(dir)) {
-					System.out.println("Can pull");
-					interactable.setAnimationState(new AnimationState(movement));
-					interactor.setAnimationState(new AnimationState(movement));
-					interactable.removeFromGrid();
+			if(Math.abs(interactable.getX() - (Math.round(interactor.getX()) / 
+					interactor.getScaleX())) <= 1.1f &&
+					Math.abs(interactable.getY() - (Math.round(interactor.getY()) / 
+							interactor.getScaleY())) <= 1.1f) {
+
+				System.out.println((movement.isPullMovement() ? "IS" : "ISN'T")+ " PULL MOVEMENT ("+movement.name()+")");
+				if (movement.isPullMovement()) {
+					if (interactor.canMove(dir)) {
+						System.out.println("Can pull");
+						interactable.setAnimationState(new AnimationState(movement));
+						interactor.setAnimationState(new AnimationState(movement));
+						interactable.removeFromGrid();
+					}
+				} else {
+					moveableInteractables = getMoveableInteractables(dir);
+					for (final Interactable interactable : moveableInteractables) {
+						interactable.setAnimationState(new AnimationState(movement));
+						interactable.removeFromGrid();
+					}
+
+					if (!moveableInteractables.isEmpty()) {
+						System.out.println("Can push");
+						interactor.setAnimationState(new AnimationState(movement));
+					}
 				}
 			} else {
-				moveableInteractables = getMoveableInteractables(dir);
-				for (final Interactable interactable : moveableInteractables) {
-					interactable.setAnimationState(new AnimationState(movement));
-					interactable.removeFromGrid();
-				}
-
-				if (!moveableInteractables.isEmpty()) {
-					System.out.println("Can push");
-					interactor.setAnimationState(new AnimationState(movement));
-				}
+				endInteraction();
 			}
-
 		}
-
-		
 	}
 	
 	public List<Interactable> getMoveableInteractables(Direction dir) {

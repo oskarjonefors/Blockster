@@ -10,11 +10,11 @@ public interface Interactor extends PhysicalObject {
 	
 	AnimationState getAnimationState();
 
+	boolean canMove(Direction dir);
+	
 	void setAnimationState(AnimationState anim);
 	
 	void setLifting(boolean b);
-
-	boolean canMove(Direction dir);
 
 	void setGrabbing(boolean b);
 	
