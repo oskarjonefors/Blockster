@@ -30,7 +30,8 @@ public class Player extends BlocksterObject implements Interactor {
 	
 	public Player(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer, blockLayer.getBlockWidth(), blockLayer.getBlockHeight());
-		defaultVelocity = new Vector2f(700, 55 * blockMap.getBlockHeight());
+		defaultVelocity = new Vector2f(8 * blockMap.getBlockWidth(), 
+				55 * blockMap.getBlockHeight());
 	}
 
 	private boolean canClimbBlock(Block block) {
