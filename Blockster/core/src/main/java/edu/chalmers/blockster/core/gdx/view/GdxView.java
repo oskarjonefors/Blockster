@@ -62,14 +62,8 @@ public class GdxView implements ApplicationListener, Disposable {
 		camera.position.set(activePlayerX, activePlayerY, 0);
 
 		/* Move the background with the player */
-		background.setPosition(
-				activePlayerX * 0.7f - 
-						background.getScaleX() * background.getWidth() - 
-						camera.viewportWidth / 2,
-						activePlayerY * 0.7f - 
-								background.getHeight() / 2 - 
-								camera.viewportHeight / 2);
-		
+		background.setPosition(activePlayerX * 0.7f - background.getWidth() * 2,
+				activePlayerY * 0.7f - background.getHeight() * 2);
 
 		/**
 		 *  renders the stage
@@ -121,7 +115,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		camera.translate(cameraMoveVector);
 
 		background.setPosition(
-				camera.position.x*0.7f - 
+				camera.position.x	*0.7f - 
 						background.getScaleX()*background.getWidth() - 
 						camera.viewportWidth / 2,
 						camera.position.y*0.7f - 

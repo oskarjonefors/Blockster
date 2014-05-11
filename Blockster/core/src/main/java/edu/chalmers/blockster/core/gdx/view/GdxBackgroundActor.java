@@ -20,6 +20,8 @@ public class GdxBackgroundActor extends Actor {
 	 */
 	public GdxBackgroundActor(TextureRegion region) {
 		this.region = region; 
+		setWidth(region.getRegionWidth());
+		setHeight(region.getRegionHeight());
 	}
 	
 	@Override
