@@ -48,6 +48,10 @@ public enum Movement {
 	public boolean isPullMovement() {
 		return pullMovement;
 	}
+	
+	public static boolean isPullMovement(float relativePosition, Direction dir) {
+		return dir.deltaX * relativePosition < 0;
+	}
 
 	public Direction getDirection() {
 		return direction;
@@ -75,18 +79,6 @@ public enum Movement {
 		} else {
 			return NONE;
 		}
-	}
-	
-	/**
-	 * Return a movement that is either a push or a pull, depending on the relative
-	 * position of the player and the direction of the movement.
-	 * @param dir
-	 * @param relativePositionSignum
-	 * @return
-	 */
-	public static Movement getPushPullMovement(Direction dir, float relativePositionSignum) {
-		return dir.deltaX * relativePositionSignum > 0 ?
-				getPushMovement(dir) : getPullMovement(dir);
 	}
 	
 	public static Movement getPullMovement(Direction dir) {
