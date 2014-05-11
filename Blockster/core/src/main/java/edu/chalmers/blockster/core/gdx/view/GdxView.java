@@ -93,9 +93,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		stage.setCamera(camera);
 		
 		/* Set the window size to match the screen resolution */
-		DisplayMode desktop = Gdx.graphics.getDesktopDisplayMode();
-		Gdx.graphics.setDisplayMode((int)(desktop.width * 0.75), (int)(desktop.height * 0.75), false);
-		setZoom();
+		setWindowMode();
 
 		/* Add the background */
 		final Texture tex = new Texture("maps/background-11.jpg");
@@ -153,19 +151,26 @@ public class GdxView implements ApplicationListener, Disposable {
 		System.out.println("Resizing to " + width + " x " + height);
 		}
 	
-	public void setZoom() {
+	private void setFullScreenMode() {
+		Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode());
+		setZoom();
+	}
+	
+	private void setWindowMode() {
+		final DisplayMode desktop = Gdx.graphics.getDesktopDisplayMode();
+		Gdx.graphics.setDisplayMode((int)(desktop.width * 0.75), (int)(desktop.height * 0.75), false);
+		setZoom();
+	}
+	
+	private void setZoom() {
 		camera.zoom = 700f / Gdx.graphics.getWidth();
 	}
 	
 	public void toggleFullScreen() {
-		final DisplayMode desktop = Gdx.graphics.getDesktopDisplayMode();
-		
 		if(Gdx.graphics.isFullscreen()) {
-			Gdx.graphics.setDisplayMode((int)(desktop.width * 0.75), (int)(desktop.height * 0.75), false);
-			setZoom();
+			setWindowMode();
 		} else {
-			Gdx.graphics.setDisplayMode(desktop);
-			setZoom();
+			setFullScreenMode();
 		}
 	}
 
