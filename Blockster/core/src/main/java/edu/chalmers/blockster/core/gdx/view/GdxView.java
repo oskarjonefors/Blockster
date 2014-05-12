@@ -197,7 +197,8 @@ public class GdxView implements ApplicationListener, Disposable {
 		for (final Player player : model.getPlayers()) {
 			PlayerView pView = players.get(player);
 			if (pView == null) {
-				players.put(player, pView = createPlayerView(player));
+				pView = createPlayerView(player);
+				players.put(player, pView);
 			}
 			pView.draw(batch);
 		}
