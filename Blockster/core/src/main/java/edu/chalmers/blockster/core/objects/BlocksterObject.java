@@ -108,10 +108,6 @@ public abstract class BlocksterObject extends ScaledObject {
 		
 		System.out.println("Moved "+this+" ("+dir+") (" + anim.getMovement()
 				+ ") (" + anim + ")");
-	}	
-	
-	public void removeFromGrid() {
-		blockMap.setBlock((int) getX(), (int) getY(), null);
 	}
 	
 	public void resetGravity() {

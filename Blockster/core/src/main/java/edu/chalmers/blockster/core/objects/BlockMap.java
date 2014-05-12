@@ -39,8 +39,8 @@ public class BlockMap implements GridMap {
 			assert startPositionX >= 0 && startPositionX < width;
 			assert startPositionY >= 0 && startPositionY < height;
 			
-			this.playerStartingPositions[i][0] = blockWidth * startPositionX;
-			this.playerStartingPositions[i][1] = blockHeight * startPositionY;
+			this.playerStartingPositions[i][0] = startPositionX;
+			this.playerStartingPositions[i][1] = startPositionY;
 		}
 		
 		
@@ -56,6 +56,15 @@ public class BlockMap implements GridMap {
 	
 	public void setListener(BlockMapListener listener) {
 		this.listener = listener;
+	}
+	
+	public void removeBlock(Block block) {
+		if (block != null) {
+			final int x = Math.round(block.getX());
+			final int y = Math.round(block.getY());
+			setBlock(x, y, new EmptyBlock(x, y, this));
+			listener.blockRemoved(x, y);
+		}
 	}
 	
 	public void insertBlock(Block block) {
@@ -126,6 +135,10 @@ public class BlockMap implements GridMap {
 	 * @return	True if there is a block at (x,y), otherwise false. 
 	 */
 	public boolean hasBlock(int x, int y) {
+		if (x < 0 || x >= getWidth())
+			return false;
+		if (y < 0 || y >= getHeight())
+			return false;
 		return !(blockMap[x][y] instanceof EmptyBlock);
 	}
 	

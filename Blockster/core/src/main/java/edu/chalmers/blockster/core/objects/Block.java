@@ -85,4 +85,8 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 		this.lifted = lifted;
 	}
 	
+	public void removeFromGrid() {
+		blockMap.removeBlock(this);
+	}
+	
 }
