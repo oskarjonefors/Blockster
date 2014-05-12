@@ -118,6 +118,10 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void update(float deltaTime) {
+		if(deltaTime <= 0) {
+			throw new IllegalArgumentException("Update method does not accept"
+					+ "deltatimes that are negative or zero.");
+		}
 		updateBlocks(deltaTime);
 		updatePlayers(deltaTime);
 	}

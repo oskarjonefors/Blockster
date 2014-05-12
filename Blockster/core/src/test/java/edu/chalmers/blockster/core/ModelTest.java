@@ -243,10 +243,4 @@ public class ModelTest {
 		
 		assertTrue(correct);
 	}
-
-	@Test
-	public void testUpdate() {
-		fail("Not yet implemented"); // TODO
-	}
-
 }
