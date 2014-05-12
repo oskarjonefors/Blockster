@@ -1,5 +1,6 @@
 package edu.chalmers.blockster.core.gdx.components;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Container implements Component {
@@ -12,6 +13,8 @@ public class Container implements Component {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		
+		content = new ArrayList<Component>();
 	}
 	
 	public void add(Component c) {

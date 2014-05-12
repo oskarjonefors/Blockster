@@ -1,5 +1,6 @@
 package edu.chalmers.blockster.core.gdx.components;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.InputProcessor;
@@ -21,6 +22,8 @@ public class Button implements Component, InputProcessor {
 		this.width = width;
 		this.height = height;
 		this.text = text;
+		
+		listeners = new ArrayList<ButtonListener>();
 	}
 	
 	public void addButtonListener(ButtonListener bl) {
