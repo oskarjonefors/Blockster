@@ -41,7 +41,7 @@ public class CompositeSpline implements Spline {
 	@Override
 	public Vector2f getPosition(float percent) {
 		final int nbrOfSplines = partialSplines.size();
-		final int currentSplineIndex = ((int)((percent * nbrOfSplines ) / 100));
+		final int currentSplineIndex = (int)((percent * nbrOfSplines ) / 100);
 		
 		if (currentSplineIndex == nbrOfSplines) {
 			return sumOfSplines(currentSplineIndex - 1);

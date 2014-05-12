@@ -21,6 +21,6 @@ public enum Direction {
 	 * @return Direction
 	 */
 	public static Direction getDirection(float x1, float x2) {
-		return ((x1	- x2) > 0 ? Direction.LEFT : Direction.RIGHT);
+		return (x1	- x2) > 0 ? Direction.LEFT : Direction.RIGHT;
 	}
 }
