@@ -38,19 +38,22 @@ public class Player extends BlocksterObject implements Interactor {
 		if (block == null) {
 			return false;
 		}
-		final int blockX = (int)block.getX();
-		final int blockY = (int)block.getY();
+		
+		return !isBusy() && isNextToBlock(block) && !climbingCollision();
+	}
+	
+	private boolean climbingCollision() {
 		final int playerGridX = (int)(getX() / getScaleX());
 		final int playerGridY = (int)(getY() / getScaleY());
-		
-		return !isGrabbingBlock() && !isLiftingBlock() &&
-				isNextToBlock(block) && !blockMap.hasBlock(blockX, blockY + 1) &&
-				!blockMap.hasBlock(playerGridX, playerGridY + 1);
+		return blockMap.hasBlock(playerGridX, playerGridY + 1);
 	}
 	
 	private boolean canGrabBlock(Block block) {
-		return block != null && !isLiftingBlock() && !isBusy() && isNextToBlock(block) &&
-				(block.isMovable() || block.isLiftable());
+		if (block == null) {
+			return false;
+		}
+		
+		return !isBusy() && isNextToBlock(block) && !isLiftingBlock();
 	}
 	
 	private boolean canLiftBlock(Block block) {
@@ -73,7 +76,7 @@ public class Player extends BlocksterObject implements Interactor {
 	public void climbBlock() {
 		final Block block = getAdjacentBlock();
 		System.out.println("Can we climb block?");
-		if(canClimbBlock(block)) {
+		if(canClimbBlock(block)  && block.canBeClimbed()) {
 			System.out.println("We can climb block!");
 			Direction dir = Direction.getDirection(getX() / blockMap.getBlockWidth(), block.getX());
 			AnimationState climb = new AnimationState(Movement.getClimbMovement(dir));
@@ -100,7 +103,7 @@ public class Player extends BlocksterObject implements Interactor {
 	
 	public void grabBlock() {
 		final Block block = getAdjacentBlock();
-		if (canGrabBlock(block)) {
+		if (block != null && canGrabBlock(block) && block.canBeGrabbed()) {
 			System.out.println("Can grab block at " + block.getX() + " " + block.getY());
 			processedBlock = block;
 			grabbingBlock = true;

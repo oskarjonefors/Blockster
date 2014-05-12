@@ -89,4 +89,16 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 		blockMap.removeBlock(this);
 	}
 	
+	public boolean canBeClimbed() {
+
+		final int blockX = (int)getX();
+		final int blockY = (int)getY();
+		
+		return !blockMap.hasBlock(blockX, blockY + 1);
+	}
+	
+	public boolean canBeGrabbed() {
+		return isMovable() || isLiftable();
+	}
+	
 }
