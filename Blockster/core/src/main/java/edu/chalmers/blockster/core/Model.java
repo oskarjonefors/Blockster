@@ -91,22 +91,6 @@ public class Model implements Comparable<Model> {
 	private float[][] getPlayerStartingPositions(BlockMap map) {
 		return map.getPlayerStartingPositions();
 	}
-
-	public Block getProcessedBlock() {
-		return activePlayer.getProcessedBlock();
-	}
-	
-	public boolean isGrabbingBlock() {
-		return activePlayer.isGrabbingBlock();
-	}
-
-	public boolean isLiftingBlock() {
-		return activePlayer.isLiftingBlock();
-	}
-	
-	public void interactPlayer() {
-		activePlayer.interact();
-	}
 	
 	/**
 	 * Start controlling the next player.
@@ -134,10 +118,6 @@ public class Model implements Comparable<Model> {
 					startPosition[1], map);
 			players.add(player);
 		}
-	}
-
-	public void stopProcessingBlock() {
-		activePlayer.endInteraction();
 	}
 
 	public void update(float deltaTime) {

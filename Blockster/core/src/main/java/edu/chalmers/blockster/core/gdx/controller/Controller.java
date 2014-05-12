@@ -125,8 +125,8 @@ public class Controller extends InputAdapter implements Disposable {
 
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
 			//Grab button was released
-			if (hasMovedBlock || model.isLiftingBlock()) {
-				model.stopProcessingBlock();
+			if (hasMovedBlock || activePlayer.isLiftingBlock()) {
+				activePlayer.endInteraction();
 				hasMovedBlock = false;
 			} else {
 				activePlayer.liftBlock();
@@ -141,7 +141,7 @@ public class Controller extends InputAdapter implements Disposable {
 		if ((keyFlags & LEFT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving left
 			activePlayer.setDirection(LEFT);
-			model.interactPlayer();
+			activePlayer.interact();
 			if (activePlayer.isGrabbingBlock() 
 					|| activePlayer.isLiftingBlock()) {
 				hasMovedBlock = true;
@@ -161,7 +161,7 @@ public class Controller extends InputAdapter implements Disposable {
 		if ((keyFlags & RIGHT_BUTTON_DOWN_FLAG) != 0) {
 			// Character is moving right
 			activePlayer.setDirection(RIGHT);
-			model.interactPlayer();
+			activePlayer.interact();
 			if (activePlayer.isGrabbingBlock() 	|| activePlayer.isLiftingBlock()) {
 				hasMovedBlock = true;
 			}
