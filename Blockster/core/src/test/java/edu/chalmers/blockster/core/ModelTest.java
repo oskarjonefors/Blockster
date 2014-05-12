@@ -3,6 +3,9 @@ package edu.chalmers.blockster.core;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.vecmath.Vector2f;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,6 +17,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import edu.chalmers.blockster.core.gdx.util.GdxFactory;
+import edu.chalmers.blockster.core.objects.Block;
+import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
 
 public class ModelTest {
@@ -49,7 +54,7 @@ public class ModelTest {
 		props.put("playerStart1", "100:100");
 		props.put("playerStart2", "120:100");
 		
-		final TiledMapTileLayer tileLayer = new TiledMapTileLayer(100, 100, 128, 128);
+		final TiledMapTileLayer tileLayer = new TiledMapTileLayer(320, 240, 1, 1);
 		tiledMap.getLayers().add(tileLayer);
 		
 		factory = new GdxFactory(tiledMap);
@@ -79,12 +84,36 @@ public class ModelTest {
 
 	@Test
 	public void testModel() {
-		fail("Not yet implemented"); // TODO
+		Model testModel = new Model(factory, "testModel");
+		
+		assertTrue(testModel.getName().equals("testModel"));
+		
 	}
 
 	@Test
 	public void testInit() {
-		fail("Not yet implemented"); // TODO
+		boolean correct = true;
+		model.init();
+		final BlockMap map = model.getMap();
+		
+		//Check correct dimensions
+		correct &= map.getWidth() == 320;
+		correct &= map.getHeight() == 240;
+		
+		//Check player starts
+		final Player p1 = model.getActivePlayer();
+		correct &= p1.getX() == 100;
+		correct &= p1.getY() == 100;
+		
+		model.nextPlayer();
+		
+		final Player p2 = model.getActivePlayer();
+		
+		correct &= p2.getX() == 120;
+		correct &= p2.getY() == 100;
+		
+		assertTrue(correct);
+		
 	}
 
 	@Test
@@ -116,17 +145,20 @@ public class ModelTest {
 
 	@Test
 	public void testGetActiveBlocks() {
-		fail("Not yet implemented"); // TODO
+		Set<Block> activeBlocks = model.getActiveBlocks();
+		activeBlocks.add(new Block(0, 0, null));
+		
+		assertTrue(model.getActiveBlocks().size() == 1);
 	}
 
 	@Test
 	public void testGetActivePlayer() {
-		fail("Not yet implemented"); // TODO
+		assertFalse(model.getActivePlayer() == null);
 	}
 
 	@Test
 	public void testGetMap() {
-		fail("Not yet implemented"); // TODO
+
 	}
 
 	@Test
@@ -171,7 +203,45 @@ public class ModelTest {
 
 	@Test
 	public void testResetStartPositions() {
-		fail("Not yet implemented"); // TODO
+		boolean correct = true;
+		
+		final Player p1 = model.getActivePlayer();
+		final float player1StartX = p1.getX();
+		final float player1StartY = p1.getY();
+		model.nextPlayer();
+		
+		final Player p2 = model.getActivePlayer();
+		final float player2StartX = p2.getX();
+		final float player2StartY = p2.getY();
+		
+		p1.move(new Vector2f(10, 10));
+		p2.move(new Vector2f(-10, -10));
+		
+		final float movedPlayer1X = p1.getX();
+		final float movedPlayer1Y = p1.getY();
+		
+		final float movedPlayer2X = p2.getX();
+		final float movedPlayer2Y = p2.getY();
+		
+		model.resetStartPositions();
+		
+		final float resetPlayer1X = p1.getX();
+		final float resetPlayer1Y = p1.getY();
+		
+		final float resetPlayer2X = p2.getX();
+		final float resetPlayer2Y = p2.getY();
+		
+		correct &= player1StartX != movedPlayer1X;
+		correct &= player1StartY != movedPlayer1Y;
+		correct &= player2StartX != movedPlayer2X;
+		correct &= player2StartY != movedPlayer2Y;
+		
+		correct &= player1StartX == resetPlayer1X;
+		correct &= player1StartY == resetPlayer1Y;
+		correct &= player2StartX == resetPlayer2X;
+		correct &= player2StartY == resetPlayer2Y;
+		
+		assertTrue(correct);
 	}
 
 	@Test
