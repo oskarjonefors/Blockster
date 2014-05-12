@@ -43,7 +43,7 @@ public class Player extends BlocksterObject implements Interactor {
 		final int playerGridX = (int)(getX() / getScaleX());
 		final int playerGridY = (int)(getY() / getScaleY());
 		
-		return block != null && !isGrabbingBlock() && !isLiftingBlock() &&
+		return !isGrabbingBlock() && !isLiftingBlock() &&
 				isNextToBlock(block) && !blockMap.hasBlock(blockX, blockY + 1) &&
 				!blockMap.hasBlock(playerGridX, playerGridY + 1);
 	}
