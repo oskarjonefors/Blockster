@@ -14,7 +14,9 @@ public final class Calculations {
 	public final static int CHECK_LEFT_FLAG = 1 << 6;
 	public final static int CHECK_UP_LEFT_FLAG = 1 << 7;*/
 	
-	private Calculations() {}
+	private Calculations() {
+		
+	}
 	
 	public static boolean collisionEitherCorner(PhysicalObject player, GridMap blockLayer) {
 		try {
