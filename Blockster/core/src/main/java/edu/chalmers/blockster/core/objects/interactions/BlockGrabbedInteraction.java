@@ -46,7 +46,8 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		/* Loop to add all the blocks to be moved to the list. */
 		while (blockLayer.hasBlock(checkX, origY) && checkX > 0 
 				&& checkX < blockLayer.getWidth()) {
-			if(!blockLayer.hasBlock(checkX, origY + 1) && blockLayer.
+			if((!blockLayer.hasBlock(checkX, origY + 1) || blockLayer.
+					getBlock(checkX, origY + 1).isSolid()) && blockLayer.
 					getBlock(checkX, origY).isMovable()) {
 				movingBlocks.add((Interactable) blockLayer.getBlock(checkX, origY));
 				checkX += dir.deltaX;
