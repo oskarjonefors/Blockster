@@ -84,7 +84,5 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 	public void setLifted(boolean lifted) {
 		this.lifted = lifted;
 	}
-
-
 	
 }

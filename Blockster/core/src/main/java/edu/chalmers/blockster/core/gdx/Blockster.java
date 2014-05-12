@@ -8,11 +8,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 
 import edu.chalmers.blockster.core.MapChangeListener;
 import edu.chalmers.blockster.core.Model;
@@ -39,9 +39,9 @@ public class Blockster extends Game implements MapChangeListener {
 		for (final File mapFile : maps) {
 			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
 			final TiledMap map = loader.load("maps/"+mapFile.getName());
-			final Model stage = new Model(new GdxFactory(map), mapFile.getName());
-			
-			final GdxView view = new GdxView(stage);
+			final GdxFactory factory = new GdxFactory(map);
+			final Model stage = new Model(factory, mapFile.getName());
+			final GdxView view = new GdxView(stage, factory);
 			view.init();
 			
 			stageMap.put(stage, view);

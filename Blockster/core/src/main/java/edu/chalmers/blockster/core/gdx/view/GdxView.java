@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
 import edu.chalmers.blockster.core.Model;
+import edu.chalmers.blockster.core.gdx.util.GdxFactory;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.movement.AnimationFactory;
@@ -32,10 +33,13 @@ public class GdxView implements ApplicationListener, Disposable {
 	private Stage stage;
 	private Map<Player, PlayerView> players;
 	private Actor background;
+	private GdxFactory factory;
+	private GdxMap gdxMap;
 
 	
-	public GdxView(Model model) {
+	public GdxView(Model model, GdxFactory factory) {
 		this.model = model;
+		this.factory = factory;
 	}
 	
 	@Override
@@ -89,7 +93,8 @@ public class GdxView implements ApplicationListener, Disposable {
 		
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		camera = new OrthographicCamera();
-		renderer = new OrthogonalTiledMapRenderer((GdxMap) model.getMap());
+		gdxMap = factory.getGdxMap();
+		renderer = new OrthogonalTiledMapRenderer(gdxMap);
 		stage.setCamera(camera);
 		
 		/* Set the window size to match the screen resolution */
@@ -128,7 +133,8 @@ public class GdxView implements ApplicationListener, Disposable {
 
 	
 	public void refreshRenderer() {
-		renderer.setMap((GdxMap) model.getMap());
+		gdxMap = factory.getGdxMap();
+		renderer.setMap(gdxMap);
 	}
 	
 	public void refreshStage() {
@@ -200,10 +206,9 @@ public class GdxView implements ApplicationListener, Disposable {
 	}
 	
 	public void drawBlocks(SpriteBatch batch) {
-		final GdxMap map = (GdxMap)model.getMap();
 		
-		for (final Block block : map.getActiveBlocks()) {
-			final BlockView bView = map.getBlockView(block);
+		for (final Block block : model.getMap().getActiveBlocks()) {
+			final BlockView bView = gdxMap.getBlockView(block);
 			if (bView != null) {
 				bView.draw(batch);
 			}

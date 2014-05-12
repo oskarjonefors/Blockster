@@ -33,7 +33,8 @@ public class Model implements Comparable<Model> {
 	}
 	
 	public final void init() {
-		this.map = factory.createMap();
+		factory.createMap();
+		this.map = factory.getMap();
 		players = new ArrayList<Player>();
 		activeBlocks = Collections.synchronizedSet(new HashSet<Block>());
 		setStartPositions();
@@ -87,10 +88,6 @@ public class Model implements Comparable<Model> {
 	public List<Player> getPlayers() {
 		return players;
 	}
-
-	private float[][] getPlayerStartingPositions(BlockMap map) {
-		return map.getPlayerStartingPositions();
-	}
 	
 	/**
 	 * Start controlling the next player.
@@ -102,7 +99,7 @@ public class Model implements Comparable<Model> {
 	}
 
 	public void resetStartPositions() {
-		final float[][] startPositions = getPlayerStartingPositions(map);
+		final float[][] startPositions = map.getPlayerStartingPositions();
 		for (int i = 0; i < startPositions.length; i++) {
 			players.get(i).setX(startPositions[i][0]);
 			players.get(i).setY(startPositions[i][1]);
@@ -113,7 +110,7 @@ public class Model implements Comparable<Model> {
 	}
 
 	private void setStartPositions() {
-		for (final float[] startPosition : getPlayerStartingPositions(map)) {
+		for (final float[] startPosition : map.getPlayerStartingPositions()) {
 			final Player player = factory.createPlayer(startPosition[0], 
 					startPosition[1], map);
 			players.add(player);

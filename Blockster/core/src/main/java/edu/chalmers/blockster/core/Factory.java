@@ -5,7 +5,9 @@ import edu.chalmers.blockster.core.objects.Player;
 
 public interface Factory {
 	
-	BlockMap createMap();
+	void createMap();
+	
+	BlockMap getMap();
 
 	Player createPlayer(float startX, float startY, BlockMap blockLayer);
 
