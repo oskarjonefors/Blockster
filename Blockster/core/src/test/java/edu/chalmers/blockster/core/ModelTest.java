@@ -2,7 +2,10 @@ package edu.chalmers.blockster.core;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -38,8 +41,8 @@ public class ModelTest {
 		}
 	}
 	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	@Before
+	public void setUp() {
 		tiledMap = new TiledMap();
 		final MapProperties props = tiledMap.getProperties();
 		props.put("nbrOfPlayers", "2");
@@ -57,10 +60,6 @@ public class ModelTest {
 		model4 = new Model(factory, "BlockModel ");
 	}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
 	@Test
 	public void testHashCode() {
 		
@@ -69,9 +68,13 @@ public class ModelTest {
 		final int model3Hash = model3.hashCode();
 		final int model4Hash = model4.hashCode();
 		
-		assertNotSame(modelHash, model2Hash);
-		assertSame(model2Hash, model3Hash);
-		assertNotSame(model3Hash, model4Hash);
+		boolean correct = true;
+		
+		correct &= modelHash != model2Hash;
+		correct &= model2Hash == model3Hash;
+		correct &= model3Hash != model4Hash;
+		
+		assertTrue(correct);
 	}
 
 	@Test
@@ -86,21 +89,29 @@ public class ModelTest {
 
 	@Test
 	public void testCompareTo() {
-		assertNotSame(model.compareTo(model2), 0);
-		assertSame(model2.compareTo(model3), 0);
-		assertNotSame(model3.compareTo(model4), 0);
+		
+		boolean correct = true;
+		
+		correct &= model.compareTo(model2) != 0;
+		correct &= model2.compareTo(model3) == 0;
+		correct &= model3.compareTo(model4) != 0;
+		
+		assertTrue(correct);
 	}
 
 	@Test
 	public void testEqualsObject() {
 		
 		final TestHelper helper = new TestHelper("blockModel");
-		assertFalse(model.equals(helper));
-		assertFalse(model.equals(model2));
-		assertFalse(model.equals("blockModel"));
-		assertFalse(model3.equals(model4));
-		assertTrue(model2.equals(model3));
 		
+		boolean correct = true;
+		correct &= !model.equals(helper);
+		correct &= !model.equals(model2);
+		correct &= !model.equals("blockModel");
+		correct &= !model3.equals(model4);
+		correct &= model2.equals(model3);
+		
+		assertTrue(correct);
 	}
 
 	@Test
@@ -121,38 +132,27 @@ public class ModelTest {
 	@Test
 	public void testGetName() {
 		final String blockModelString = "blockModel";
-		assertTrue(blockModelString.equals(model.getName()));
-		assertFalse(blockModelString.equals(model2.getName()));
+		boolean correct = true;
+		correct &= blockModelString.equals(model.getName());
+		correct &= !blockModelString.equals(model2.getName());
+		assertTrue(correct);
 	}
 
 	@Test
 	public void testGetPlayers() {
-		assertFalse(model.getPlayers().isEmpty());
-		assertSame(model.getPlayers().size(), 2);
-	}
-
-	@Test
-	public void testGetProcessedBlock() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	public void testIsGrabbingBlock() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	public void testIsLiftingBlock() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	public void testInteractPlayer() {
-		fail("Not yet implemented"); // TODO
+		boolean correct = true;
+		List<Player> players = model.getPlayers();
+		
+		correct &= !players.isEmpty();
+		correct &= players.size() == 2;
+		
+		assertTrue(correct);
 	}
 
 	@Test
 	public void testNextPlayer() {
+		boolean correct = true;
+		
 		final Player p1 = model.getActivePlayer();
 		
 		model.nextPlayer();
@@ -163,17 +163,14 @@ public class ModelTest {
 		
 		final Player p3 = model.getActivePlayer();
 		
-		assertFalse(p1.equals(p2));
-		assertEquals(p1, p3);
+		correct &= !p1.equals(p2);
+		correct &= p1.equals(p3);
+		
+		assertTrue(correct);
 	}
 
 	@Test
 	public void testResetStartPositions() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
-	public void testStopProcessingBlock() {
 		fail("Not yet implemented"); // TODO
 	}
 
