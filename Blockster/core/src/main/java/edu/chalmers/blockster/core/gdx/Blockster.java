@@ -40,11 +40,11 @@ public class Blockster extends Game implements MapChangeListener {
 			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
 			final TiledMap map = loader.load("maps/"+mapFile.getName());
 			final GdxFactory factory = new GdxFactory(map);
-			final Model stage = new Model(factory, mapFile.getName());
-			final GdxView view = new GdxView(stage, factory);
+			final Model model = new Model(factory, mapFile.getName());
+			final GdxView view = new GdxView(model, factory);
 			view.init();
 			
-			stageMap.put(stage, view);
+			stageMap.put(model, view);
 		}
 	}
 	

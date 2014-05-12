@@ -157,7 +157,6 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public void liftBlock() {
-		Block processedBlock = getProcessedBlock();
 		System.out.println("Trying to lift block " + processedBlock);
 		if (canLiftBlock(processedBlock)) {
 			System.out.println("Can lift block at " + processedBlock.getX() + " " + processedBlock.getY());
