@@ -53,7 +53,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		/* Checks if the camera should transit between the players */
 		if (model.isSwitchChar) {
 			transitCamera();
-		}
+		} else {
 
 		/* Follow the active player */
 		final Player activePlayer = model.getActivePlayer();
@@ -65,7 +65,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		/* Move the background with the player */
 		background.setPosition(activePlayerX * 0.7f - background.getWidth() * 2,
 				activePlayerY * 0.7f - background.getHeight() * 2);
-
+		}
 		/**
 		 *  renders the stage
 		 */
@@ -115,13 +115,8 @@ public class GdxView implements ApplicationListener, Disposable {
 
 		camera.translate(cameraMoveVector);
 
-		background.setPosition(
-				camera.position.x	*0.7f - 
-						background.getScaleX()*background.getWidth() - 
-						camera.viewportWidth / 2,
-						camera.position.y*0.7f - 
-								(background.getHeight() / 2) - 
-								camera.viewportHeight / 2);
+		background.setPosition(camera.position.x * 0.7f - background.getWidth() * 2,
+				camera.position.y * 0.7f - background.getHeight() * 2);
 
 
 		final boolean cameraInPlace = camera.position.epsilonEquals(model.getActivePlayer().getX(), model.getActivePlayer().getY(), 0, 30f);
