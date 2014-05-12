@@ -13,8 +13,8 @@ public class ScaledObject implements PhysicalObject {
 	protected float scaleY;
 	
 	public ScaledObject(float x, float y, float scaleX, float scaleY) {
-		this.x = x;
-		this.y = y;
+		this.x = x * scaleX;
+		this.y = y * scaleY;
 		this.scaleX = scaleX;
 		this.scaleY = scaleY;
 	}
