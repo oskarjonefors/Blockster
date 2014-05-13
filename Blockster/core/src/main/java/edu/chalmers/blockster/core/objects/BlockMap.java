@@ -12,7 +12,7 @@ import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.util.GridMap;
 
 /**
- * An interface representing a grid layer of blocks in a BlockMap.
+ * A class representing a grid layer of blocks and players in a map.
  */
 
 public class BlockMap implements GridMap {
@@ -36,6 +36,7 @@ public class BlockMap implements GridMap {
 		this.blockHeight = blockHeight;
 		this.playerStartingPositions = new float[playerStartingPositions.length][2];
 		
+		//Places the players in the grid
 		for (int i = 0; i < playerStartingPositions.length; i++) {
 			int[] startPosition = playerStartingPositions[i];
 			assert startPosition.length == 2;
@@ -54,6 +55,7 @@ public class BlockMap implements GridMap {
 		blockMap = new Block[width][height];
 		activeBlocks = new HashSet<Block>();
 		
+		//Fills the whole map with empty blocks
 		for (int x=0; x<width; x++) {
 			for (int y=0; y<height; y++) {
 				blockMap[x][y] = new EmptyBlock(x, y, this);
@@ -69,6 +71,12 @@ public class BlockMap implements GridMap {
 		listeners.remove(listener);
 	}
 	
+	/**
+	 * Replaces the specific block with an empty block
+	 * in the block map, i.e. removes a block.
+	 * Alerts the listeners that a block has been removed.
+	 * @param block The block that is to be removed.
+	 */
 	public void removeBlock(Block block) {
 		assert block != null;
 		
@@ -81,6 +89,12 @@ public class BlockMap implements GridMap {
 		}
 	}
 	
+	/**
+	 * Inserts the specific block with it's coordinates
+	 * in the block map. Alerts the listeners that a
+	 * block has been inserted.
+	 * @param block That is to be inserted.
+	 */
 	public void insertBlock(Block block) {
 		assert block != null;
 		
