@@ -1,11 +1,16 @@
 package edu.chalmers.blockster.core.objects.interactions;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlockLiftedInteraction extends PlayerInteraction {
+	
+	private final Logger log = Logger.getLogger(this.getClass().getName());
 	
 	private final Interactor interactor;
 	private final Interactable interacted;
@@ -20,10 +25,10 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 
 	@Override
 	public void interact(Direction dir) {
-		System.out.println("Interacting: " + dir.name());
+		log.log(Level.INFO, "Interacting: " + dir.name());
 		
 		if(canPerformMove(dir)) {
-			System.out.println("Can move");
+			log.log(Level.INFO, "Can move");
 			Movement move = Movement.getMoveMovement(dir);
 			interactor.setAnimationState(new AnimationState(move));
 			interacted.setAnimationState(new AnimationState(move));
@@ -42,7 +47,7 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 			interacted.setLifted(false);
 			interacted.removeFromGrid();
 		} else {
-			System.out.println("COULD NOT END INTERACTION");
+			log.log(Level.INFO, "Could not end interaction");
 		}
 	}
 

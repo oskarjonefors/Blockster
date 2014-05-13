@@ -13,7 +13,7 @@ import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlockGrabbedInteraction extends PlayerInteraction {
 	
-	private static final Logger log = Logger.getLogger(Player.class.getName());
+	private final Logger log = Logger.getLogger(this.getClass().getName());
 	
 	private final Interactable interactable; 
 	private final GridMap blockLayer;
