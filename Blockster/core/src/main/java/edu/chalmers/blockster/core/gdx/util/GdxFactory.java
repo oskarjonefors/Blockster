@@ -3,6 +3,9 @@ package edu.chalmers.blockster.core.gdx.util;
 
 import java.util.Iterator;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
@@ -22,6 +25,7 @@ public class GdxFactory implements Factory {
 	
 	private BlockMap blockMap;
 	private GdxMap gdxMap;
+	private Pixmap miniMap;
 	
 	public GdxMap getGdxMap() {
 		return gdxMap;
@@ -43,6 +47,7 @@ public class GdxFactory implements Factory {
 		blockMap = new BlockMap(width, height, blockWidth, blockHeight, playerStartingPositions);
 		gdxMap = new GdxMap(blockMap);
 		blockMap.setListener(gdxMap);
+		miniMap = new Pixmap(tileLayer.getWidth(), tileLayer.getHeight(), Format.RGBA8888);
 		
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
@@ -55,7 +60,21 @@ public class GdxFactory implements Factory {
 					gdxMap.createBlockViewReference(block, bView);
 					blockMap.insertBlock(block);
 					
-					final Iterator<String> properties = tile.getProperties().getKeys();
+					MapProperties mapProps = tile.getProperties();
+					
+					int color = 0;
+					
+					if (mapProps.containsKey("Liftable")) {
+						color = Color.toIntBits(0, 0, 255, 255);
+					} else if(mapProps.containsKey("Solid")) {
+						color = Color.rgba8888(0.7f, 0.7f, 0.7f, 1f);
+					}
+					
+					if(color != 0) {
+						miniMap.drawPixel(x, height - y - 1, color);
+					}
+						
+					final Iterator<String> properties = mapProps.getKeys();
 					while(properties.hasNext()) {
 						final String property = properties.next();
 						block.setProperty(property);
@@ -64,7 +83,7 @@ public class GdxFactory implements Factory {
 			}
 		}
 	}
-		
+	
 	@Override
 	public Player createPlayer(float startX, float startY, BlockMap blockLayer) {
 		return new Player(startX, startY, blockLayer);
@@ -124,4 +143,7 @@ public class GdxFactory implements Factory {
 		return blockMap;
 	}
 	
+	public Pixmap getMiniMap() {
+		return miniMap;
+	}
 }

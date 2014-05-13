@@ -28,6 +28,7 @@ import edu.chalmers.blockster.core.objects.movement.AnimationFactory;
 public class GdxView implements ApplicationListener, Disposable {
 
 	private OrthographicCamera camera;
+	private SpriteBatch hudBatch;
 	private final Model model;
 	private OrthogonalTiledMapRenderer renderer;
 	private Stage stage;
@@ -35,6 +36,8 @@ public class GdxView implements ApplicationListener, Disposable {
 	private Actor background;
 	private GdxFactory factory;
 	private GdxMap gdxMap;
+	private MiniMap miniMap;
+	
 
 	
 	public GdxView(Model model, GdxFactory factory) {
@@ -70,16 +73,17 @@ public class GdxView implements ApplicationListener, Disposable {
 		background.setPosition(activePlayerX * 0.7f - background.getWidth() * 2,
 				activePlayerY * 0.7f - background.getHeight() * 2);
 		}
+		
 		/**
 		 *  renders the stage
 		 */
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 		
-		drawObjects();
-		
 		renderer.setView(camera);
 		renderer.render();
+		
+		drawObjects();
 	}
 
 	/**
@@ -105,6 +109,9 @@ public class GdxView implements ApplicationListener, Disposable {
 		background = new GdxBackgroundActor(new TextureRegion(tex));
 		background.setScale(5);
 		stage.addActor(background);
+		
+		hudBatch = new SpriteBatch();
+		miniMap = new MiniMap(factory.getMiniMap(), 10, 10);
 	}
 	
 	public void transitCamera(){
@@ -141,6 +148,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		stage.clear();
 		stage.setCamera(camera);
 		stage.addActor(background);
+		stage.addActor(miniMap);
 	}
 	
 	
@@ -216,8 +224,17 @@ public class GdxView implements ApplicationListener, Disposable {
 		}
 	}
 	
+	public void drawHud(SpriteBatch batch) {
+		miniMap.draw(batch);
+	}
+	
 	public void drawObjects() {
 		camera.update();
+
+		hudBatch.begin();
+		drawHud(hudBatch);
+		hudBatch.end();
+		
 		final SpriteBatch batch = stage.getSpriteBatch();
 
 		batch.setProjectionMatrix(camera.combined);
