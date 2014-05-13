@@ -27,6 +27,7 @@ public class Player extends BlocksterObject implements Interactor {
 
 	private boolean dancing = false;
 
+	private final Block none;
 	private Block processedBlock;
 	private boolean grabbingBlock;
 	private boolean liftingBlock;
@@ -36,11 +37,13 @@ public class Player extends BlocksterObject implements Interactor {
 	private int wait = 0;
 	private boolean hasMovedBlock = false;
 
-	public Player(float startX, float startY, BlockMap blockLayer) {
-		super(startX, startY, blockLayer, blockLayer.getBlockWidth(),
-				blockLayer.getBlockHeight());
+	public Player(float startX, float startY, BlockMap blockMap) {
+		super(startX, startY, blockMap, blockMap.getBlockWidth(),
+				blockMap.getBlockHeight());
 		defaultVelocity = new Vector2f(8 * blockMap.getBlockWidth(),
 				55 * blockMap.getBlockHeight());
+		none = new EmptyBlock(0,0,blockMap);
+		processedBlock = none;
 	}
 
 	private boolean canClimbBlock(Block block) {
@@ -48,13 +51,18 @@ public class Player extends BlocksterObject implements Interactor {
 		if (block instanceof EmptyBlock) {
 			return false;
 		}
-		return !isBusy() && isNextToBlock(block) && !climbingCollision();
+		return !isGrabbingBlock() && isNextToBlock(block) && !climbingCollision();
 	}
 
 	private boolean climbingCollision() {
 		final int playerGridX = (int) (getX() / getScaleX());
 		final int playerGridY = (int) (getY() / getScaleY());
-		return blockMap.hasBlock(playerGridX, playerGridY + 1);
+		if (blockMap.hasBlock(playerGridX, playerGridY + 1)) {
+			Block blockAbove = blockMap.getBlock(playerGridX, playerGridY + 1);
+			return blockAbove != processedBlock && !blockAbove.isLiftable();
+		} else {
+			return false;
+		}
 	}
 
 	private boolean canGrabBlock(Block block) {
@@ -88,9 +96,10 @@ public class Player extends BlocksterObject implements Interactor {
 			LOG.log(Level.INFO, "We can climb block!");
 			Direction dir = Direction.getDirection(
 					getX() / blockMap.getBlockWidth(), block.getX());
-			AnimationState climb = new AnimationState(
-					Movement.getClimbMovement(dir));
-			setAnimationState(climb);
+			setAnimationState(new AnimationState(Movement.getClimbMovement(dir)));
+			processedBlock.removeFromGrid();
+			processedBlock.setAnimationState(new AnimationState(Movement.
+												getClimbMovement(dir)));
 		}
 	}
 
@@ -231,7 +240,7 @@ public class Player extends BlocksterObject implements Interactor {
 			setAnimationState(AnimationState.NONE);
 			interaction = PlayerInteraction.NONE;
 			hasMovedBlock = false;
-			processedBlock = null;
+			processedBlock = none;
 		}
 	}
 
@@ -245,7 +254,7 @@ public class Player extends BlocksterObject implements Interactor {
 					: AnimationState.PLACE_RIGHT);
 			interaction = PlayerInteraction.NONE;
 			hasMovedBlock = false;
-			processedBlock = null;
+			processedBlock = none;
 		}
 	}
 
