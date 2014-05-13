@@ -25,7 +25,7 @@ public class MiniMap extends Actor {
 	}
 
 	public void draw(SpriteBatch batch) {
-		batch.draw(sprite, 10, 10, sprite.getRegionWidth()*scaleX, sprite.getRegionHeight()*scaleY);
+		batch.draw(sprite, 5, 5, sprite.getRegionWidth()*scaleX, sprite.getRegionHeight()*scaleY);
 	}
 	
 }

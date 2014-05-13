@@ -50,6 +50,8 @@ public class GdxFactory implements Factory {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				final Cell cell = tileLayer.getCell(x, y);
+				int color = Color.rgba8888(0, 0, 0, 0.5f);
+				
 				if (cell != null) {
 					final TiledMapTile tile = cell.getTile();
 					final Block block = new Block(x, y, blockMap);
@@ -60,16 +62,11 @@ public class GdxFactory implements Factory {
 					
 					MapProperties mapProps = tile.getProperties();
 					
-					int color = Color.rgba8888(0, 0, 0, 0.5f);
-					
 					if (mapProps.containsKey("Liftable")) {
 						color = Color.rgba8888(0, 0, 1f, 0.8f);
 					} else if(mapProps.containsKey("Solid")) {
 						color = Color.rgba8888(0.8f, 0.8f, 0.8f, 0.8f);
 					}
-					
-
-					miniMap.drawPixel(x, height - y - 1, color);
 						
 					final Iterator<String> properties = mapProps.getKeys();
 					while(properties.hasNext()) {
@@ -77,6 +74,7 @@ public class GdxFactory implements Factory {
 						block.setProperty(property);
 					}
 				}
+				miniMap.drawPixel(x, height - y - 1, color);
 			}
 		}
 	}
