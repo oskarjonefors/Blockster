@@ -1,4 +1,4 @@
-package edu.chalmers.blockster.core.gdx.components;
+package edu.chalmers.blockster.core.gdx.menu.components;
 
 import java.util.ArrayList;
 import java.util.List;
