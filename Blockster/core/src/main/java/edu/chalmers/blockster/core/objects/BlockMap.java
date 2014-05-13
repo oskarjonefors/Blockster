@@ -17,7 +17,7 @@ import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlockMap implements GridMap {
 
-	private final Logger log = Logger.getLogger(this.getClass().getName());
+	private static final Logger log = Logger.getLogger(BlockMap.class.getName());
 	
 	private Block[][] blockMap;
 	private float[][] playerStartingPositions;

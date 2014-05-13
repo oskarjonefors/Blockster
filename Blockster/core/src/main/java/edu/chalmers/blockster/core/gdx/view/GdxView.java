@@ -41,8 +41,6 @@ public class GdxView implements ApplicationListener, Disposable {
 	private GdxMap gdxMap;
 	private MiniMap miniMap;
 	
-
-	
 	public GdxView(Model model, GdxFactory factory) {
 		this.model = model;
 		this.factory = factory;

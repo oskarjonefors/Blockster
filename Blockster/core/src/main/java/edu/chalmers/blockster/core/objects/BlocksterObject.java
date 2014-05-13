@@ -10,7 +10,7 @@ import edu.chalmers.blockster.core.objects.movement.Direction;
 
 public abstract class BlocksterObject extends ScaledObject {
 	
-	private final Logger log = Logger.getLogger(this.getClass().getName());
+	private static final Logger log = Logger.getLogger(BlocksterObject.class.getName());
 	
 	private float totalTime;
 	private final Vector2f velocity;

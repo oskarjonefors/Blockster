@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
@@ -13,7 +12,7 @@ import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlockGrabbedInteraction extends PlayerInteraction {
 	
-	private final Logger log = Logger.getLogger(this.getClass().getName());
+	private static final Logger log = Logger.getLogger(BlockGrabbedInteraction.class.getName());
 	
 	private final Interactable interactable; 
 	private final GridMap blockLayer;

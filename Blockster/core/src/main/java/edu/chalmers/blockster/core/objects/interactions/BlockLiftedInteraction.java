@@ -10,7 +10,7 @@ import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlockLiftedInteraction extends PlayerInteraction {
 	
-	private final Logger log = Logger.getLogger(this.getClass().getName());
+	private static final Logger log = Logger.getLogger(BlockLiftedInteraction.class.getName());
 	
 	private final Interactor interactor;
 	private final Interactable interacted;

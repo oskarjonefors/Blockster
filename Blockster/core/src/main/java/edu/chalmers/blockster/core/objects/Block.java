@@ -14,7 +14,7 @@ import edu.chalmers.blockster.core.util.GridObject;
 
 public class Block extends BlocksterObject implements GridObject, Interactable {
 
-	private final Logger log = Logger.getLogger(this.getClass().getName());
+	private static final Logger log = Logger.getLogger(Block.class.getName());
 	
 	private final Set<String> properties;
 	private boolean lifted;
