@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import javax.vecmath.Vector2f;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -15,16 +16,19 @@ public class PlayerTest {
 	private static Player player;
 	private static Block block; 
 	
-	@BeforeClass
+
+	@Before
 	public static void setUpBeforeClass() throws Exception {
 		int[][] playerPositions = {{2,2}};
 		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		block = new Block(3,2, blockMap);
-		player = new Player(256, 256, blockMap);
+		player = new Player(2, 2, blockMap);
 		player.setWidth(100);
 		
 		blockMap.insertBlock(block);
+
 	}
+	
 
 	@Test
 	public void testGetAdjecentBlock() {		
@@ -34,14 +38,14 @@ public class PlayerTest {
 		correct = !(player.getAdjacentBlock() == block);
 		
 		player.setDirection(Direction.RIGHT);
-		correct &= player.getAdjacentBlock() == block;
+		correct &= (player.getAdjacentBlock() == block);
 		
 		assertTrue(correct);
 		
 	}
 	
 	@Test
-	public void testGrabBlock(){
+	public void testGrabBlock() {
 		boolean correct = false;
 		
 		//#1
@@ -73,8 +77,7 @@ public class PlayerTest {
 	}
 	
 	@Test
-	public void testIsNextToBlock(){
-		
+	public void testIsNextToBlock() {
 		boolean correct = false;
 		
 		//#1
@@ -91,8 +94,7 @@ public class PlayerTest {
 		assertTrue(correct);
 	}
 	 @Test
-	 public void testMove(){
-		 
+	 public void testMove() {
 		 boolean correct = false;
 		 Vector2f vector = new Vector2f(10,10);
 		 
@@ -105,12 +107,79 @@ public class PlayerTest {
 	 }
 	 
 	 @Test
-	 public void testLiftBlock(){
+	 public void testLiftBlock() {
 		 
+		 System.out.println(player.getAdjacentBlock() == block);
+		 player.setDirection(Direction.RIGHT);
 		 block.setProperty("liftable");
+		 block.setProperty("movable");
 		 player.grabBlock();
 		 
+		 player.liftBlock();
+		 
 		 assertTrue(player.isLiftingBlock());
+	 }
+	 
+	 @Test
+	 public void testCollidedHorizontally() {
+		 boolean correct = false;
+		 
+		 //#1
+		 correct = player.collidedHorisontally();
+		 
+		 //#2
+		 player.setX(384);
+		 correct = !player.collidedHorisontally();
+		 
+		 assertTrue(correct);
+	 }
+	 
+	 @Test
+	 public void testCollidedVerticaly() {
+		 boolean correct = false;
+		 
+		 //#1
+		 correct = player.collidedVertically();
+		 
+		 //#2
+		 player.setX(384);
+		 player.setY(300);
+		 correct = !player.collidedHorisontally();
+		 
+		 assertTrue(correct); 
+	 }
+	 
+	 @Test
+	 public void testEndInteraction() {
+		 boolean correct = false;
+		 player.setDirection(Direction.RIGHT);
+		 
+		 //#1
+		 player.grabBlock();
+		 player.endInteraction();
+		 correct = !player.isGrabbingBlock();
+
+		 //#2
+		 player.liftBlock();
+		 player.endInteraction();
+		 correct &= !player.isLiftingBlock();
+		 
+		 assertTrue(correct);
+	 }
+	 
+	 @Test
+	 public void testGetProcessedBlock() {
+		 player.setDirection(Direction.RIGHT);
+		 block.setProperty("movable");
+		 player.grabBlock();
+
+		 assertTrue(player.getProcessedBlock() == block);
+	 }
+	 
+	 @Test
+	 public void testIsBusy(){
+		 
+		 
 	 }
 
 }
