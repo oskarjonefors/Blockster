@@ -148,6 +148,9 @@ public class GdxView implements ApplicationListener, Disposable {
 
 	public void refreshRenderer() {
 		gdxMap = factory.getGdxMap();
+		miniMap = factory.getMiniMap();
+		miniMap.setScaleX(8);
+		miniMap.setScaleY(8);
 		renderer.setMap(gdxMap);
 	}
 
