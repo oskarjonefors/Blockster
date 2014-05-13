@@ -1,4 +1,4 @@
-package edu.chalmers.blockster.core.gdx.util;
+package edu.chalmers.blockster.core.gdx.view;
 
 
 import java.util.Iterator;
@@ -13,8 +13,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import edu.chalmers.blockster.core.Factory;
-import edu.chalmers.blockster.core.gdx.view.BlockView;
-import edu.chalmers.blockster.core.gdx.view.GdxMap;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;

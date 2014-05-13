@@ -17,11 +17,11 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import edu.chalmers.blockster.core.MapChangeListener;
 import edu.chalmers.blockster.core.Model;
 import edu.chalmers.blockster.core.gdx.controller.Controller;
-import edu.chalmers.blockster.core.gdx.util.GdxFactory;
+import edu.chalmers.blockster.core.gdx.view.GdxFactory;
 import edu.chalmers.blockster.core.gdx.view.GdxView;
 /**
  * 
- * @author Oskar J��nefors, Eric Bjuhr
+ * @author Oskar Jönefors, Eric Bjuhr
  *
  */
 public class Blockster extends Game implements MapChangeListener {

@@ -1,16 +1,11 @@
 package edu.chalmers.blockster.core.objects;
 
-import java.util.logging.Logger;
-
 import javax.vecmath.Vector2f;
 
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
 public abstract class BlocksterObject extends ScaledObject {
-	
-	private static final Logger log = Logger.getLogger(BlocksterObject.class.getName());
-	
 	private float totalTime;
 	private final Vector2f velocity;
 	protected Vector2f defaultVelocity;
