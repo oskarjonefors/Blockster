@@ -23,7 +23,8 @@ public class GdxFactory implements Factory {
 	
 	private BlockMap blockMap;
 	private GdxMap gdxMap;
-	private Pixmap miniMap;
+	private MiniMap miniMap;
+	private Pixmap miniPixMap;
 	
 	public GdxMap getGdxMap() {
 		return gdxMap;
@@ -45,7 +46,7 @@ public class GdxFactory implements Factory {
 		blockMap = new BlockMap(width, height, blockWidth, blockHeight, playerStartingPositions);
 		gdxMap = new GdxMap(blockMap);
 		blockMap.addListener(gdxMap);
-		miniMap = new Pixmap(tileLayer.getWidth(), tileLayer.getHeight(), Format.RGBA8888);
+		miniPixMap = new Pixmap(tileLayer.getWidth(), tileLayer.getHeight(), Format.RGBA8888);
 		
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
@@ -74,9 +75,11 @@ public class GdxFactory implements Factory {
 						block.setProperty(property);
 					}
 				}
-				miniMap.drawPixel(x, height - y - 1, color);
+				miniPixMap.drawPixel(x, height - y - 1, color);
 			}
 		}
+		
+		miniMap = new MiniMap(miniPixMap);
 	}
 	
 	@Override
@@ -138,7 +141,7 @@ public class GdxFactory implements Factory {
 		return blockMap;
 	}
 	
-	public Pixmap getMiniMap() {
+	public MiniMap getMiniMap() {
 		return miniMap;
 	}
 }

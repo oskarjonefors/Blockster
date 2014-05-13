@@ -13,13 +13,29 @@ public class MiniMap implements BlockMapListener {
 
 	private Pixmap pixmap;
 	private Sprite sprite;
-	private final float scaleX;
-	private final float scaleY;
+	private float scaleX;
+	private float scaleY;
 	
-	public MiniMap (Pixmap pixmap, float scaleX, float scaleY) {
+	public MiniMap (Pixmap pixmap) {
 		this.pixmap = pixmap;
 		sprite = new Sprite(new Texture(pixmap));
+		this.scaleX = 1f;
+		this.scaleY = 1f;
+	}
+	
+	public float getScaleX() {
+		return scaleX;
+	}
+	
+	public float getScaleY() {
+		return scaleY;
+	}
+	
+	public void setScaleX(float scaleX) {
 		this.scaleX = scaleX;
+	}
+	
+	public void setScaleY(float scaleY) {
 		this.scaleY = scaleY;
 	}
 	
