@@ -7,40 +7,21 @@ import javax.vecmath.Vector2f;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-
-import edu.chalmers.blockster.core.Factory;
-import edu.chalmers.blockster.core.gdx.util.GdxFactory;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
 public class PlayerTest {
 
 	private static BlockMap blockMap;
 	private static Player player;
-	private static Block block; 
+	private static Block block;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		TiledMap map = new TiledMap();
-		TiledMapTileLayer layer = new TiledMapTileLayer(10, 10, 128, 128);
-		map.getLayers().add(layer);
-		Cell cell = new Cell();
-		TextureRegion textureRegion = new TextureRegion();
-		TiledMapTile tile = new StaticTiledMapTile(textureRegion);
-		cell.setTile(tile);
-		layer.setCell(3, 2, cell);
-		map.getProperties().put("nbrOfPlayers", "1");
-		map.getProperties().put("playerStart1", "256:256");
-		final Factory factory = new GdxFactory(map);
-		factory.createMap();
-		player = new Player(256, 256, blockMap);
-		player.setWidth(100);
-		block = blockMap.getBlock(3, 2); 
+		int[][] playerPositions = {{0,0}};
+		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
+		block = new Block(3,2, blockMap);
+		
+		blockMap.insertBlock(block); 
 	}
 
 	@Test
