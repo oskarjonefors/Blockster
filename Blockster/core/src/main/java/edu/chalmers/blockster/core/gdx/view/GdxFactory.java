@@ -24,7 +24,6 @@ public class GdxFactory implements Factory {
 	private BlockMap blockMap;
 	private GdxMap gdxMap;
 	private MiniMap miniMap;
-	private Pixmap miniPixMap;
 	
 	public GdxMap getGdxMap() {
 		return gdxMap;
@@ -42,16 +41,16 @@ public class GdxFactory implements Factory {
 		final int height = tileLayer.getHeight();
 		final int blockWidth = (int) tileLayer.getTileWidth();
 		final int blockHeight = (int) tileLayer.getTileHeight();
+
 		
+		miniMap = new MiniMap(tileLayer.getWidth(), tileLayer.getHeight());
 		blockMap = new BlockMap(width, height, blockWidth, blockHeight, playerStartingPositions);
 		gdxMap = new GdxMap(blockMap);
 		blockMap.addListener(gdxMap);
-		miniPixMap = new Pixmap(tileLayer.getWidth(), tileLayer.getHeight(), Format.RGBA8888);
-		
+		blockMap.addListener(miniMap);
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				final Cell cell = tileLayer.getCell(x, y);
-				int color = MiniMap.NO_BLOCK;
 				
 				if (cell != null) {
 					final TiledMapTile tile = cell.getTile();
@@ -63,24 +62,14 @@ public class GdxFactory implements Factory {
 					
 					MapProperties mapProps = tile.getProperties();
 					
-					if (mapProps.containsKey("Liftable")) {
-						color = MiniMap.LIFTABLE_BLOCK;
-					} else if(mapProps.containsKey("Solid")) {
-						color = MiniMap.SOLID_BLOCK;
-					}
-						
 					final Iterator<String> properties = mapProps.getKeys();
 					while(properties.hasNext()) {
 						final String property = properties.next();
 						block.setProperty(property);
 					}
 				}
-				miniPixMap.drawPixel(x, height - y - 1, color);
 			}
 		}
-		
-		miniMap = new MiniMap(miniPixMap);
-		blockMap.addListener(miniMap);
 		blockMap.addActiveBlockListener(miniMap);
 	}
 	

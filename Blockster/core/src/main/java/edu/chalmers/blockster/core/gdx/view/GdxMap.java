@@ -48,18 +48,18 @@ public class GdxMap extends TiledMap implements BlockMapListener {
 	}
 
 	@Override
-	public void blockInserted(int x, int y, Block block) {
+	public void blockInserted(Block block) {
 		assert blocks.containsKey(block);
 		
 		BlockView blockView = getBlockView(block);
 		Cell cell = new Cell();
 		cell.setTile(blockView);
-		blockLayer.setCell(x, y, cell);
+		blockLayer.setCell((int) block.getOriginX(), (int) block.getOriginY(), cell);
 	}
 
 	@Override
-	public void blockRemoved(int x, int y) {
-		blockLayer.setCell(x, y, null);
+	public void blockRemoved(Block block) {
+		blockLayer.setCell((int) block.getOriginX(), (int) block.getOriginY(), null);
 	}
 	
 	public void createBlockViewReference(Block block, BlockView bView) {

@@ -95,7 +95,7 @@ public class BlockMap implements GridMap {
 		setBlock(x, y, new EmptyBlock(x, y, this));
 
 		for(BlockMapListener listener : listeners) {
-			listener.blockRemoved(x, y);
+			listener.blockRemoved(block);
 		}
 	}
 	
@@ -113,7 +113,7 @@ public class BlockMap implements GridMap {
 		setBlock(x, y, block);
 
 		for(BlockMapListener listener : listeners) {
-			listener.blockInserted(x, y, block);
+			listener.blockInserted(block);
 		}
 	}
 	
