@@ -115,8 +115,8 @@ public class GdxView implements ApplicationListener, Disposable {
 		
 		hudBatch = new SpriteBatch();
 		miniMap = factory.getMiniMap();
-		miniMap.setScaleX(5);
-		miniMap.setScaleY(5);
+		miniMap.setScaleX(8);
+		miniMap.setScaleY(8);
 	}
 	
 	public void transitCamera(){

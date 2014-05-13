@@ -51,7 +51,7 @@ public class GdxFactory implements Factory {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				final Cell cell = tileLayer.getCell(x, y);
-				int color = Color.rgba8888(0, 0, 0, 0.5f);
+				int color = MiniMap.NO_BLOCK;
 				
 				if (cell != null) {
 					final TiledMapTile tile = cell.getTile();
@@ -64,9 +64,9 @@ public class GdxFactory implements Factory {
 					MapProperties mapProps = tile.getProperties();
 					
 					if (mapProps.containsKey("Liftable")) {
-						color = Color.rgba8888(0, 0, 1f, 0.8f);
+						color = MiniMap.LIFTABLE_BLOCK;
 					} else if(mapProps.containsKey("Solid")) {
-						color = Color.rgba8888(0.8f, 0.8f, 0.8f, 0.8f);
+						color = MiniMap.SOLID_BLOCK;
 					}
 						
 					final Iterator<String> properties = mapProps.getKeys();
@@ -80,6 +80,7 @@ public class GdxFactory implements Factory {
 		}
 		
 		miniMap = new MiniMap(miniPixMap);
+		blockMap.addListener(miniMap);
 	}
 	
 	@Override
