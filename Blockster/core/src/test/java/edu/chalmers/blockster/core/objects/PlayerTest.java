@@ -183,9 +183,9 @@ public class PlayerTest {
 	 public void testUpdatePosition() {
 		 boolean correct = false;
 		 player.setVelocityX(100);
+		 player.setVelocityY(100);
 		 
 		 float lastXPos = player.getX();
-		 player.setAnimationState(AnimationState.NONE);
 		 player.updatePosition(Gdx.graphics.getDeltaTime());
 		 correct = (lastXPos != player.getX());
 		 
@@ -194,8 +194,5 @@ public class PlayerTest {
 		 player.setAnimationState(animState);
 		 player.updatePosition(Gdx.graphics.getDeltaTime());
 		 correct &= (lastXPos != player.getX());
-		 
-		 
 	 }
-
 }
