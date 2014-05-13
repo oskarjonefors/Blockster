@@ -1,11 +1,14 @@
 package edu.chalmers.blockster.core.gdx.view;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 
 import edu.chalmers.blockster.core.objects.Block;
+import edu.chalmers.blockster.core.objects.movement.AnimationState;
+import edu.chalmers.blockster.core.objects.movement.Direction;
 
 /**
  * A block
@@ -27,10 +30,22 @@ public class BlockView implements TiledMapTile {
 		this.block = block;
 		this.tile = tile;
 		region = tile.getTextureRegion();
+		
 	}
 	
 	public void draw(SpriteBatch batch) {
-		batch.draw(region, getX()*128, getY()*128);
+		Sprite sprite = new Sprite(region);
+		sprite.setPosition(getX()*128, getY()*128);
+		if (!block.getAnimationState().isDone()) {
+			Direction dir = block.getAnimationState().getMovement().getDirection();
+			if (Math.abs(dir.deltaX) + Math.abs(dir.deltaY) == 2) {
+				AnimationState anim = block.getAnimationState();
+				sprite.setRotation(- dir.deltaX * 90f * (anim.getElapsedTime() 
+						/ anim.getMovement().getDuration()));
+			}
+		}
+		
+		sprite.draw(batch);
 	}
 	
 	public int getId() {
