@@ -183,8 +183,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	private Pixmap getViewportPixmap() {
 		Pixmap viewport = new Pixmap(width, height, Format.RGBA8888);
 		viewport.setColor(VIEWPORT);
-		viewport.drawRectangle((int)viewX*scaleX, (int)viewY * scaleY,
-				(int)viewportWidth*scaleX, (int)viewportHeight*scaleY);
+		viewport.drawRectangle((int)(viewX*scaleX), (int)(viewY * scaleY),
+				(int)(viewportWidth*scaleX), (int)(viewportHeight*scaleY));
 
 		
 		return viewport;
