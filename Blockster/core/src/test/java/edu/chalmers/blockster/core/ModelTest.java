@@ -20,6 +20,7 @@ import edu.chalmers.blockster.core.gdx.view.GdxFactory;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.testhelpers.TestFactory;
 
 public class ModelTest {
 	
@@ -28,7 +29,6 @@ public class ModelTest {
 	private static Model model3;
 	private static Model model4;
 	private static Factory factory;
-	private static TiledMap tiledMap;
 	
 	private class TestHelper {
 		private String name;
@@ -37,27 +37,19 @@ public class ModelTest {
 			this.name = name;
 		}
 		
-		private String getName() {
+		public String getName() {
 			return name;
 		}
 		
-		private void setName(String name) {
+		public void setName(String name) {
 			this.name = name;
 		}
 	}
 	
 	@Before
 	public void setUp() {
-		tiledMap = new TiledMap();
-		final MapProperties props = tiledMap.getProperties();
-		props.put("nbrOfPlayers", "2");
-		props.put("playerStart1", "100:100");
-		props.put("playerStart2", "120:100");
-		
-		final TiledMapTileLayer tileLayer = new TiledMapTileLayer(320, 240, 1, 1);
-		tiledMap.getLayers().add(tileLayer);
-		
-		factory = new GdxFactory(tiledMap);
+		int[][] playerStartingPositions = {{100, 100}, {120,100}};
+		factory = new TestFactory(320, 240, 1f, 1f, playerStartingPositions);
 		
 		model = new Model(factory, "blockModel");
 		model2 = new Model(factory, "BlockModel");

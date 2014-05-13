@@ -60,17 +60,16 @@ public class GdxFactory implements Factory {
 					
 					MapProperties mapProps = tile.getProperties();
 					
-					int color = 0;
+					int color = Color.rgba8888(0, 0, 0, 0.5f);
 					
 					if (mapProps.containsKey("Liftable")) {
-						color = Color.toIntBits(0, 0, 255, 255);
+						color = Color.rgba8888(0, 0, 1f, 0.8f);
 					} else if(mapProps.containsKey("Solid")) {
-						color = Color.rgba8888(0.7f, 0.7f, 0.7f, 1f);
+						color = Color.rgba8888(0.8f, 0.8f, 0.8f, 0.8f);
 					}
 					
-					if(color != 0) {
-						miniMap.drawPixel(x, height - y - 1, color);
-					}
+
+					miniMap.drawPixel(x, height - y - 1, color);
 						
 					final Iterator<String> properties = mapProps.getKeys();
 					while(properties.hasNext()) {
