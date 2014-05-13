@@ -13,7 +13,7 @@
 	<name>Blockster desktop</name>
 
 	<properties>
-		<mainClass>edu.chalmers.Blockster.java.BlocksterDesktop</mainClass>
+		<mainClass>edu.chalmers.blockster.java.BlocksterLauncher</mainClass>
 	</properties>
 
 	<dependencies>
