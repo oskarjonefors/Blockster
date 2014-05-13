@@ -81,6 +81,7 @@ public class GdxFactory implements Factory {
 		
 		miniMap = new MiniMap(miniPixMap);
 		blockMap.addListener(miniMap);
+		blockMap.addActiveBlockListener(miniMap);
 	}
 	
 	@Override

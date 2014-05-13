@@ -25,6 +25,7 @@ public class BlockMap implements GridMap {
 	
 	private Set<Block> activeBlocks;
 	private List<BlockMapListener> listeners;
+	private List<ActiveBlockListener> activeBlockListeners;
 	
 	public BlockMap(int width, int height, float blockWidth, float blockHeight, int[][] playerStartingPositions) {
 		assert width > 0 && height > 0;
@@ -32,6 +33,7 @@ public class BlockMap implements GridMap {
 		assert playerStartingPositions.length > 0;
 
 		this.listeners = new ArrayList<BlockMapListener>();
+		this.activeBlockListeners = new ArrayList<ActiveBlockListener>();
 		this.blockWidth = blockWidth;
 		this.blockHeight = blockHeight;
 		this.playerStartingPositions = new float[playerStartingPositions.length][2];
@@ -61,6 +63,14 @@ public class BlockMap implements GridMap {
 				blockMap[x][y] = new EmptyBlock(x, y, this);
 			}
 		}
+	}
+	
+	public void addActiveBlockListener(ActiveBlockListener listener) {
+		activeBlockListeners.add(listener);
+	}
+	
+	public void removeActiveBlockListener(ActiveBlockListener listener) {
+		activeBlockListeners.remove(listener);
 	}
 	
 	public void addListener(BlockMapListener listener) {
@@ -215,10 +225,18 @@ public class BlockMap implements GridMap {
 		} else {
 			insertBlock(block);
 			activeBlocks.remove(block);
+			
+			for(ActiveBlockListener listener : activeBlockListeners) {
+				listener.blockDeactivated(block);
+			}
 		}
 	}
 	
 	public void addActiveBlock(Block block) {
 		activeBlocks.add(block);
+		
+		for(ActiveBlockListener listener : activeBlockListeners) {
+			listener.blockActivated(block);
+		}
 	}
 }

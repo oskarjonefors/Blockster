@@ -1,6 +1,7 @@
 package edu.chalmers.blockster.core.gdx.view;
 
-import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -9,14 +10,17 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import edu.chalmers.blockster.core.objects.ActiveBlockListener;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMapListener;
 
-public class MiniMap implements BlockMapListener {
+public class MiniMap implements BlockMapListener, ActiveBlockListener {
 
 	private final Pixmap pixmap;
+	private final Map<Block, int[]> activeBlocks;
 	private float scaleX;
 	private float scaleY;
+	
 	
 	public static final int NO_BLOCK = Color.rgba8888(0, 0, 0, 1f);
 	public static final int SOLID_BLOCK = Color.rgba8888(0.8f, 0.8f, 0.8f, 1f);
@@ -26,6 +30,7 @@ public class MiniMap implements BlockMapListener {
 		this.pixmap = pixmap;
 		this.scaleX = 1f;
 		this.scaleY = 1f;
+		activeBlocks = new HashMap<Block, int[]>();
 	}
 	
 	private int getColor(Block block) {
@@ -71,15 +76,25 @@ public class MiniMap implements BlockMapListener {
 
 	@Override
 	public void blockInserted(int x, int y, Block block) {
-		pixmap.drawPixel(x, getPixMapY(y), 0);
 		pixmap.drawPixel(x, getPixMapY(y), getColor(block));
 	}
 
 	@Override
 	public void blockRemoved(int x, int y) {
 		
-		pixmap.drawPixel(x, getPixMapY(y), 0);
-		pixmap.drawPixel(x, getPixMapY(y), NO_BLOCK);
+	}
+
+	@Override
+	public void blockActivated(Block block) {
+		final int[] blockPosition = {(int)block.getOriginX(), (int)block.getOriginY()};
+		activeBlocks.put(block, blockPosition);
+	}
+
+	@Override
+	public void blockDeactivated(Block block) {
+		final int[] blockPosition = activeBlocks.get(block);
+		pixmap.drawPixel(blockPosition[0], getPixMapY(blockPosition[1]), NO_BLOCK);
+		activeBlocks.remove(block);
 	}
 	
 }
