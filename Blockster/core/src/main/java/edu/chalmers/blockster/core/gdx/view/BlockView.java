@@ -11,8 +11,7 @@ import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
 /**
- * A block
- * TODO: Add block specific attributes
+ * A graphical representation of a Block.
  * @author Eric Bjuhr, Oskar Jönefors, Emilia Nilsson
  * 
  */
@@ -21,39 +20,48 @@ public class BlockView implements TiledMapTile {
 	private final TiledMapTile tile;
 	private final TextureRegion region;
 	private final Block block;
+	private final Sprite sprite;
 	
-	public Block getBlock() {
-		return block;
-	}
-
+	private float rotation;
+	
 	public BlockView(Block block, TiledMapTile tile) {
 		this.block = block;
 		this.tile = tile;
 		region = tile.getTextureRegion();
-		
+		sprite = new Sprite(region);
 	}
-	
+
 	public void draw(SpriteBatch batch) {
-		Sprite sprite = new Sprite(region);
+		
 		sprite.setPosition(getX()*128, getY()*128);
-		if (!block.getAnimationState().isDone()) {
-			Direction dir = block.getAnimationState().getMovement().getDirection();
-			if (Math.abs(dir.deltaX) + Math.abs(dir.deltaY) == 2) {
-				AnimationState anim = block.getAnimationState();
-				sprite.setRotation(- dir.deltaX * 90f * (anim.getElapsedTime() 
-						/ anim.getMovement().getDuration()));
-			}
-		}
+		setRotation();
 		
 		sprite.draw(batch);
+	}
+	
+	@Override
+	public BlendMode getBlendMode() {
+		return tile.getBlendMode();
+	}
+	
+	public Block getBlock() {
+		return block;
 	}
 	
 	public int getId() {
 		return tile.getId();
 	}
-
+	
 	public MapProperties getProperties() {
 		return tile.getProperties();
+	}
+	
+	private float getRotation() {
+
+		AnimationState anim = block.getAnimationState();
+		Direction dir = anim.getMovement().getDirection();
+		return - dir.deltaX * 90f * (anim.getElapsedTime() 
+				/ anim.getMovement().getDuration());
 	}
 
 	public TextureRegion getTextureRegion() {
@@ -63,29 +71,39 @@ public class BlockView implements TiledMapTile {
 	public TiledMapTile getTile() {
 		return tile;
 	}
-	
-	public void setId(int id) {
-		tile.setId(id);
-	}
-
-	@Override
-	public BlendMode getBlendMode() {
-		// TODO Auto-generated method stub
-		return tile.getBlendMode();
-	}
-
-	@Override
-	public void setBlendMode(BlendMode arg0) {
-		// TODO Auto-generated method stub
-		tile.setBlendMode(arg0);
-	}
 
 	public float getX() {
 		return block.getX();
 	}
-
+	
 	public float getY() {
 		return block.getY();
+	}
+
+	private boolean isMovementAnimationDiagonal() {
+		Direction dir = block.getAnimationState().getMovement().getDirection();
+		return Math.abs(dir.deltaX) + Math.abs(dir.deltaY) == 2;
+	}
+
+	@Override
+	public void setBlendMode(BlendMode arg0) {
+		tile.setBlendMode(arg0);
+	}
+
+	public void setId(int id) {
+		tile.setId(id);
+	}
+
+	private void setRotation() {
+		if (!block.getAnimationState().isDone()) {
+			if (isMovementAnimationDiagonal()) {
+				sprite.setRotation(getRotation());
+			} else {
+				sprite.setRotation(rotation);
+			}
+		} else {
+			rotation = sprite.getRotation();
+		}
 	}
 	
 }
