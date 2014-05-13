@@ -2,6 +2,9 @@ package edu.chalmers.blockster.core.objects;
 
 import static edu.chalmers.blockster.core.util.Calculations.collisionEitherCorner;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.vecmath.Vector2f;
 
 import edu.chalmers.blockster.core.objects.interactions.BlockGrabbedInteraction;
@@ -19,6 +22,7 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
  */
 public class Player extends BlocksterObject implements Interactor {
 	
+	private static final Logger log = Logger.getLogger(Player.class.getName());
 
 	private boolean dancing = false;
 	
@@ -74,9 +78,9 @@ public class Player extends BlocksterObject implements Interactor {
 	
 	public void climbBlock() {
 		final Block block = getAdjacentBlock();
-		System.out.println("Can we climb block?");
+		log.log(Level.INFO, "Can we climb block?");
 		if(block != null && canClimbBlock(block)  && block.canBeClimbed()) {
-			System.out.println("We can climb block!");
+			log.log(Level.INFO, "We can climb block!");
 			Direction dir = Direction.getDirection(getX() / blockMap.getBlockWidth(), block.getX());
 			AnimationState climb = new AnimationState(Movement.getClimbMovement(dir));
 			setAnimationState(climb);

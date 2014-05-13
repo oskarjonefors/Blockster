@@ -1,11 +1,16 @@
 package edu.chalmers.blockster.core.objects;
 
+import java.util.logging.Logger;
+
 import javax.vecmath.Vector2f;
 
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
 public abstract class BlocksterObject extends ScaledObject {
+	
+	private static final Logger log = Logger.getLogger(BlocksterObject.class.getName());
+	
 	private float totalTime;
 	private final Vector2f velocity;
 	protected Vector2f defaultVelocity;
@@ -33,24 +38,21 @@ public abstract class BlocksterObject extends ScaledObject {
 	public abstract boolean canMove(Direction dir);
 	
 	public Block getAdjacentBlock() {
-		Block block = null;
+		Block block = new EmptyBlock((int)(getX()/getScaleX()),
+									 (int)(getY()/getScaleY()), blockMap);
 
-		try {
-			if (dir == Direction.LEFT) {
-				block = blockMap.getBlock(
-						(int) (getX() / scaleX) - 1,
-						(int) ((2 * getY() + getHeight()) / 2 / scaleY));
-				
-			}
+		if (dir == Direction.LEFT) {
+			block = blockMap.getBlock(
+					(int) (getX() / scaleX) - 1,
+					(int) ((2 * getY() + getHeight()) / 2 / scaleY));
 
-			if (dir == Direction.RIGHT) {
-				block = blockMap.getBlock(
-						(int) ((getX() + getWidth()) / scaleX) + 1,
-						(int) ((2 * getY() + getHeight()) / 2 / scaleY));
+		}
 
-			}
-		} catch (NullPointerException e) {
-			block = null;
+		if (dir == Direction.RIGHT) {
+			block = blockMap.getBlock(
+					(int) ((getX() + getWidth()) / scaleX) + 1,
+					(int) ((2 * getY() + getHeight()) / 2 / scaleY));
+
 		}
 		return block;
 	}
