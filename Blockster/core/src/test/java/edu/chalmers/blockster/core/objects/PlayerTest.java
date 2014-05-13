@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import javax.vecmath.Vector2f;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.badlogic.gdx.Gdx;
