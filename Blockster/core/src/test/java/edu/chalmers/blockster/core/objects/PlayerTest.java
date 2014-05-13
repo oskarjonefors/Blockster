@@ -8,7 +8,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.badlogic.gdx.Gdx;
+
+import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
+import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class PlayerTest {
 
@@ -18,7 +22,7 @@ public class PlayerTest {
 	
 
 	@Before
-	public static void setUpBeforeClass() throws Exception {
+	public void setUp()  {
 		int[][] playerPositions = {{2,2}};
 		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		block = new Block(3,2, blockMap);
@@ -177,7 +181,20 @@ public class PlayerTest {
 	 }
 	 
 	 @Test
-	 public void testIsBusy(){
+	 public void testUpdatePosition() {
+		 boolean correct = false;
+		 player.setVelocityX(100);
+		 
+		 float lastXPos = player.getX();
+		 player.setAnimationState(AnimationState.NONE);
+		 player.updatePosition(Gdx.graphics.getDeltaTime());
+		 correct = (lastXPos != player.getX());
+		 
+		 lastXPos = player.getX();
+		 AnimationState animState = new AnimationState(Movement.MOVE_LEFT);
+		 player.setAnimationState(animState);
+		 player.updatePosition(Gdx.graphics.getDeltaTime());
+		 correct &= (lastXPos != player.getX());
 		 
 		 
 	 }
