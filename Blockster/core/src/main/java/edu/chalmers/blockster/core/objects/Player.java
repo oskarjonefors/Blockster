@@ -1,6 +1,9 @@
 package edu.chalmers.blockster.core.objects;
 
-import javax.vecmath.*;
+import static edu.chalmers.blockster.core.util.Calculations.collisionEitherCorner;
+
+import javax.vecmath.Vector2f;
+
 import edu.chalmers.blockster.core.objects.interactions.BlockGrabbedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.BlockLiftedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.Interactor;
@@ -8,7 +11,6 @@ import edu.chalmers.blockster.core.objects.interactions.PlayerInteraction;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
-import static edu.chalmers.blockster.core.util.Calculations.*;
 
 /**
  * The model representing a player in the game Blockster
@@ -35,10 +37,10 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	private boolean canClimbBlock(Block block) {
-		if (block == null) {
+		assert block != null;
+		if (block instanceof EmptyBlock) {
 			return false;
 		}
-		
 		return !isBusy() && isNextToBlock(block) && !climbingCollision();
 	}
 	
@@ -49,10 +51,7 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	private boolean canGrabBlock(Block block) {
-		if (block == null) {
-			return false;
-		}
-		
+		assert block != null;
 		return !isBusy() && isNextToBlock(block) && !isLiftingBlock();
 	}
 	
@@ -76,7 +75,7 @@ public class Player extends BlocksterObject implements Interactor {
 	public void climbBlock() {
 		final Block block = getAdjacentBlock();
 		System.out.println("Can we climb block?");
-		if(canClimbBlock(block)  && block.canBeClimbed()) {
+		if(block != null && canClimbBlock(block)  && block.canBeClimbed()) {
 			System.out.println("We can climb block!");
 			Direction dir = Direction.getDirection(getX() / blockMap.getBlockWidth(), block.getX());
 			AnimationState climb = new AnimationState(Movement.getClimbMovement(dir));

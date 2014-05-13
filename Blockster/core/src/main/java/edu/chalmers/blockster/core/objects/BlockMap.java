@@ -25,6 +25,7 @@ public class BlockMap implements GridMap {
 		assert blockWidth > 0 && blockHeight > 0;
 		assert playerStartingPositions.length > 0;
 
+		this.listener = new NoListener();
 		this.blockWidth = blockWidth;
 		this.blockHeight = blockHeight;
 		this.playerStartingPositions = new float[playerStartingPositions.length][2];
@@ -190,4 +191,19 @@ public class BlockMap implements GridMap {
 	public void addActiveBlock(Block block) {
 		activeBlocks.add(block);
 	}
+	
+	private class NoListener implements BlockMapListener {
+
+		@Override
+		public void blockInserted(int x, int y, Block block) {
+			// Does nothing
+		}
+
+		@Override
+		public void blockRemoved(int x, int y) {
+			// Really does nothing
+		}
+		
+	}
+	
 }

@@ -13,15 +13,17 @@ public class PlayerTest {
 
 	private static BlockMap blockMap;
 	private static Player player;
-	private static Block block;
+	private static Block block; 
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		int[][] playerPositions = {{0,0}};
+		int[][] playerPositions = {{2,2}};
 		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		block = new Block(3,2, blockMap);
+		player = new Player(256, 256, blockMap);
+		player.setWidth(100);
 		
-		blockMap.insertBlock(block); 
+		blockMap.insertBlock(block);
 	}
 
 	@Test
