@@ -208,7 +208,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		// TODO Auto-generated method stub
 	}
 
-	public void drawPlayers(SpriteBatch batch) {
+	private void drawPlayers(SpriteBatch batch) {
 
 		for (final Player player : model.getPlayers()) {
 			PlayerView pView = players.get(player);
@@ -221,7 +221,7 @@ public class GdxView implements ApplicationListener, Disposable {
 
 	}
 
-	public void drawBlocks(SpriteBatch batch) {
+	private void drawBlocks(SpriteBatch batch) {
 
 		for (final Block block : model.getMap().getActiveBlocks()) {
 			final BlockView bView = gdxMap.getBlockView(block);
@@ -231,11 +231,12 @@ public class GdxView implements ApplicationListener, Disposable {
 		}
 	}
 
-	public void drawHud(SpriteBatch batch) {
+	private void drawHud(SpriteBatch batch) {
+		updateHud();
 		miniMap.draw(batch);
 	}
 
-	public void drawObjects() {
+	private void drawObjects() {
 		camera.update();
 
 		hudBatch.begin();
@@ -251,6 +252,20 @@ public class GdxView implements ApplicationListener, Disposable {
 		drawBlocks(batch);
 
 		batch.end();
+	}
+	
+	private void updateHud() {
+		final Player activePlayer = model.getActivePlayer();
+		final float scaleX = activePlayer.getScaleX();
+		final float scaleY = activePlayer.getScaleY();
+		final float pX = activePlayer.getX() / scaleX;
+		final float pY = activePlayer.getY() / scaleY;
+		final float viewWidth = camera.viewportWidth / scaleX;
+		final float viewHeight = camera.viewportHeight / scaleY;
+		final float vX = pX - viewWidth / 2;
+		final float vY = pY - viewHeight / 2;
+		
+		miniMap.setViewportBounds(vX, vY, viewWidth, viewHeight);
 	}
 
 	public PlayerView createPlayerView(Player player) {

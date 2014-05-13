@@ -30,15 +30,22 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	private final int mapWidth, mapHeight;
 	private int width, height;
 	
+	private float viewX, viewY, viewportWidth, viewportHeight;
+	
 	public static final int NO_BLOCK = Color.rgba8888(0, 0, 0, 1f);
 	public static final int SOLID_BLOCK = Color.rgba8888(0.8f, 0.8f, 0.8f, 1f);
 	public static final int LIFTABLE_BLOCK = Color.rgba8888(0.8f, 0, 0, 1f); 
+	public static final int VIEWPORT = Color.rgba8888(1f, 1f, 1f, 1f);
 	
 	public MiniMap (int mapWidth, int mapHeight) {
 		this.scaleX = 1;
 		this.scaleY = 1;
 		this.mapWidth = mapWidth;
 		this.mapHeight = mapHeight;
+		
+		viewportWidth = 0;
+		viewportHeight = 0;
+		
 		activeBlockList = new ArrayList<Block>();
 		staticBlockList = new ArrayList<Block>();
 	}
@@ -75,16 +82,29 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		this.height = this.mapHeight * this.scaleY; 
 	}
 	
-	public void setViewportBounds(int lowX, int highX, int lowY, int highY) {
-		
+	public void setViewportBounds(float x, float y, float width, float height) {
+
+		viewX = x;
+		viewY = -y + 1;
+		viewportWidth = width;
+		viewportHeight = height;
 	}
 
 	public void draw(SpriteBatch batch) {
 		Sprite staticBlockSprite = new Sprite(new Texture(getPixmap()));
 		Color previousColor = batch.getColor();
 		batch.setColor(previousColor.r, previousColor.g, previousColor.b, 0.6f);
+		
+		Pixmap viewport = new Pixmap(width, height, Format.RGBA8888);
+		viewport.setColor(VIEWPORT);
+		viewport.drawRectangle((int)viewX*scaleX, (int)viewY * scaleY,
+				(int)viewportWidth*scaleX, (int)viewportHeight*scaleY);
+		Sprite viewportSprite = new Sprite(new Texture(viewport));
 		batch.draw(staticBlockSprite, 5, 5, staticBlockSprite.getRegionWidth(), 
 				staticBlockSprite.getRegionHeight());
+		batch.draw(viewportSprite, 5, 5, viewportSprite.getRegionWidth(),
+				viewportSprite.getRegionHeight());
+		
 	}
 	
 	private Pixmap getPixmap() {
