@@ -117,7 +117,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	private void drawPlayers(Pixmap pixmap) {
 		for(int i = 0; i < playerPos.length; i++) {
-			final int x =  (int)playerPos[i][0]*scaleX + scaleX/2;
+			final int x =  (int)(playerPos[i][0]*scaleX);
 			final int y = (int)(height - playerPos[i][1]*scaleY);
 			final int r = (int)(scaleX*0.5);
 			
