@@ -61,7 +61,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	}
 	
 	private int getPixMapY(Pixmap pixmap, int y) {
-		return pixmap.getHeight() - y - 1;
+		return pixmap.getHeight() - y;
 	}
 	
 	public float getScaleX() {
@@ -85,7 +85,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	public void setViewportBounds(float x, float y, float width, float height) {
 
 		viewX = x;
-		viewY = -y + 1;
+		viewY = -y;
 		viewportWidth = width;
 		viewportHeight = height;
 	}

@@ -260,10 +260,10 @@ public class GdxView implements ApplicationListener, Disposable {
 		final float scaleY = activePlayer.getScaleY();
 		final float pX = activePlayer.getX() / scaleX;
 		final float pY = activePlayer.getY() / scaleY;
-		final float viewWidth = camera.viewportWidth / scaleX;
-		final float viewHeight = camera.viewportHeight / scaleY;
+		final float viewWidth = camera.viewportWidth * camera.zoom / scaleX;
+		final float viewHeight = camera.viewportHeight * camera.zoom / scaleY;
 		final float vX = pX - viewWidth / 2;
-		final float vY = pY - viewHeight / 2;
+		final float vY = pY - viewHeight;
 		
 		miniMap.setViewportBounds(vX, vY, viewWidth, viewHeight);
 	}
