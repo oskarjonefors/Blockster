@@ -7,8 +7,6 @@ import javax.vecmath.Vector2f;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.badlogic.gdx.Gdx;
-
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
@@ -112,12 +110,17 @@ public class PlayerTest {
 	 @Test
 	 public void testLiftBlock() {
 		 
-		 System.out.println(player.getAdjacentBlock() == block);
 		 player.setDirection(Direction.RIGHT);
+		 System.out.println(player.getAdjacentBlock());
+		 System.out.println(player);
+		 System.out.println(block);
 		 block.setProperty("liftable");
 		 block.setProperty("movable");
 		 player.grabBlock();
 		 
+		 System.out.println(player.isNextToBlock(player.getProcessedBlock()));
+		 
+		 player.setX(player.getProcessedBlock().getX()*player.getScaleX() - player.getWidth() - 1f);
 		 player.liftBlock();
 		 
 		 assertTrue(player.isLiftingBlock());
@@ -185,14 +188,14 @@ public class PlayerTest {
 		 player.setVelocityX(100);
 		 player.setVelocityY(100);
 		 
-		 float lastXPos = player.getX();
-		 player.updatePosition(Gdx.graphics.getDeltaTime());
+		 float lastXPos = player.getOriginX();
+		 player.updatePosition(0.1f);
 		 correct = (lastXPos != player.getX());
 		 
 		 lastXPos = player.getX();
 		 AnimationState animState = new AnimationState(Movement.MOVE_LEFT);
 		 player.setAnimationState(animState);
-		 player.updatePosition(Gdx.graphics.getDeltaTime());
-		 correct &= (lastXPos != player.getX());
+		 player.updatePosition(0.1f);
+		 correct &= (lastXPos != player.getOriginX());
 	 }
 }
