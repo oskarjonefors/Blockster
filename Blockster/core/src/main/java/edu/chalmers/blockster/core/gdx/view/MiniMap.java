@@ -29,13 +29,15 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	private final int mapWidth, mapHeight;
 	private int width, height;
-	
+	private float[][] playerPos;
 	private float viewX, viewY, viewportWidth, viewportHeight;
 	
 	public static final int NO_BLOCK = Color.rgba8888(0, 0, 0, 1f);
 	public static final int SOLID_BLOCK = Color.rgba8888(0.8f, 0.8f, 0.8f, 1f);
 	public static final int LIFTABLE_BLOCK = Color.rgba8888(0.8f, 0, 0, 1f); 
 	public static final int VIEWPORT = Color.rgba8888(1f, 1f, 1f, 1f);
+	public static final int ACTIVE_PLAYER = Color.rgba8888(1f, 1f, 0, 1f);
+	public static final int INACTIVE_PLAYER = Color.rgba8888(0, 0, 1f, 1f);
 	
 	public MiniMap (int mapWidth, int mapHeight) {
 		this.scaleX = 1;
@@ -48,6 +50,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		
 		activeBlockList = new ArrayList<Block>();
 		staticBlockList = new ArrayList<Block>();
+		
+		playerPos = new float[0][0];
 	}
 	
 	private int getColor(Block block) {
@@ -82,6 +86,10 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		this.height = this.mapHeight * this.scaleY; 
 	}
 	
+	public void setPlayerLocations(float[][] locations) {
+		playerPos = locations;
+	}
+	
 	public void setViewportBounds(float x, float y, float width, float height) {
 
 		viewX = x;
@@ -99,6 +107,16 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		viewport.setColor(VIEWPORT);
 		viewport.drawRectangle((int)viewX*scaleX, (int)viewY * scaleY,
 				(int)viewportWidth*scaleX, (int)viewportHeight*scaleY);
+		
+		viewport.setColor(INACTIVE_PLAYER);
+		for(int i = 0; i < playerPos.length; i++) {
+			final int x =  (int)playerPos[i][0]*scaleX;
+			final int y = (int)(height - playerPos[i][1]*scaleY);
+			final int r = (int)(scaleX*0.5);
+			
+			viewport.fillCircle(x, y, r);
+		}
+		
 		Sprite viewportSprite = new Sprite(new Texture(viewport));
 		batch.draw(staticBlockSprite, 5, 5, staticBlockSprite.getRegionWidth(), 
 				staticBlockSprite.getRegionHeight());

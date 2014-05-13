@@ -1,6 +1,7 @@
 package edu.chalmers.blockster.core.gdx.view;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -265,6 +266,15 @@ public class GdxView implements ApplicationListener, Disposable {
 		final float vX = pX - viewWidth / 2;
 		final float vY = pY - viewHeight;
 		
+		final List<Player> players = model.getPlayers();
+		final float[][] playerPos = new float[players.size()][2];
+		for (int i = 0; i < players.size(); i++) {
+			final Player player = players.get(i);
+			playerPos[i][0] = (player.getX() + player.getWidth() / 2) / scaleX;
+			playerPos[i][1] = (player.getY() + player.getHeight() / 2) / scaleY;
+		}
+		
+		miniMap.setPlayerLocations(playerPos);
 		miniMap.setViewportBounds(vX, vY, viewWidth, viewHeight);
 	}
 
