@@ -2,13 +2,18 @@ package edu.chalmers.blockster.core.objects.interactions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlockGrabbedInteraction extends PlayerInteraction {
+	
+	private static final Logger log = Logger.getLogger(Player.class.getName());
 	
 	private final Interactable interactable; 
 	private final GridMap blockLayer;
@@ -63,7 +68,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	@Override
 	public void interact(Direction dir) {
 
-		System.out.println("Interacting: " + dir.name());
+		log.log(Level.INFO, "Interacting: " + dir.name());
 		final float relativePosition = interactable.getX() 
 				- interactor.getX() / blockLayer.getBlockWidth();
 		
@@ -96,7 +101,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	private void pullBlock(Direction dir) {
 		Movement movement = Movement.getPullMovement(dir);
 		if (interactor.canMove(movement.getDirection())) {
-			System.out.println("Can pull");
+			log.log(Level.INFO, "Can pull");
 			interactable.setAnimationState(new AnimationState(movement));
 			interactor.setAnimationState(new AnimationState(movement));
 			interactable.removeFromGrid();
@@ -109,7 +114,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 				getMoveableInteractables(movement.getDirection());
 		
 		if (!moveableInteractables.isEmpty()) {
-			System.out.println("Can push");
+			log.log(Level.INFO, "Can push");
 			for (final Interactable interactable : moveableInteractables) {
 				interactable.setAnimationState(new AnimationState(movement));
 				interactable.removeFromGrid();

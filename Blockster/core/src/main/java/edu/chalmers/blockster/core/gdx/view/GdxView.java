@@ -28,7 +28,7 @@ import edu.chalmers.blockster.core.objects.movement.AnimationFactory;
  */
 public class GdxView implements ApplicationListener, Disposable {
 
-	private static final Logger log = Logger.getLogger(GdxView.class.getName());
+	private final Logger log = Logger.getLogger(this.getClass().getName());
 	
 	private OrthographicCamera camera;
 	private SpriteBatch hudBatch;

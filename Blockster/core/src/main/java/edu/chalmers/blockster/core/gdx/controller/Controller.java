@@ -26,7 +26,7 @@ import edu.chalmers.blockster.core.objects.Player;
  */
 public class Controller extends InputAdapter implements Disposable {
 
-	private static final Logger log = Logger.getLogger(Controller.class.getName());
+	private final Logger log = Logger.getLogger(this.getClass().getName());
 	
 	private volatile int keyFlags;
 	private volatile int miscFlags;

@@ -22,7 +22,7 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
  */
 public class Player extends BlocksterObject implements Interactor {
 	
-	private static final Logger log = Logger.getLogger(Player.class.getName());
+	private final Logger log = Logger.getLogger(this.getClass().getName());
 
 	private boolean dancing = false;
 	
