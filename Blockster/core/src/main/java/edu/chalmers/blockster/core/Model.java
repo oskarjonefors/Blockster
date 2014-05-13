@@ -10,6 +10,7 @@ import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
+import edu.chalmers.blockster.core.objects.movement.Movement;
 
 /**
  * A class to represent a stage.
@@ -93,9 +94,11 @@ public class Model implements Comparable<Model> {
 	 * Start controlling the next player.
 	 */
 	public void nextPlayer() {
-		final int pIndex = players.indexOf(activePlayer);
-		activePlayer = players.get((pIndex + 1) % players.size());
-		isSwitchChar = true;
+		if (activePlayer.getAnimationState().getMovement() == Movement.NONE) {
+			final int pIndex = players.indexOf(activePlayer);
+			activePlayer = players.get((pIndex + 1) % players.size());
+			isSwitchChar = true;
+		}
 	}
 
 	public void resetStartPositions() {
