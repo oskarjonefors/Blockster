@@ -1,6 +1,7 @@
 package edu.chalmers.blockster.core.objects;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,7 +13,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 
-import edu.chalmers.blockster.core.gdx.view.GdxMap;
+import edu.chalmers.blockster.core.Factory;
+import edu.chalmers.blockster.core.gdx.util.GdxFactory;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 	
@@ -34,7 +36,8 @@ public class BlockTest {
 		layer.setCell(3, 2, cell);
 		map.getProperties().put("nbrOfPlayers", "1");
 		map.getProperties().put("playerStart1", "256:256");
-		blockMap = new GdxMap(map);
+		final Factory factory = new GdxFactory(map);
+		factory.createMap();
 		block = blockMap.getBlock(3, 2);
 		anim = new AnimationState(Movement.PULL_RIGHT);
 	}

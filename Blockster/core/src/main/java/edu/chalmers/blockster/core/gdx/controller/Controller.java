@@ -27,20 +27,20 @@ public class Controller extends InputAdapter implements Disposable {
 	private volatile int keyFlags;
 	private volatile int miscFlags;
 
-	private final static int LEFT_BUTTON_DOWN_FLAG = 1 << 0;
-	private final static int RIGHT_BUTTON_DOWN_FLAG = 1 << 1;
-	private final static int GRAB_BUTTON_DOWN_FLAG = 1 << 2;
-	private final static int GRAB_BUTTON_UP_FLAG = 1 << 3;
-	private final static int MENU_BUTTON_UP_FLAG = 1 << 4;
-	private final static int SWITCH_CHARACTER_BUTTON_UP_FLAG = 1 << 5;
-	private final static int RESTART_STAGE_BUTTON_R_FLAG = 1 << 6;
-	private final static int LEFT_BUTTON_UP_FLAG = 1 << 7;
-	private final static int RIGHT_BUTTON_UP_FLAG = 1 << 8;
-	private final static int DANCE_BUTTON_FLAG = 1 << 9;
-	private final static int DANCE_BUTTON_UP_FLAG = 1 << 10;
-	private final static int CLIMB_BUTTON_DOWN_FLAG = 1 << 0;
-	private final static int CLIMB_BUTTON_UP_FLAG = 1 << 1;
-	private final static int TOGGLE_FULLSCREEN_FLAG = 1 << 2;
+	private static final int LEFT_BUTTON_DOWN_FLAG = 1 << 0;
+	private static final int RIGHT_BUTTON_DOWN_FLAG = 1 << 1;
+	private static final int GRAB_BUTTON_DOWN_FLAG = 1 << 2;
+	private static final int GRAB_BUTTON_UP_FLAG = 1 << 3;
+	private static final int MENU_BUTTON_UP_FLAG = 1 << 4;
+	private static final int SWITCH_CHARACTER_BUTTON_UP_FLAG = 1 << 5;
+	private static final int RESTART_STAGE_BUTTON_R_FLAG = 1 << 6;
+	private static final int LEFT_BUTTON_UP_FLAG = 1 << 7;
+	private static final int RIGHT_BUTTON_UP_FLAG = 1 << 8;
+	private static final int DANCE_BUTTON_FLAG = 1 << 9;
+	private static final int DANCE_BUTTON_UP_FLAG = 1 << 10;
+	private static final int CLIMB_BUTTON_DOWN_FLAG = 1 << 0;
+	private static final int CLIMB_BUTTON_UP_FLAG = 1 << 1;
+	private static final int TOGGLE_FULLSCREEN_FLAG = 1 << 2;
 
 	private Model model;
 	private GdxView view;
@@ -261,8 +261,11 @@ public class Controller extends InputAdapter implements Disposable {
 
 		if (keyCode == Keys.SPACE) {
 			//If block is grabbed and no other keys are pushed down, lift the block.
-			keyFlags &= ~GRAB_BUTTON_DOWN_FLAG; //This is how you set the flag to false
-			keyFlags |= GRAB_BUTTON_UP_FLAG; //This is how you set the flag to true
+			
+			//This is how you set the flag to false
+			keyFlags &= ~GRAB_BUTTON_DOWN_FLAG;
+			//This is how you set the flag to true
+			keyFlags |= GRAB_BUTTON_UP_FLAG;
 		}
 
 		if (keyCode == Keys.ESCAPE){

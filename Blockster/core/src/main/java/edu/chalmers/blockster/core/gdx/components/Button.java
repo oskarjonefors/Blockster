@@ -57,10 +57,11 @@ public class Button implements Component, InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if (touchdown && screenX >= x && screenX < x + width &&
-				screenY >= y && screenY < y + height) {
-			for (ButtonListener bl : listeners) {
-				bl.buttonClicked(this);
+		if (touchdown && screenX >= x && screenX < x + width) {
+			if( screenY >= y && screenY < y + height) {
+				for (ButtonListener bl : listeners) {
+					bl.buttonClicked(this);
+				}
 			}
 		}
 		return false;
