@@ -151,7 +151,6 @@ public class GdxView implements ApplicationListener, Disposable {
 		stage.clear();
 		stage.setCamera(camera);
 		stage.addActor(background);
-		stage.addActor(miniMap);
 	}
 	
 	

@@ -44,7 +44,7 @@ public class GdxFactory implements Factory {
 		
 		blockMap = new BlockMap(width, height, blockWidth, blockHeight, playerStartingPositions);
 		gdxMap = new GdxMap(blockMap);
-		blockMap.setListener(gdxMap);
+		blockMap.addListener(gdxMap);
 		miniMap = new Pixmap(tileLayer.getWidth(), tileLayer.getHeight(), Format.RGBA8888);
 		
 		for (int x = 0; x < width; x++) {

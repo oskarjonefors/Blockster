@@ -1,7 +1,9 @@
 package edu.chalmers.blockster.core.objects;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,14 +24,14 @@ public class BlockMap implements GridMap {
 	private final float blockWidth, blockHeight;
 	
 	private Set<Block> activeBlocks;
-	private BlockMapListener listener;
+	private List<BlockMapListener> listeners;
 	
 	public BlockMap(int width, int height, float blockWidth, float blockHeight, int[][] playerStartingPositions) {
 		assert width > 0 && height > 0;
 		assert blockWidth > 0 && blockHeight > 0;
 		assert playerStartingPositions.length > 0;
 
-		this.listener = new NoListener();
+		this.listeners = new ArrayList<BlockMapListener>();
 		this.blockWidth = blockWidth;
 		this.blockHeight = blockHeight;
 		this.playerStartingPositions = new float[playerStartingPositions.length][2];
@@ -59,8 +61,12 @@ public class BlockMap implements GridMap {
 		}
 	}
 	
-	public void setListener(BlockMapListener listener) {
-		this.listener = listener;
+	public void addListener(BlockMapListener listener) {
+		listeners.add(listener);
+	}
+	
+	public void removeListener(BlockMapListener listener) {
+		listeners.remove(listener);
 	}
 	
 	public void removeBlock(Block block) {
@@ -68,7 +74,10 @@ public class BlockMap implements GridMap {
 			final int x = Math.round(block.getX());
 			final int y = Math.round(block.getY());
 			setBlock(x, y, new EmptyBlock(x, y, this));
-			listener.blockRemoved(x, y);
+			
+			for(BlockMapListener listener : listeners) {
+				listener.blockRemoved(x, y);
+			}
 		}
 	}
 	
@@ -77,7 +86,10 @@ public class BlockMap implements GridMap {
 			final int x = Math.round(block.getX());
 			final int y = Math.round(block.getY());
 			setBlock(x, y, block);
-			listener.blockInserted(x, y, block);
+			
+			for(BlockMapListener listener : listeners) {
+				listener.blockInserted(x, y, block);
+			}
 		}
 	}
 	
@@ -195,19 +207,4 @@ public class BlockMap implements GridMap {
 	public void addActiveBlock(Block block) {
 		activeBlocks.add(block);
 	}
-	
-	private class NoListener implements BlockMapListener {
-
-		@Override
-		public void blockInserted(int x, int y, Block block) {
-			// Does nothing
-		}
-
-		@Override
-		public void blockRemoved(int x, int y) {
-			// Really does nothing
-		}
-		
-	}
-	
 }
