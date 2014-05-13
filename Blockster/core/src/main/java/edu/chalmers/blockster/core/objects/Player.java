@@ -97,7 +97,7 @@ public class Player extends BlocksterObject implements Interactor {
 	
 	public void endInteraction() {
 		interaction.endInteraction();
-		System.out.println("ENDING INTERACTION");
+		log.log(Level.INFO, "Ending interaction");
 	}
 	
 	public Block getProcessedBlock() {
@@ -107,7 +107,7 @@ public class Player extends BlocksterObject implements Interactor {
 	public void grabBlock() {
 		final Block block = getAdjacentBlock();
 		if (block != null && canGrabBlock(block) && block.canBeGrabbed()) {
-			System.out.println("Can grab block at " + block.getX() + " " + block.getY());
+			log.log(Level.INFO, "Can grab block at " + block.getX() + " " + block.getY());
 			processedBlock = block;
 			grabbingBlock = true;
 			interaction = new BlockGrabbedInteraction(this, block, blockMap);
@@ -163,9 +163,9 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public void liftBlock() {
-		System.out.println("Trying to lift block " + processedBlock);
+		log.log(Level.INFO, "Trying to lift block " + processedBlock);
 		if (canLiftBlock(processedBlock)) {
-			System.out.println("Can lift block at " + processedBlock.getX() + " " + processedBlock.getY());
+			log.log(Level.INFO, "Can lift block at " + processedBlock.getX() + " " + processedBlock.getY());
 			//Lift process			
 			interaction = new BlockLiftedInteraction(this, processedBlock, blockMap);
 			interaction.startInteraction();
@@ -242,7 +242,7 @@ public class Player extends BlocksterObject implements Interactor {
 			}
 			
 		} else {
-			System.out.println("Moving "+this);
+			log.log(Level.INFO, "Moving " + this);
 			anim.updatePosition(deltaTime);
 		}
 	}

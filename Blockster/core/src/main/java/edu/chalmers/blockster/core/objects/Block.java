@@ -3,6 +3,8 @@ package edu.chalmers.blockster.core.objects;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.chalmers.blockster.core.objects.interactions.Interactable;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
@@ -12,6 +14,8 @@ import edu.chalmers.blockster.core.util.GridObject;
 
 public class Block extends BlocksterObject implements GridObject, Interactable {
 
+	private static final Logger log = Logger.getLogger(Player.class.getName());
+	
 	private final Set<String> properties;
 	private boolean lifted;
 	
@@ -69,7 +73,7 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 	
 	@Override
 	public void moveToNextPosition() {
-		System.out.println("Removing "+this);
+		log.log(Level.INFO, "Removing" + this);
 		super.moveToNextPosition();
 	}
 	

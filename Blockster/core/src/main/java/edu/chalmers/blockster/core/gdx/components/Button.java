@@ -10,18 +10,18 @@ public class Button implements Component, InputProcessor {
 	private List<ButtonListener> listeners;
 	
 	private int x, y, width, height;
-	private String text;
+	private String buttonText;
 	
 	private boolean hover = false;
 	
 	private boolean touchdown = false;
 	
-	public Button(int x, int y, int width, int height, String text) {
+	public Button(int x, int y, int width, int height, String buttonText) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.text = text;
+		this.buttonText = buttonText;
 		
 		listeners = new ArrayList<ButtonListener>();
 	}
@@ -112,7 +112,4 @@ public class Button implements Component, InputProcessor {
 	public int getHeight() {
 		return height;
 	}
-	
-	
-
 }

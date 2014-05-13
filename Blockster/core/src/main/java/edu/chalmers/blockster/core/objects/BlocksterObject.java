@@ -1,11 +1,17 @@
 package edu.chalmers.blockster.core.objects;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.vecmath.Vector2f;
 
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
 public abstract class BlocksterObject extends ScaledObject {
+	
+	private static final Logger log = Logger.getLogger(Player.class.getName());
+	
 	private float totalTime;
 	private final Vector2f velocity;
 	protected Vector2f defaultVelocity;
@@ -103,8 +109,8 @@ public abstract class BlocksterObject extends ScaledObject {
 		x += direction.deltaX * scaleX;
 		y += direction.deltaY * scaleY;
 		
-		System.out.println("Moved "+this+" ("+direction+") (" + anim.getMovement()
-				+ ") (" + anim + ")");
+		log.log(Level.INFO, "Moved " + this + " (" + direction + ") "
+							+ anim.getMovement() + ") (" + anim + ")");
 	}
 	
 	public void resetGravity() {
@@ -113,7 +119,7 @@ public abstract class BlocksterObject extends ScaledObject {
 	
 	public void setAnimationState(AnimationState anim) {
 		if (this.anim.isDone()) {
-			System.out.println("Giving animation state "+anim+" to "+this);
+			log.log(Level.INFO, "Giving animation state " + anim + " to " + this);
 			this.anim = anim;
 		}
 	}

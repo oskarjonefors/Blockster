@@ -3,7 +3,7 @@ package edu.chalmers.blockster.core.objects;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
@@ -15,8 +15,8 @@ public class BlockTest {
 	private static Block block;
 	private static AnimationState anim;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	@Before
+	public static void setUp() {
 		int[][] playerPositions = {{0,0}};
 		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		block = new Block(3,2, blockMap);

@@ -6,6 +6,8 @@ import static edu.chalmers.blockster.core.objects.movement.Direction.RIGHT;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -24,6 +26,8 @@ import edu.chalmers.blockster.core.objects.Player;
  */
 public class Controller extends InputAdapter implements Disposable {
 
+	private static final Logger log = Logger.getLogger(Controller.class.getName());
+	
 	private volatile int keyFlags;
 	private volatile int miscFlags;
 
@@ -92,7 +96,7 @@ public class Controller extends InputAdapter implements Disposable {
 		if ((keyFlags & MENU_BUTTON_UP_FLAG) != 0) {
 			// Opening the level menu
 			keyFlags &= ~MENU_BUTTON_UP_FLAG;
-			System.out.println("Removing flag: "+MENU_BUTTON_UP_FLAG);
+			log.log(Level.INFO, "Removing flag: " + MENU_BUTTON_UP_FLAG);
 		}
 
 		if ((keyFlags & SWITCH_CHARACTER_BUTTON_UP_FLAG) != 0) {
@@ -132,7 +136,7 @@ public class Controller extends InputAdapter implements Disposable {
 				activePlayer.liftBlock();
 			}
 			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
-			System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
+			log.log(Level.INFO, "Removing flag: " + GRAB_BUTTON_UP_FLAG);
 		}
 	}
 	
@@ -310,7 +314,7 @@ public class Controller extends InputAdapter implements Disposable {
 	
 	public void setView(GdxView view) {
 		this.view = view;
-		System.out.println("Set the view to " + view);
+		log.log(Level.INFO, "Set the view to " + view);
 	}
 	
 	/**

@@ -2,6 +2,8 @@ package edu.chalmers.blockster.core.gdx.view;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -26,6 +28,8 @@ import edu.chalmers.blockster.core.objects.movement.AnimationFactory;
  */
 public class GdxView implements ApplicationListener, Disposable {
 
+	private static final Logger log = Logger.getLogger(GdxView.class.getName());
+	
 	private OrthographicCamera camera;
 	private SpriteBatch hudBatch;
 	private final Model model;
@@ -156,7 +160,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		camera.viewportHeight = height*5;
 		camera.viewportWidth = width*5;
 		camera.update();
-		System.out.println("Resizing to " + width + " x " + height);
+		log.log(Level.INFO, "Resizing to " + width + " x " + height);
 		}
 	
 	private void setFullScreenMode() {
@@ -250,7 +254,6 @@ public class GdxView implements ApplicationListener, Disposable {
 		final Texture tex = new Texture("Player/still2.png");
 		final TextureRegion texr = new TextureRegion(tex);
 		final AnimationFactory animF = new AnimationFactory();
-		System.out.println("hit kom");
 		return new PlayerView(player, animF.getArrayOfAnimations(),
 				animF.getWalkAnimations(), texr);
 	}

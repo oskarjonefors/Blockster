@@ -3,6 +3,8 @@ package edu.chalmers.blockster.core.objects;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.util.GridMap;
@@ -13,6 +15,8 @@ import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlockMap implements GridMap {
 
+	private static final Logger log = Logger.getLogger(Player.class.getName());
+	
 	private Block[][] blockMap;
 	private float[][] playerStartingPositions;
 	private final float blockWidth, blockHeight;
@@ -168,9 +172,9 @@ public class BlockMap implements GridMap {
 	public void updateActiveBlocks(float deltaTime) {
 		for (final Block block : new HashSet<Block>(activeBlocks)) {
 			block.getAnimationState().updatePosition(deltaTime);
-			System.out.println("Updating "+block);
+			log.log(Level.INFO, "Updating " + block);
 			if(block.getAnimationState().isDone()) {
-				System.out.println("Animation on "+block+" is done");
+				log.log(Level.INFO, "Animation on " + block + " is done");
 				block.moveToNextPosition();
 				insertFinishedBlock(block);
 			}
