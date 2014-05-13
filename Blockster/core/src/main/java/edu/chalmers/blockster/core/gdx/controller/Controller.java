@@ -51,8 +51,6 @@ public class Controller extends InputAdapter implements Disposable {
 	private Model model;
 	private GdxView view;
 
-	private boolean hasMovedBlock;
-
 	private final List<MapChangeListener> stageListenerList = new ArrayList<MapChangeListener>();
 
 	/**
@@ -132,9 +130,8 @@ public class Controller extends InputAdapter implements Disposable {
 
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {
 			// Grab button was released
-			if (hasMovedBlock || activePlayer.isLiftingBlock()) {
+			if (activePlayer.hasMovedBlock() || activePlayer.isLiftingBlock()) {
 				activePlayer.endInteraction();
-				hasMovedBlock = false;
 			} else {
 				activePlayer.liftBlock();
 			}
@@ -149,9 +146,6 @@ public class Controller extends InputAdapter implements Disposable {
 			// Character is moving left
 			activePlayer.setDirection(LEFT);
 			activePlayer.interact();
-			if (activePlayer.isGrabbingBlock() || activePlayer.isLiftingBlock()) {
-				hasMovedBlock = true;
-			}
 		}
 
 		if ((keyFlags & LEFT_BUTTON_UP_FLAG) != 0) {
@@ -168,9 +162,6 @@ public class Controller extends InputAdapter implements Disposable {
 			// Character is moving right
 			activePlayer.setDirection(RIGHT);
 			activePlayer.interact();
-			if (activePlayer.isGrabbingBlock() || activePlayer.isLiftingBlock()) {
-				hasMovedBlock = true;
-			}
 		}
 
 		if ((miscFlags & CLIMB_BUTTON_DOWN_FLAG) != 0) {

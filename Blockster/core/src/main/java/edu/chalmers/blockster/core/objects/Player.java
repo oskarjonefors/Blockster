@@ -34,6 +34,7 @@ public class Player extends BlocksterObject implements Interactor {
 	private boolean horizontalCollision;
 	private boolean verticalCollision;
 	private int wait = 0;
+	private boolean hasMovedBlock = false;
 
 	public Player(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer, blockLayer.getBlockWidth(),
@@ -122,11 +123,16 @@ public class Player extends BlocksterObject implements Interactor {
 		}
 	}
 
+	public boolean hasMovedBlock() {
+		return hasMovedBlock;
+	}
+	
 	public void interact() {
 		if (isInteracting()) {
 			if (getAnimationState().isDone()) {
 				if (!directionChanged || !isLiftingBlock()) {
 					interaction.interact(getDirection());
+					hasMovedBlock = true;
 					directionChanged = false;
 				} else {
 					wait++;
@@ -224,6 +230,7 @@ public class Player extends BlocksterObject implements Interactor {
 		} else {
 			setAnimationState(AnimationState.NONE);
 			interaction = PlayerInteraction.NONE;
+			hasMovedBlock = false;
 			processedBlock = null;
 		}
 	}
@@ -237,6 +244,7 @@ public class Player extends BlocksterObject implements Interactor {
 			setAnimationState(getDirection() == Direction.LEFT ? AnimationState.PLACE_LEFT
 					: AnimationState.PLACE_RIGHT);
 			interaction = PlayerInteraction.NONE;
+			hasMovedBlock = false;
 			processedBlock = null;
 		}
 	}
