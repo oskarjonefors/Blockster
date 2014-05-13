@@ -11,12 +11,12 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
 	
 public class BlockTest {
 	
-	private static BlockMap blockMap;
-	private static Block block;
-	private static AnimationState anim;
+	private BlockMap blockMap;
+	private Block block;
+	private AnimationState anim;
 
 	@Before
-	public static void setUp() {
+	public void setUp() {
 		int[][] playerPositions = {{0,0}};
 		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		block = new Block(3,2, blockMap);
