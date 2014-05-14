@@ -60,7 +60,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	public void render() {
 
 		/* Checks if the camera should transit between the players */
-		if (model.isSwitchChar) {
+		if (model.getActivePlayer().isSwitchingToMe()) {
 			transitCamera();
 		} else {
 
@@ -143,7 +143,7 @@ public class GdxView implements ApplicationListener, Disposable {
 				30f);
 
 		if (cameraInPlace) {
-			model.isSwitchChar = false;
+			model.getActivePlayer().switchingToMe(false);
 		}
 	}
 

@@ -2,11 +2,13 @@ package edu.chalmers.blockster.core.objects;
 
 import static edu.chalmers.blockster.core.util.Calculations.collisionEitherCorner;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.vecmath.Vector2f;
 
+import edu.chalmers.blockster.core.GameEventListener;
 import edu.chalmers.blockster.core.objects.interactions.BlockGrabbedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.BlockLiftedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.Interactor;
@@ -36,6 +38,8 @@ public class Player extends BlocksterObject implements Interactor {
 	private boolean verticalCollision;
 	private int wait = 0;
 	private boolean hasMovedBlock = false;
+	private ArrayList<GameEventListener> listeners;
+	private boolean switchFromMe = false;
 
 	public Player(float startX, float startY, BlockMap blockMap) {
 		super(startX, startY, blockMap, blockMap.getBlockWidth(),
@@ -44,8 +48,9 @@ public class Player extends BlocksterObject implements Interactor {
 				55 * blockMap.getBlockHeight());
 		none = new EmptyBlock(0,0,blockMap);
 		processedBlock = none;
+		listeners = new ArrayList<GameEventListener>();
 	}
-
+	
 	private boolean canClimbBlock(Block block) {
 		assert block != null;
 		if (block instanceof EmptyBlock) {
@@ -122,7 +127,9 @@ public class Player extends BlocksterObject implements Interactor {
 
 	public void grabBlock() {
 		final Block block = getAdjacentBlock();
-		if (block != null && canGrabBlock(block) && block.canBeGrabbed()) {
+		if (block.isTeleporter()){
+			enterTeleport();
+		} else if (block != null && canGrabBlock(block) && block.canBeGrabbed()) {
 			LOG.log(Level.INFO, "Can grab block at " + block.getX() + " "
 					+ block.getY());
 			processedBlock = block;
@@ -272,5 +279,30 @@ public class Player extends BlocksterObject implements Interactor {
 			LOG.log(Level.INFO, "Moving " + this);
 			anim.updatePosition(deltaTime);
 		}
+	}
+
+	public void switchingToMe(boolean bool) {
+		switchFromMe = bool;
+	}
+	
+	public boolean isSwitchingToMe() {
+		return switchFromMe;
+	}
+	
+	public void addGameEventListener(GameEventListener e){
+		listeners.add(e);
+	}
+	
+	public void enterTeleport(){
+		if (getDirection() == Direction.LEFT) {
+			setAnimationState(new AnimationState(Movement.MOVE_LEFT));
+		} else {
+			setAnimationState(new AnimationState(Movement.MOVE_RIGHT));
+		}
+		
+		for (GameEventListener listener : listeners) {
+			listener.playerReachedGoal();
+		}	
+		
 	}
 }

@@ -17,13 +17,12 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
  * @author Oskar Jönefors, Eric Bjuhr, Emilia Nilsson
  * 
  */
-public class Model implements Comparable<Model> {
+public class Model implements Comparable<Model>, GameEventListener {
 
 	private BlockMap map;
 	private Player activePlayer;
 	private List<Player> players;
 	private Set<Block> activeBlocks;
-	public boolean isSwitchChar;
 	private final Factory factory;
 	private final String name;
 
@@ -40,6 +39,10 @@ public class Model implements Comparable<Model> {
 		activeBlocks = Collections.synchronizedSet(new HashSet<Block>());
 		setStartPositions();
 		activePlayer = players.get(0);
+		
+		for(Player player : players){
+			player.addGameEventListener(this);
+		}
 	}
 
 	@Override
@@ -97,7 +100,7 @@ public class Model implements Comparable<Model> {
 		if (activePlayer.getAnimationState().getMovement() == Movement.NONE) {
 			final int pIndex = players.indexOf(activePlayer);
 			activePlayer = players.get((pIndex + 1) % players.size());
-			isSwitchChar = true;
+			activePlayer.switchingToMe(true);
 		}
 	}
 
@@ -152,4 +155,19 @@ public class Model implements Comparable<Model> {
 			}
 		}
 	}
+
+	@Override
+	public void playerReachedGoal() {
+		if(players.size() == 1){
+			System.out.println("Victor");
+			/**
+			 * Great Victory!!
+			 */
+		} else {
+			players.remove(activePlayer);
+			nextPlayer();
+		}
+	}
+	
 }
+

@@ -43,7 +43,11 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 	public boolean isLifted() {
 		return lifted;
 	}
-
+	
+	public boolean isTeleporter(){
+		return properties.contains("teleporter");
+	}
+	
 	@Override
 	public boolean isSolid() {
 		return properties.contains("solid");
@@ -104,5 +108,9 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 	public boolean canBeGrabbed() {
 		return isMovable() || isLiftable();
 	}
-
+	
+	public void removeProperty(String prop){
+		properties.remove(prop);
+	}
+	
 }
