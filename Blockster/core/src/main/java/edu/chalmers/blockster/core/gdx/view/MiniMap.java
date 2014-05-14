@@ -87,15 +87,11 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	}
 	
 	private void drawActiveBlocks(Pixmap pixmap) {
-		pixmap.setColor(INACTIVE_PLAYER);
 		for (Block block : activeBlockList) {
-			for (int x = 0; x < scaleX; x++) {
-				for (int y = 0; y < scaleY; y++) {
-					pixmap.drawPixel(Math.round(block.getX() * scaleX + x), 
-							getPixMapY(pixmap, Math.round(block.getY() 
-									* scaleY + y)), getColor(block));
-				}
-			}
+			pixmap.setColor(getColor(block));
+			pixmap.drawRectangle(Math.round(block.getX() * scaleX), 
+					getPixMapY(pixmap, Math.round(block.getY() * scaleY)),
+							scaleX, scaleY);
 		}
 	}
 	
@@ -118,13 +114,10 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	private void drawStaticBlocks(Pixmap pixmap) {
 		for (Block block : staticBlockList) {
-			for (int x = 0; x < scaleX; x++) {
-				for (int y = 0; y < scaleY; y++) {
-					pixmap.drawPixel(Math.round(block.getX() * scaleX + x), 
-							getPixMapY(pixmap, Math.round(block.getY() 
-									* scaleY + y)), getColor(block));
-				}
-			}
+			pixmap.setColor(getColor(block));
+			pixmap.drawRectangle(Math.round(block.getX() * scaleX), 
+					getPixMapY(pixmap, Math.round(block.getY() * scaleY)),
+							scaleX, scaleY);
 		}
 	}
 
