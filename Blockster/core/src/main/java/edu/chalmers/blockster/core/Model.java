@@ -25,6 +25,7 @@ public class Model implements Comparable<Model>, GameEventListener {
 	private Set<Block> activeBlocks;
 	private final Factory factory;
 	private final String name;
+	private boolean activePlayerEnteringTeleporter = false;
 
 	public Model(Factory factory, String name) {
 		this.factory = factory;
@@ -128,8 +129,22 @@ public class Model implements Comparable<Model>, GameEventListener {
 			throw new IllegalArgumentException("Update method does not accept"
 					+ "deltatimes that are negative or zero.");
 		}
+		
+
+		checkGoals();
 		updateBlocks(deltaTime);
 		updatePlayers(deltaTime);
+	}
+	
+	private void checkGoals() {
+		if (activePlayerEnteringTeleporter) {
+			Player previousActivePlayer = activePlayer;
+			nextPlayer();
+			if (previousActivePlayer != activePlayer) {
+				players.remove(previousActivePlayer);
+				activePlayerEnteringTeleporter = false;
+			}
+		}
 	}
 	
 	private void updateBlocks(float deltaTime) {
@@ -164,8 +179,7 @@ public class Model implements Comparable<Model>, GameEventListener {
 			 * Great Victory!!
 			 */
 		} else {
-			players.remove(activePlayer);
-			nextPlayer();
+			activePlayerEnteringTeleporter = true;
 		}
 	}
 	
