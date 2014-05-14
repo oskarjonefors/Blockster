@@ -197,15 +197,15 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	}
 	
 	private void prepareSprite(Sprite sprite, Texture texture) {
-		int width = texture.getWidth(), height = texture.getHeight();
+		int texWidth = texture.getWidth(), height = texture.getHeight();
 		
 		sprite.setTexture(texture);
-		sprite.setRegion(0, 0, width, height);
-		sprite.setSize(Math.abs(width), Math.abs(height));
+		sprite.setRegion(0, 0, texWidth, height);
+		sprite.setSize(Math.abs(texWidth), Math.abs(height));
 	}
 
 	public void setPlayerLocations(float[][] locations) {
-		playerPos = locations;
+		playerPos = locations.clone();
 	}
 
 	public void setScaleX(int scaleX) {
