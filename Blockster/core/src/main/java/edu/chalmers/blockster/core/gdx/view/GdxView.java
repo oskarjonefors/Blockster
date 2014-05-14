@@ -275,7 +275,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		final float viewWidth = camera.viewportWidth * camera.zoom / scaleX;
 		final float viewHeight = camera.viewportHeight * camera.zoom / scaleY;
 		final float vX = pX - viewWidth / 2;
-		final float vY = pY - viewHeight;
+		final float vY = pY - viewHeight / 2;
 		
 		final List<Player> playerList = model.getPlayers();
 		final float[][] playerPos = new float[playerList.size()][2];

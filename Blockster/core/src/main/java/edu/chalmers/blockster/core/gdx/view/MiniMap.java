@@ -1,9 +1,8 @@
 package edu.chalmers.blockster.core.gdx.view;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import edu.chalmers.blockster.core.objects.ActiveBlockListener;
 import edu.chalmers.blockster.core.objects.Block;
@@ -30,8 +30,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	private final Sprite minimapSprite;
 	private Texture previousTexture;
 	
-	private final int mapWidth, mapHeight;
-	private int width, height;
+	private final int width, height;
 	private float[][] playerPos;
 	private float viewX, viewY, viewportWidth, viewportHeight;
 	
@@ -45,8 +44,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	public MiniMap (int mapWidth, int mapHeight) {
 		this.scaleX = 1;
 		this.scaleY = 1;
-		this.mapWidth = mapWidth;
-		this.mapHeight = mapHeight;
+		this.width = mapWidth;
+		this.height = mapHeight;
 		
 		viewportWidth = 0;
 		viewportHeight = 0;
@@ -89,13 +88,14 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	}
 	
 	public void draw(SpriteBatch batch) {
-		Texture spriteTexture = new Texture(getMinimapPixmap());
+		Bounds bounds = getBounds();
+		Texture spriteTexture = new Texture(getMinimapPixmap(bounds));
 		
 		if (previousTexture != null) {
 			previousTexture.dispose();
 		}
 		
-		prepareSprite(minimapSprite, spriteTexture);
+		prepareSprite(minimapSprite, spriteTexture, bounds);
 		
 		Color previousColor = batch.getColor();
 		batch.setColor(previousColor.r, previousColor.g, previousColor.b, 0.6f);
@@ -110,8 +110,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 			float y = block.getY();
 			if (bounds.contains(x, y)) {
 				pixmap.setColor(getColor(block));
-				pixmap.fillRectangle(Math.round((x - bounds.x) * scaleX), 
-						getPixMapY(pixmap, Math.round((y + bounds.y + 1) * scaleY)), 
+				pixmap.fillRectangle(Math.round(x * scaleX), 
+						getPixMapY(pixmap, Math.round(y * scaleY)), 
 						scaleX, scaleY);
 				
 			}
@@ -127,8 +127,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 
 			if (bounds.contains(x, y)) {
 				pixmap.setColor(ACTIVE_PLAYER);
-				pixmap.fillCircle(Math.round((x - bounds.x) * scaleX), 
-						getPixMapY(pixmap, Math.round((y + bounds.y) * scaleY) + 1), 
+				pixmap.fillCircle(Math.round(x* scaleX), 
+						getPixMapY(pixmap, Math.round(y * scaleY) + 1), 
 								r);
 			}
 
@@ -141,24 +141,40 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 			float y = block.getY() + 1;
 			if (bounds.contains(x, y)) {
 				pixmap.setColor(getColor(block));
-				pixmap.fillRectangle(Math.round((x - bounds.x) * scaleX), 
-						getPixMapY(pixmap, Math.round((y + bounds.y) * scaleY)), 
+				pixmap.fillRectangle(Math.round(x * scaleX), 
+						getPixMapY(pixmap, Math.round(y * scaleY)), 
 						scaleX, scaleY);
 				
 			}
 		}
 	}
+	
+	private Bounds getBounds() {
+		//Number of blocks from player
+		float offsetX = 2;
+		float offsetY = 2;
+		
+		//Make the side two times the offset long (one time for each side of the center)
+		float width = 2 * offsetX;
+		float height = 2 * offsetY;
+		
+		//Get the center point of the viewport, then subtract by offset
+		float x = ((viewX + viewportWidth) / 2f - offsetX);
+		float y = ((viewY + viewportHeight) / 2f - offsetY);
+		
 
-	private Pixmap getMinimapPixmap() {
-		float minimapWidth = viewportWidth + 10;
-		float minimapHeight = viewportHeight + 10;
-		float minimapX = viewX - 5;
-		float minimapY = viewY - 5;
-		Bounds bounds = new Bounds(minimapX, minimapY, minimapWidth, minimapHeight);
+		System.out.println(viewX + "\t" + viewportWidth + "\t" + x + "\t" + width + "\t" + (viewX + viewportWidth) / 2f);
+		System.out.println(viewY + "\t" + viewportHeight + "\t" + y + "\t" + height+ "\t" + (viewY + viewportHeight) / 2f);
+		
+		Bounds bounds = new Bounds(x, y, width, height);
+		return bounds;
+	}
+
+	private Pixmap getMinimapPixmap(Bounds bounds) {
 		
 		
-		Pixmap pixmap = new Pixmap((int) (minimapWidth*scaleX),
-				(int) (minimapHeight*scaleY), Format.RGBA8888);
+		Pixmap pixmap = new Pixmap((int) (width*scaleX),
+				(int) (height*scaleY), Format.RGBA8888);
 		
 		
 		drawBackground(pixmap);
@@ -199,19 +215,25 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	private void drawViewport(Pixmap pixmap, Bounds bounds) {
 		pixmap.setColor(VIEWPORT);
-		int x = 5;
-		int y = 5;
-		pixmap.drawRectangle(x * scaleX, y * scaleY, 
-				(int) ((bounds.width - 10) * scaleX), 
-				(int) ((bounds.height - 10) * scaleY));
+		int x = Math.round(viewX * scaleX);
+		int y = Math.round(viewY * scaleY);
+		int width = Math.round(viewportWidth * scaleX);
+		int height = Math.round(viewportHeight * scaleY);
+		
+		pixmap.drawRectangle(x, y, width, height);
 	}
 	
-	private void prepareSprite(Sprite sprite, Texture texture) {
-		int texWidth = texture.getWidth(), height = texture.getHeight();
+	private void prepareSprite(Sprite sprite, Texture texture, Bounds bounds) {
+		float textX = bounds.x * scaleX;
+		float textY = (height - bounds.y) * scaleY;
+		float textWidth = bounds.width * scaleX;
+		float textHeight = bounds.height * scaleY;
+		
+		System.out.println(textX + "\t" + textY + "\t" + textWidth + "\t" + textHeight);
 		
 		sprite.setTexture(texture);
-		sprite.setRegion(0, 0, texWidth, height);
-		sprite.setSize(Math.abs(texWidth), Math.abs(height));
+		sprite.setRegion(textX, textY, textWidth, textHeight);
+		sprite.setSize(Math.abs(textWidth), Math.abs(textHeight));
 	}
 
 	public void setPlayerLocations(float[][] locations) {
@@ -220,18 +242,16 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 
 	public void setScaleX(int scaleX) {
 		this.scaleX = scaleX;
-		this.width = this.mapWidth * this.scaleX; 
 	}
 
 	public void setScaleY(int scaleY) {
 		this.scaleY = scaleY;
-		this.height = this.mapHeight * this.scaleY; 
 	}
 
 	public void setViewportBounds(float x, float y, float width, float height) {
 
 		viewX = x;
-		viewY = -y;
+		viewY = y;
 		viewportWidth = width;
 		viewportHeight = height;
 	}
@@ -251,6 +271,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 			return x >= this.x - 3 && x < this.x + width + 3
 					&& y >= this.y - 3 && y < this.y + height + 3;
 		}
+		
 		
 	}
 	
