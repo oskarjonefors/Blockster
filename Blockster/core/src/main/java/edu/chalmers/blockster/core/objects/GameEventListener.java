@@ -1,4 +1,4 @@
-package edu.chalmers.blockster.core;
+package edu.chalmers.blockster.core.objects;
 
 public interface GameEventListener {
 
