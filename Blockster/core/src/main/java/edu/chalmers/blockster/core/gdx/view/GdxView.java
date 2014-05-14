@@ -268,8 +268,8 @@ public class GdxView implements ApplicationListener, Disposable {
 	
 	private void updateHud() {
 		final Player activePlayer = model.getActivePlayer();
-		final float scaleX = activePlayer.getScaleX();
-		final float scaleY = activePlayer.getScaleY();
+		final float scaleX = model.getMap().getBlockWidth();
+		final float scaleY = model.getMap().getBlockHeight();
 		final float pX = activePlayer.getX() / scaleX;
 		final float pY = activePlayer.getY() / scaleY;
 		final float viewWidth = camera.viewportWidth * camera.zoom / scaleX;

@@ -1,7 +1,9 @@
 package edu.chalmers.blockster.core.gdx.view;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -13,18 +15,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import edu.chalmers.blockster.core.objects.ActiveBlockListener;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMapListener;
+import edu.chalmers.blockster.core.objects.EmptyBlock;
 
 public class MiniMap implements BlockMapListener, ActiveBlockListener {
 
 
 	
-	private final List<Block> activeBlockList;
-	private final List<Block> staticBlockList;
+	private final Set<Block> activeBlocks;
+	private final Set<Block> staticBlocks;
 	
 	private int scaleX;
 	private int scaleY;
 	
 	private final Sprite minimapSprite;
+	private Texture previousTexture;
 	
 	private final int mapWidth, mapHeight;
 	private int width, height;
@@ -47,8 +51,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		viewportWidth = 0;
 		viewportHeight = 0;
 		
-		activeBlockList = new ArrayList<Block>();
-		staticBlockList = new ArrayList<Block>();
+		activeBlocks = new HashSet<Block>();
+		staticBlocks = new HashSet<Block>();
 		
 		playerPos = new float[0][0];
 		
@@ -58,78 +62,110 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	@Override
 	public void blockActivated(Block block) {
-		activeBlockList.add(block);
+		if (!(block instanceof EmptyBlock)) {
+			activeBlocks.add(block);
+		}
 	}
 	
 	@Override
 	public void blockDeactivated(Block block) {
-		activeBlockList.remove(block);
+		if (!(block instanceof EmptyBlock)) {
+			activeBlocks.remove(block);
+		}
 	}
 	
 	@Override
 	public void blockInserted(Block block) {
-		staticBlockList.add(block);
+		if (!(block instanceof EmptyBlock)) {
+			staticBlocks.add(block);
+		}
 	}
 	
 	@Override
 	public void blockRemoved(Block block) {
-		staticBlockList.remove(block);
+		if (!(block instanceof EmptyBlock)) {
+			staticBlocks.remove(block);
+		}
 	}
 	
 	public void draw(SpriteBatch batch) {
-		prepareSprite(minimapSprite, new Texture(getMinimapPixmap()));
+		Texture spriteTexture = new Texture(getMinimapPixmap());
+		
+		if (previousTexture != null) {
+			previousTexture.dispose();
+		}
+		
+		prepareSprite(minimapSprite, spriteTexture);
 		
 		Color previousColor = batch.getColor();
 		batch.setColor(previousColor.r, previousColor.g, previousColor.b, 0.6f);
 		
 		batch.draw(minimapSprite, 5, 5);
-		
+		previousTexture = spriteTexture;
 	}
 	
-	private void drawActiveBlocks(Pixmap pixmap) {
-		for (Block block : activeBlockList) {
-			pixmap.setColor(getColor(block));
-			pixmap.fillRectangle(Math.round(block.getX() * (float) scaleX), 
-					getPixMapY(pixmap, Math.round(block.getY() * (float) scaleY) 
-							+ scaleY),
-							scaleX, scaleY);
+	private void drawActiveBlocks(Pixmap pixmap, Bounds bounds) {
+		for (Block block : activeBlocks) {
+			float x = block.getX();
+			float y = block.getY();
+			if (bounds.contains(x, y)) {
+				pixmap.setColor(getColor(block));
+				pixmap.fillRectangle(Math.round((x - bounds.x) * scaleX), 
+						getPixMapY(pixmap, Math.round((y + bounds.y + 1) * scaleY)), 
+						scaleX, scaleY);
+				
+			}
 		}
 	}
 	
-	private void drawPlayers(Pixmap pixmap) {
+	private void drawPlayers(Pixmap pixmap, Bounds bounds) {
 		pixmap.setColor(INACTIVE_PLAYER);
 		for(int i = 0; i < playerPos.length; i++) {
-			final int x =  (int)(playerPos[i][0]*scaleX);
-			final int y = (int)(height - playerPos[i][1]*scaleY);
-			final int r = (int)(scaleX*0.5);
-			
-			if(Math.abs(x - scaleX*(viewX + viewportWidth / 2f)) <= scaleX*0.2f &&
-					Math.abs(y - scaleY*(viewY + viewportHeight / 2f)) <= scaleY*2f) {
+			final float x =  playerPos[i][0];
+			final float y = playerPos[i][1];
+			final int r = (int) Math.round(scaleX*0.5);
+
+			if (bounds.contains(x, y)) {
 				pixmap.setColor(ACTIVE_PLAYER);
-			} else {
-				pixmap.setColor(INACTIVE_PLAYER);
+				pixmap.fillCircle(Math.round((x - bounds.x) * scaleX), 
+						getPixMapY(pixmap, Math.round((y + bounds.y) * scaleY) + 1), 
+								r);
 			}
-			pixmap.fillCircle(x, y, r);
+
 		}
 	}
 	
-	private void drawStaticBlocks(Pixmap pixmap) {
-		for (Block block : staticBlockList) {
-			pixmap.setColor(getColor(block));
-			pixmap.fillRectangle(Math.round(block.getX() * (float) scaleX), 
-					getPixMapY(pixmap, Math.round(block.getY() * (float) scaleY)
-							+ scaleY),
-							scaleX, scaleY);
+	private void drawStaticBlocks(Pixmap pixmap, Bounds bounds) {
+		for (Block block : staticBlocks) {
+			float x = block.getX();
+			float y = block.getY() + 1;
+			if (bounds.contains(x, y)) {
+				pixmap.setColor(getColor(block));
+				pixmap.fillRectangle(Math.round((x - bounds.x) * scaleX), 
+						getPixMapY(pixmap, Math.round((y + bounds.y) * scaleY)), 
+						scaleX, scaleY);
+				
+			}
 		}
 	}
 
 	private Pixmap getMinimapPixmap() {
-		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
+		float minimapWidth = viewportWidth + 10;
+		float minimapHeight = viewportHeight + 10;
+		float minimapX = viewX - 5;
+		float minimapY = viewY - 5;
+		Bounds bounds = new Bounds(minimapX, minimapY, minimapWidth, minimapHeight);
+		
+		
+		Pixmap pixmap = new Pixmap((int) (minimapWidth*scaleX),
+				(int) (minimapHeight*scaleY), Format.RGBA8888);
+		
+		
 		drawBackground(pixmap);
-		drawStaticBlocks(pixmap);
-		drawActiveBlocks(pixmap);
-		drawPlayers(pixmap);
-		drawViewport(pixmap);
+		drawStaticBlocks(pixmap, bounds);
+		drawActiveBlocks(pixmap, bounds);
+		drawPlayers(pixmap, bounds);
+		drawViewport(pixmap, bounds);
 		
 		return pixmap;
 	}
@@ -161,10 +197,13 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		return scaleY;
 	}
 	
-	private void drawViewport(Pixmap pixmap) {
+	private void drawViewport(Pixmap pixmap, Bounds bounds) {
 		pixmap.setColor(VIEWPORT);
-		pixmap.drawRectangle((int)(viewX*scaleX), (int)(viewY * scaleY - scaleY),
-				(int)(viewportWidth*scaleX), (int)(viewportHeight*scaleY));
+		int x = 5;
+		int y = 5;
+		pixmap.drawRectangle(x * scaleX, y * scaleY, 
+				(int) ((bounds.width - 10) * scaleX), 
+				(int) ((bounds.height - 10) * scaleY));
 	}
 	
 	private void prepareSprite(Sprite sprite, Texture texture) {
@@ -196,5 +235,24 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		viewportWidth = width;
 		viewportHeight = height;
 	}
+	
+	private class Bounds {
+		
+		public final float x, y, width, height;
+		
+		public Bounds(float x, float y, float width, float height) {
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+		}
+		
+		public boolean contains(float x, float y) {
+			return x >= this.x - 3 && x < this.x + width + 3
+					&& y >= this.y - 3 && y < this.y + height + 3;
+		}
+		
+	}
+	
 	
 }

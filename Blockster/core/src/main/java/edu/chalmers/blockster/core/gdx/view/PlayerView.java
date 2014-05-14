@@ -31,12 +31,14 @@ public class PlayerView {
 		defaultSprite = texture;
 		
 		sprite = new Sprite();
-		setWidth(24);
-		setHeight(48);
 	}
 	
 	public void draw(SpriteBatch batch){
-		sprite.setRegion(chooseAnimation());
+		TextureRegion region = chooseAnimation();
+		int width = region.getRegionWidth(), height = region.getRegionHeight();
+		
+		sprite.setRegion(region);
+		setSize(width, height);
 		batch.draw(sprite, getX(), getY());
 	}
 			
@@ -66,12 +68,10 @@ public class PlayerView {
 		return arrayOfAnimation.get(move).getKeyFrame(time, true);
 	}
 	
-	public final void setHeight(float height) {
-		player.setHeight(height);
-	}
-	
-	public final void setWidth(float width) {
+	public final void setSize(float width, float height) {
+		sprite.setSize(width, height);
 		player.setWidth(width);
+		player.setHeight(width);
 	}
 	
 	public float getX() {
