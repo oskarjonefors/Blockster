@@ -180,7 +180,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	private void drawViewport(Pixmap pixmap, Bounds bounds) {
 		pixmap.setColor(VIEWPORT);
 		int x = Math.round(viewX * scaleX);
-		int y = Math.round(viewY * scaleY);
+		int y = Math.max(1, Math.round(viewY * scaleY));
 		int width = Math.round(viewportWidth * scaleX);
 		int height = Math.round(viewportHeight * scaleY);
 		
