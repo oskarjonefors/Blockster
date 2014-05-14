@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
+import edu.chalmers.blockster.core.objects.movement.Movement;
 
 /**
  * A graphical representation of a Block.
@@ -85,6 +86,15 @@ public class BlockView implements TiledMapTile {
 		return Math.abs(dir.deltaX) + Math.abs(dir.deltaY) == 2;
 	}
 
+	private boolean shouldRotate() {
+		return isMovementAnimationDiagonal() && !isClimbMovement();
+	}
+	
+	private boolean isClimbMovement() {
+		Movement movement = block.getAnimationState().getMovement();
+		return movement == Movement.CLIMB_LEFT || movement == Movement.CLIMB_RIGHT;
+	}
+	
 	@Override
 	public void setBlendMode(BlendMode arg0) {
 		tile.setBlendMode(arg0);
@@ -96,7 +106,7 @@ public class BlockView implements TiledMapTile {
 
 	private void setRotation() {
 		if (!block.getAnimationState().isDone()) {
-			if (isMovementAnimationDiagonal()) {
+			if (shouldRotate()) {
 				sprite.setRotation(getRotation());
 			} else {
 				sprite.setRotation(rotation);
