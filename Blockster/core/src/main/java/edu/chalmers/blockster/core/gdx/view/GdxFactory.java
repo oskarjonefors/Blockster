@@ -3,9 +3,6 @@ package edu.chalmers.blockster.core.gdx.view;
 
 import java.util.Iterator;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
@@ -82,11 +79,6 @@ public class GdxFactory implements Factory {
 		
 		final MapProperties mapProps = map.getProperties();
 		
-		if(!mapProps.containsKey("nbrOfPlayers")) {
-			throw new IllegalArgumentException("Given map does not contain"
-					+ "\"nbrOfPlayers\" property.");
-		}
-		
 		int nbrOfPlayers;
 		
 		try {
@@ -96,18 +88,9 @@ public class GdxFactory implements Factory {
 					+ mapProps.get("nbrOfPlayers") + " is incorrect. Should be a number 0 <= 10");
 		}
 			
-		if(nbrOfPlayers < 0 || nbrOfPlayers > 10) {
-			throw new IllegalArgumentException("Given nbrOfPlayers value " +
-					+ nbrOfPlayers + " is incorrect. Should be a number 0 <= 10");
-		}
-		
 		int[][] startingPositions = new int[nbrOfPlayers][2];
 		
 		for(int i = 1; i <= nbrOfPlayers ; i++) {
-			if(!mapProps.containsKey("playerStart" + i)) {
-				throw new IllegalArgumentException("Given map does not contain"
-						+ " starting position playerStart" + i + " for player " + i);
-			}
 			
 			final String playerStart = (String)mapProps.get("playerStart" + i);
 			final String[] playerStarts = playerStart.split(":");
