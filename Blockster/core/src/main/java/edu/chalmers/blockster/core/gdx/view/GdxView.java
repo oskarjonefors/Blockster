@@ -270,7 +270,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		final float[][] playerPos = new float[players.size()][2];
 		for (int i = 0; i < players.size(); i++) {
 			final Player player = players.get(i);
-			playerPos[i][0] = (player.getX() + player.getWidth() / 2f) / scaleX;
+			playerPos[i][0] = player.getX() / scaleX;
 			playerPos[i][1] = (player.getY() + player.getHeight() / 2f) / scaleY;
 		}
 		

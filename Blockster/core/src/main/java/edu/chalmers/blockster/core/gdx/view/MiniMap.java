@@ -121,6 +121,12 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 			final int y = (int)(height - playerPos[i][1]*scaleY);
 			final int r = (int)(scaleX*0.5);
 			
+			if(Math.abs(x - scaleX*(viewX + viewportWidth / 2f)) <= scaleX*0.2f &&
+					Math.abs(y - scaleY*(viewY + viewportHeight / 2f)) <= scaleY*2f) {
+				pixmap.setColor(ACTIVE_PLAYER);
+			} else {
+				pixmap.setColor(INACTIVE_PLAYER);
+			}
 			pixmap.fillCircle(x, y, r);
 		}
 	}
