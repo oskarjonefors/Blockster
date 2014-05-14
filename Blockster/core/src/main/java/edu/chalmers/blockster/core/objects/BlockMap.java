@@ -166,7 +166,9 @@ public class BlockMap implements GridMap {
 	 * @param block
 	 */
 	public void setBlock(int x, int y, Block block) {
-		blockMap[x][y] = block;
+		if(x < getWidth() || y < getHeight()) {
+			blockMap[x][y] = block;
+		}
 	}
 
 	/**
@@ -179,6 +181,9 @@ public class BlockMap implements GridMap {
 	 * @return A Block, or null if no Block is found at the given coordinates.
 	 */
 	public Block getBlock(int x, int y) {
+		if(x >= getWidth() || y >= getHeight()) {
+			return new EmptyBlock(x, y, this);
+		}
 		return blockMap[x][y];
 	}
 
