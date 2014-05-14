@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
+import edu.chalmers.blockster.core.objects.GameEventListener;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Movement;
@@ -29,6 +29,7 @@ public class Model implements Comparable<Model>, GameEventListener {
 	private Set<Block> activeBlocks;
 	private final Factory factory;
 	private final String name;
+	private GameState gameState = GameState.GAME_RUNNING;
 	private boolean activePlayerEnteringTeleporter = false;
 
 	public Model(Factory factory, String name) {
@@ -144,6 +145,7 @@ public class Model implements Comparable<Model>, GameEventListener {
 		if (activePlayerEnteringTeleporter) {
 			Player previousActivePlayer = activePlayer;
 			nextPlayer();
+			didWeWin();
 			if (previousActivePlayer != activePlayer) {
 				players.remove(previousActivePlayer);
 				activePlayerEnteringTeleporter = false;
@@ -151,6 +153,13 @@ public class Model implements Comparable<Model>, GameEventListener {
 		}
 	}
 	
+	private void didWeWin() {
+		if(getActivePlayer().getAnimationState().getMovement() == Movement.NONE && players.size() == 1){
+			setGameState(GameState.GAME_WON);
+		}
+		
+	}
+
 	private void updateBlocks(float deltaTime) {
 		map.updateActiveBlocks(deltaTime);
 	}
@@ -177,14 +186,15 @@ public class Model implements Comparable<Model>, GameEventListener {
 
 	@Override
 	public void playerReachedGoal() {
-		if(players.size() == 1){
-			LOG.log(Level.INFO, "Victory");
-			/**
-			 * Great Victory!!
-			 */
-		} else {
-			activePlayerEnteringTeleporter = true;
-		}
+		activePlayerEnteringTeleporter = true;
+	}
+
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
 	}
 	
 }

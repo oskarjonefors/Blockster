@@ -108,9 +108,4 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 	public boolean canBeGrabbed() {
 		return isMovable() || isLiftable();
 	}
-	
-	public void removeProperty(String prop){
-		properties.remove(prop);
-	}
-	
 }

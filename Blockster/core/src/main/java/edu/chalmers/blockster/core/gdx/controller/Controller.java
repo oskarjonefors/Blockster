@@ -14,6 +14,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.utils.Disposable;
 
+import edu.chalmers.blockster.core.GameState;
 import edu.chalmers.blockster.core.MapChangeListener;
 import edu.chalmers.blockster.core.Model;
 import edu.chalmers.blockster.core.gdx.view.GdxView;
@@ -112,6 +113,7 @@ public class Controller extends InputAdapter implements Disposable {
 			keyFlags &= ~RESTART_STAGE_BUTTON_R_FLAG;
 			model.init();
 			setModel(model);
+			model.setGameState(GameState.GAME_RUNNING);
 		}
 
 		if ((miscFlags & TOGGLE_FULLSCREEN_FLAG) != 0) {

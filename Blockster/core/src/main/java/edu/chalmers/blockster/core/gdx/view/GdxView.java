@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
+import edu.chalmers.blockster.core.GameState;
 import edu.chalmers.blockster.core.Model;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.Player;
@@ -59,33 +60,44 @@ public class GdxView implements ApplicationListener, Disposable {
 	@Override
 	public void render() {
 
-		/* Checks if the camera should transit between the players */
-		if (model.getActivePlayer().isSwitchingToMe()) {
-			transitCamera();
-		} else {
+		if (model.getGameState() == GameState.GAME_RUNNING) {
 
-			/* Follow the active player */
-			final Player activePlayer = model.getActivePlayer();
-			final float activePlayerX = activePlayer.getX();
-			final float activePlayerY = activePlayer.getY();
+			/* Checks if the camera should transit between the players */
+			if (model.getActivePlayer().isSwitchingToMe()) {
+				transitCamera();
+			} else {
 
-			camera.position.set(activePlayerX, activePlayerY, 0);
+				/* Follow the active player */
+				final Player activePlayer = model.getActivePlayer();
+				final float activePlayerX = activePlayer.getX();
+				final float activePlayerY = activePlayer.getY();
 
-			/* Move the background with the player */
-			background.setPosition(activePlayerX * 0.7f - background.getWidth()
-					* 2, activePlayerY * 0.7f - background.getHeight() * 2);
+				camera.position.set(activePlayerX, activePlayerY, 0);
+
+				/* Move the background with the player */
+				background.setPosition(activePlayerX * 0.7f - background.getWidth()
+						* 2, activePlayerY * 0.7f - background.getHeight() * 2);
+			}
+
+			/**
+			 * renders the stage
+			 */
+			stage.act(Gdx.graphics.getDeltaTime());
+			stage.draw();
+
+			renderer.setView(camera);
+			renderer.render();
+
+			drawObjects();
+			
+		} else if (model.getGameState() == GameState.GAME_WON) {
+			Texture winPic = new Texture("menuPics/winPic.jpg");
+			SpriteBatch batch = new SpriteBatch();
+			
+			batch.begin();
+			batch.draw(winPic, 370, 150);
+			batch.end();
 		}
-
-		/**
-		 * renders the stage
-		 */
-		stage.act(Gdx.graphics.getDeltaTime());
-		stage.draw();
-
-		renderer.setView(camera);
-		renderer.render();
-
-		drawObjects();
 	}
 
 	/**

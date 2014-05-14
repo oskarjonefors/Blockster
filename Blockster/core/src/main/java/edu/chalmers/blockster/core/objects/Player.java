@@ -3,12 +3,12 @@ package edu.chalmers.blockster.core.objects;
 import static edu.chalmers.blockster.core.util.Calculations.collisionEitherCorner;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.vecmath.Vector2f;
 
-import edu.chalmers.blockster.core.GameEventListener;
 import edu.chalmers.blockster.core.objects.interactions.BlockGrabbedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.BlockLiftedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.Interactor;
@@ -38,7 +38,7 @@ public class Player extends BlocksterObject implements Interactor {
 	private boolean verticalCollision;
 	private int wait = 0;
 	private boolean hasMovedBlock = false;
-	private ArrayList<GameEventListener> listeners;
+	private List<GameEventListener> listeners;
 	private boolean switchFromMe = false;
 
 	public Player(float startX, float startY, BlockMap blockMap) {
@@ -127,7 +127,7 @@ public class Player extends BlocksterObject implements Interactor {
 
 	public void grabBlock() {
 		final Block block = getAdjacentBlock();
-		if (block.isTeleporter()){
+		if (block != null && block.isTeleporter()){
 			enterTeleport();
 		} else if (block != null && canGrabBlock(block) && block.canBeGrabbed()) {
 			LOG.log(Level.INFO, "Can grab block at " + block.getX() + " "
