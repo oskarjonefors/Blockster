@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
@@ -19,6 +21,8 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
  */
 public class Model implements Comparable<Model>, GameEventListener {
 
+	private static final Logger LOG = Logger.getLogger(Model.class.getName());
+	
 	private BlockMap map;
 	private Player activePlayer;
 	private List<Player> players;
@@ -174,7 +178,7 @@ public class Model implements Comparable<Model>, GameEventListener {
 	@Override
 	public void playerReachedGoal() {
 		if(players.size() == 1){
-			System.out.println("Victor");
+			LOG.log(Level.INFO, "Victory");
 			/**
 			 * Great Victory!!
 			 */
