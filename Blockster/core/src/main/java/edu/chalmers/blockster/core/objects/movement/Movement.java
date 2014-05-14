@@ -50,7 +50,7 @@ public enum Movement {
 	}
 	
 	public static boolean isPullMovement(float relativePosition, Direction dir) {
-		return dir.deltaX * relativePosition < 0;
+		return dir.getDeltaX() * relativePosition < 0;
 	}
 
 	public Direction getDirection() {

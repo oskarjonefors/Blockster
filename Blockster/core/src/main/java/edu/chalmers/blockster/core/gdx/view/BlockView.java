@@ -61,7 +61,7 @@ public class BlockView implements TiledMapTile {
 
 		AnimationState anim = block.getAnimationState();
 		Direction dir = anim.getMovement().getDirection();
-		return - dir.deltaX * 90f * (anim.getElapsedTime() 
+		return - dir.getDeltaX() * 90f * (anim.getElapsedTime() 
 				/ anim.getMovement().getDuration());
 	}
 
@@ -83,7 +83,7 @@ public class BlockView implements TiledMapTile {
 
 	private boolean isMovementAnimationDiagonal() {
 		Direction dir = block.getAnimationState().getMovement().getDirection();
-		return Math.abs(dir.deltaX) + Math.abs(dir.deltaY) == 2;
+		return Math.abs(dir.getDeltaX()) + Math.abs(dir.getDeltaY()) == 2;
 	}
 
 	private boolean shouldRotate() {

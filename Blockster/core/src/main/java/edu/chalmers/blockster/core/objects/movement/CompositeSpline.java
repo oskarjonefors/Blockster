@@ -32,7 +32,7 @@ public class CompositeSpline implements Spline {
 		
 		for (int i = 0; i <= highestIndex; i++) {
 			final Direction dir = partialSplines.get(i).getDirection();
-			splineOffset.add(new Vector2f(dir.deltaX, dir.deltaY));
+			splineOffset.add(new Vector2f(dir.getDeltaX(), dir.getDeltaY()));
 		}
 		
 		return splineOffset;

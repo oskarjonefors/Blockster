@@ -27,8 +27,8 @@ public class LinearSpline implements Spline {
 		float offsetX;
 		float offsetY;
 		
-		offsetX = percent * dir.deltaX / 100f;
-		offsetY = percent * dir.deltaY / 100f;
+		offsetX = percent * dir.getDeltaX() / 100f;
+		offsetY = percent * dir.getDeltaY() / 100f;
 		
 		return new Vector2f(offsetX, offsetY);
 	}

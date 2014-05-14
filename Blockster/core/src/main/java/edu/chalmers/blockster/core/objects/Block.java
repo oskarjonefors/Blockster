@@ -36,7 +36,7 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 		final int checkY = (int) (getOriginY() / getScaleY());
 
 		return checkX >= 1 && checkX < blockWidth
-				&& !bLayer.hasBlock(checkX + dir.deltaX, checkY + dir.deltaY);
+				&& !bLayer.hasBlock(checkX + dir.getDeltaX(), checkY + dir.getDeltaY());
 
 	}
 

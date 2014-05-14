@@ -20,7 +20,7 @@ public class BezierSpline implements Spline {
 		
 		this.dir = dir;
 		
-		if (dir.deltaY > 0) {
+		if (dir.getDeltaY() > 0) {
 			isLifting = true;
 		} else {
 			isLifting = false;
@@ -37,12 +37,14 @@ public class BezierSpline implements Spline {
 		final double t = (double)(1 - percent / 100);
 		
 		// If movement is climbing, set x to 0, else 1
-		final int x1 = isLifting ? 0 : dir.deltaX;
-		final int x2 = dir.deltaX;
+		final int deltaX = dir.getDeltaX();
+		final int x1 = isLifting ? 0 : deltaX;
+		final int x2 = deltaX;
 		offsetX = (float) (2*t*(1-t)*x1 + Math.pow((double)(1-t), 2)*x2);
 		
-		final int y1 = isLifting ? dir.deltaY : 0;
-		final int y2 = dir.deltaY;
+		final int deltaY = dir.getDeltaY();
+		final int y1 = isLifting ? deltaY : 0;
+		final int y2 = deltaY;
 		offsetY = (float) (2 * t * (1 - t) * y1 + Math.pow((double)(1 - t), 2) * y2);
 		
 		return new Vector2f(offsetX, offsetY);

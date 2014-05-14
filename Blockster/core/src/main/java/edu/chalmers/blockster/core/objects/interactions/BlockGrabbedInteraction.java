@@ -58,7 +58,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 					&& blockLayer.getBlock(checkX, origY).isMovable()) {
 				movingBlocks.add((Interactable) blockLayer.getBlock(checkX,
 						origY));
-				checkX += dir.deltaX;
+				checkX += dir.getDeltaX();
 			} else {
 				movingBlocks.clear();
 				break;

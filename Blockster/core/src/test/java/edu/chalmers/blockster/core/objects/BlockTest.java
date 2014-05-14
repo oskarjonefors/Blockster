@@ -35,7 +35,7 @@ public class BlockTest {
 	public void testMoveToNextPosition() {
 		block.setAnimationState(anim);
 		block.moveToNextPosition();
-		assertTrue(Math.round(block.getX()) == movement.getDirection().deltaX + startX);
+		assertTrue(Math.round(block.getX()) == movement.getDirection().getDeltaX() + startX);
 	}
 
 	@Test

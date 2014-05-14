@@ -83,9 +83,9 @@ public class Player extends BlocksterObject implements Interactor {
 
 		return checkX >= 1
 				&& checkX < blockWidth
-				&& !bLayer.hasBlock(checkX + dir.deltaX, checkY + dir.deltaY)
+				&& !bLayer.hasBlock(checkX + dir.getDeltaX(), checkY + dir.getDeltaY())
 				&& bLayer
-						.hasBlock(checkX + dir.deltaX, checkY + dir.deltaY - 1);
+						.hasBlock(checkX + dir.getDeltaX(), checkY + dir.getDeltaY() - 1);
 
 	}
 

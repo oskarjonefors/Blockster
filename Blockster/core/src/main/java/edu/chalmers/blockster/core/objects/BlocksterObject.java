@@ -106,8 +106,8 @@ public abstract class BlocksterObject extends ScaledObject {
 
 	public void moveToNextPosition() {
 		final Direction direction = anim.getMovement().getDirection();
-		x += direction.deltaX * scaleX;
-		y = Math.round(y / scaleY) * scaleY + direction.deltaY * scaleY;
+		x += direction.getDeltaX() * scaleX;
+		y = Math.round(y / scaleY) * scaleY + direction.getDeltaY() * scaleY;
 
 		LOG.log(Level.INFO,
 				"Moved " + this + " (" + direction + ") " + anim.getMovement()
@@ -128,8 +128,8 @@ public abstract class BlocksterObject extends ScaledObject {
 
 	public void setDefaultVelocity(Direction dir) {
 		final Vector2f vel = getVelocity();
-		setVelocityX(vel.x + dir.deltaX * defaultVelocity.x);
-		setVelocityY(vel.y + dir.deltaY * defaultVelocity.y);
+		setVelocityX(vel.x + dir.getDeltaX() * defaultVelocity.x);
+		setVelocityY(vel.y + dir.getDeltaY() * defaultVelocity.y);
 	}
 
 	public void setDirection(Direction dir) {

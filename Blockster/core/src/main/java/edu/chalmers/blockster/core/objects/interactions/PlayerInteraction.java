@@ -4,24 +4,23 @@ import edu.chalmers.blockster.core.objects.movement.Direction;
 
 public abstract class PlayerInteraction {
 
-	public final static PlayerInteraction NONE = new NoInteraction();
+	public static final PlayerInteraction NONE = new NoInteraction();
 	
 	private static class NoInteraction extends PlayerInteraction{
 
 		@Override
 		public void interact(Direction dir) {
-			
+			/* Does nothing */
 		}
 
 		@Override
 		public void endInteraction() {
-			
+			/* Does nothing */
 		}
 
 		@Override
 		public void startInteraction() {
-			// TODO Auto-generated method stub
-			
+			/* Does nothing */
 		}
 	}
 	
