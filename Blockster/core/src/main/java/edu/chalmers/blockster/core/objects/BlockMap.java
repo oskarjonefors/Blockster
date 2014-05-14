@@ -192,10 +192,12 @@ public class BlockMap implements GridMap {
 	 * @return True if there is a block at (x,y), otherwise false.
 	 */
 	public boolean hasBlock(int x, int y) {
-		if (x < 0 || x >= getWidth())
+		if (x < 0 || x >= getWidth()) {
 			return false;
-		if (y < 0 || y >= getHeight())
+		}
+		if (y < 0 || y >= getHeight()) {
 			return false;
+		}
 		return !(blockMap[x][y] instanceof EmptyBlock);
 	}
 
@@ -219,7 +221,7 @@ public class BlockMap implements GridMap {
 	 * @return
 	 */
 	public float[][] getPlayerStartingPositions() {
-		return playerStartingPositions;
+		return playerStartingPositions.clone();
 	}
 
 	public void updateActiveBlocks(float deltaTime) {
