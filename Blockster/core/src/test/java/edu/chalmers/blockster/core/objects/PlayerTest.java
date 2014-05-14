@@ -111,16 +111,9 @@ public class PlayerTest {
 	 public void testLiftBlock() {
 		 
 		 player.setDirection(Direction.RIGHT);
-		 System.out.println(player.getAdjacentBlock());
-		 System.out.println(player);
-		 System.out.println(block);
 		 block.setProperty("liftable");
 		 block.setProperty("movable");
-		 player.grabBlock();
-		 
-		 System.out.println(player.isNextToBlock(player.getProcessedBlock()));
-		 
-		 player.setX(player.getProcessedBlock().getX()*player.getScaleX() - player.getWidth() - 1f);
+		 player.grabBlock(); 
 		 player.liftBlock();
 		 
 		 assertTrue(player.isLiftingBlock());
