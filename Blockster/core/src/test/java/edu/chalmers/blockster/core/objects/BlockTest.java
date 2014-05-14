@@ -1,13 +1,13 @@
 package edu.chalmers.blockster.core.objects;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Movement;
-	
+
 public class BlockTest {
 	
 	private BlockMap blockMap;
@@ -17,7 +17,7 @@ public class BlockTest {
 	private int startX;
 	private int startY;
 	private String property;
-	
+
 	@Before
 	public void setUp() {
 		int[][] playerPositions = {{0,0}};
@@ -32,16 +32,27 @@ public class BlockTest {
 	}
 
 	@Test
+	public void testCanMove() {
+		fail("Not yet implemented");
+	}
+
+	@Test
 	public void testMoveToNextPosition() {
 		block.setAnimationState(anim);
 		block.moveToNextPosition();
-		assertTrue(Math.round(block.getX()) == movement.getDirection().getDeltaX() + startX);
+		assertTrue(Math.round(block.getX()) == movement.getDirection()
+												.getDeltaX() + startX);
 	}
 
 	@Test
 	public void testSetAnimationState() {
 		block.setAnimationState(anim);
 		assertTrue(anim.getMovement() == movement);
+	}
+
+	@Test
+	public void testBlock() {
+		fail("Not yet implemented");
 	}
 
 	@Test
@@ -69,6 +80,16 @@ public class BlockTest {
 		correct &= block.isSolid();
 		
 		assertTrue(correct);
+	}
+
+	@Test
+	public void testIsLifted() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testIsTeleporter() {
+		fail("Not yet implemented");
 	}
 
 	@Test
@@ -125,6 +146,36 @@ public class BlockTest {
 		correct &= block.hasWeight();
 		
 		assertTrue(correct);
+	}
+
+	@Test
+	public void testFallDown() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSetLifted() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testRemoveFromGrid() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testCanBeClimbed() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testCanBeGrabbed() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testRemoveProperty() {
+		fail("Not yet implemented");
 	}
 
 }
