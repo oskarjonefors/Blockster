@@ -268,6 +268,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	
 	private void updateHud() {
 		final Player activePlayer = model.getActivePlayer();
+		miniMap.setActivePlayer(activePlayer);
 		final float scaleX = model.getMap().getBlockWidth();
 		final float scaleY = model.getMap().getBlockHeight();
 		final float pX = activePlayer.getX() / scaleX;
@@ -275,7 +276,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		final float viewWidth = camera.viewportWidth * camera.zoom / scaleX;
 		final float viewHeight = camera.viewportHeight * camera.zoom / scaleY;
 		final float vX = pX - viewWidth / 2;
-		final float vY = pY - viewHeight / 2;
+		final float vY = pY - viewHeight - 1;
 		
 		final List<Player> playerList = model.getPlayers();
 		final float[][] playerPos = new float[playerList.size()][2];

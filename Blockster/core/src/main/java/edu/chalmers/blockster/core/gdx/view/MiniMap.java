@@ -3,7 +3,6 @@ package edu.chalmers.blockster.core.gdx.view;
 import java.util.HashSet;
 import java.util.Set;
 
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -16,6 +15,7 @@ import edu.chalmers.blockster.core.objects.ActiveBlockListener;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMapListener;
 import edu.chalmers.blockster.core.objects.EmptyBlock;
+import edu.chalmers.blockster.core.objects.Player;
 
 public class MiniMap implements BlockMapListener, ActiveBlockListener {
 
@@ -27,6 +27,12 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	private int scaleX;
 	private int scaleY;
 	
+
+	private final float offsetX = 16f;
+	private final float offsetY = 16f;
+	
+	
+	private Player activePlayer;
 	private final Sprite minimapSprite;
 	private Texture previousTexture;
 	
@@ -37,7 +43,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	public static final int NO_BLOCK = Color.rgba8888(0, 0, 0, 1f);
 	public static final int SOLID_BLOCK = Color.rgba8888(0.8f, 0.8f, 0.8f, 1f);
 	public static final int LIFTABLE_BLOCK = Color.rgba8888(0.8f, 0, 0, 1f); 
-	public static final int VIEWPORT = Color.rgba8888(1f, 1f, 1f, 1f);
+	public static final int VIEWPORT = Color.rgba8888(1f, 1f, 1f, 0.15f);
 	public static final int ACTIVE_PLAYER = Color.rgba8888(1f, 1f, 0, 1f);
 	public static final int INACTIVE_PLAYER = Color.rgba8888(0, 0, 1f, 1f);
 	
@@ -88,14 +94,13 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	}
 	
 	public void draw(SpriteBatch batch) {
-		Bounds bounds = getBounds();
-		Texture spriteTexture = new Texture(getMinimapPixmap(bounds));
+		Texture spriteTexture = new Texture(getMinimapPixmap(getDrawBounds()));
 		
 		if (previousTexture != null) {
 			previousTexture.dispose();
 		}
 		
-		prepareSprite(minimapSprite, spriteTexture, bounds);
+		prepareSprite(minimapSprite, spriteTexture);
 		
 		Color previousColor = batch.getColor();
 		batch.setColor(previousColor.r, previousColor.g, previousColor.b, 0.6f);
@@ -111,7 +116,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 			if (bounds.contains(x, y)) {
 				pixmap.setColor(getColor(block));
 				pixmap.fillRectangle(Math.round(x * scaleX), 
-						getPixMapY(pixmap, Math.round(y * scaleY)), 
+						getPixMapY(pixmap, Math.round((y+1) * scaleY)), 
 						scaleX, scaleY);
 				
 			}
@@ -127,8 +132,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 
 			if (bounds.contains(x, y)) {
 				pixmap.setColor(ACTIVE_PLAYER);
-				pixmap.fillCircle(Math.round(x* scaleX), 
-						getPixMapY(pixmap, Math.round(y * scaleY) + 1), 
+				pixmap.fillCircle(Math.round(x * scaleX), 
+						getPixMapY(pixmap, Math.round((y+0.3f) * scaleY)), 
 								r);
 			}
 
@@ -149,22 +154,31 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		}
 	}
 	
-	private Bounds getBounds() {
-		//Number of blocks from player
-		float offsetX = 2;
-		float offsetY = 2;
-		
+	private Bounds getTextureBounds() {
 		//Make the side two times the offset long (one time for each side of the center)
 		float width = 2 * offsetX;
 		float height = 2 * offsetY;
 		
-		//Get the center point of the viewport, then subtract by offset
-		float x = ((viewX + viewportWidth) / 2f - offsetX);
-		float y = ((viewY + viewportHeight) / 2f - offsetY);
+		//Get the center point of the player, then subtract by offset
+		float x = (activePlayer.getX() + activePlayer.getWidth() / 2f) 
+				/ activePlayer.getScaleX() - offsetX;
+		float y = (activePlayer.getY() - activePlayer.getHeight() / 2f) 
+				/ activePlayer.getScaleY() + offsetY + 1;
 		
-
-		System.out.println(viewX + "\t" + viewportWidth + "\t" + x + "\t" + width + "\t" + (viewX + viewportWidth) / 2f);
-		System.out.println(viewY + "\t" + viewportHeight + "\t" + y + "\t" + height+ "\t" + (viewY + viewportHeight) / 2f);
+		Bounds bounds = new Bounds(x, y, width, height);
+		return bounds;
+	}
+	
+	private Bounds getDrawBounds() {
+		//Make the side two times the offset long (one time for each side of the center)
+		float width = 2 * offsetX;
+		float height = 2 * offsetY;
+		
+		//Get the center point of the player, then subtract by offset
+		float x = (activePlayer.getX() + activePlayer.getWidth() / 2f) 
+				/ activePlayer.getScaleX() - offsetX;
+		float y = (activePlayer.getY() + activePlayer.getHeight() / 2f) 
+				/ activePlayer.getScaleY() - offsetY + 1;
 		
 		Bounds bounds = new Bounds(x, y, width, height);
 		return bounds;
@@ -220,10 +234,15 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		int width = Math.round(viewportWidth * scaleX);
 		int height = Math.round(viewportHeight * scaleY);
 		
-		pixmap.drawRectangle(x, y, width, height);
+		if (height + y >= this.height * scaleY) {
+			height = this.height * scaleY - y - 1;
+		}
+		
+		pixmap.fillRectangle(x, y, width, height);
 	}
 	
-	private void prepareSprite(Sprite sprite, Texture texture, Bounds bounds) {
+	private void prepareSprite(Sprite sprite, Texture texture) {
+		Bounds bounds = getTextureBounds();
 		float textX = bounds.x * scaleX;
 		float textY = (height - bounds.y) * scaleY;
 		float textWidth = bounds.width * scaleX;
@@ -232,7 +251,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		System.out.println(textX + "\t" + textY + "\t" + textWidth + "\t" + textHeight);
 		
 		sprite.setTexture(texture);
-		sprite.setRegion(textX, textY, textWidth, textHeight);
+		sprite.setRegion((int) textX, (int) textY, (int) textWidth, (int) textHeight);
 		sprite.setSize(Math.abs(textWidth), Math.abs(textHeight));
 	}
 
@@ -247,11 +266,15 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	public void setScaleY(int scaleY) {
 		this.scaleY = scaleY;
 	}
+	
+	public void setActivePlayer(Player player) {
+		this.activePlayer = player;
+	}
 
 	public void setViewportBounds(float x, float y, float width, float height) {
 
 		viewX = x;
-		viewY = y;
+		viewY = -y;
 		viewportWidth = width;
 		viewportHeight = height;
 	}
