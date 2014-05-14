@@ -24,10 +24,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	private int scaleX;
 	private int scaleY;
 	
-	private final Sprite backgroundSprite;
-	private final Sprite blockSprite;
-	private final Sprite playerSprite;
-	private final Sprite viewportSprite;
+	private final Sprite minimapSprite;
 	
 	private final int mapWidth, mapHeight;
 	private int width, height;
@@ -55,15 +52,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		
 		playerPos = new float[0][0];
 		
-		blockSprite = new Sprite();
-		playerSprite = new Sprite();
-		backgroundSprite = new Sprite();
-		viewportSprite = new Sprite();
-		
-		blockSprite.setColor(1, 1, 1, 1);
-		playerSprite.setColor(1, 1, 1, 1);
-		backgroundSprite.setColor(1, 1, 1, 1);
-		viewportSprite.setColor(1, 1, 1, 1);
+		minimapSprite = new Sprite();
+		minimapSprite.setColor(1, 1, 1, 1);
 	}
 	
 	@Override
@@ -87,18 +77,12 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	}
 	
 	public void draw(SpriteBatch batch) {
-		prepareSprite(backgroundSprite, new Texture(getBackgroundPixmap()));
-		prepareSprite(blockSprite, new Texture(getBlockPixmap()));
-		prepareSprite(playerSprite, new Texture(getPlayerPixmap()));
-		prepareSprite(viewportSprite, new Texture(getViewportPixmap()));
+		prepareSprite(minimapSprite, new Texture(getMinimapPixmap()));
 		
 		Color previousColor = batch.getColor();
 		batch.setColor(previousColor.r, previousColor.g, previousColor.b, 0.6f);
 		
-		batch.draw(backgroundSprite, 5, 5);
-		batch.draw(blockSprite, 5, 5);
-		batch.draw(playerSprite, 5, 5);
-		batch.draw(viewportSprite, 5, 5);
+		batch.draw(minimapSprite, 5, 5);
 		
 	}
 	
@@ -116,6 +100,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	}
 	
 	private void drawPlayers(Pixmap pixmap) {
+		pixmap.setColor(INACTIVE_PLAYER);
 		for(int i = 0; i < playerPos.length; i++) {
 			final int x =  (int)(playerPos[i][0]*scaleX);
 			final int y = (int)(height - playerPos[i][1]*scaleY);
@@ -143,18 +128,20 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		}
 	}
 
-	private Pixmap getBackgroundPixmap() {
+	private Pixmap getMinimapPixmap() {
 		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
-		pixmap.setColor(NO_BLOCK);
-		pixmap.fill();
+		drawBackground(pixmap);
+		drawStaticBlocks(pixmap);
+		drawActiveBlocks(pixmap);
+		drawPlayers(pixmap);
+		drawViewport(pixmap);
+		
 		return pixmap;
 	}
 	
-	private Pixmap getBlockPixmap() {
-		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
-		drawStaticBlocks(pixmap);
-		drawActiveBlocks(pixmap);
-		return pixmap;
+	private void drawBackground(Pixmap pixmap) {
+		pixmap.setColor(NO_BLOCK);
+		pixmap.fill();
 	}
 	
 	private int getColor(Block block) {
@@ -171,13 +158,6 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		return pixmap.getHeight() - y;
 	}
 	
-	private Pixmap getPlayerPixmap() {
-		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
-		pixmap.setColor(INACTIVE_PLAYER);
-		drawPlayers(pixmap);
-		return pixmap;
-	}
-	
 	public float getScaleX() {
 		return scaleX;
 	}
@@ -186,14 +166,10 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		return scaleY;
 	}
 	
-	private Pixmap getViewportPixmap() {
-		Pixmap viewport = new Pixmap(width, height, Format.RGBA8888);
-		viewport.setColor(VIEWPORT);
-		viewport.drawRectangle((int)(viewX*scaleX), (int)(viewY * scaleY),
+	private void drawViewport(Pixmap pixmap) {
+		pixmap.setColor(VIEWPORT);
+		pixmap.drawRectangle((int)(viewX*scaleX), (int)(viewY * scaleY),
 				(int)(viewportWidth*scaleX), (int)(viewportHeight*scaleY));
-
-		
-		return viewport;
 	}
 	
 	private void prepareSprite(Sprite sprite, Texture texture) {
