@@ -2,8 +2,8 @@
 <map version="1.0" orientation="orthogonal" width="200" height="20" tilewidth="48" tileheight="48">
  <properties>
   <property name="nbrOfPlayers" value="2"/>
-  <property name="playerStart1" value="11:16"/>
-  <property name="playerStart2" value="11:2"/>
+  <property name="playerStart1" value="11:10"/>
+  <property name="playerStart2" value="11:4"/>
  </properties>
  <tileset firstgid="1" name="Blockster" tilewidth="48" tileheight="48">
   <image source="Blockset.png" width="96" height="48"/>

@@ -194,7 +194,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	}
 
 	private void setZoom() {
-		camera.zoom = 700f / Gdx.graphics.getWidth();
+		camera.zoom = 4 * model.getMap().getBlockWidth() / Gdx.graphics.getWidth();
 	}
 
 	public void toggleFullScreen() {

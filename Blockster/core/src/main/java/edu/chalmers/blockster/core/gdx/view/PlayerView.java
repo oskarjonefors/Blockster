@@ -31,8 +31,8 @@ public class PlayerView {
 		defaultSprite = texture;
 		
 		sprite = new Sprite();
-		setWidth(defaultSprite.getRegionWidth());
-		setHeight(defaultSprite.getRegionHeight());
+		setWidth(24);
+		setHeight(48);
 	}
 	
 	public void draw(SpriteBatch batch){
