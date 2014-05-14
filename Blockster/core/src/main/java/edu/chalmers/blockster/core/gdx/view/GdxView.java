@@ -195,18 +195,17 @@ public class GdxView implements ApplicationListener, Disposable {
 
 	@Override
 	public void create() {
-
+		/* Currently unused */
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
+		/* Currently unused */
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
+		/* Currently unused */
 	}
 
 	private void drawPlayers(SpriteBatch batch) {
@@ -266,10 +265,10 @@ public class GdxView implements ApplicationListener, Disposable {
 		final float vX = pX - viewWidth / 2;
 		final float vY = pY - viewHeight;
 		
-		final List<Player> players = model.getPlayers();
-		final float[][] playerPos = new float[players.size()][2];
-		for (int i = 0; i < players.size(); i++) {
-			final Player player = players.get(i);
+		final List<Player> playerList = model.getPlayers();
+		final float[][] playerPos = new float[playerList.size()][2];
+		for (int i = 0; i < playerList.size(); i++) {
+			final Player player = playerList.get(i);
 			playerPos[i][0] = player.getX() / scaleX;
 			playerPos[i][1] = (player.getY() + player.getHeight() / 2f) / scaleY;
 		}
