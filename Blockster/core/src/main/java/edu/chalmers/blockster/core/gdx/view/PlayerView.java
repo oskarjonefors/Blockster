@@ -28,7 +28,7 @@ public class PlayerView {
 		this.player = player;
 		this.arrayOfAnimation = arrayOfAnimation;
 		this.walkAnimations = walkAnimations;
-		defaultSprite = texture; 
+		defaultSprite = texture;
 		
 		sprite = new Sprite();
 		setWidth(defaultSprite.getRegionWidth());
@@ -46,7 +46,7 @@ public class PlayerView {
 		final Movement move = animState.getMovement();
 		walkAnimTime += Gdx.graphics.getDeltaTime();
 		if (move == Movement.NONE) {
-			if (player.getDirection() == Direction.NONE) {
+			if (player.getDirection() == Direction.NONE ) {
 				return defaultSprite;
 			} else {
 				return walkAnimations.get(player.getDirection()).getKeyFrame(walkAnimTime, true);

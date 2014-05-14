@@ -13,11 +13,9 @@ public class AnimationFactory {
 	private final Map<Movement, Animation> arrayOfAnimations;
 	private final Map<Direction, Animation> walkAnimations;
 	
-	private float picHeight = 50f;
-	private float picWidth = 32f;
-	private float animTime = 0.25f;
-	private int nbrPicWidth = 4;
-	private int nbrPicHeight = 3;
+	private float animTime = 0.15f;
+	private int nbrPicWidth = 7;
+	private int nbrPicHeight = 2;
 	private int nbrsOfAnimations = 10;
 	
 	
@@ -27,10 +25,10 @@ public class AnimationFactory {
 		walkAnimations = new HashMap<Direction, Animation>();
 		arrayOfAnimations = new HashMap<Movement, Animation>();
 	
-		Texture playerWalk = new Texture(Gdx.files.internal("Animations/playerWalk.png"));
+		Texture playerWalk = new Texture(Gdx.files.internal("Animations/walk_animation1.png"));
 		
 		//split all the images into the TextureRegion matrix
-		TextureRegion[][] allPics = TextureRegion.split(playerWalk, 
+		TextureRegion[][] walkPics = TextureRegion.split(playerWalk, 
 				playerWalk.getWidth()/nbrPicWidth, playerWalk.getHeight()/nbrPicHeight);
 		
 			
@@ -47,8 +45,8 @@ public class AnimationFactory {
 		
 			
 		for (int i = 0; i < nbrPicWidth; i++){
-			walkLeft[i] = allPics[0][i];
-			walkRight[i] = allPics[1][i];
+			walkRight[i] = walkPics[0][i];
+			walkLeft[i] = walkPics[1][i];
 			/**
 			liftLeft[i] = allPics[2][i];
 			liftRight[i] = allPics[3][i];
@@ -67,10 +65,6 @@ public class AnimationFactory {
 		 */
 		walkAnimations.put(Direction.LEFT, new Animation(animTime, walkLeft));
 		walkAnimations.put(Direction.RIGHT, new Animation(animTime, walkRight));
-		
-		arrayOfAnimations.put(Movement.LIFT_LEFT, new Animation(animTime, liftLeft));
-		arrayOfAnimations.put(Movement.LIFT_RIGHT, new Animation(animTime, liftRight));
-		arrayOfAnimations.put(Movement.PULL_LEFT, new Animation(animTime, liftRight));
 		
 	}
 	
