@@ -6,20 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import javax.vecmath.Vector2f;
-
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
-import edu.chalmers.blockster.gdx.view.GdxFactory;
 
 public class ModelTest {
 	
