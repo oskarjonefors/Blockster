@@ -1,9 +1,7 @@
-package edu.chalmers.blockster.java;
+package edu.chalmers.blockster.core.gdx;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-
-import edu.chalmers.blockster.core.gdx.Blockster;
 
 /**
  * Application to launch an instance of the game.
