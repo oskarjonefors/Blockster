@@ -31,11 +31,11 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 
 	public boolean canMove(Direction dir) {
 		final BlockMap blockLayer = getBlockLayer();
-		final float blockWidth = blockLayer.getBlockWidth();
+		final float mapWidth = blockLayer.getWidth();
 		final int checkX = (int) (getOriginX() / getScaleX());
 		final int checkY = (int) (getOriginY() / getScaleY());
 
-		return checkX >= 1 && checkX < blockWidth
+		return checkX >= 1 && checkX < mapWidth
 				&& !blockLayer.hasBlock(checkX + dir.getDeltaX(), checkY + dir.getDeltaY());
 
 	}

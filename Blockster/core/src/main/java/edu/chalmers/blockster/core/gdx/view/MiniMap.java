@@ -266,8 +266,6 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		float textWidth = bounds.width * scaleX;
 		float textHeight = bounds.height * scaleY;
 		
-		System.out.println(textX + "\t" + textY + "\t" + textWidth + "\t" + textHeight);
-		
 		sprite.setTexture(texture);
 		sprite.setRegion((int) textX, (int) textY, (int) textWidth, (int) textHeight);
 		sprite.setSize(Math.abs(textWidth), Math.abs(textHeight));
