@@ -1,4 +1,4 @@
-package edu.chalmers.blockster.core.gdx.controller;
+package edu.chalmers.blockster.gdx.controller;
 
 import static edu.chalmers.blockster.core.objects.movement.Direction.LEFT;
 import static edu.chalmers.blockster.core.objects.movement.Direction.NONE;
@@ -17,8 +17,8 @@ import com.badlogic.gdx.utils.Disposable;
 import edu.chalmers.blockster.core.GameState;
 import edu.chalmers.blockster.core.MapChangeListener;
 import edu.chalmers.blockster.core.Model;
-import edu.chalmers.blockster.core.gdx.view.GdxView;
 import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.gdx.view.GdxView;
 
 /**
  * Class to handle input and updating the model.

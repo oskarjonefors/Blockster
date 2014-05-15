@@ -1,4 +1,4 @@
-package edu.chalmers.blockster.core.gdx.view;
+package edu.chalmers.blockster.gdx.view;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

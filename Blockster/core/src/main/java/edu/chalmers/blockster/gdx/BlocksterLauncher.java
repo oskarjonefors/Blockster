@@ -1,4 +1,4 @@
-package edu.chalmers.blockster.core.gdx;
+package edu.chalmers.blockster.gdx;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;

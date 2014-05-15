@@ -1,4 +1,4 @@
-package edu.chalmers.blockster.core.gdx;
+package edu.chalmers.blockster.gdx;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -16,9 +16,9 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import edu.chalmers.blockster.core.MapChangeListener;
 import edu.chalmers.blockster.core.Model;
-import edu.chalmers.blockster.core.gdx.controller.Controller;
-import edu.chalmers.blockster.core.gdx.view.GdxFactory;
-import edu.chalmers.blockster.core.gdx.view.GdxView;
+import edu.chalmers.blockster.gdx.controller.Controller;
+import edu.chalmers.blockster.gdx.view.GdxFactory;
+import edu.chalmers.blockster.gdx.view.GdxView;
 /**
  * 
  * @author Oskar Jönefors, Eric Bjuhr

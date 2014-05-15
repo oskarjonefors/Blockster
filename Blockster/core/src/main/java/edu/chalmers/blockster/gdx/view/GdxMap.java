@@ -1,4 +1,4 @@
-package edu.chalmers.blockster.core.gdx.view;
+package edu.chalmers.blockster.gdx.view;
 
 import java.util.Collection;
 import java.util.HashMap;
