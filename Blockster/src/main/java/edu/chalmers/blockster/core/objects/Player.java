@@ -76,8 +76,10 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	private boolean canLiftBlock(Block block) {
+		final int x = (int)block.getX();
+		final int y = (int)block.getY();
 		return block != null && grabbingBlock && isNextToBlock(block)
-				&& block.isLiftable();
+				&& block.isLiftable() && !blockMap.hasBlock(x, y+1);
 	}
 
 	public boolean canMove(Direction dir) {
@@ -200,8 +202,10 @@ public class Player extends BlocksterObject implements Interactor {
 			interaction = new BlockLiftedInteraction(this, processedBlock,
 					blockMap);
 			interaction.startInteraction();
-			grabbingBlock = false;
+		} else {
+			interaction = PlayerInteraction.NONE;
 		}
+		grabbingBlock = false;
 	}
 
 	public void move(Vector2f distance) {
