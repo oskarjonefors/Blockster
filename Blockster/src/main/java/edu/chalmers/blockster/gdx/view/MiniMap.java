@@ -179,14 +179,19 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 
 	private void drawViewport(Pixmap pixmap, Bounds bounds) {
 		pixmap.setColor(VIEWPORT);
-		int x = Math.round(viewX * scaleX);
+		int x = Math.max(1, Math.round(viewX * scaleX));
 		int y = Math.max(1, Math.round(viewY * scaleY));
 		int width = Math.round(viewportWidth * scaleX);
 		int height = Math.round(viewportHeight * scaleY);
+
+		if (width + x >= this.width * scaleX) {
+			width = this.width * scaleX - x - 1;
+		}
 		
 		if (height + y >= this.height * scaleY) {
 			height = this.height * scaleY - y - 1;
 		}
+		
 		
 		pixmap.fillRectangle(x, y, width, height);
 	}
