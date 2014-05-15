@@ -178,17 +178,24 @@ public class PlayerTest {
 	 @Test
 	 public void testUpdatePosition() {
 		 boolean correct = false;
-		 player.setVelocityX(100);
+		 player.setVelocityX(-100);
 		 player.setVelocityY(100);
 		 
+		 //#1
 		 float lastXPos = player.getOriginX();
 		 player.updatePosition(0.1f);
 		 correct = (lastXPos != player.getX());
+		 System.out.println("test1 " + correct);
 		 
+		 //#2
 		 lastXPos = player.getX();
 		 AnimationState animState = new AnimationState(Movement.MOVE_LEFT);
 		 player.setAnimationState(animState);
-		 player.updatePosition(0.1f);
+		 player.updatePosition(1f);
 		 correct &= (lastXPos != player.getOriginX());
+		 System.out.println("test2 " + correct);
+		 
+		 System.out.println("test3 " + correct);
+		 assertTrue(correct);
 	 }
 }

@@ -41,10 +41,12 @@ public class Player extends BlocksterObject implements Interactor {
 	private List<GameEventListener> listeners;
 	private boolean switchFromMe = false;
 
+	private boolean isMoving = false;
+
 	public Player(float startX, float startY, BlockMap blockMap) {
 		super(startX, startY, blockMap, blockMap.getBlockWidth(),
 				blockMap.getBlockHeight());
-		defaultVelocity = new Vector2f(8 * blockMap.getBlockWidth(),
+		defaultVelocity = new Vector2f(4 * blockMap.getBlockWidth(),
 				55 * blockMap.getBlockHeight());
 		none = EmptyBlock.getInstance();
 		processedBlock = none;
@@ -274,6 +276,7 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public void updatePosition(float deltaTime) {
+		isMoving = !(getVelocity().x == 0);
 		final AnimationState anim = getAnimationState();
 		if (anim == AnimationState.NONE) {
 			final Vector2f velocity = getVelocity();
@@ -311,6 +314,10 @@ public class Player extends BlocksterObject implements Interactor {
 		for (GameEventListener listener : listeners) {
 			listener.playerReachedGoal();
 		}	
-		
+	}
+	
+	public boolean isMoving() {
+		return isMoving;
 	}
 }
+

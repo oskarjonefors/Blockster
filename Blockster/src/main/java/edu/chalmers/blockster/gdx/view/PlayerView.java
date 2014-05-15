@@ -3,6 +3,7 @@ package edu.chalmers.blockster.gdx.view;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,7 +17,7 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
 public class PlayerView {
 	private final Player player;
 	private final Sprite sprite;
-	private final TextureRegion defaultSprite;
+	private TextureRegion standLeft, standRight;
 	private final Map<Movement, Animation> arrayOfAnimation;
 	private final Map<Direction, Animation> walkAnimations;
 	private Animation danceAnimation;
@@ -28,7 +29,8 @@ public class PlayerView {
 		this.player = player;
 		this.arrayOfAnimation = arrayOfAnimation;
 		this.walkAnimations = walkAnimations;
-		defaultSprite = texture;
+		standLeft = new TextureRegion(new Texture("Animations/standLeft.png"));
+		standRight = new TextureRegion(new Texture("Animations/standRight.png"));
 		
 		sprite = new Sprite();
 	}
@@ -48,22 +50,35 @@ public class PlayerView {
 		final Movement move = animState.getMovement();
 		walkAnimTime += Gdx.graphics.getDeltaTime();
 		if (move == Movement.NONE) {
-			if (player.getDirection() == Direction.NONE ) {
-				return defaultSprite;
-			} else {
+			if (player.isMoving()) {
 				return walkAnimations.get(player.getDirection()).getKeyFrame(walkAnimTime, true);
+			} else {
+				return stillPic();
 			} 
 		} else {
 			/**
 			return getCurrentAnimation(move, animState.getElapsedTime());
 			*/
-			return defaultSprite;
+			return standRight;
 		}
 		/*if (player.DANCE == true) {
 			return danceAnimation.getKeyFrame(stateTime);
 		}*/
 	}
 	
+	private TextureRegion stillPic() {
+		switch (player.getDirection()) {
+		
+			case LEFT:	return standLeft; 
+		
+			case RIGHT:	return standRight;
+			
+			default:	return standRight;
+			
+		}
+		
+	}
+
 	public TextureRegion getCurrentAnimation(Movement move, Float time){
 		return arrayOfAnimation.get(move).getKeyFrame(time, true);
 	}

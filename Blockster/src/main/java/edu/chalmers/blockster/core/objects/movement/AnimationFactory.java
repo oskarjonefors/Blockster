@@ -34,6 +34,7 @@ public class AnimationFactory {
 			
 		TextureRegion[] walkLeft = new TextureRegion[nbrPicWidth];
 		TextureRegion[] walkRight = new TextureRegion[nbrPicWidth];
+		/**
 		TextureRegion[] liftLeft = new TextureRegion[nbrPicWidth];
 		TextureRegion[] liftRight = new TextureRegion[nbrPicWidth];
 		TextureRegion[] climbLeft = new TextureRegion[nbrPicWidth];
@@ -42,9 +43,9 @@ public class AnimationFactory {
 		TextureRegion[] pullRight = new TextureRegion[nbrPicWidth];
 		TextureRegion[] pushLeft = new TextureRegion[nbrPicWidth];
 		TextureRegion[] pushRight = new TextureRegion[nbrPicWidth];
-		
+		*/
 			
-		for (int i = 0; i < nbrPicWidth; i++){
+		for (int i = 0; i < nbrPicWidth; i++) {
 			walkRight[i] = walkPics[0][i];
 			walkLeft[i] = walkPics[1][i];
 			/**
