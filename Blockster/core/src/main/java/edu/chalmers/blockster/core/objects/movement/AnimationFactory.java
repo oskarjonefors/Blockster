@@ -13,7 +13,7 @@ public class AnimationFactory {
 	private final Map<Movement, Animation> arrayOfAnimations;
 	private final Map<Direction, Animation> walkAnimations;
 	
-	private float animTime = 0.15f;
+	private float animTime = 0.12f;
 	private int nbrPicWidth = 7;
 	private int nbrPicHeight = 2;
 	private int nbrsOfAnimations = 10;
@@ -63,7 +63,9 @@ public class AnimationFactory {
 		/**
 		 * link the the Movement to the correct animation
 		 */
-		walkAnimations.put(Direction.LEFT, new Animation(animTime, walkLeft));
+		Animation ani = new Animation(animTime, walkLeft);
+		ani.setPlayMode(Animation.LOOP_REVERSED);
+		walkAnimations.put(Direction.LEFT, ani);
 		walkAnimations.put(Direction.RIGHT, new Animation(animTime, walkRight));
 		
 	}
