@@ -20,7 +20,6 @@ import edu.chalmers.blockster.core.gdx.view.GdxFactory;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
-import edu.chalmers.blockster.core.testhelpers.TestFactory;
 
 public class ModelTest {
 	

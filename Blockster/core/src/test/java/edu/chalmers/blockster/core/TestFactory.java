@@ -1,4 +1,4 @@
-package edu.chalmers.blockster.core.testhelpers;
+package edu.chalmers.blockster.core;
 
 import edu.chalmers.blockster.core.Factory;
 import edu.chalmers.blockster.core.objects.BlockMap;
