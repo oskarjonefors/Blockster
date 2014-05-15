@@ -3,7 +3,6 @@ package edu.chalmers.blockster.core.objects;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
@@ -33,7 +32,6 @@ public class BlockTest {
 		blockMap.insertBlock(block);
 	}
 
-	@Ignore
 	@Test
 	public void testCanMove() {
 		boolean correct = true;
@@ -41,14 +39,14 @@ public class BlockTest {
 		block.setAnimationState(anim);
 		
 		//#1 Can move
-		correct &= block.canMove(movement.getDirection());
+		correct &= block.canMove(dir);
 		
 		//#2 Can not move
 		Block newBlock = new Block(startX - 1, startY, blockMap);
 		blockMap.insertBlock(newBlock);
 		correct &= !block.canMove(dir);
 		
-		fail("Not yet implemented");
+		assertTrue(correct);
 	}
 
 	@Test
@@ -67,7 +65,11 @@ public class BlockTest {
 
 	@Test
 	public void testBlock() {
-		fail("Not yet implemented");
+		boolean correct = true;
+		Block block = new Block(startX, startY, blockMap);
+		correct &= !block.isLifted();
+		
+		assertTrue(correct);
 	}
 
 	@Test
@@ -97,16 +99,24 @@ public class BlockTest {
 		assertTrue(correct);
 	}
 
-	@Ignore
 	@Test
 	public void testIsLifted() {
-		fail("Not yet implemented");
+		block.setLifted(true);
+		assertTrue(block.isLifted());
 	}
 
-	@Ignore
 	@Test
 	public void testIsTeleporter() {
-		fail("Not yet implemented");
+		boolean correct = true;
+		
+		//#1 Non-teleporter block
+		correct &= !block.isTeleporter();
+		
+		//#2 Teleporter block
+		block.setProperty("teleporter");
+		correct &= block.isTeleporter();
+		
+		assertTrue(correct);
 	}
 
 	@Test
@@ -165,40 +175,67 @@ public class BlockTest {
 		assertTrue(correct);
 	}
 
-	@Ignore
 	@Test
 	public void testFallDown() {
-		fail("Not yet implemented");
+		boolean correct = true;
+
+		this.block.fallDown();
+		
+		//Move block so the falling down happens
+		this.block.moveToNextPosition();
+		correct &= (block.getY() == 1);
+		
+		//Is animation correct?
+		correct &= (this.block.getAnimationState().getMovement() == Movement.FALL_DOWN);
+		
+		assertTrue(correct);
 	}
 
-	@Ignore
 	@Test
 	public void testSetLifted() {
-		fail("Not yet implemented");
+		boolean correct = true;
+		
+		block.setLifted(true);
+		correct &= block.isLifted();
+		
+		block.setLifted(false);
+		correct &= !block.isLifted();
+		
+		assertTrue(correct);
 	}
 
-	@Ignore
 	@Test
 	public void testRemoveFromGrid() {
-		fail("Not yet implemented");
+		block.removeFromGrid();
+		assertTrue(!blockMap.hasBlock(startX, startY));
 	}
 
-	@Ignore
 	@Test
 	public void testCanBeClimbed() {
-		fail("Not yet implemented");
+		boolean correct = true;
+		
+		correct &= block.canBeClimbed();
+		
+		Block newBlock = new Block(startX, startY + 1, blockMap);
+		blockMap.insertBlock(newBlock);
+		correct &= !block.canBeClimbed();
+		
+		assertTrue(correct);
 	}
 
-	@Ignore
 	@Test
 	public void testCanBeGrabbed() {
-		fail("Not yet implemented");
+		boolean correct = true;
+		
+		correct &= !block.isMovable();
+		correct &= !block.isLiftable();
+		
+		block.setProperty("movable");
+		block.setProperty("liftable");
+		
+		correct &= block.isMovable();
+		correct &= block.isLiftable();
+		
+		assertTrue(correct);
 	}
-
-	@Ignore
-	@Test
-	public void testRemoveProperty() {
-		fail("Not yet implemented");
-	}
-
 }
