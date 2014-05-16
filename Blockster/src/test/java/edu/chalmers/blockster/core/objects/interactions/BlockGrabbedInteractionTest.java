@@ -19,6 +19,82 @@ public class BlockGrabbedInteractionTest {
 	private BlockMap blockMap;
 	private BlockGrabbedInteraction interaction;
 	
+	private void checkDown() {
+		AnimationState none = AnimationState.NONE;
+		
+		/*
+		 * Check down
+		 */
+		setVerticallyOutOfBoundsDown();
+		
+		/*
+		 * Test the far lower end in the left direction
+		 */
+		player.setAnimationState(AnimationState.NONE);
+		player.setDirection(Direction.LEFT);
+		interaction.interact(Direction.LEFT);
+		
+		if (player.getAnimationState() != none){
+			fail("Horisontal test failed on the left side");
+		}
+		
+		/*
+		 * Test the far lower end in the right direction
+		 */
+		player.setAnimationState(AnimationState.NONE);
+		player.setDirection(Direction.RIGHT);
+		interaction.interact(Direction.RIGHT);
+		
+		if (player.getAnimationState() != none){
+			fail("Horisontal test failed on the right side");
+		}
+	}
+	
+	private void checkUp() {
+		AnimationState none = AnimationState.NONE;
+		
+		/*
+		 * Check up
+		 */
+		setVerticallyOutOfBoundsUp();
+		
+		/*
+		 * Test the far upper end in right direction.
+		 */
+		player.setAnimationState(AnimationState.NONE);
+		player.setDirection(Direction.RIGHT);
+		interaction.interact(Direction.RIGHT);
+		
+		if (player.getAnimationState() != none){
+			fail("Horisontal test failed on the right side");
+		}
+		
+		/*
+		 * Test the far upper end in right direction.
+		 */
+		player.setAnimationState(AnimationState.NONE);
+		player.setDirection(Direction.RIGHT);
+		interaction.interact(Direction.RIGHT);
+		
+		if (player.getAnimationState() != none){
+			fail("Horisontal test failed on the right side");
+		}
+	}
+	
+	private void setHorisontallyOutOfBoundsLeft() {
+		interaction.endInteraction();
+		block.setX(10);
+		player.setX(9*player.getScaleX());
+		interaction.startInteraction();
+	}
+	
+	private void setHorisontallyOutOfBoundsRight() {
+		interaction.endInteraction();
+		block.setX(0);
+		player.setX(player.getScaleX());
+		interaction.startInteraction();
+	}
+	
 	@Before
 	public void setUp() {
 		blockMap = new BlockMap(10, 10, 128, 128, new int[][] {{1, 3}});
@@ -32,6 +108,38 @@ public class BlockGrabbedInteractionTest {
 		player.setWidth(100);
 		startInteraction();
 	
+	}
+	
+	private void setVerticallyOutOfBoundsDown() {
+		interaction.endInteraction();
+		block.setY(-1);
+		player.setY(-1*player.getScaleX());
+		interaction.startInteraction();
+	}
+	
+	private void setVerticallyOutOfBoundsUp() {
+		interaction.endInteraction();
+		block.setY(10);
+		player.setY(10*player.getScaleX());
+		interaction.startInteraction();
+	}
+
+	private void startInteraction() {
+		player.setDirection(Direction.RIGHT);
+		interaction.startInteraction();
+	}
+	
+	@Test
+	public void testEndInteraction() {
+		boolean success = (player.getAnimationState() 
+						!= AnimationState.NONE);
+		
+		interaction.endInteraction();
+		
+		success &= player.getAnimationState()
+				== AnimationState.NONE;
+		
+		assertTrue(success);
 	}
 	
 	@Test
@@ -65,18 +173,11 @@ public class BlockGrabbedInteractionTest {
 		}
 	}
 
-	private void setHorisontallyOutOfBoundsRight() {
-		interaction.endInteraction();
-		block.setX(0);
-		player.setX(player.getScaleX());
-		interaction.startInteraction();
-	}
-	
-	private void setHorisontallyOutOfBoundsLeft() {
-		interaction.endInteraction();
-		block.setX(10);
-		player.setX(9*player.getScaleX());
-		interaction.startInteraction();
+	@Test
+	public void testInteractionVerticallyOutOfBounds() {
+		blockMap.removeBlock(block);
+		checkUp();
+		checkDown();
 	}
 	
 	@Test
@@ -97,7 +198,7 @@ public class BlockGrabbedInteractionTest {
 		
 		assertTrue(success);
 	}
-
+	
 	@Test
 	public void testInteractRight() {
 		boolean success = true;
@@ -116,28 +217,10 @@ public class BlockGrabbedInteractionTest {
 	}
 	
 	@Test
-	public void testEndInteraction() {
-		boolean success = (player.getAnimationState() 
-						!= AnimationState.NONE);
-		
-		interaction.endInteraction();
-		
-		success &= player.getAnimationState()
-				== AnimationState.NONE;
-		
-		assertTrue(success);
-	}
-	
-	@Test
 	public void testStartInteraction() {
 		assertTrue(player.getAnimationState() 
 				== AnimationState.GRAB_RIGHT);
 
-	}
-	
-	private void startInteraction() {
-		player.setDirection(Direction.RIGHT);
-		interaction.startInteraction();
 	}
 	
 
