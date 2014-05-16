@@ -15,7 +15,8 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
 public class BlockGrabbedInteractionTest {
 	
 	private Player player;
-	private Block block;
+	private Block block1;
+	private Block block2;
 	private BlockMap blockMap;
 	private BlockGrabbedInteraction interaction;
 	
@@ -83,14 +84,14 @@ public class BlockGrabbedInteractionTest {
 	
 	private void setHorisontallyOutOfBoundsLeft() {
 		interaction.endInteraction();
-		block.setX(10);
+		block1.setX(10);
 		player.setX(9*player.getScaleX());
 		interaction.startInteraction();
 	}
 	
 	private void setHorisontallyOutOfBoundsRight() {
 		interaction.endInteraction();
-		block.setX(0);
+		block1.setX(0);
 		player.setX(player.getScaleX());
 		interaction.startInteraction();
 	}
@@ -99,12 +100,14 @@ public class BlockGrabbedInteractionTest {
 	public void setUp() {
 		blockMap = new BlockMap(10, 10, 128, 128, new int[][] {{1, 3}});
 		player = new Player(1, 3, blockMap);
-		block = new Block(2, 3, blockMap);
-		interaction = new BlockGrabbedInteraction(player, block, blockMap);
-		block.setProperty("movable");
+		block1 = new Block(2, 3, blockMap);
+		block2 = new Block(3, 3, blockMap);
+		interaction = new BlockGrabbedInteraction(player, block1, blockMap);
+		block1.setProperty("movable");
+		block2.setProperty("movable");
 		blockMap.insertBlock(new Block(1, 2, blockMap));
-		blockMap.insertBlock(new Block(3, 3, blockMap));
-		blockMap.insertBlock(block);
+		blockMap.insertBlock(block1);
+		blockMap.insertBlock(block2);
 		player.setWidth(100);
 		startInteraction();
 	
@@ -112,7 +115,6 @@ public class BlockGrabbedInteractionTest {
 	
 	@Test
 	public void testBlockAbovePushedBlock() {
-		blockMap.getBlock(3, 3).setProperty("movable");
 		Block blockAbove = new Block(2, 4, blockMap);
 		blockAbove.setProperty("movable");
 		blockAbove.setProperty("weight");
@@ -141,14 +143,14 @@ public class BlockGrabbedInteractionTest {
 	
 	private void setVerticallyOutOfBoundsDown() {
 		interaction.endInteraction();
-		block.setY(-1);
+		block1.setY(-1);
 		player.setY(-1*player.getScaleX());
 		interaction.startInteraction();
 	}
 	
 	private void setVerticallyOutOfBoundsUp() {
 		interaction.endInteraction();
-		block.setY(10);
+		block1.setY(10);
 		player.setY(10*player.getScaleX());
 		interaction.startInteraction();
 	}
@@ -175,7 +177,7 @@ public class BlockGrabbedInteractionTest {
 	public void testInteractionHorisontallyOutOfBounds() {
 		AnimationState none = AnimationState.NONE;
 		
-		blockMap.removeBlock(block);
+		blockMap.removeBlock(block1);
 		
 		/*
 		 * Test the far right end.
@@ -204,7 +206,7 @@ public class BlockGrabbedInteractionTest {
 
 	@Test
 	public void testInteractionVerticallyOutOfBounds() {
-		blockMap.removeBlock(block);
+		blockMap.removeBlock(block1);
 		checkUp();
 		checkDown();
 	}
@@ -231,12 +233,13 @@ public class BlockGrabbedInteractionTest {
 	@Test
 	public void testInteractRight() {
 		boolean success = true;
+		block2.removeProperty("movable");
 		interaction.interact(Direction.RIGHT);
 		success &= (player.getAnimationState()
 				.getMovement() == Movement.NONE);
-		
-		blockMap.getBlock(3,3).setProperty("movable");
-		
+
+
+		block2.setProperty("movable");
 		interaction.interact(Direction.RIGHT);
 		success &= (player.getAnimationState()
 				.getMovement() != Movement.NONE);
