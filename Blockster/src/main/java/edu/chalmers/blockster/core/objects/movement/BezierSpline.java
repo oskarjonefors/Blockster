@@ -29,8 +29,12 @@ public class BezierSpline implements Spline {
 	
 	@Override
 	public Vector2f getPosition(float percent) {
-		if (percent < 0 || percent > 100) {
-			return new Vector2f();
+		if (percent <= 0) {
+			return new Vector2f(0,0);
+		}
+		
+		if (percent >= 100) {
+			return new Vector2f(dir.getDeltaX(), dir.getDeltaY());
 		}
 		float offsetX;
 		float offsetY;
