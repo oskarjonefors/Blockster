@@ -133,8 +133,9 @@ public class Model implements Comparable<Model>, GameEventListener {
 
 	public void update(float deltaTime) {
 		if(deltaTime <= 0) {
-			throw new IllegalArgumentException("Update method does not accept"
-					+ "deltatimes that are negative or zero.");
+			throw new IllegalArgumentException("Update method does not accept the"
+					+ "deltatime " + deltaTime + ". Only values that are negative"
+							+ "or zero are allowed.");
 		}
 		
 
