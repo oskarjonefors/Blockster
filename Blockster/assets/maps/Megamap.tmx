@@ -22,12 +22,14 @@
   </tile>
   <tile id="2">
    <properties>
-    <property name="bluePortal" value=""/>
+    <property name="blue" value=""/>
+    <property name="teleporter" value=""/>
    </properties>
   </tile>
   <tile id="3">
    <properties>
-    <property name="yellowPortal" value=""/>
+    <property name="teleporter" value=""/>
+    <property name="yellow" value=""/>
    </properties>
   </tile>
  </tileset>
