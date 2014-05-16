@@ -133,7 +133,7 @@ public class Player extends BlocksterObject implements Interactor {
 		return processedBlock;
 	}
 
-	public void grabBlock() {
+	public void startInteraction() {
 		final Block block = getAdjacentBlock();
 		if (block != null && block.isTeleporter()){
 			enterTeleport();

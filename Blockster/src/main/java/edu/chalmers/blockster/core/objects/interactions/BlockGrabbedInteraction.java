@@ -31,7 +31,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		interactor.setGrabbing(false);
 	}
 
-	public List<Interactable> getMoveableInteractables(Direction dir) {
+	private List<Interactable> getMoveableInteractables(Direction dir) {
 		/* Create a list to put the block to be moved in. */
 		final List<Interactable> movingBlocks = new ArrayList<Interactable>();
 

@@ -127,7 +127,7 @@ public class Controller extends InputAdapter implements Disposable {
 
 		if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) {
 			// Try to grab the adjacent block if possible and there is one.
-			activePlayer.grabBlock();
+			activePlayer.startInteraction();
 		}
 
 		if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) {

@@ -51,26 +51,26 @@ public class PlayerTest {
 		
 		//#1
 		player.setDirection(Direction.RIGHT);
-		player.grabBlock();
+		player.startInteraction();
 		correct = !player.isGrabbingBlock();
 		player.endInteraction();
 		
 		//#2
 		player.setDirection(Direction.LEFT);
-		player.grabBlock();
+		player.startInteraction();
 		correct &= !player.isGrabbingBlock();
 		player.endInteraction();
 		
 		//#3
 		player.setDirection(Direction.RIGHT);
 		block.setProperty("movable");
-		player.grabBlock();
+		player.startInteraction();
 		correct &= player.isGrabbingBlock();
 		player.endInteraction();
 		
 		//#4
 		player.setDirection(Direction.LEFT);
-		player.grabBlock();
+		player.startInteraction();
 		correct &= !player.isGrabbingBlock();
 		player.endInteraction();
 		
@@ -113,7 +113,7 @@ public class PlayerTest {
 		 player.setDirection(Direction.RIGHT);
 		 block.setProperty("liftable");
 		 block.setProperty("movable");
-		 player.grabBlock(); 
+		 player.startInteraction(); 
 		 player.liftBlock();
 		 
 		 assertTrue(player.isLiftingBlock());
@@ -154,7 +154,7 @@ public class PlayerTest {
 		 player.setDirection(Direction.RIGHT);
 		 
 		 //#1
-		 player.grabBlock();
+		 player.startInteraction();
 		 player.endInteraction();
 		 correct = !player.isGrabbingBlock();
 
@@ -170,7 +170,7 @@ public class PlayerTest {
 	 public void testGetProcessedBlock() {
 		 player.setDirection(Direction.RIGHT);
 		 block.setProperty("movable");
-		 player.grabBlock();
+		 player.startInteraction();
 
 		 assertTrue(player.getProcessedBlock() == block);
 	 }
