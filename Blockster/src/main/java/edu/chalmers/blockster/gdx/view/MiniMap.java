@@ -114,7 +114,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	public void draw(SpriteBatch batch) {
 		final Pixmap spritePixmap = getMinimapPixmap(getDrawBounds());
-		Texture spriteTexture = new Texture(spritePixmap);
+		final Texture spriteTexture = new Texture(spritePixmap);
 		
 		if (previousTexture != null) {
 			previousTexture.dispose();
