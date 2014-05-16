@@ -53,6 +53,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	private final Sprite minimapSprite;
 	
 	private Texture previousTexture;
+	private Pixmap previousPixmap;
 	private final int width, height;
 	private float[][] playerPos;
 	
@@ -112,10 +113,14 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	}
 	
 	public void draw(SpriteBatch batch) {
-		Texture spriteTexture = new Texture(getMinimapPixmap(getDrawBounds()));
+		final Pixmap spritePixmap = getMinimapPixmap(getDrawBounds());
+		Texture spriteTexture = new Texture(spritePixmap);
 		
 		if (previousTexture != null) {
 			previousTexture.dispose();
+		}
+		if (previousPixmap != null) {
+			previousPixmap.dispose();
 		}
 		
 		prepareSprite(minimapSprite, spriteTexture);
@@ -125,6 +130,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		
 		batch.draw(minimapSprite, 5, 5);
 		previousTexture = spriteTexture;
+		previousPixmap = spritePixmap;
 	}
 	
 	private void drawActiveBlocks(Pixmap pixmap, Bounds bounds) {
