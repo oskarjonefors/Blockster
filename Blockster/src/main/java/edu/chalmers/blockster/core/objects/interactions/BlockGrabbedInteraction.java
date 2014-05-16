@@ -62,7 +62,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	
 	private boolean onMapBorders(int x, int y) {
 		return x <= 0 || x >= blockLayer.getWidth() - 1 ||
-				y >= blockLayer.getHeight() || y <= 0;
+				y > blockLayer.getHeight() || y < 0;
 	}
 
 	@Override
