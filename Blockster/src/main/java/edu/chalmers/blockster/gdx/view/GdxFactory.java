@@ -28,6 +28,7 @@ public class GdxFactory implements Factory {
 	private final int blockHeight;
 	private final int[][] playerStartingPositions;
 	private final TiledMapTileLayer tileLayer;
+	private PortalView portalView;
 	
 	public GdxMap getGdxMap() {
 		return gdxMap;
@@ -68,6 +69,7 @@ public class GdxFactory implements Factory {
 					gdxMap.createBlockViewReference(block, bView);
 					blockMap.insertBlock(block);
 					setBlockProperties(tile.getProperties(), block);
+
 				}
 			}
 		}
