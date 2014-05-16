@@ -29,9 +29,12 @@ public class BlockMap implements GridMap {
 
 	public BlockMap(int width, int height, float blockWidth, float blockHeight,
 			int[][] playerStartingPositions) {
-		assert width > 0 && height > 0;
-		assert blockWidth > 0 && blockHeight > 0;
-		assert playerStartingPositions.length > 0;
+		String posi = "must be positive";
+		assert width > 0 : "Width of map "+posi;
+		assert height > 0 : "Height of map "+posi;
+		assert blockWidth > 0 : "Width of blocks "+posi;
+		assert blockHeight > 0 : "Height of blocks "+posi;
+		assert playerStartingPositions.length > 0 : "There must be at least one player on the map";
 
 		this.listeners = new ArrayList<BlockMapListener>();
 		this.activeBlockListeners = new ArrayList<ActiveBlockListener>();
@@ -47,8 +50,8 @@ public class BlockMap implements GridMap {
 			int startPositionX = startPosition[0];
 			int startPositionY = startPosition[1];
 
-			assert startPositionX >= 0 && startPositionX < width;
-			assert startPositionY >= 0 && startPositionY < height;
+			assert startPositionX >= 0 && startPositionX < width : "Player is not on map (x-axis)";
+			assert startPositionY >= 0 && startPositionY < height : "Player is not on map (y-axis)";
 
 			this.playerStartingPositions[i][0] = startPositionX;
 			this.playerStartingPositions[i][1] = startPositionY;
@@ -89,7 +92,7 @@ public class BlockMap implements GridMap {
 	 *            The block that is to be removed.
 	 */
 	public void removeBlock(Block block) {
-		assert block != null;
+		assert block != null : "Block does not exist, cannot be removed.";
 
 		final int x = Math.round(block.getX());
 		final int y = Math.round(block.getY());
@@ -108,7 +111,7 @@ public class BlockMap implements GridMap {
 	 *            That is to be inserted.
 	 */
 	public void insertBlock(Block block) {
-		assert block != null;
+		assert block != null : "Block does not exist, cannot be inserted.";
 
 		final int x = Math.round(block.getX());
 		final int y = Math.round(block.getY());
