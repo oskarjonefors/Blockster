@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -37,7 +36,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	private OrthogonalTiledMapRenderer renderer;
 	private Stage stage;
 	private Map<Player, PlayerView> players;
-	private Actor background;
+	private BackgroundImage background;
 	private GdxFactory factory;
 	private GdxMap gdxMap;
 	private MiniMap miniMap;
@@ -83,6 +82,11 @@ public class GdxView implements ApplicationListener, Disposable {
 			 */
 			stage.act(Gdx.graphics.getDeltaTime());
 			stage.draw();
+			
+			final SpriteBatch batch = stage.getSpriteBatch();
+			batch.begin();
+			drawBackground(batch);
+			batch.end();
 
 			renderer.setView(camera);
 			renderer.render();
@@ -119,10 +123,9 @@ public class GdxView implements ApplicationListener, Disposable {
 		setWindowMode();
 
 		/* Add the background */
-		final Texture tex = new Texture("maps/background-11.jpg");
-		background = new GdxBackgroundActor(new TextureRegion(tex));
-		background.setScale(5);
-		stage.addActor(background);
+		background = new BackgroundImage(new TextureRegion(new Texture("images/background_day.jpg")),
+				new TextureRegion(new Texture("images/background_night.jpg")));
+		
 
 		hudBatch = new SpriteBatch();
 		miniMap = factory.getMiniMap();
@@ -130,6 +133,10 @@ public class GdxView implements ApplicationListener, Disposable {
 		miniMap.setScaleY(8);
 	}
 
+	public void nextPlayer() {
+		background.switchMode();
+	}
+	
 	public void transitCamera() {
 		Vector3 cameraMoveVector = new Vector3(model.getActivePlayer().getX(),
 				model.getActivePlayer().getY(), 0);
@@ -142,12 +149,9 @@ public class GdxView implements ApplicationListener, Disposable {
 		 * moves
 		 */
 		cameraMoveVector.nor();
-		cameraMoveVector.mul(50f);
+		cameraMoveVector.scl(50f);
 
 		camera.translate(cameraMoveVector);
-
-		background.setPosition(camera.position.x * 0.7f - background.getWidth()
-				* 2, camera.position.y * 0.7f - background.getHeight() * 2);
 
 		final boolean cameraInPlace = camera.position.epsilonEquals(model
 				.getActivePlayer().getX(), model.getActivePlayer().getY(), 0,
@@ -169,7 +173,6 @@ public class GdxView implements ApplicationListener, Disposable {
 	public void refreshStage() {
 		stage.clear();
 		stage.setCamera(camera);
-		stage.addActor(background);
 	}
 
 	@Override
@@ -219,6 +222,13 @@ public class GdxView implements ApplicationListener, Disposable {
 		/* Currently unused */
 	}
 
+	private void drawBackground(SpriteBatch batch) {
+		background.setScale(1);
+		background.setPosition(camera.position.x - background.getWidth() / 2,
+				camera.position.y - background.getHeight() / 2);
+		background.draw(batch);
+	}
+	
 	private void drawPlayers(SpriteBatch batch) {
 
 		for (final Player player : model.getPlayers()) {
@@ -258,7 +268,7 @@ public class GdxView implements ApplicationListener, Disposable {
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-
+		
 		drawPlayers(batch);
 		drawBlocks(batch);
 
