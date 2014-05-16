@@ -217,8 +217,6 @@ public class BlockGrabbedInteractionTest {
 			fail("Horisontal test failed on the left side");
 		}
 		
-		blockMap.removeBlock(block1);
-		
 		/*
 		 * Test the far left end
 		 */
@@ -231,6 +229,18 @@ public class BlockGrabbedInteractionTest {
 		if (player.getAnimationState() != none){
 			fail("Horisontal test failed on the left side");
 		}
+	}
+	
+	@Test
+	public void testInteractionOutOfBounds() {
+		blockMap.removeBlock(block1);
+		setHorisontallyOutOfBoundsLeft();
+		checkUp();
+		checkDown();
+
+		setHorisontallyOutOfBoundsRight();
+		checkUp();
+		checkDown();
 	}
 
 	@Test
