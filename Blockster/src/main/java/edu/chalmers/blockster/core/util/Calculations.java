@@ -2,8 +2,8 @@ package edu.chalmers.blockster.core.util;
 
 public final class Calculations {
 	
-	public static final float STANDARD_MOVE_DURATION = 0.2f;
-	public static final float MOVE_LIFTED_BLOCK_DURATION = 0.15f;
+	public static final float STANDARD_MOVE_DURATION = 0.30f;
+	public static final float MOVE_LIFTED_BLOCK_DURATION = 0.30f;
 	public static final float BLOCK_FALL_DURATION = 0.05f;
 	
 	private Calculations() {
