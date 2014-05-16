@@ -3,9 +3,24 @@ package edu.chalmers.blockster.core.objects;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 
 public class EmptyBlock extends Block {
+	private static volatile EmptyBlock instance = null;
 	
-	public EmptyBlock(int x, int y, BlockMap blockMap) {
-		super(x, y, blockMap);
+	private EmptyBlock() {
+		super(0, 0, null);
+	}
+	
+	public static EmptyBlock getInstance() {
+		if(instance == null) {
+			synchronized (EmptyBlock.class) {
+				instance = new EmptyBlock();
+			}
+		}
+		return instance;
+	}
+
+	@Override
+	public void removeFromGrid() {
+		// DO NOTHING!
 	}
 	
 	@Override

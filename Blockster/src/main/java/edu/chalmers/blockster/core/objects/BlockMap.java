@@ -19,7 +19,6 @@ public class BlockMap implements GridMap {
 
 	private static final Logger LOG = Logger
 			.getLogger(BlockMap.class.getName());
-
 	private Block[][] blockMap;
 	private float[][] playerStartingPositions;
 	private final float blockWidth, blockHeight;
@@ -61,7 +60,7 @@ public class BlockMap implements GridMap {
 		// Fills the whole map with empty blocks
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				blockMap[x][y] = new EmptyBlock(x, y, this);
+				blockMap[x][y] = EmptyBlock.getInstance();
 			}
 		}
 	}
@@ -94,7 +93,7 @@ public class BlockMap implements GridMap {
 
 		final int x = Math.round(block.getX());
 		final int y = Math.round(block.getY());
-		setBlock(x, y, new EmptyBlock(x, y, this));
+		setBlock(x, y, EmptyBlock.getInstance());
 
 		for (BlockMapListener listener : listeners) {
 			listener.blockRemoved(block);
@@ -182,7 +181,7 @@ public class BlockMap implements GridMap {
 	 */
 	public Block getBlock(int x, int y) {
 		if(x >= getWidth() || y >= getHeight()) {
-			return new EmptyBlock(x, y, this);
+			return EmptyBlock.getInstance();
 		}
 		return blockMap[x][y];
 	}

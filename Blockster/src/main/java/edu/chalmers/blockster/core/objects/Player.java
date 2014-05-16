@@ -46,7 +46,7 @@ public class Player extends BlocksterObject implements Interactor {
 				blockMap.getBlockHeight());
 		defaultVelocity = new Vector2f(8 * blockMap.getBlockWidth(),
 				55 * blockMap.getBlockHeight());
-		none = new EmptyBlock(0,0,blockMap);
+		none = EmptyBlock.getInstance();
 		processedBlock = none;
 		listeners = new ArrayList<GameEventListener>();
 	}
