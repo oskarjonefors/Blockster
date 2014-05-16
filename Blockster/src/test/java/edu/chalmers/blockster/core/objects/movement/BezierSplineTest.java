@@ -26,13 +26,13 @@ public class BezierSplineTest {
 		Vector2f pos2 = spline.getPosition(p2);
 		Vector2f pos3 = spline.getPosition(p3);
 		
-		float distStart = pos1.length();
-		float distMiddle = pos2.length();
-		float distEnd = pos3.length();
+		float distStart = Math.abs(pos1.length());
+		float distMiddle = Math.abs(pos2.length());
+		float distEnd = Math.abs(pos3.length());
 		
-		boolean test1 = Math.abs(distStart) < diff;
+		boolean test1 = distStart < diff;
 		boolean test2 = distStart < distMiddle && distMiddle < distEnd;
-		boolean test3 = Math.abs(Math.abs(distEnd) - Math.sqrt(2)) < diff;
+		boolean test3 = Math.abs(distEnd - Math.sqrt(2)) < diff;
 		
 		assertTrue(test1 && test2 && test3);
 	}
