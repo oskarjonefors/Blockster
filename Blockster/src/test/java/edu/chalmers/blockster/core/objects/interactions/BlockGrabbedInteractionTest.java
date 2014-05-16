@@ -136,10 +136,19 @@ public class BlockGrabbedInteractionTest {
 	@Test
 	public void testOutOfRange() {
 		player.setX(0);
-		player.setDirection(Direction.RIGHT);
 		interaction.interact(Direction.RIGHT);
-		assertTrue(!player.isGrabbingBlock());
+		if (player.isGrabbingBlock()) {
+			fail("Out of horisontal range, should not continue to grab");
+		}
 		
+		startInteraction();
+		player.setX(128);
+		player.setY(player.getY() + 128);
+		interaction.interact(Direction.RIGHT);
+		
+		if (player.isGrabbingBlock()) {
+			fail("Out of vertical range, should not continue to grab");
+		}
 	}
 	
 	private void setVerticallyOutOfBoundsDown() {
