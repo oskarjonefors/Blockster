@@ -98,7 +98,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 				- (Math.round(interactor.getX()) / interactor.getScaleX())) <= 1.1f
 				&& Math.abs(interactable.getY()
 						- (Math.round(interactor.getY()) / interactor
-								.getScaleY())) <= 1.1f;
+								.getScaleY())) <= 0.2f;
 	}
 
 	private void pullBlock(Direction dir) {
