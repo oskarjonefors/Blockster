@@ -1,8 +1,8 @@
 package edu.chalmers.blockster.core.objects;
 
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +21,7 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 
 	public Block(float startX, float startY, BlockMap blockLayer) {
 		super(startX, startY, blockLayer, 1, 1);
-		properties = new HashSet<String>();
+		properties = new TreeSet<String>();
 		lifted = false;
 	}
 
@@ -107,5 +107,9 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 
 	public boolean canBeGrabbed() {
 		return isMovable() || isLiftable();
+	}
+	
+	public boolean removeProperty(String string) {
+		return properties.remove(string.toLowerCase(Locale.ENGLISH));
 	}
 }

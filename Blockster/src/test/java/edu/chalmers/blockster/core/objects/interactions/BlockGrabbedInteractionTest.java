@@ -112,14 +112,23 @@ public class BlockGrabbedInteractionTest {
 	
 	@Test
 	public void testBlockAbovePushedBlock() {
+		blockMap.getBlock(3, 3).setProperty("movable");
 		Block blockAbove = new Block(2, 4, blockMap);
 		blockAbove.setProperty("movable");
+		blockAbove.setProperty("weight");
 		blockMap.insertBlock(blockAbove);
-
-		player.setDirection(Direction.RIGHT);
 		interaction.interact(Direction.RIGHT);
 		
-		assertTrue(player.getAnimationState().getMovement() == Movement.NONE);
+		if (player.getAnimationState().getMovement() != Movement.NONE) {
+			fail("Could move with a weighted block above");
+		}
+		
+		blockAbove.removeProperty("weight");
+		interaction.interact(Direction.RIGHT);
+		
+		if (player.getAnimationState().getMovement() == Movement.NONE) {
+			fail("Could not move with a weightless block above");
+		}
 	}
 	
 	public void testOutOfRange() {
@@ -222,7 +231,6 @@ public class BlockGrabbedInteractionTest {
 	@Test
 	public void testInteractRight() {
 		boolean success = true;
-		player.setDirection(Direction.RIGHT);
 		interaction.interact(Direction.RIGHT);
 		success &= (player.getAnimationState()
 				.getMovement() == Movement.NONE);
