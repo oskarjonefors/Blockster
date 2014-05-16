@@ -11,14 +11,10 @@ public final class Calculations {
 	}
 	
 	public static boolean collisionEitherCorner(PhysicalObject player, GridMap blockLayer) {
-		try {
-			return collisionUpperLeft(player, blockLayer) ||
-					collisionUpperRight(player, blockLayer) ||
-					collisionLowerLeft(player, blockLayer) ||
-					collisionLowerRight(player, blockLayer);
-		} catch (NullPointerException e) {
-			return false;
-		}
+		return collisionUpperLeft(player, blockLayer) ||
+				collisionUpperRight(player, blockLayer) ||
+				collisionLowerLeft(player, blockLayer) ||
+				collisionLowerRight(player, blockLayer);
 	}
 
 	private static boolean collisionLowerLeft(PhysicalObject player, 
