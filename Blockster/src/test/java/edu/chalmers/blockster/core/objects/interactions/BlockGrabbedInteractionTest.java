@@ -133,11 +133,12 @@ public class BlockGrabbedInteractionTest {
 		}
 	}
 	
+	@Test
 	public void testOutOfRange() {
-		player.setX(128);
+		player.setX(0);
 		player.setDirection(Direction.RIGHT);
 		interaction.interact(Direction.RIGHT);
-		assertTrue(player.getAnimationState() == AnimationState.NONE);
+		assertTrue(!player.isGrabbingBlock());
 		
 	}
 	
