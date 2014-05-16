@@ -221,8 +221,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		float y = (activePlayer.getY() + activePlayer.getHeight() / 2f) 
 				/ activePlayer.getScaleY() - OFFSET_Y + 1;
 		
-		Bounds bounds = new Bounds(x, y, boundsWidth, boundsHeight);
-		return bounds;
+		return new Bounds(x, y, boundsWidth, boundsHeight);
 	}
 	
 	private Pixmap getMinimapPixmap(Bounds bounds) {
@@ -264,8 +263,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		float y = (activePlayer.getY() - activePlayer.getHeight() / 2f) 
 				/ activePlayer.getScaleY() + OFFSET_Y + 1;
 		
-		Bounds bounds = new Bounds(x, y, boundsWidth, boundsHeight);
-		return bounds;
+		return new Bounds(x, y, boundsWidth, boundsHeight);
 	}
 
 	private void prepareSprite(Sprite sprite, Texture texture) {
