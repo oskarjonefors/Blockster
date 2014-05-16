@@ -32,30 +32,22 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	}
 
 	private List<Interactable> getMoveableInteractables(Direction dir) {
-		/* Create a list to put the block to be moved in. */
 		final List<Interactable> movingBlocks = new ArrayList<Interactable>();
 
-		/* Origin of add process */
 		final int origY = (int) interactable.getY();
+		final int origX = (int) interactable.getX();
+		int checkX = origX;
 
-		if (origY >= blockLayer.getHeight()) {
+		if (onMapBorders(origX, origY)) {
 			return movingBlocks;
 		}
 
-		final int origX = (int) interactable.getX();
-
-		/*
-		 * We've already established that the move is okay, so we don't need to
-		 * change the Y coordinate.
-		 */
-		int checkX = origX;
-
-		/* Loop to add all the blocks to be moved to the list. */
-		while (blockLayer.hasBlock(checkX, origY) && checkX > 0
-				&& checkX < blockLayer.getWidth()) {
+		while (!onMapBorders(checkX, origY) 
+				&& blockLayer.hasBlock(checkX, origY)) {
 			if ((!blockLayer.hasBlock(checkX, origY + 1) || !blockLayer
 					.getBlock(checkX, origY + 1).hasWeight())
-					&& blockLayer.getBlock(checkX, origY).isMovable()) {
+					&& blockLayer.getBlock(checkX, origY).isMovable()
+					&& !onMapBorders(checkX, origY)) {
 				movingBlocks.add((Interactable) blockLayer.getBlock(checkX,
 						origY));
 				checkX += dir.getDeltaX();
@@ -66,6 +58,11 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		}
 
 		return movingBlocks;
+	}
+	
+	private boolean onMapBorders(int x, int y) {
+		return x <= 0 || x >= blockLayer.getWidth() - 1 ||
+				y >= blockLayer.getHeight() || y <= 0;
 	}
 
 	@Override
