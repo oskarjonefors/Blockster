@@ -55,6 +55,7 @@ public class CompositeSplineTest {
 		Direction[] upRight = { Direction.RIGHT, Direction.UP };
 		Direction[] right = { Direction.UP_RIGHT, Direction.DOWN_RIGHT };
 		Direction[] downRight = { Direction.RIGHT, Direction.DOWN };
+		Direction[] none = { Direction.NONE };
 		
 		boolean test1 = testDirections(Direction.DOWN, down);
 		boolean test2 = testDirections(Direction.DOWN_LEFT, downLeft);
@@ -64,13 +65,39 @@ public class CompositeSplineTest {
 		boolean test6 = testDirections(Direction.UP_RIGHT, upRight);
 		boolean test7 = testDirections(Direction.RIGHT, right);
 		boolean test8 = testDirections(Direction.DOWN_RIGHT, downRight);
+		boolean test9 = testDirections(Direction.NONE, none);
 		assertTrue(test1 && test2 && test3 && test4 && test5 && test6 && test7 
-				&& test8);
+				&& test8 && test9);
 	}
 
 	private boolean testDirections(Direction dir, Direction...directions) {
 		CompositeSpline spline = new CompositeSpline(directions);
 		return spline.getDirection() == dir;
+	}
+	
+	@Test
+	public void testGetDirections() {
+		Direction[] directions = Direction.values();
+		CompositeSpline spline = new CompositeSpline(directions);
+		boolean success = true;
+		
+		for (Direction dir : spline.getDirections()) {
+			if (!success) {
+				break;
+			}
+			
+			boolean found = false;
+			for (Direction dir2 : directions) {
+				if (dir == dir2) {
+					found = true;
+					break;
+				}
+			}
+			
+			success &= found;
+		}
+		
+		assertTrue(success);
 	}
 		
 }
