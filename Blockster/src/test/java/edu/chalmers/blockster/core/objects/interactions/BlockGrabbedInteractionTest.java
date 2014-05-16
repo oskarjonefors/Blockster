@@ -110,6 +110,18 @@ public class BlockGrabbedInteractionTest {
 	
 	}
 	
+	@Test
+	public void testBlockAbovePushedBlock() {
+		Block blockAbove = new Block(2, 4, blockMap);
+		blockAbove.setProperty("movable");
+		blockMap.insertBlock(blockAbove);
+
+		player.setDirection(Direction.RIGHT);
+		interaction.interact(Direction.RIGHT);
+		
+		assertTrue(player.getAnimationState().getMovement() == Movement.NONE);
+	}
+	
 	private void setVerticallyOutOfBoundsDown() {
 		interaction.endInteraction();
 		block.setY(-1);
