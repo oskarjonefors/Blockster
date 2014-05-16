@@ -241,7 +241,21 @@ public class ModelTest {
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void testUpdate() {
+	public void testUpdateException() {
 		model.update(-4);
 	}
+	
+	@Test
+	public void testUpdateWin() {
+		final int preGoalPlayers = model.getPlayers().size();
+		model.playerReachedGoal();
+		model.update(5);
+		final int postGoalPlayers = model.getPlayers().size();
+		model.playerReachedGoal();
+		model.update(1);
+		boolean correct = true;
+		correct &= postGoalPlayers < preGoalPlayers;
+		correct &= model.getGameState() == GameState.GAME_WON;
+		assertTrue(correct);
+	} 
 }
