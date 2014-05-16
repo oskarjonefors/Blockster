@@ -261,7 +261,8 @@ public class ModelTest {
 		assertTrue(correct);
 	}
 	
-	@Test public void testUpdatePlayerAnimation() {
+	@Test
+	public void testUpdatePlayerAnimation() {
 		final Player activePlayer = model.getActivePlayer();
 		activePlayer.setAnimationState(AnimationState.LIFT_LEFT);
 		model.update(0.01f);
@@ -271,4 +272,29 @@ public class ModelTest {
 		correct &= activePlayer.getAnimationState() == AnimationState.NONE;
 		assertTrue(correct);
 	}
+	
+	@Test
+	public void testCollision() {
+		final Player activePlayer = model.getActivePlayer();
+		final BlockMap blockMap = model.getMap();
+		
+		model.update(5);
+		boolean correct = true;
+		final Vector2f velocity = activePlayer.getVelocity();
+		correct &= velocity.y != 0;
+		System.out.println(correct);
+		
+		final Block solidBlock = new Block(50, 50, blockMap);
+		solidBlock.setProperty("Solid");
+		blockMap.insertBlock(solidBlock);
+		activePlayer.setX(50f);
+		activePlayer.setY(51f);
+		model.update(0.01f);
+		
+		correct &= velocity.y == 0;
+		assertTrue(correct);
+		
+	}
+	
+	
 }
