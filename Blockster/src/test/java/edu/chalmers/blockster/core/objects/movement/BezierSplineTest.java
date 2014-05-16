@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class BezierSplineTest {
 
-	private float diff = (float) Math.pow(10, 0);
+	private float diff = (float) Math.pow(10, -5);
 	private static BezierSpline spline;
 	private static Direction dir;
 	
