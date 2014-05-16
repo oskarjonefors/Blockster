@@ -1,4 +1,4 @@
-package edu.chalmers.blockster.core.objects.movement;
+package edu.chalmers.blockster.gdx.view;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +7,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import edu.chalmers.blockster.core.objects.movement.Direction;
+import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class AnimationFactory {
 

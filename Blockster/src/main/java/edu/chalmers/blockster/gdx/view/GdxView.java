@@ -23,7 +23,6 @@ import edu.chalmers.blockster.core.GameState;
 import edu.chalmers.blockster.core.Model;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.Player;
-import edu.chalmers.blockster.core.objects.movement.AnimationFactory;
 
 /**
  * @author Joel Tegman, Oskar Jönefors
