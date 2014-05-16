@@ -247,15 +247,28 @@ public class ModelTest {
 	
 	@Test
 	public void testUpdateWin() {
+		boolean correct = true;
 		final int preGoalPlayers = model.getPlayers().size();
+		correct &= model.getGameState() == GameState.GAME_RUNNING;
 		model.playerReachedGoal();
 		model.update(5);
 		final int postGoalPlayers = model.getPlayers().size();
 		model.playerReachedGoal();
 		model.update(1);
-		boolean correct = true;
+		
 		correct &= postGoalPlayers < preGoalPlayers;
 		correct &= model.getGameState() == GameState.GAME_WON;
 		assertTrue(correct);
-	} 
+	}
+	
+	@Test public void testUpdatePlayerAnimation() {
+		final Player activePlayer = model.getActivePlayer();
+		activePlayer.setAnimationState(AnimationState.LIFT_LEFT);
+		model.update(0.01f);
+		boolean correct = true;
+		correct &= activePlayer.getAnimationState() == AnimationState.LIFT_LEFT;
+		model.update(100);
+		correct &= activePlayer.getAnimationState() == AnimationState.NONE;
+		assertTrue(correct);
+	}
 }
