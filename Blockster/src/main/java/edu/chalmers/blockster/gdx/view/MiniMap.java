@@ -45,10 +45,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 
 	private int scaleY;
-	private final float offsetX = 16f;
-	
-	
-	private final float offsetY = 16f;
+	private static final float OFFSET_X = 16f;
+	private static final float OFFSET_Y = 16f;
 	private Player activePlayer;
 	private final Sprite minimapSprite;
 	
@@ -214,14 +212,14 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	private Bounds getDrawBounds() {
 		//Make the side two times the offset long (one time for each side of the center)
-		float boundsWidth = 2 * offsetX;
-		float boundsHeight = 2 * offsetY;
+		float boundsWidth = 2 * OFFSET_X;
+		float boundsHeight = 2 * OFFSET_Y;
 		
 		//Get the center point of the player, then subtract by offset
 		float x = (activePlayer.getX() + activePlayer.getWidth() / 2f) 
-				/ activePlayer.getScaleX() - offsetX;
+				/ activePlayer.getScaleX() - OFFSET_X;
 		float y = (activePlayer.getY() + activePlayer.getHeight() / 2f) 
-				/ activePlayer.getScaleY() - offsetY + 1;
+				/ activePlayer.getScaleY() - OFFSET_Y + 1;
 		
 		Bounds bounds = new Bounds(x, y, boundsWidth, boundsHeight);
 		return bounds;
@@ -257,14 +255,14 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	private Bounds getTextureBounds() {
 		//Make the side two times the offset long (one time for each side of the center)
-		float boundsWidth = 2 * offsetX;
-		float boundsHeight = 2 * offsetY;
+		float boundsWidth = 2 * OFFSET_X;
+		float boundsHeight = 2 * OFFSET_Y;
 		
 		//Get the center point of the player, then subtract by offset
 		float x = (activePlayer.getX() + activePlayer.getWidth() / 2f) 
-				/ activePlayer.getScaleX() - offsetX;
+				/ activePlayer.getScaleX() - OFFSET_X;
 		float y = (activePlayer.getY() - activePlayer.getHeight() / 2f) 
-				/ activePlayer.getScaleY() + offsetY + 1;
+				/ activePlayer.getScaleY() + OFFSET_Y + 1;
 		
 		Bounds bounds = new Bounds(x, y, boundsWidth, boundsHeight);
 		return bounds;
