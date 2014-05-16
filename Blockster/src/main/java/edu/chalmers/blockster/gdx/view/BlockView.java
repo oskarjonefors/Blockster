@@ -33,8 +33,6 @@ public class BlockView implements TiledMapTile {
 	}
 
 	public void draw(SpriteBatch batch) {
-		final TextureRegion region = tile.getTextureRegion();
-		
 		sprite.setPosition(getX()*region.getRegionWidth(), getY()*region.getRegionHeight());
 		setRotation();
 		
