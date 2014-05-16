@@ -192,7 +192,7 @@ public class PlayerTest {
 		 AnimationState animState = new AnimationState(Movement.MOVE_LEFT);
 		 player.setAnimationState(animState);
 		 player.updatePosition(1f);
-		 correct &= (lastXPos != player.getOriginX());
+		 correct &= (lastXPos != player.getX());
 		 System.out.println("test2 " + correct);
 		 
 		 System.out.println("test3 " + correct);
