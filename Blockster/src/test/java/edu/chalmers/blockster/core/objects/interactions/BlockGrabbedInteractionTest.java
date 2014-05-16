@@ -71,29 +71,47 @@ public class BlockGrabbedInteractionTest {
 		}
 		
 		/*
-		 * Test the far upper end in right direction.
+		 * Test the far upper end in left direction.
 		 */
 		player.setAnimationState(AnimationState.NONE);
-		player.setDirection(Direction.RIGHT);
-		interaction.interact(Direction.RIGHT);
+		player.setDirection(Direction.LEFT);
+		interaction.interact(Direction.LEFT);
 		
 		if (player.getAnimationState() != none){
 			fail("Horisontal test failed on the right side");
 		}
 	}
 	
-	private void setHorisontallyOutOfBoundsLeft() {
-		interaction.endInteraction();
-		block1.setX(9);
-		player.setX(8*player.getScaleX());
-		interaction.startInteraction();
-	}
-	
-	private void setHorisontallyOutOfBoundsRight() {
+	private void checkHorisontallyOutOfBoundsLeft() {
 		interaction.endInteraction();
 		block1.setX(1);
 		player.setX(2*player.getScaleX());
 		interaction.startInteraction();
+		
+		player.setAnimationState(AnimationState.NONE);
+		player.setDirection(Direction.LEFT);
+		interaction.interact(Direction.LEFT);
+		
+		if (player.getAnimationState() != AnimationState.NONE){
+			fail("Horisontal test failed on the right side");
+		}
+	}
+	
+	private void checkHorisontallyOutOfBoundsRight() {
+		interaction.endInteraction();
+		block1.setX(9);
+		player.setX(8*player.getScaleX());
+		interaction.startInteraction();
+		
+		interaction.endInteraction();
+		interaction.startInteraction();
+		player.setAnimationState(AnimationState.NONE);
+		player.setDirection(Direction.RIGHT);
+		interaction.interact(Direction.RIGHT);
+		
+		if (player.getAnimationState() != AnimationState.NONE){
+			fail("Horisontal test failed on the left side");
+		}
 	}
 	
 	@Before
@@ -183,71 +201,27 @@ public class BlockGrabbedInteractionTest {
 		assertTrue(success);
 	}
 	
-	@Test
-	public void testInteractionHorisontallyOutOfBounds() {
-		AnimationState none = AnimationState.NONE;
-
-		blockMap.removeBlock(block1);
-		
-		/*
-		 * Test the far right end.
-		 */
-		setHorisontallyOutOfBoundsRight();
-		blockMap.insertBlock(block1);
-		player.setAnimationState(AnimationState.NONE);
-		player.setDirection(Direction.RIGHT);
-		interaction.interact(Direction.RIGHT);
-		
-		if (player.getAnimationState() != none){
-			fail("Horisontal test failed on the right side");
-		}
-		
-
-		blockMap.removeBlock(block1);
-		
-		/*
-		 * Test the far left end
-		 */
-		setHorisontallyOutOfBoundsLeft();
-		player.setAnimationState(AnimationState.NONE);
-		player.setDirection(Direction.LEFT);
-		interaction.interact(Direction.LEFT);
-		
-		if (player.getAnimationState() != none){
-			fail("Horisontal test failed on the left side");
-		}
-		
-		/*
-		 * Test the far left end
-		 */
-		setHorisontallyOutOfBoundsLeft();
-		blockMap.insertBlock(block1);
-		player.setAnimationState(AnimationState.NONE);
-		player.setDirection(Direction.LEFT);
-		interaction.interact(Direction.LEFT);
-		
-		if (player.getAnimationState() != none){
-			fail("Horisontal test failed on the left side");
-		}
-	}
+	
 	
 	@Test
 	public void testInteractionOutOfBounds() {
-		blockMap.removeBlock(block1);
-		setHorisontallyOutOfBoundsLeft();
-		checkUp();
-		checkDown();
 
-		setHorisontallyOutOfBoundsRight();
-		checkUp();
-		checkDown();
-	}
-
-	@Test
-	public void testInteractionVerticallyOutOfBounds() {
 		blockMap.removeBlock(block1);
 		checkUp();
 		checkDown();
+
+		checkHorisontallyOutOfBoundsLeft();
+		checkUp();
+		checkDown();
+
+		checkHorisontallyOutOfBoundsRight();
+		checkUp();
+		checkDown();
+		
+		setUp();
+		checkHorisontallyOutOfBoundsLeft();
+		checkHorisontallyOutOfBoundsRight();
+		
 	}
 	
 	@Test
