@@ -10,6 +10,7 @@ public class MovementDirectionTest {
 
 	private final static Direction left = Direction.LEFT;
 	private final static Direction right = Direction.RIGHT;
+	private final static Direction up = Direction.UP;
 	
 	
 	
@@ -48,45 +49,55 @@ public class MovementDirectionTest {
 	public void testGetLiftMovement() {
 		Movement liftRight = Movement.getLiftMovement(left);
 		Movement liftLeft = Movement.getLiftMovement(right);
+		Movement neither = Movement.getLiftMovement(up);
 		
 		assertTrue(liftLeft == Movement.LIFT_LEFT 
-				&& liftRight == Movement.LIFT_RIGHT);
+				&& liftRight == Movement.LIFT_RIGHT
+				&& neither == Movement.NONE);
 	}
 
 	@Test
 	public void testGetMoveMovement() {
 		Movement moveLeft = Movement.getMoveMovement(left);
 		Movement moveRight = Movement.getMoveMovement(right);
+		Movement neither = Movement.getMoveMovement(up);
 		
 		assertTrue(moveLeft == Movement.MOVE_LEFT 
-				&& moveRight == Movement.MOVE_RIGHT);
+				&& moveRight == Movement.MOVE_RIGHT
+				&& neither == Movement.NONE);
 	}
 
 	@Test
 	public void testGetPlaceMovement() {
 		Movement placeLeft = Movement.getPlaceMovement(left);
 		Movement placeRight = Movement.getPlaceMovement(right);
+		Movement neither = Movement.getPlaceMovement(up);
 		
 		assertTrue(placeLeft == Movement.PLACE_LEFT 
-				&& placeRight == Movement.PLACE_RIGHT);
+				&& placeRight == Movement.PLACE_RIGHT
+				&& neither == Movement.NONE);
 	}
 
 	@Test
 	public void testGetPullMovement() {
 		Movement pullLeft = Movement.getPullMovement(left);
 		Movement pullRight = Movement.getPullMovement(right);
+		Movement neither = Movement.getPullMovement(up);
 		
 		assertTrue(pullLeft == Movement.PULL_LEFT 
-				&& pullRight == Movement.PULL_RIGHT);
+				&& pullRight == Movement.PULL_RIGHT
+				&& neither == Movement.NONE);
 	}
 
 	@Test
 	public void testGetPushMovement() {
 		Movement pushLeft = Movement.getPushMovement(left);
 		Movement pushRight = Movement.getPushMovement(right);
+		Movement neither = Movement.getPushMovement(up);
 		
 		assertTrue(pushLeft == Movement.PUSH_LEFT 
-				&& pushRight == Movement.PUSH_RIGHT);
+				&& pushRight == Movement.PUSH_RIGHT
+				&& neither == Movement.NONE);
 	}
 
 	@Test
