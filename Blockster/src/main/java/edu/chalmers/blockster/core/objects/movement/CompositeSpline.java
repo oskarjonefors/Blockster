@@ -8,11 +8,13 @@ import javax.vecmath.Vector2f;
 public class CompositeSpline implements Spline {
 
 	private final List<LinearSpline> partialSplines;
+	private final Direction[] directions;
 	
-	public CompositeSpline(Direction... dirs) {
+	public CompositeSpline(Direction... directions) {
 		partialSplines = new ArrayList<LinearSpline>();
+		this.directions = directions;
 		
-		for(final Direction dir : dirs) {
+		for(final Direction dir : directions) {
 			partialSplines.add(new LinearSpline(dir));
 		}
 	}
@@ -26,12 +28,8 @@ public class CompositeSpline implements Spline {
 	private Vector2f sumOfSplines(int highestIndex) {
 		Vector2f splineOffset = new Vector2f();
 		
-		if(highestIndex >= partialSplines.size()) {
-			return splineOffset;
-		}
-		
-		for (int i = 0; i <= highestIndex; i++) {
-			final Direction dir = partialSplines.get(i).getDirection();
+		for (int i = 0; i <= Math.min(directions.length, highestIndex); i++) {
+			final Direction dir = directions[i];
 			splineOffset.add(new Vector2f(dir.getDeltaX(), dir.getDeltaY()));
 		}
 		
@@ -57,6 +55,10 @@ public class CompositeSpline implements Spline {
 		return currentOffset;
 	}
 
+	public Direction[] getDirections() {
+		return directions;
+	}
+	
 	@Override
 	public Direction getDirection() {
 		int deltaX = 0;
