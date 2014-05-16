@@ -27,7 +27,7 @@ public class MovementDirectionTest {
 	public void testGetClimbMovement() {
 		Movement leftMovement = Movement.getClimbMovement(left);
 		Movement rightMovement = Movement.getClimbMovement(right);
-		Movement neither = Movement.getLiftMovement(up);
+		Movement neither = Movement.getClimbMovement(up);
 		
 		assertTrue(leftMovement == Movement.CLIMB_LEFT 
 				&& rightMovement == Movement.CLIMB_RIGHT
