@@ -84,7 +84,7 @@ public class BlockMap implements GridMap {
 		listeners.add(listener);
 	}
 	
-	public List getListener(){
+	public List getListeners(){
 		return listeners;
 	}
 
