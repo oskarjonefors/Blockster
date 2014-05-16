@@ -122,6 +122,14 @@ public class BlockGrabbedInteractionTest {
 		assertTrue(player.getAnimationState().getMovement() == Movement.NONE);
 	}
 	
+	public void testOutOfRange() {
+		player.setX(128);
+		player.setDirection(Direction.RIGHT);
+		interaction.interact(Direction.RIGHT);
+		assertTrue(player.getAnimationState() == AnimationState.NONE);
+		
+	}
+	
 	private void setVerticallyOutOfBoundsDown() {
 		interaction.endInteraction();
 		block.setY(-1);
