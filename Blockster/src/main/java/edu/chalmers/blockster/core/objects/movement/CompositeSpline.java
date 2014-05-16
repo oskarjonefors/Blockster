@@ -59,7 +59,32 @@ public class CompositeSpline implements Spline {
 
 	@Override
 	public Direction getDirection() {
-		return Direction.NONE;
+		int deltaX = 0;
+		int deltaY = 0;
+		for (LinearSpline spline : partialSplines) {
+			deltaX += spline.getDirection().getDeltaX();
+			deltaY += spline.getDirection().getDeltaY();
+		}
+		
+		if (deltaX == 0 && deltaY == 0) {
+			return Direction.NONE;
+		}
+		
+		if (deltaX > 0) {
+			if (deltaY == 0) {
+				return Direction.RIGHT;
+			} else {
+				return deltaY > 0 ? Direction.UP_RIGHT : Direction.DOWN_RIGHT;
+			}
+		} else if (deltaX < 0) {
+			if (deltaY == 0) {
+				return Direction.LEFT;
+			} else {
+				return deltaY > 0 ? Direction.UP_LEFT : Direction.DOWN_LEFT;
+			}
+		} else {
+			return deltaY > 0 ? Direction.UP : Direction.DOWN;
+		}
 	}
 
 }
