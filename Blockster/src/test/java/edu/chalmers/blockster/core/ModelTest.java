@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Set;
 
 import javax.vecmath.Vector2f;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.objects.movement.AnimationState;
+import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class ModelTest {
 	
@@ -55,12 +58,14 @@ public class ModelTest {
 		final int model2Hash = model2.hashCode();
 		final int model3Hash = model3.hashCode();
 		final int model4Hash = model4.hashCode();
+		final Model nullModel = new Model(factory, null);
 		
 		boolean correct = true;
 		
 		correct &= modelHash != model2Hash;
 		correct &= model2Hash == model3Hash;
 		correct &= model3Hash != model4Hash;
+		correct &= nullModel.hashCode() == 31;
 		
 		assertTrue(correct);
 	}
@@ -122,6 +127,7 @@ public class ModelTest {
 		correct &= !model.equals("blockModel");
 		correct &= !model3.equals(model4);
 		correct &= model2.equals(model3);
+		correct &= !model.equals(null);
 		
 		assertTrue(correct);
 	}
@@ -178,8 +184,15 @@ public class ModelTest {
 		
 		final Player p3 = model.getActivePlayer();
 		
+		p3.setAnimationState(new AnimationState(Movement.PULL_LEFT));
+		
+		model.nextPlayer();
+		
+		final Player p4 = model.getActivePlayer();
+		
 		correct &= !p1.equals(p2);
 		correct &= p1.equals(p3);
+		correct &= p3.equals(p4);
 		
 		assertTrue(correct);
 	}
@@ -225,5 +238,10 @@ public class ModelTest {
 		correct &= player2StartY == resetPlayer2Y;
 		
 		assertTrue(correct);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testUpdate() {
+		model.update(-4);
 	}
 }
