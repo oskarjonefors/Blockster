@@ -61,8 +61,7 @@ public class GdxFactory implements Factory {
 					
 					final Iterator<String> properties = mapProps.getKeys();
 					while(properties.hasNext()) {
-						final String property = properties.next();
-						block.setProperty(property);
+						block.setProperty(properties.next());
 					}
 				}
 			}
