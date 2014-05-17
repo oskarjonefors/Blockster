@@ -99,6 +99,7 @@ public class BlockGrabbedInteractionTest {
 	}
 	
 	private void positionAtLeftBorder() {
+		setUp();
 		interaction.endInteraction();
 		block1.removeFromGrid();
 		block2.removeFromGrid();
@@ -113,9 +114,12 @@ public class BlockGrabbedInteractionTest {
 	private void positionAtRightBorder() {
 		interaction.endInteraction();
 		block1.removeFromGrid();
-		block1.setX(9);
+		block2.removeFromGrid();
+		block1.setX(8);
+		block2.setX(9);
 		blockMap.insertBlock(block1);
-		player.setX(8*player.getScaleX());
+		blockMap.insertBlock(block2);
+		player.setX(7*player.getScaleX());
 		interaction.startInteraction();
 	}
 	
@@ -208,35 +212,27 @@ public class BlockGrabbedInteractionTest {
 		checkUp();
 		checkDown();
 
-		setUp();
 		positionAtLeftBorder();
 		checkUp();
 		
-		setUp();
 		positionAtLeftBorder();
 		checkDown();
 
-		setUp();
 		positionAtRightBorder();
 		checkUp();
 		
-		setUp();
 		positionAtRightBorder();
 		checkDown();
 		
-		setUp();
 		positionAtLeftBorder();
 		checkOutOfBoundsHorisontally(Direction.LEFT);
 		
-		setUp();
 		positionAtLeftBorder();
 		checkNoOutOfBoundsHorisontally(Direction.RIGHT);
 		
-		setUp();
 		positionAtRightBorder();
 		checkOutOfBoundsHorisontally(Direction.RIGHT);
 		
-		setUp();
 		positionAtRightBorder();
 		checkNoOutOfBoundsHorisontally(Direction.LEFT);
 		

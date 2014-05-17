@@ -33,24 +33,18 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 
 	private List<Interactable> getMoveableInteractables(Direction dir) {
 		final List<Interactable> movingBlocks = new ArrayList<Interactable>();
-
 		final int origY = (int) interactable.getY();
-		final int origX = (int) interactable.getX();
-		int checkX = origX;
+		
+		int checkX = (int) interactable.getX();
 		
 		while (blockLayer.hasBlock(checkX, origY)) {
 			boolean noBlockAbove = !blockLayer.hasBlock(checkX, origY + 1);
-			boolean noWeightAbove = !blockLayer.getBlock(checkX, origY + 1)
-												.hasWeight();
-			
+			boolean noWeightAbove = !blockLayer.getBlock(checkX, origY + 1).hasWeight();
 			boolean isMovable = blockLayer.getBlock(checkX, origY).isMovable();
-			boolean notCrossingBounds = checkX > 0  ||  
-										checkX < blockLayer.getWidth() - 1;
+			boolean notCrossingBounds = checkX > 0  && checkX < blockLayer.getWidth() - 1;
 			
-			if ((noBlockAbove || noWeightAbove) && isMovable 
-					&& notCrossingBounds) {
-				movingBlocks.add((Interactable) blockLayer.getBlock(checkX,
-						origY));
+			if ((noBlockAbove || noWeightAbove) && isMovable && notCrossingBounds) {
+				movingBlocks.add((Interactable) blockLayer.getBlock(checkX, origY));
 				checkX += dir.getDeltaX();
 			} else {
 				movingBlocks.clear();
