@@ -10,6 +10,8 @@ import java.util.TreeMap;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -54,12 +56,11 @@ public class Blockster extends Game implements MapChangeListener {
 		controller = new Controller();
 		controller.addMapChangeListener(this);
 		try {
-			/*
 			FileHandle fh = new FileHandle(new File(new File("assets"), "Gourmet Race.mp3"));
 			Music music = Gdx.audio.newMusic(fh);
-			music.play();
 			music.setLooping(true);
-			*/
+			/* add music.play() here to make the music start. */
+			
 			
 			Gdx.app.log(Blockster.LOG, "Loading stages");
 			loadStages();
@@ -67,7 +68,6 @@ public class Blockster extends Game implements MapChangeListener {
 			Gdx.app.log(Blockster.LOG, "Setting stage");
 			
 			final Iterator<Model> modelIterator = stages.keySet().iterator();
-			//modelIterator.next();
 			final Model model = modelIterator.next();
 			
 			controller.setModel(model);

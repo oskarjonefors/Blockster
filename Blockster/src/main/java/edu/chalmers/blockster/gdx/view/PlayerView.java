@@ -20,7 +20,6 @@ public class PlayerView {
 	private TextureRegion standLeft, standRight;
 	private final Map<Movement, Animation> arrayOfAnimation;
 	private final Map<Direction, Animation> walkAnimations;
-	private Animation danceAnimation;
 	
 	private float walkAnimTime;
 	
@@ -56,14 +55,8 @@ public class PlayerView {
 				return stillPic();
 			} 
 		} else {
-			/**
-			return getCurrentAnimation(move, animState.getElapsedTime());
-			*/
 			return standRight;
 		}
-		/*if (player.DANCE == true) {
-			return danceAnimation.getKeyFrame(stateTime);
-		}*/
 	}
 	
 	private TextureRegion stillPic() {
