@@ -173,7 +173,10 @@ public class BlockGrabbedInteractionTest {
 			fail("Could move with a weighted block above");
 		}
 		
-		blockAbove.removeProperty("weight");
+		setUp();
+		blockAbove = new Block(2, 4, blockMap);
+		blockAbove.setProperty("movable");
+		blockMap.insertBlock(blockAbove);
 		interaction.interact(Direction.RIGHT);
 		
 		if (player.getAnimationState().getMovement() == Movement.NONE) {
