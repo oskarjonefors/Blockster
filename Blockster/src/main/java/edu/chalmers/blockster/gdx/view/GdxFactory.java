@@ -58,11 +58,7 @@ public class GdxFactory implements Factory {
 					blockMap.insertBlock(block);
 					
 					MapProperties mapProps = tile.getProperties();
-					
-					final Iterator<String> properties = mapProps.getKeys();
-					while(properties.hasNext()) {
-						block.setProperty(properties.next());
-					}
+					setBlockProperties(mapProps, block);
 				}
 			}
 		}
@@ -73,7 +69,14 @@ public class GdxFactory implements Factory {
 	public Player createPlayer(float startX, float startY, BlockMap blockLayer) {
 		return new Player(startX, startY, blockLayer);
 	}
-
+	
+	private void setBlockProperties(MapProperties props, Block block) {
+		final Iterator<String> properties = props.getKeys();
+		while(properties.hasNext()) {
+			block.setProperty(properties.next());
+		}
+	}
+	
 	private int[][] getPlayerStartingPositions(TiledMap map) {
 		
 		final MapProperties mapProps = map.getProperties();
