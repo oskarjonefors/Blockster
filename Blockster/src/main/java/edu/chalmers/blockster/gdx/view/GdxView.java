@@ -135,7 +135,6 @@ public class GdxView implements ApplicationListener, Disposable {
 		miniMap.setScaleX(8);
 		miniMap.setScaleY(8);
 		
-		System.out.println(factory.getPortalView(0) == null);
 		bluePortalView = factory.getPortalView(0);
 		yellowPortalView = factory.getPortalView(1);
 		

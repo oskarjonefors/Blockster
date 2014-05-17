@@ -81,10 +81,10 @@ public class GdxFactory implements Factory {
 					final Iterator<String> properties = mapProps.getKeys();
 					while(properties.hasNext()) {
 						final String property = properties.next();
-						if (property == "blue") {
-							bluePortalView = new PortalView(block.getX(), block.getY(), animFactory.getPortalAnimation(0));
-						} else if (property == "yellow") {
-							yellowPortalView = new PortalView(block.getX(), block.getY(), animFactory.getPortalAnimation(1));
+						if (property.equals("blue")) {
+							bluePortalView = new PortalView(block.getX()*blockWidth, block.getY()*blockHeight, animFactory.getPortalAnimation(0));
+						} else if (property.equals("yellow")) {
+							yellowPortalView = new PortalView(block.getX()*blockWidth, block.getY()*blockHeight, animFactory.getPortalAnimation(1));
 						}
 						block.setProperty(property);
 					}

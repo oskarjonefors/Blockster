@@ -20,13 +20,10 @@ public class AnimationFactory {
 	private float walkAnimTime = 0.12f;
 	private int nbrWalkPicWidth = 7, nbrWalkPicHeight = 2;
 	
-	private float portalAnimTime = 0.2f;
+	private float portalAnimTime = 0.1f;
 	private int nbrPortalPicWidth = 4, nbrPortalPicHeigth = 2;
 	
-	
-	
-	
-	public AnimationFactory(){
+	public AnimationFactory() {
 		
 		walkAnimations = new HashMap<Direction, Animation>();
 		arrayOfAnimations = new HashMap<Movement, Animation>();
@@ -40,7 +37,7 @@ public class AnimationFactory {
 				playerWalk.getWidth()/nbrWalkPicWidth, playerWalk.getHeight()/nbrWalkPicHeight);
 		
 		TextureRegion[][] bluePortalPics = TextureRegion.split(bluePortal, bluePortal.getWidth()/nbrPortalPicWidth,
-				bluePortal.getWidth()/nbrPortalPicHeigth);
+				bluePortal.getHeight()/nbrPortalPicHeigth);
 		
 		TextureRegion[][] yellowPortalPics = TextureRegion.split(yellowPortal, yellowPortal.getWidth()/nbrPortalPicWidth,
 				yellowPortal.getHeight()/nbrPortalPicHeigth);
@@ -59,10 +56,11 @@ public class AnimationFactory {
 		}
 		int index = 0;
 		// Portal Animations
-		for(int i = 0; i < nbrPortalPicHeigth - 1; i++) {
-			for(int j = 0; j < nbrPortalPicWidth - 1; j++) {
-				tempBluePortal[index++] = bluePortalPics[i][j];
-				tempYellowPortal[index++] = yellowPortalPics[i][j];
+		for (int i = 0; i < nbrPortalPicHeigth; i++) {
+			for (int j = 0; j < nbrPortalPicWidth; j++) {
+				tempBluePortal[index] = bluePortalPics[i][j];
+				tempYellowPortal[index] = yellowPortalPics[i][j];
+				index += 1;
 			}
 		}
 		
