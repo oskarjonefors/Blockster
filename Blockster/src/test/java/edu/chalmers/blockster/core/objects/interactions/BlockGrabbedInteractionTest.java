@@ -84,8 +84,8 @@ public class BlockGrabbedInteractionTest {
 	
 	private void checkHorisontallyOutOfBoundsLeft() {
 		interaction.endInteraction();
-		block1.setX(1);
-		player.setX(2*player.getScaleX());
+		block1.setX(0);
+		player.setX(1*player.getScaleX());
 		interaction.startInteraction();
 		
 		player.setAnimationState(AnimationState.NONE);
@@ -206,14 +206,17 @@ public class BlockGrabbedInteractionTest {
 	@Test
 	public void testInteractionOutOfBounds() {
 
+		
 		blockMap.removeBlock(block1);
 		checkUp();
 		checkDown();
 
+		setUp();
 		checkHorisontallyOutOfBoundsLeft();
 		checkUp();
 		checkDown();
 
+		setUp();
 		checkHorisontallyOutOfBoundsRight();
 		checkUp();
 		checkDown();

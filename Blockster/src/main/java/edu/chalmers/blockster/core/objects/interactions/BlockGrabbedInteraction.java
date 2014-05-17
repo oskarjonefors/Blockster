@@ -38,16 +38,16 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		final int origX = (int) interactable.getX();
 		int checkX = origX;
 
-		if (onMapBorders(origX, origY)) {
+		if (onMapBorders(origX, origY, dir)) {
 			return movingBlocks;
 		}
 
-		while (!onMapBorders(checkX, origY) 
+		while (!onMapBorders(checkX, origY, dir) 
 				&& blockLayer.hasBlock(checkX, origY)) {
 			if ((!blockLayer.hasBlock(checkX, origY + 1) || !blockLayer
 					.getBlock(checkX, origY + 1).hasWeight())
 					&& blockLayer.getBlock(checkX, origY).isMovable()
-					&& !onMapBorders(checkX, origY)) {
+					&& !onMapBorders(checkX, origY, dir)) {
 				movingBlocks.add((Interactable) blockLayer.getBlock(checkX,
 						origY));
 				checkX += dir.getDeltaX();
@@ -60,9 +60,17 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		return movingBlocks;
 	}
 	
-	private boolean onMapBorders(int x, int y) {
-		return x <= 0 || x >= blockLayer.getWidth() - 1 ||
-				y >= blockLayer.getHeight() || y < 0;
+	private boolean onMapBorders(int x, int y, Direction dir) {
+		if (x == 0 && dir.getDeltaX() <= 0) {
+			return false;
+		}
+		
+		if (x == blockLayer.getWidth() - 1 && dir.getDeltaX() >= 0) {
+			return false;
+		}
+		
+		 return  x < 0  ||  x > blockLayer.getWidth() - 1 || y < 0 
+				 || y > blockLayer.getHeight() - 1;
 	}
 
 	@Override
