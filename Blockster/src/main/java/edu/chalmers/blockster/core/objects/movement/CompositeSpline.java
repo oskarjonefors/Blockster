@@ -67,11 +67,13 @@ public class CompositeSpline implements Spline {
 			deltaX += spline.getDirection().getDeltaX();
 			deltaY += spline.getDirection().getDeltaY();
 		}
-		
+		return evaluateDirection(deltaX, deltaY);
+	}
+	
+	private Direction evaluateDirection(int deltaX, int deltaY) {
 		if (deltaX == 0 && deltaY == 0) {
 			return Direction.NONE;
 		}
-		
 		if (deltaX > 0) {
 			if (deltaY == 0) {
 				return Direction.RIGHT;
