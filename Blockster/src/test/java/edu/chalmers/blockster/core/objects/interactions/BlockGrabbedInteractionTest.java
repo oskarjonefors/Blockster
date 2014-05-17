@@ -112,6 +112,7 @@ public class BlockGrabbedInteractionTest {
 	}
 	
 	private void positionAtRightBorder() {
+		setUp();
 		interaction.endInteraction();
 		block1.removeFromGrid();
 		block2.removeFromGrid();
