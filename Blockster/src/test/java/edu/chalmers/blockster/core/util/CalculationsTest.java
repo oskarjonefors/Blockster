@@ -44,6 +44,7 @@ public class CalculationsTest {
 		testUpperRightCorner();
 		testLowerRightCorner();
 		testNeitherCorner();
+		testNonSolidEitherCorner();
 	}
 
 	private void testLowerLeftCorner() {
@@ -85,6 +86,16 @@ public class CalculationsTest {
 	private void testNeitherCorner() {
 		player.setX(2*player.getScaleX());
 		player.setY(2*player.getScaleY());
+		
+		if (Calculations.collisionEitherCorner(player, blockMap)) {
+			fail("Shouldn't be collision");
+		}
+	}
+	
+	private void testNonSolidEitherCorner() {
+		player.setX(1*player.getScaleX());
+		player.setY(1*player.getScaleY());
+		block.removeProperty("solid");
 		
 		if (Calculations.collisionEitherCorner(player, blockMap)) {
 			fail("Shouldn't be collision");
