@@ -102,6 +102,7 @@ public class BlockGrabbedInteractionTest {
 		interaction.endInteraction();
 		block1.removeFromGrid();
 		block1.setX(0);
+		blockMap.insertBlock(block1);
 		player.setX(1*player.getScaleX());
 		interaction.startInteraction();
 	}
@@ -110,6 +111,7 @@ public class BlockGrabbedInteractionTest {
 		interaction.endInteraction();
 		block1.removeFromGrid();
 		block1.setX(9);
+		blockMap.insertBlock(block1);
 		player.setX(8*player.getScaleX());
 		interaction.startInteraction();
 	}

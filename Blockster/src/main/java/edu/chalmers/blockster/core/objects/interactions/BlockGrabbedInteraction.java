@@ -41,9 +41,8 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		if (onMapBorders(origX, origY, dir)) {
 			return movingBlocks;
 		}
-
-		while (!onMapBorders(checkX, origY, dir) 
-				&& blockLayer.hasBlock(checkX, origY)) {
+		
+		while (blockLayer.hasBlock(checkX, origY)) {
 			if ((!blockLayer.hasBlock(checkX, origY + 1) || !blockLayer
 					.getBlock(checkX, origY + 1).hasWeight())
 					&& blockLayer.getBlock(checkX, origY).isMovable()
@@ -53,7 +52,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 				checkX += dir.getDeltaX();
 			} else {
 				movingBlocks.clear();
-				break;
+				return movingBlocks;
 			}
 		}
 
@@ -69,8 +68,8 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 			return false;
 		}
 		
-		return  x < 0  ||  x > blockLayer.getWidth() - 1 || y < 0 
-				 || y > blockLayer.getHeight() - 1;
+		return  x <= 0  ||  x >= blockLayer.getWidth() - 1 || y <= 0 
+				 || y >= blockLayer.getHeight() - 1;
 	}
 
 	@Override
