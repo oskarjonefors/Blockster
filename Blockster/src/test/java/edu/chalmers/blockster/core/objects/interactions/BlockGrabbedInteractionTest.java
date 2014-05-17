@@ -101,9 +101,12 @@ public class BlockGrabbedInteractionTest {
 	private void positionAtLeftBorder() {
 		interaction.endInteraction();
 		block1.removeFromGrid();
-		block1.setX(0);
+		block2.removeFromGrid();
+		block1.setX(1);
+		block2.setX(0);
 		blockMap.insertBlock(block1);
-		player.setX(1*player.getScaleX());
+		blockMap.insertBlock(block2);
+		player.setX(2*player.getScaleX());
 		interaction.startInteraction();
 	}
 	

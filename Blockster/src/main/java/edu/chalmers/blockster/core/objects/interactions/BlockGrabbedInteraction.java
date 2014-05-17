@@ -38,10 +38,6 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		final int origX = (int) interactable.getX();
 		int checkX = origX;
 
-		if (crossingBorders(origX, origY, dir)) {
-			return movingBlocks;
-		}
-		
 		while (blockLayer.hasBlock(checkX, origY)) {
 			boolean noBlockAbove = !blockLayer.hasBlock(checkX, origY + 1);
 			
