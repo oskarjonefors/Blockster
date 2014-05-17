@@ -159,7 +159,7 @@ public class BlockGrabbedInteractionTest {
 		interaction.startInteraction();
 	}
 	
-	//@Test
+	@Test
 	public void testBlockAbovePushedBlock() {
 		Block blockAbove = new Block(2, 4, blockMap);
 		blockAbove.setProperty("movable");
@@ -179,7 +179,7 @@ public class BlockGrabbedInteractionTest {
 		}
 	}
 
-	//@Test
+	@Test
 	public void testEndInteraction() {
 		boolean success = (player.getAnimationState() 
 						!= AnimationState.NONE);
@@ -237,7 +237,7 @@ public class BlockGrabbedInteractionTest {
 	
 	
 	
-	//@Test
+	@Test
 	public void testInteractLeft() {
 		boolean success = true;
 		blockMap.removeBlock(blockMap.getBlock(0, 2));
@@ -258,7 +258,7 @@ public class BlockGrabbedInteractionTest {
 		assertTrue(success);
 	}
 	
-	//@Test
+	@Test
 	public void testInteractRight() {
 		boolean success = true;
 		block2.removeProperty("movable");
@@ -275,7 +275,7 @@ public class BlockGrabbedInteractionTest {
 		assertTrue(success);
 	}
 	
-	//@Test
+	@Test
 	public void testOutOfRange() {
 		player.setX(0);
 		interaction.interact(Direction.RIGHT);
@@ -293,7 +293,7 @@ public class BlockGrabbedInteractionTest {
 		}
 	}
 	
-	//@Test
+	@Test
 	public void testStartInteraction() {
 		assertTrue(player.getAnimationState() 
 				== AnimationState.GRAB_RIGHT);
