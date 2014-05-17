@@ -61,15 +61,15 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	}
 	
 	private boolean onMapBorders(int x, int y, Direction dir) {
-		if (x == 0 && dir.getDeltaX() <= 0) {
+		if (x == 0 && dir.getDeltaX() > 0) {
 			return false;
 		}
 		
-		if (x == blockLayer.getWidth() - 1 && dir.getDeltaX() >= 0) {
+		if (x == blockLayer.getWidth() - 1 && dir.getDeltaX() < 0) {
 			return false;
 		}
 		
-		 return  x < 0  ||  x > blockLayer.getWidth() - 1 || y < 0 
+		return  x < 0  ||  x > blockLayer.getWidth() - 1 || y < 0 
 				 || y > blockLayer.getHeight() - 1;
 	}
 
@@ -88,6 +88,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 
 			if (isInReach()) {
 				if (Movement.isPullMovement(relativePosition, dir)) {
+					System.out.println("Trying to pull");
 					pullBlock(dir);
 				} else {
 					pushBlocks(dir);
