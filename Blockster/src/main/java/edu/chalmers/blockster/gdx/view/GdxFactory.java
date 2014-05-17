@@ -1,6 +1,7 @@
 package edu.chalmers.blockster.gdx.view;
 
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import com.badlogic.gdx.maps.MapProperties;
@@ -29,6 +30,11 @@ public class GdxFactory implements Factory {
 	private final int[][] playerStartingPositions;
 	private final TiledMapTileLayer tileLayer;
 	private PortalView portalView;
+	private HashMap<Integer, PortalView> portalViews;
+	private AnimationFactory animFactory = new AnimationFactory();
+
+	private PortalView bluePortalView;
+	private PortalView yellowPortalView;
 	
 	public GdxMap getGdxMap() {
 		return gdxMap;
@@ -70,8 +76,21 @@ public class GdxFactory implements Factory {
 					blockMap.insertBlock(block);
 					setBlockProperties(tile.getProperties(), block);
 
+					MapProperties mapProps = tile.getProperties();
+					
+					final Iterator<String> properties = mapProps.getKeys();
+					while(properties.hasNext()) {
+						final String property = properties.next();
+						if (property == "blue") {
+							bluePortalView = new PortalView(block.getX(), block.getY(), animFactory.getPortalAnimation(0));
+						} else if (property == "yellow") {
+							yellowPortalView = new PortalView(block.getX(), block.getY(), animFactory.getPortalAnimation(1));
+						}
+						block.setProperty(property);
+					}
 				}
 			}
+			blockMap.addActiveBlockListener(miniMap);
 		}
 	}
 	
@@ -129,5 +148,8 @@ public class GdxFactory implements Factory {
 	
 	public MiniMap getMiniMap() {
 		return miniMap;
+	}
+	public PortalView getPortalView(int color) {
+		return color == 0 ? bluePortalView : yellowPortalView;
 	}
 }

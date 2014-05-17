@@ -41,6 +41,9 @@ public class GdxView implements ApplicationListener, Disposable {
 	private GdxMap gdxMap;
 	private MiniMap miniMap;
 
+	private PortalView bluePortalView;
+	private PortalView yellowPortalView;
+
 	public GdxView(Model model, GdxFactory factory) {
 		this.model = model;
 		this.factory = factory;
@@ -131,6 +134,11 @@ public class GdxView implements ApplicationListener, Disposable {
 		miniMap = factory.getMiniMap();
 		miniMap.setScaleX(8);
 		miniMap.setScaleY(8);
+		
+		System.out.println(factory.getPortalView(0) == null);
+		bluePortalView = factory.getPortalView(0);
+		yellowPortalView = factory.getPortalView(1);
+		
 	}
 
 	public void nextPlayer() {
@@ -271,10 +279,16 @@ public class GdxView implements ApplicationListener, Disposable {
 		
 		drawPlayers(batch);
 		drawBlocks(batch);
+		drawPortals(batch);
 
 		batch.end();
 	}
 	
+	private void drawPortals(SpriteBatch batch) {
+			bluePortalView.draw(batch);
+			yellowPortalView.draw(batch);
+	}
+
 	private void updateHud() {
 		final Player activePlayer = model.getActivePlayer();
 		miniMap.setActivePlayer(activePlayer);

@@ -12,12 +12,10 @@ public class PortalView {
 	private TextureRegion region;
 	private final Animation animations;
 	private float time, posX, posY;
-	private int color;
 	
-	public PortalView(float posX, float posY, int color, Animation animations) {
+	public PortalView(float posX, float posY, Animation animations) {
 		this.posX = posX;
 		this.posY = posY;
-		this.color = color;
 		this.animations = animations;
 	}
 	public void draw(SpriteBatch batch) {
