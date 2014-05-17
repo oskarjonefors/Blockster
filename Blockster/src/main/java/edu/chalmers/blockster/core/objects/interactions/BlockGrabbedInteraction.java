@@ -37,19 +37,18 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		final int origY = (int) interactable.getY();
 		final int origX = (int) interactable.getX();
 		int checkX = origX;
-
+		
 		while (blockLayer.hasBlock(checkX, origY)) {
 			boolean noBlockAbove = !blockLayer.hasBlock(checkX, origY + 1);
-			
 			boolean noWeightAbove = !blockLayer.getBlock(checkX, origY + 1)
-										.hasWeight();
+												.hasWeight();
 			
 			boolean isMovable = blockLayer.getBlock(checkX, origY).isMovable();
-			
-			boolean notCrossingBorder = !crossingBorders(checkX, origY, dir);
+			boolean notCrossingBounds = checkX > 0  ||  
+										checkX < blockLayer.getWidth() - 1;
 			
 			if ((noBlockAbove || noWeightAbove) && isMovable 
-					&& notCrossingBorder) {
+					&& notCrossingBounds) {
 				movingBlocks.add((Interactable) blockLayer.getBlock(checkX,
 						origY));
 				checkX += dir.getDeltaX();
@@ -60,11 +59,6 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		}
 
 		return movingBlocks;
-	}
-	
-	private boolean crossingBorders(int x, int y, Direction dir) {
-		return  x <= 0  ||  x >= blockLayer.getWidth() - 1 || y <= 0 
-				 || y >= blockLayer.getHeight() - 1;
 	}
 
 	@Override
