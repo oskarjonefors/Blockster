@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -29,8 +31,7 @@ import edu.chalmers.blockster.gdx.view.GdxView;
 public class Blockster extends Game implements MapChangeListener {
 	
 	//Constant useful for logging.
-	public static final String LOG = Blockster.class.getSimpleName();
-
+	private static final Logger LOG = Logger.getLogger(Blockster.class.getName());
 	private Controller controller;
 	private GdxView viewer;
 	private Model stage;
@@ -39,7 +40,7 @@ public class Blockster extends Game implements MapChangeListener {
 	private void addStagesToMap(Map<Model, GdxView> stageMap, File... maps) {
 		final TmxMapLoader loader = new TmxMapLoader();
 		for (final File mapFile : maps) {
-			Gdx.app.log(Blockster.LOG, "Stage found: "+mapFile.getName());
+			LOG.log(Level.FINE, "Stage found" + mapFile.getName());
 			final TiledMap map = loader.load("maps/"+mapFile.getName());
 			final GdxFactory factory = new GdxFactory(map);
 			final Model model = new Model(factory, mapFile.getName());
@@ -52,7 +53,7 @@ public class Blockster extends Game implements MapChangeListener {
 	
 	@Override
 	public void create () {
-		Gdx.app.log(Blockster.LOG, "Creating game");
+		LOG.log(Level.FINE, "Creating game");
 		controller = new Controller();
 		controller.addMapChangeListener(this);
 		try {
@@ -61,26 +62,23 @@ public class Blockster extends Game implements MapChangeListener {
 			music.setLooping(true);
 			/* add music.play() here to make the music start. */
 			
-			
-			Gdx.app.log(Blockster.LOG, "Loading stages");
+			LOG.log(Level.FINE, "Loading stages");
 			loadStages();
 
-			Gdx.app.log(Blockster.LOG, "Setting stage");
-			
+			LOG.log(Level.FINE, "Setting stage");
 			final Iterator<Model> modelIterator = stages.keySet().iterator();
 			final Model model = modelIterator.next();
 			
 			controller.setModel(model);
-		} catch (SecurityException | IOException e) {
-			Gdx.app.log(Blockster.LOG, e.getClass().getName());
+		} catch (IOException e) {
+			LOG.log(Level.WARNING, "IOException loading stages ", e);
 		}
 	}
 	
 	@Override
 	public void dispose () {
-		Gdx.app.log(Blockster.LOG,  "Disposing game");
+		LOG.log(Level.FINE, "Disposing game");
 		viewer.dispose();
-	
 	}
 	
 	private File[] listFilesInDirectory(File directory, final String fileEnding) {
@@ -102,7 +100,7 @@ public class Blockster extends Game implements MapChangeListener {
 
 	@Override
 	public void pause () {
-		Gdx.app.log(Blockster.LOG, "Pausing game");
+		LOG.log(Level.FINE, "Pausing game");
 	}
 
 	@Override
@@ -126,7 +124,7 @@ public class Blockster extends Game implements MapChangeListener {
 
 	@Override
 	public void resize (int width, int height) {
-		Gdx.app.log(Blockster.LOG, "Resizing game to: " + width + " x " + height);
+		LOG.log(Level.FINE, "Resizing game to: " + width + " x " + height);
 		
 		/**
 		 * set the camera view according to the new size
@@ -136,7 +134,7 @@ public class Blockster extends Game implements MapChangeListener {
 
 	@Override
 	public void resume () {
-		Gdx.app.log(Blockster.LOG, "Resuming game");
+		LOG.log(Level.FINE, "Resuming game");
 	}
 	
 	@Override
@@ -146,6 +144,6 @@ public class Blockster extends Game implements MapChangeListener {
 		controller.setView(viewer);
 		viewer.refreshRenderer();
 		viewer.refreshStage();
-		Gdx.app.log(Blockster.LOG, "Recieved a stage changed event");
+		LOG.log(Level.FINE, "Received a stage changed event");
 	}
 }
