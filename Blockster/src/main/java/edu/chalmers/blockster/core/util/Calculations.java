@@ -7,7 +7,9 @@ public final class Calculations {
 	public static final float BLOCK_FALL_DURATION = 0.05f;
 	
 	private Calculations() {
-		
+		//This prevents instantiation via reflection.
+        throw new UnsupportedOperationException("Instantiation of Calculations "
+        		+ "class is not allowed");
 	}
 	
 	public static boolean collisionEitherCorner(PhysicalObject player, GridMap blockLayer) {
