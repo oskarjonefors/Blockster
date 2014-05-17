@@ -38,15 +38,22 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		final int origX = (int) interactable.getX();
 		int checkX = origX;
 
-		if (onMapBorders(origX, origY, dir)) {
+		if (crossingBorders(origX, origY, dir)) {
 			return movingBlocks;
 		}
 		
 		while (blockLayer.hasBlock(checkX, origY)) {
-			if ((!blockLayer.hasBlock(checkX, origY + 1) || !blockLayer
-					.getBlock(checkX, origY + 1).hasWeight())
-					&& blockLayer.getBlock(checkX, origY).isMovable()
-					&& !onMapBorders(checkX, origY, dir)) {
+			boolean noBlockAbove = !blockLayer.hasBlock(checkX, origY + 1);
+			
+			boolean noWeightAbove = !blockLayer.getBlock(checkX, origY + 1)
+										.hasWeight();
+			
+			boolean isMovable = blockLayer.getBlock(checkX, origY).isMovable();
+			
+			boolean notCrossingBorder = !crossingBorders(checkX, origY, dir);
+			
+			if ((noBlockAbove || noWeightAbove) && isMovable 
+					&& notCrossingBorder) {
 				movingBlocks.add((Interactable) blockLayer.getBlock(checkX,
 						origY));
 				checkX += dir.getDeltaX();
@@ -59,7 +66,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		return movingBlocks;
 	}
 	
-	private boolean onMapBorders(int x, int y, Direction dir) {
+	private boolean crossingBorders(int x, int y, Direction dir) {
 		if (x == 0 && dir.getDeltaX() > 0) {
 			return false;
 		}
@@ -79,21 +86,14 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		final float relativePosition = interactable.getX() - interactor.getX()
 				/ blockLayer.getBlockWidth();
 
-		final int checkX = (int) interactable.getX();
-		final int checkY = (int) interactable.getY() + 1;
-
-		if (!blockLayer.hasBlock(checkX, checkY)
-				|| !blockLayer.getBlock(checkX, checkY).hasWeight()) {
-
-			if (isInReach()) {
-				if (Movement.isPullMovement(relativePosition, dir)) {
-					pullBlock(dir);
-				} else {
-					pushBlocks(dir);
-				}
+		if (isInReach()) {
+			if (Movement.isPullMovement(relativePosition, dir)) {
+				pullBlock(dir);
 			} else {
-				endInteraction();
+				pushBlocks(dir);
 			}
+		} else {
+			endInteraction();
 		}
 	}
 
