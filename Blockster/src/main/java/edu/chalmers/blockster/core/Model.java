@@ -20,8 +20,6 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
  * 
  */
 public class Model implements Comparable<Model>, GameEventListener {
-
-	private static final Logger LOG = Logger.getLogger(Model.class.getName());
 	
 	private BlockMap map;
 	private Player activePlayer;

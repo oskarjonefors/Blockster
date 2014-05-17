@@ -20,7 +20,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 
 
 	
-	private class Bounds {
+	private static class Bounds {
 		
 		public final float x, y, width, height;
 		
