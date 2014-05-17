@@ -176,7 +176,8 @@ public class BlockMap implements GridMap {
 	 * @param block
 	 */
 	public void setBlock(int x, int y, Block block) {
-		if(x < getWidth() || y < getHeight()) {
+		if(x < getWidth() && y < getHeight()
+				&& x >= 0 && y >= 0) {
 			blockMap[x][y] = block;
 		}
 	}
