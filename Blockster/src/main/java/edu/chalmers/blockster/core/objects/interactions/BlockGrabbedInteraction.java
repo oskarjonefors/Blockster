@@ -88,7 +88,6 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 
 			if (isInReach()) {
 				if (Movement.isPullMovement(relativePosition, dir)) {
-					System.out.println("Trying to pull");
 					pullBlock(dir);
 				} else {
 					pushBlocks(dir);
