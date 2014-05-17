@@ -21,7 +21,7 @@ public class BlockGrabbedInteractionTest {
 	private BlockGrabbedInteraction interaction;
 	
 	private void checkDown() {
-		AnimationState none = AnimationState.NONE;
+		Movement none = Movement.NONE;
 		
 		/*
 		 * Check down
@@ -31,28 +31,46 @@ public class BlockGrabbedInteractionTest {
 		/*
 		 * Test the far lower end in the left direction
 		 */
-		player.setAnimationState(AnimationState.NONE);
 		player.setDirection(Direction.LEFT);
 		interaction.interact(Direction.LEFT);
 		
-		if (player.getAnimationState() != none){
+		if (player.getAnimationState().getMovement() != none){
 			fail("Horisontal test failed on the left side");
 		}
 		
 		/*
 		 * Test the far lower end in the right direction
 		 */
-		player.setAnimationState(AnimationState.NONE);
 		player.setDirection(Direction.RIGHT);
 		interaction.interact(Direction.RIGHT);
 		
-		if (player.getAnimationState() != none){
+		if (player.getAnimationState().getMovement() != none){
 			fail("Horisontal test failed on the right side");
 		}
 	}
 	
+	private void checkNoOutOfBoundsHorisontally(Direction dir) {
+		player.setDirection(dir);
+		interaction.interact(dir);
+		
+		if (player.getAnimationState().getMovement() == Movement.NONE) {
+			fail("Horisontal test (No OOB) failed with a "
+					+dir.toString().toLowerCase()+"wards direction");
+		}
+	}
+	
+	private void checkOutOfBoundsHorisontally(Direction dir) {
+		player.setDirection(dir);
+		interaction.interact(dir);
+		
+		if (player.getAnimationState().getMovement() != Movement.NONE){
+			fail("Horisontal test (OOB) failed with a "
+					+dir.toString().toLowerCase()+"wards direction");
+		}
+	}
+	
 	private void checkUp() {
-		AnimationState none = AnimationState.NONE;
+		Movement none = Movement.NONE;
 		
 		/*
 		 * Check up
@@ -62,56 +80,36 @@ public class BlockGrabbedInteractionTest {
 		/*
 		 * Test the far upper end in right direction.
 		 */
-		player.setAnimationState(AnimationState.NONE);
 		player.setDirection(Direction.RIGHT);
 		interaction.interact(Direction.RIGHT);
 		
-		if (player.getAnimationState() != none){
+		if (player.getAnimationState().getMovement() != none){
 			fail("Horisontal test failed on the right side");
 		}
 		
 		/*
 		 * Test the far upper end in left direction.
 		 */
-		player.setAnimationState(AnimationState.NONE);
 		player.setDirection(Direction.LEFT);
 		interaction.interact(Direction.LEFT);
 		
-		if (player.getAnimationState() != none){
+		if (player.getAnimationState().getMovement() != none){
 			fail("Horisontal test failed on the right side");
 		}
 	}
 	
-	private void checkHorisontallyOutOfBoundsLeft() {
+	private void positionAtLeftBorder() {
 		interaction.endInteraction();
 		block1.setX(0);
 		player.setX(1*player.getScaleX());
 		interaction.startInteraction();
-		
-		player.setAnimationState(AnimationState.NONE);
-		player.setDirection(Direction.LEFT);
-		interaction.interact(Direction.LEFT);
-		
-		if (player.getAnimationState() != AnimationState.NONE){
-			fail("Horisontal test failed on the right side");
-		}
 	}
 	
-	private void checkHorisontallyOutOfBoundsRight() {
+	private void positionAtRightBorder() {
 		interaction.endInteraction();
 		block1.setX(9);
 		player.setX(8*player.getScaleX());
 		interaction.startInteraction();
-		
-		interaction.endInteraction();
-		interaction.startInteraction();
-		player.setAnimationState(AnimationState.NONE);
-		player.setDirection(Direction.RIGHT);
-		interaction.interact(Direction.RIGHT);
-		
-		if (player.getAnimationState() != AnimationState.NONE){
-			fail("Horisontal test failed on the left side");
-		}
 	}
 	
 	@Before
@@ -129,6 +127,25 @@ public class BlockGrabbedInteractionTest {
 		player.setWidth(100);
 		startInteraction();
 	
+	}
+	
+	private void setVerticallyOutOfBoundsDown() {
+		interaction.endInteraction();
+		block1.setY(-1);
+		player.setY(-1*player.getScaleX());
+		interaction.startInteraction();
+	}
+	
+	private void setVerticallyOutOfBoundsUp() {
+		interaction.endInteraction();
+		block1.setY(10);
+		player.setY(10*player.getScaleX());
+		interaction.startInteraction();
+	}
+	
+	private void startInteraction() {
+		player.setDirection(Direction.RIGHT);
+		interaction.startInteraction();
 	}
 	
 	@Test
@@ -150,44 +167,7 @@ public class BlockGrabbedInteractionTest {
 			fail("Could not move with a weightless block above");
 		}
 	}
-	
-	@Test
-	public void testOutOfRange() {
-		player.setX(0);
-		interaction.interact(Direction.RIGHT);
-		if (player.isGrabbingBlock()) {
-			fail("Out of horisontal range, should not continue to grab");
-		}
-		
-		startInteraction();
-		player.setX(128);
-		player.setY(player.getY() + 128);
-		interaction.interact(Direction.RIGHT);
-		
-		if (player.isGrabbingBlock()) {
-			fail("Out of vertical range, should not continue to grab");
-		}
-	}
-	
-	private void setVerticallyOutOfBoundsDown() {
-		interaction.endInteraction();
-		block1.setY(-1);
-		player.setY(-1*player.getScaleX());
-		interaction.startInteraction();
-	}
-	
-	private void setVerticallyOutOfBoundsUp() {
-		interaction.endInteraction();
-		block1.setY(10);
-		player.setY(10*player.getScaleX());
-		interaction.startInteraction();
-	}
 
-	private void startInteraction() {
-		player.setDirection(Direction.RIGHT);
-		interaction.startInteraction();
-	}
-	
 	@Test
 	public void testEndInteraction() {
 		boolean success = (player.getAnimationState() 
@@ -201,8 +181,6 @@ public class BlockGrabbedInteractionTest {
 		assertTrue(success);
 	}
 	
-	
-	
 	@Test
 	public void testInteractionOutOfBounds() {
 
@@ -212,20 +190,41 @@ public class BlockGrabbedInteractionTest {
 		checkDown();
 
 		setUp();
-		checkHorisontallyOutOfBoundsLeft();
+		positionAtLeftBorder();
 		checkUp();
+		
+		setUp();
+		positionAtLeftBorder();
 		checkDown();
 
 		setUp();
-		checkHorisontallyOutOfBoundsRight();
+		positionAtRightBorder();
 		checkUp();
+		
+		setUp();
+		positionAtRightBorder();
 		checkDown();
 		
 		setUp();
-		checkHorisontallyOutOfBoundsLeft();
-		checkHorisontallyOutOfBoundsRight();
+		positionAtLeftBorder();
+		checkOutOfBoundsHorisontally(Direction.LEFT);
+		
+		setUp();
+		positionAtLeftBorder();
+		checkNoOutOfBoundsHorisontally(Direction.RIGHT);
+		
+		setUp();
+		positionAtRightBorder();
+		checkOutOfBoundsHorisontally(Direction.RIGHT);
+		
+		setUp();
+		positionAtRightBorder();
+		checkNoOutOfBoundsHorisontally(Direction.LEFT);
+		
 		
 	}
+	
+	
 	
 	@Test
 	public void testInteractLeft() {
@@ -261,6 +260,24 @@ public class BlockGrabbedInteractionTest {
 				.getMovement() != Movement.NONE);
 
 		assertTrue(success);
+	}
+	
+	@Test
+	public void testOutOfRange() {
+		player.setX(0);
+		interaction.interact(Direction.RIGHT);
+		if (player.isGrabbingBlock()) {
+			fail("Out of horisontal range, should not continue to grab");
+		}
+		
+		startInteraction();
+		player.setX(128);
+		player.setY(player.getY() + 128);
+		interaction.interact(Direction.RIGHT);
+		
+		if (player.isGrabbingBlock()) {
+			fail("Out of vertical range, should not continue to grab");
+		}
 	}
 	
 	@Test
