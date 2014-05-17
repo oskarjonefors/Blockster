@@ -21,6 +21,13 @@ public class GdxFactory implements Factory {
 	private BlockMap blockMap;
 	private GdxMap gdxMap;
 	private MiniMap miniMap;
+
+	private final int width;
+	private final int height;
+	private final int blockWidth;
+	private final int blockHeight;
+	private final int[][] playerStartingPositions;
+	private final TiledMapTileLayer tileLayer;
 	
 	public GdxMap getGdxMap() {
 		return gdxMap;
@@ -28,23 +35,27 @@ public class GdxFactory implements Factory {
 
 	public GdxFactory(TiledMap map) {
 		this.map = map;
+		playerStartingPositions = getPlayerStartingPositions(map);
+		
+		tileLayer = (TiledMapTileLayer) map.getLayers().get(0);
+		width = tileLayer.getWidth();
+		height = tileLayer.getHeight();
+		blockWidth = (int) tileLayer.getTileWidth();
+		blockHeight = (int) tileLayer.getTileHeight();
 	}
 	
 	@Override
 	public void createMap() {
-		final int[][] playerStartingPositions = getPlayerStartingPositions(map);
-		final TiledMapTileLayer tileLayer = (TiledMapTileLayer) map.getLayers().get(0);
-		final int width = tileLayer.getWidth();
-		final int height = tileLayer.getHeight();
-		final int blockWidth = (int) tileLayer.getTileWidth();
-		final int blockHeight = (int) tileLayer.getTileHeight();
-
-		
-		miniMap = new MiniMap(tileLayer.getWidth(), tileLayer.getHeight());
+		miniMap = new MiniMap(width, height);
 		blockMap = new BlockMap(width, height, blockWidth, blockHeight, playerStartingPositions);
 		gdxMap = new GdxMap(blockMap);
 		blockMap.addListener(gdxMap);
 		blockMap.addListener(miniMap);
+		blockMap.addActiveBlockListener(miniMap);
+		insertBlocks();
+	}
+	
+	private void insertBlocks() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				final Cell cell = tileLayer.getCell(x, y);
@@ -60,7 +71,6 @@ public class GdxFactory implements Factory {
 				}
 			}
 		}
-		blockMap.addActiveBlockListener(miniMap);
 	}
 	
 	@Override
