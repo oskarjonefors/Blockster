@@ -56,9 +56,7 @@ public class GdxFactory implements Factory {
 					
 					gdxMap.createBlockViewReference(block, bView);
 					blockMap.insertBlock(block);
-					
-					MapProperties mapProps = tile.getProperties();
-					setBlockProperties(mapProps, block);
+					setBlockProperties(tile.getProperties(), block);
 				}
 			}
 		}
