@@ -67,11 +67,11 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	}
 	
 	private boolean crossingBorders(int x, int y, Direction dir) {
-		if (x == 0 && dir.getDeltaX() > 0) {
+		if (x == 0 && dir.getDeltaX() >= 0) {
 			return false;
 		}
 		
-		if (x == blockLayer.getWidth() - 1 && dir.getDeltaX() < 0) {
+		if (x == blockLayer.getWidth() - 1 && dir.getDeltaX() <= 0) {
 			return false;
 		}
 		
