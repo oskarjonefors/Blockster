@@ -56,7 +56,7 @@ public class CompositeSpline implements Spline {
 	}
 
 	public Direction[] getDirections() {
-		return directions;
+		return directions.clone();
 	}
 	
 	@Override

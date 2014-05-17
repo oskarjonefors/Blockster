@@ -22,7 +22,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	private static class Bounds {
 		
-		public final float x, y, width, height;
+		private final float x, y, width, height;
 		
 		public Bounds(float x, float y, float width, float height) {
 			this.x = x;
@@ -35,8 +35,6 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 			return x >= this.x - 3 && x < this.x + width + 3
 					&& y >= this.y - 3 && y < this.y + height + 3;
 		}
-		
-		
 	}
 	private final Set<Block> activeBlocks;
 	
