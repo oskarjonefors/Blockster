@@ -124,8 +124,15 @@ public class BlockLiftedInteractionTest {
 	}
 	
 	@Test
-	public void testStartInteractionFailure() {
+	public void testStartInteractionFailure1() {
 		blockMap.insertBlock(new Block(0, 1, blockMap));
+		interaction.startInteraction();
+		assertTrue(!player.isLiftingBlock());
+	}
+	
+	@Test
+	public void testStartInteractionFailure2() {
+		blockMap.insertBlock(new Block(1, 1, blockMap));
 		interaction.startInteraction();
 		assertTrue(!player.isLiftingBlock());
 	}
