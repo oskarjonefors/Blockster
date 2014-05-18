@@ -78,7 +78,9 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 	}
 
 	public boolean canPerformMove(Direction dir) {
-		return interactor.canMove(dir) && interacted.canMove(dir);
+		boolean interactorCanMove = interactor.canMove(dir);
+		boolean interactedCanMove = interacted.canMove(dir);
+		return interactorCanMove && interactedCanMove;
 
 	}
 

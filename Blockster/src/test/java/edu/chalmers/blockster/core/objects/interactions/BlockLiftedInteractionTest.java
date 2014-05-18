@@ -139,31 +139,23 @@ public class BlockLiftedInteractionTest {
 
 	@Test
 	public void testCanPerformMoveCollisionPlayer() {
-		interaction.startInteraction();
-		block.removeFromGrid();
-		block.moveToNextPosition();
-		
-		blockMap.insertBlock(new Block(0, 1, blockMap));
-		assertTrue(!interaction.canPerformMove(Direction.RIGHT));
-	}
-	
-	@Test
-	public void testCanPerformMoveCollisionBlock() {
-		interaction.startInteraction();
-		block.removeFromGrid();
-		block.moveToNextPosition();
-		
+		startInteraction();
 		blockMap.insertBlock(new Block(1, 1, blockMap));
 		assertTrue(!interaction.canPerformMove(Direction.RIGHT));
 	}
 	
 	@Test
+	public void testCanPerformMoveCollisionBlock() {
+		startInteraction();
+		blockMap.insertBlock(new Block(1, 2, blockMap));
+		blockMap.insertBlock(new Block(1, 0, blockMap));
+		assertTrue(!interaction.canPerformMove(Direction.RIGHT));
+	}
+	
+	@Test
 	public void testCanPerformMoveCollisionBoth() {
-		interaction.startInteraction();
-		block.removeFromGrid();
-		block.moveToNextPosition();
-		
-		blockMap.insertBlock(new Block(0, 1, blockMap));
+		startInteraction();
+		blockMap.insertBlock(new Block(1, 2, blockMap));
 		blockMap.insertBlock(new Block(1, 1, blockMap));
 		assertTrue(!interaction.canPerformMove(Direction.RIGHT));
 	}
