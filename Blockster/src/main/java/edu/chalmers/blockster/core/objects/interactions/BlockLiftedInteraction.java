@@ -40,9 +40,11 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 	@Override
 	public void endInteraction() {
 		final Direction dir = interactor.getDirection();
+		final Movement placeMovement = Movement.getPlaceMovement(dir);
+		final AnimationState placeDown = new AnimationState(placeMovement);
 		boolean done = false;
-		AnimationState placeDown = new AnimationState(Movement.getPlaceMovement(dir));
-		if (interacted.canMove(placeDown.getMovement().getDirection())) {
+		
+		if (interacted.canMove(placeMovement.getDirection())) {
 			interacted.setAnimationState(placeDown);
 			done = true;
 		} else if (interacted.canMove(dir)) {

@@ -91,14 +91,13 @@ public class Player extends BlocksterObject implements Interactor {
 	public boolean canMove(Direction dir) {
 		final BlockMap bLayer = getBlockLayer();
 		final float mapWidth = bLayer.getWidth();
-		final int checkX = (int) (getOriginX() / getScaleX());
-		final int checkY = (int) (getOriginY() / getScaleY());
+		final int checkX = (int) (getOriginX() / getScaleX()) + dir.getDeltaX();
+		final int checkY = (int) (getOriginY() / getScaleY()) + dir.getDeltaY();
+		final boolean collisionForward = bLayer.hasBlock(checkX , checkY);
+		final boolean collisionBeneath = bLayer.hasBlock(checkX, checkY - 1);
 
-		return checkX >= 1
-				&& checkX < mapWidth
-				&& !bLayer.hasBlock(checkX + dir.getDeltaX(), checkY + dir.getDeltaY())
-				&& bLayer
-						.hasBlock(checkX + dir.getDeltaX(), checkY + dir.getDeltaY() - 1);
+		return checkX >= 0 && checkX <= mapWidth - 1 && !collisionForward &&
+				collisionBeneath;
 
 	}
 
