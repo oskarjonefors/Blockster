@@ -31,7 +31,6 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 
 	public boolean canMove(Direction dir) {
 		final BlockMap blockLayer = getBlockLayer();
-		final float mapHeight = blockLayer.getHeight();
 		final float mapWidth = blockLayer.getWidth();
 		final int checkX = (int) (getOriginX() / getScaleX()) + dir.getDeltaX();
 		final int checkY = (int) (getOriginY() / getScaleY()) + dir.getDeltaY();

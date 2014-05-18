@@ -20,7 +20,7 @@ public class PortalView {
 		sprite = new Sprite(); 
 	}
 	public void draw(SpriteBatch batch) {
-		TextureRegion region = chooseAnimation();
+		region = chooseAnimation();
 		int width = region.getRegionWidth();
 		int height = region.getRegionHeight();
 		

@@ -20,7 +20,6 @@ public class PlayerView {
 	private TextureRegion standLeft, standRight;
 	private final Map<AnimationState, Animation> arrayOfAnimation;
 	private final Map<Direction, Animation> walkAnimations;
-	private AnimationState lastState;
 	
 	private float animTime;
 	
@@ -74,8 +73,6 @@ public class PlayerView {
 	private TextureRegion getWalkingPic() {
 		return walkAnimations.get(player.getDirection()).getKeyFrame(animTime, true);
 	}
-
-//	}
 	
 	private TextureRegion getStillPic() {
 		switch (player.getDirection()) {
