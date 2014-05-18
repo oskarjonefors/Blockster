@@ -85,8 +85,8 @@ public class PlayerView {
 		
 	}
 
-	public TextureRegion getCurrentAnimation(Movement move, Float time){
-		return arrayOfAnimation.get(move).getKeyFrame(time, true);
+	public TextureRegion getCurrentAnimation(AnimationState anim, Float time){
+		return arrayOfAnimation.get(anim).getKeyFrame(time, true);
 	}
 	
 	public final void setSize(float width, float height) {
