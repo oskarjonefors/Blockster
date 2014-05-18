@@ -158,8 +158,8 @@ public class Model implements Comparable<Model>, GameEventListener {
 	}
 	
 	private boolean gameIsWon() {
-		boolean activePlayerMovementDone = (getActivePlayer()
-				.getAnimationState().getMovement() == Movement.NONE);
+		boolean activePlayerMovementDone = getActivePlayer()
+				.getAnimationState().getMovement() == Movement.NONE;
 		boolean lastPlayerToPortal = players.size() == 1;
 		return activePlayerMovementDone && lastPlayerToPortal;
 	}
