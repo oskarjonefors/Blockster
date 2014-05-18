@@ -249,13 +249,23 @@ public class ModelTest {
 	public void testUpdateWin() {
 		boolean correct = true;
 		final int preGoalPlayers = model.getPlayers().size();
+		final int postGoalPlayers;
 		correct &= model.getGameState() == GameState.GAME_RUNNING;
 		model.playerReachedGoal();
-		model.update(5);
-		final int postGoalPlayers = model.getPlayers().size();
-		model.playerReachedGoal();
-		model.update(1);
+		model.getActivePlayer().setAnimationState(new AnimationState(Movement.MOVE_LEFT));
+		correct &= model.getGameState() == GameState.GAME_RUNNING;
+		model.update(Movement.MOVE_LEFT.getDuration() / 2);
+		correct &= model.getGameState() == GameState.GAME_RUNNING;
+		model.update(Movement.MOVE_LEFT.getDuration() / 2 + 1);
+		correct &= model.getGameState() == GameState.GAME_RUNNING;
 		
+		postGoalPlayers = model.getPlayers().size();
+		model.playerReachedGoal();
+		model.getActivePlayer().setAnimationState(new AnimationState(Movement.MOVE_LEFT));
+		correct &= model.getGameState() == GameState.GAME_RUNNING;
+		model.update(Movement.MOVE_LEFT.getDuration() / 2);
+		correct &= model.getGameState() == GameState.GAME_RUNNING;
+		model.update(Movement.MOVE_LEFT.getDuration() / 2 + 1);
 		correct &= postGoalPlayers < preGoalPlayers;
 		correct &= model.getGameState() == GameState.GAME_WON;
 		assertTrue(correct);

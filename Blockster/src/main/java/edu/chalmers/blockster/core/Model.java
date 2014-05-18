@@ -136,16 +136,20 @@ public class Model implements Comparable<Model>, GameEventListener {
 		}
 		
 
-		checkGoals();
 		updateBlocks(deltaTime);
 		updatePlayers(deltaTime);
+		checkGoals();
 	}
 	
 	private void checkGoals() {
 		if (activePlayerEnteringTeleporter) {
 			Player previousActivePlayer = activePlayer;
+			
+			if (gameIsWon()) {
+				setGameState(GameState.GAME_WON);
+			}
+			
 			nextPlayer();
-			didWeWin();
 			if (previousActivePlayer != activePlayer) {
 				players.remove(previousActivePlayer);
 				activePlayerEnteringTeleporter = false;
@@ -153,11 +157,11 @@ public class Model implements Comparable<Model>, GameEventListener {
 		}
 	}
 	
-	private void didWeWin() {
-		if(getActivePlayer().getAnimationState().getMovement() == Movement.NONE && players.size() == 1){
-			setGameState(GameState.GAME_WON);
-		}
-		
+	private boolean gameIsWon() {
+		boolean activePlayerMovementDone = (getActivePlayer()
+				.getAnimationState().getMovement() == Movement.NONE);
+		boolean lastPlayerToPortal = players.size() == 1;
+		return activePlayerMovementDone && lastPlayerToPortal;
 	}
 
 	private void updateBlocks(float deltaTime) {
