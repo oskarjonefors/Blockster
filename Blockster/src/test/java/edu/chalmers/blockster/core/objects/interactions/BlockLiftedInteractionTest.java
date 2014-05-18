@@ -29,6 +29,21 @@ public class BlockLiftedInteractionTest {
 		block = new Block(1, 0, blockMap);
 		interaction = new BlockLiftedInteraction(player, block, blockMap);
 	}
+	
+	@Test
+	public void testInteractFailure() {
+		startInteraction();
+		blockMap.insertBlock(new Block(1,1,blockMap));
+		
+		interaction.interact(Direction.RIGHT);
+		block.removeFromGrid();
+		finishAnimation(block);
+		finishAnimation(player);
+		
+		System.out.println(block);
+		System.out.println(player);
+		assertTrue(block.getX() == 0 && player.getX() == 0);
+	}
 
 	@Test
 	public void testInteractSuccess() {
@@ -66,14 +81,14 @@ public class BlockLiftedInteractionTest {
 		finishAnimation(player);
 	}
 
-	@Ignore @Test
+	@Test
 	public void testEndInteractionSuccess() {
 		interaction.startInteraction();
 		interaction.endInteraction();
 		assertTrue(!player.isLiftingBlock());
 	}
 	
-	@Ignore @Test
+	@Test
 	public void testEndInteractionFail() {
 		interaction.startInteraction();
 		block.removeFromGrid();
@@ -86,7 +101,7 @@ public class BlockLiftedInteractionTest {
 		assertTrue(player.isLiftingBlock());
 	}
 	
-	@Ignore @Test
+	@Test
 	public void testEndInteractionPlaceAbove() {
 		AnimationState anim;
 		
@@ -102,20 +117,20 @@ public class BlockLiftedInteractionTest {
 	}
 
 
-	@Ignore @Test
+	@Test
 	public void testStartInteractionSuccess() {
 		interaction.startInteraction();
 		assertTrue(player.isLiftingBlock());
 	}
 	
-	@Ignore @Test
+	@Test
 	public void testStartInteractionFailure() {
 		blockMap.insertBlock(new Block(0, 1, blockMap));
 		interaction.startInteraction();
 		assertTrue(!player.isLiftingBlock());
 	}
 
-	@Ignore @Test
+	@Test
 	public void testCanPerformMoveCollisionPlayer() {
 		interaction.startInteraction();
 		block.removeFromGrid();
@@ -125,7 +140,7 @@ public class BlockLiftedInteractionTest {
 		assertTrue(!interaction.canPerformMove(Direction.RIGHT));
 	}
 	
-	@Ignore @Test
+	@Test
 	public void testCanPerformMoveCollisionBlock() {
 		interaction.startInteraction();
 		block.removeFromGrid();
@@ -135,7 +150,7 @@ public class BlockLiftedInteractionTest {
 		assertTrue(!interaction.canPerformMove(Direction.RIGHT));
 	}
 	
-	@Ignore @Test
+	@Test
 	public void testCanPerformMoveCollisionBoth() {
 		interaction.startInteraction();
 		block.removeFromGrid();
@@ -146,7 +161,7 @@ public class BlockLiftedInteractionTest {
 		assertTrue(!interaction.canPerformMove(Direction.RIGHT));
 	}
 	
-	@Ignore @Test
+	@Test
 	public void testCanPerformMoveSuccess() {
 		startInteraction();
 		assertTrue(interaction.canPerformMove(Direction.RIGHT));
