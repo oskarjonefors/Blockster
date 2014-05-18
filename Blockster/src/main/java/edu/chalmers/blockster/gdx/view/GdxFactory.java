@@ -75,17 +75,13 @@ public class GdxFactory implements Factory {
 					gdxMap.createBlockViewReference(block, bView);
 					blockMap.insertBlock(block);
 					setBlockProperties(tile.getProperties(), block);
-
+					
 					MapProperties mapProps = tile.getProperties();
 					
 					final Iterator<String> properties = mapProps.getKeys();
 					while(properties.hasNext()) {
 						final String property = properties.next();
-						if (property.equals("blue")) {
-							bluePortalView = new PortalView(block.getX()*blockWidth, block.getY()*blockHeight, animFactory.getPortalAnimation(0));
-						} else if (property.equals("yellow")) {
-							yellowPortalView = new PortalView(block.getX()*blockWidth, block.getY()*blockHeight, animFactory.getPortalAnimation(1));
-						}
+						initPortalViews(property, block);
 						block.setProperty(property);
 					}
 				}
@@ -139,6 +135,14 @@ public class GdxFactory implements Factory {
 			startingPositions[i - 1] = playerStartFloats;
 		}
 		return startingPositions;
+	}
+	
+	public void initPortalViews(String property, Block block) {
+		if (property.equals("blue")) {
+			bluePortalView = new PortalView(block.getX()*blockWidth, block.getY()*blockHeight, animFactory.getPortalAnimation(0));
+		} else if (property.equals("yellow")) {
+			yellowPortalView = new PortalView(block.getX()*blockWidth, block.getY()*blockHeight, animFactory.getPortalAnimation(1));
+		}
 	}
 
 	@Override

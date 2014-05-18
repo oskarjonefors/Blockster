@@ -18,12 +18,13 @@ public class PlayerView {
 	private final Player player;
 	private final Sprite sprite;
 	private TextureRegion standLeft, standRight;
-	private final Map<Movement, Animation> arrayOfAnimation;
+	private final Map<AnimationState, Animation> arrayOfAnimation;
 	private final Map<Direction, Animation> walkAnimations;
+	private AnimationState lastState;
 	
-	private float walkAnimTime;
+	private float animTime;
 	
-	public PlayerView(Player player, Map<Movement, Animation> arrayOfAnimation,
+	public PlayerView(Player player, Map<AnimationState, Animation> arrayOfAnimation,
 			Map<Direction, Animation> walkAnimations, TextureRegion texture) {
 		this.player = player;
 		this.arrayOfAnimation = arrayOfAnimation;
@@ -46,26 +47,41 @@ public class PlayerView {
 		
 	public TextureRegion chooseAnimation(){
 		final AnimationState animState = player.getAnimationState();
-		final Movement move = animState.getMovement();
-		walkAnimTime += Gdx.graphics.getDeltaTime();
-		if (move == Movement.NONE) {
+		animTime += Gdx.graphics.getDeltaTime();
+		if (animState == AnimationState.NONE) {
 			if (player.isMoving()) {
-				return walkAnimations.get(player.getDirection()).getKeyFrame(walkAnimTime, true);
+				return getWalkingPic();
 			} else {
-				return stillPic();
+				return getStillPic();
 			} 
+		} else {
+			return getAnimations(animState);
+		}
+	}
+	private TextureRegion getAnimations(AnimationState state) {
+		if (player.isGrabbingBlock() &&
+			state.getMovement() != state.getMovement().PULL_LEFT &&
+			state.getMovement() != state.getMovement().PULL_RIGHT) {
+			
+			return player.getDirection() == Direction.LEFT ?
+					arrayOfAnimation.get(AnimationState.GRAB_RIGHT).getKeyFrame(animTime) :
+					arrayOfAnimation.get(AnimationState.GRAB_LEFT).getKeyFrame(animTime) ;
 		} else {
 			return standRight;
 		}
 	}
+
+	private TextureRegion getWalkingPic() {
+		return walkAnimations.get(player.getDirection()).getKeyFrame(animTime, true);
+	}
+
+//	}
 	
-	private TextureRegion stillPic() {
+	private TextureRegion getStillPic() {
 		switch (player.getDirection()) {
 		
 			case LEFT:	return standLeft; 
-		
 			case RIGHT:	return standRight;
-			
 			default:	return standRight;
 			
 		}
