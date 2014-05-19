@@ -46,6 +46,11 @@ public class BlockTest {
 		blockMap.insertBlock(newBlock);
 		correct &= !block.canMove(dir);
 		
+		//#3 Outside map
+		Block anotherBlock = new Block(blockMap.getWidth(), startY, blockMap);
+		blockMap.insertBlock(anotherBlock);
+		correct &= !block.canMove(dir);
+		
 		assertTrue(correct);
 	}
 
@@ -179,14 +184,26 @@ public class BlockTest {
 	public void testFallDown() {
 		boolean correct = true;
 
-		this.block.fallDown();
-		
-		//Move block so the falling down happens
-		this.block.moveToNextPosition();
-		correct &= (block.getY() == 1);
+		block.fallDown();
 		
 		//Is animation correct?
-		correct &= (this.block.getAnimationState().getMovement() == Movement.FALL_DOWN);
+		correct &= (block.getAnimationState().getMovement() == Movement.FALL_DOWN);
+		
+		//Move block so the falling down happens
+		block.moveToNextPosition();
+		correct &= (block.getY() == 1);
+		
+		//Make the animation done and set it to none
+		float duration = block.getAnimationState().getMovement().getDuration();
+		block.getAnimationState().updatePosition(duration);
+		block.setAnimationState(AnimationState.NONE);
+		
+		//Place a block in the way
+		Block newBlock = new Block(startX, 0, blockMap);
+		blockMap.insertBlock(newBlock);
+		block.fallDown();
+		block.moveToNextPosition();
+		correct &= !(block.getY() == 0);
 		
 		assertTrue(correct);
 	}
@@ -227,14 +244,15 @@ public class BlockTest {
 	public void testCanBeGrabbed() {
 		boolean correct = true;
 		
-		correct &= !block.isMovable();
-		correct &= !block.isLiftable();
+		correct &= !block.canBeGrabbed();
 		
 		block.setProperty("movable");
+		
+		correct &= block.canBeGrabbed();
+		
 		block.setProperty("liftable");
 		
-		correct &= block.isMovable();
-		correct &= block.isLiftable();
+		correct &= block.canBeGrabbed();
 		
 		assertTrue(correct);
 	}
