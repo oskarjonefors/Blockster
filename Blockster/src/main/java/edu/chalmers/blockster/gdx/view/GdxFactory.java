@@ -15,8 +15,6 @@ import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
 
 public class GdxFactory implements Factory {
-
-	protected TiledMap map;
 	
 	private BlockMap blockMap;
 	private GdxMap gdxMap;
@@ -38,7 +36,6 @@ public class GdxFactory implements Factory {
 	}
 
 	public GdxFactory(TiledMap map) {
-		this.map = map;
 		playerStartingPositions = getPlayerStartingPositions(map);
 		
 		tileLayer = (TiledMapTileLayer) map.getLayers().get(0);
