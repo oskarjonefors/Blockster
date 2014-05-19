@@ -17,6 +17,7 @@ public class PlayerTest {
 	private static Player player;
 	private static Block block; 
 	
+
 	@Before
 	public void setUp()  {
 		int[][] playerPositions = {{2,2}};
@@ -26,10 +27,12 @@ public class PlayerTest {
 		player.setWidth(100);
 		
 		blockMap.insertBlock(block);
+
 	}
+	
 
 	@Test
-	public void testGetAdjacentBlock() {		
+	public void testGetAdjecentBlock() {		
 		Boolean correct = false;
 		
 		player.setDirection(Direction.LEFT);
@@ -113,6 +116,11 @@ public class PlayerTest {
 		 player.startInteraction(); 
 		 player.liftBlock();
 		 
+		 float lastposX = player.getX();
+		 player.setAnimationState(new AnimationState(Movement.MOVE_LEFT));
+		 player.updatePosition(0.5f);
+		 System.out.println("test last pos " + (lastposX == player.getX()));
+		 
 		 assertTrue(player.isLiftingBlock());
 	 }
 	 
@@ -194,5 +202,35 @@ public class PlayerTest {
 		 
 		 System.out.println("test3 " + correct);
 		 assertTrue(correct);
+	 }
+	 
+	 @Test
+	 public void testClimbBlock() {
+		 
+		 player.setDirection(Direction.RIGHT);
+//		 block.setProperty("solid");
+		 player.climbBlock();
+
+		 assertTrue(player.getAnimationState().getMovement() == Movement.CLIMB_RIGHT);
+	 }
+	 
+	 @Test
+	 public void testEnterTeleporter() {
+		 boolean correct = false;
+		 block.setProperty("teleporter");
+		 
+		 //#1
+		 player.setDirection(Direction.RIGHT);
+		 player.startInteraction();
+		 correct = (player.getAnimationState().getMovement() == Movement.MOVE_RIGHT);
+				 
+		 //#2
+		 Player player2 = new Player(4, 2, blockMap);
+		 player2.setDirection(Direction.LEFT);
+		 player2.startInteraction();
+		 correct &= (player2.getAnimationState().getMovement() == Movement.MOVE_LEFT);
+		 
+		 assertTrue(correct);
+		 
 	 }
 }
