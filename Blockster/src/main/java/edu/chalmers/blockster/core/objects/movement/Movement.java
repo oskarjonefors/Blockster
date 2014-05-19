@@ -22,7 +22,8 @@ public enum Movement {
 	CLIMB_LEFT(UP_LEFT, STANDARD_MOVE_DURATION, new CompositeSpline(UP, LEFT)),
 	CLIMB_RIGHT(UP_RIGHT, STANDARD_MOVE_DURATION, new CompositeSpline(UP, RIGHT)),
 	FALL_DOWN(DOWN, BLOCK_FALL_DURATION, new LinearSpline(DOWN)),
-	WAIT(STANDARD_MOVE_DURATION);
+	WAIT(STANDARD_MOVE_DURATION),
+	GRAB(GRAB_BLOCK_DURATION);
 	
 	private final Direction direction;
 	private final float duration;
