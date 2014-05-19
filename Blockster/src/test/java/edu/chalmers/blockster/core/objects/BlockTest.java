@@ -46,9 +46,15 @@ public class BlockTest {
 		blockMap.insertBlock(newBlock);
 		correct &= !block.canMove(dir);
 		
-		//#3 Outside map
+		//#3 Move outside the map width
 		Block anotherBlock = new Block(blockMap.getWidth(), startY, blockMap);
 		blockMap.insertBlock(anotherBlock);
+		correct &= !block.canMove(dir);
+		
+		//#4 Move outside the map width
+		Block oneBlock = new Block(0, startY, blockMap);
+		blockMap.insertBlock(oneBlock);
+		block.setAnimationState(new AnimationState(Movement.PULL_RIGHT));
 		correct &= !block.canMove(dir);
 		
 		assertTrue(correct);
@@ -247,12 +253,14 @@ public class BlockTest {
 		correct &= !block.canBeGrabbed();
 		
 		block.setProperty("movable");
-		
 		correct &= block.canBeGrabbed();
 		
+		block.removeProperty("movable");
 		block.setProperty("liftable");
-		
 		correct &= block.canBeGrabbed();
+		
+		block.setProperty("movable");
+		correct&= block.canBeGrabbed();
 		
 		assertTrue(correct);
 	}
