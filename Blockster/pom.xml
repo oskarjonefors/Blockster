@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-    <groupId>edu.chalmers</groupId>
+	<groupId>edu.chalmers</groupId>
 	<artifactId>Blockster</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Blockster</name>
-   		
+
 	<properties>
 		<mainClass>edu.chalmers.blockster.gdx.BlocksterLauncher</mainClass>
-        <gdx.version>0.9.9</gdx.version>
-        <android.version>4.1.1.4</android.version>
-        <android.maven.version>3.8.1</android.maven.version>
-        <gwt.version>2.5.0</gwt.version>
-        <gwt.maven.version>2.5.0</gwt.maven.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+		<gdx.version>0.9.9</gdx.version>
+		<android.version>4.1.1.4</android.version>
+		<android.maven.version>3.8.1</android.maven.version>
+		<gwt.version>2.5.0</gwt.version>
+		<gwt.maven.version>2.5.0</gwt.maven.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-    <repositories>
-        <repository>
-            <id>gdx-nightlies</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
-    </repositories>
+	<repositories>
+		<repository>
+			<id>gdx-nightlies</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -72,9 +73,24 @@
 				<directory>assets</directory>
 			</resource>
 		</resources>
-		
+
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<outputDirectory>${project.build.directory}/${pom.version}</outputDirectory>
+						<archive>
+							<manifest>
+								<addClasspath>true</addClasspath>
+								<classpathPrefix>assets</classpathPrefix>
+								<classpathPrefix>libs</classpathPrefix>
+								<mainClass>edu.chalmers.blockster.gdx.BlocksterLauncher</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
@@ -167,71 +183,82 @@
 						</execution>
 					</executions>
 				</plugin>
-			<!-- this run the game when you invoke: mvn integration-test -Pdesktop -->
-			<plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-			<plugin>
-				<groupId>com.googlecode.mavennatives</groupId>
-				<artifactId>maven-nativedependencies-plugin</artifactId>
-				<version>0.0.6</version>
-				<executions>
-					<execution>
-						<id>unpacknatives</id>
-						<phase>pre-integration-test</phase>
-						<goals><goal>copy</goal></goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.6</version>
-				<executions>
-					<execution>
-						<phase>integration-test</phase>
-						<configuration>
-							<target>
-								<java fork="true" classname="${mainClass}" classpathref="maven.test.classpath">
-									<sysproperty key="java.library.path" value="target/natives"/>
-								</java>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- this builds a totally standalone jar file when you invoke: mvn package -Pdesktop -->
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifest>
-							<mainClass>${mainClass}</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-	        </plugins>
-        </pluginManagement>
+				<!-- this run the game when you invoke: mvn integration-test -Pdesktop -->
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>com.googlecode.mavennatives</groupId>
+					<artifactId>maven-nativedependencies-plugin</artifactId>
+					<version>0.0.6</version>
+					<executions>
+						<execution>
+							<id>unpacknatives</id>
+							<phase>pre-integration-test</phase>
+							<goals>
+								<goal>copy</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.6</version>
+					<executions>
+						<execution>
+							<phase>integration-test</phase>
+							<configuration>
+								<target>
+									<java fork="true" classname="${mainClass}" classpathref="maven.test.classpath">
+										<sysproperty key="java.library.path" value="target/natives" />
+									</java>
+								</target>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>default-cli</id>
+							<phase>execution</phase>
+							<configuration>
+								<target>
+									<ant antfile="${basedir}/build.xml">
+										<reference torefid="maven.compile.classpath" refid="maven.compile.classpath" />
+									</ant>
+								</target>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<descriptorRefs>
+							<descriptorRef>jar-with-dependencies</descriptorRef>
+						</descriptorRefs>
+						<archive>
+							<manifest>
+								<mainClass>edu.chalmers.blockster.core.BlocksterLauncher</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
+					<executions>
+						<execution>
+							<id>make-assembly</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
