@@ -236,8 +236,8 @@ public class Player extends BlocksterObject implements Interactor {
 	public void setGrabbing(boolean b) {
 		grabbingBlock = b;
 		if (b) {
-			setAnimationState(getDirection() == Direction.LEFT ? AnimationState.GRAB_LEFT
-					: AnimationState.GRAB_RIGHT);
+			Movement move = getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
+			setAnimationState(new AnimationState(move));
 		} else {
 			setAnimationState(AnimationState.NONE);
 			interaction = PlayerInteraction.NONE;

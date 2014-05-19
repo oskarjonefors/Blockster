@@ -12,8 +12,8 @@ import javax.vecmath.Vector2f;
 public class AnimationState {
 	
 	public static final AnimationState NONE = new AnimationState(Movement.NONE, "NONE");
-	public static final AnimationState GRAB_LEFT = new AnimationState(Movement.GRAB, "GRAB_LEFT");
-	public static final AnimationState GRAB_RIGHT = new AnimationState(Movement.GRAB, "GRAB_RIGHT");
+	public static final AnimationState GRAB_LEFT = new AnimationState(Movement.GRAB_LEFT, "GRAB_LEFT");
+	public static final AnimationState GRAB_RIGHT = new AnimationState(Movement.GRAB_RIGHT, "GRAB_RIGHT");
 	public static final AnimationState LIFT_LEFT = new AnimationState(Movement.WAIT, "LIFT_LEFT");
 	public static final AnimationState LIFT_RIGHT = new AnimationState(Movement.WAIT, "LIFT_RIGHT");
 	public static final AnimationState PLACE_LEFT = new AnimationState(Movement.WAIT, "PLACE_LEFT");

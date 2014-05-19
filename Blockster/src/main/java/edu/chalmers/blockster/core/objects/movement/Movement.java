@@ -1,7 +1,17 @@
 package edu.chalmers.blockster.core.objects.movement;
 
-import static edu.chalmers.blockster.core.objects.movement.Direction.*;
-import static edu.chalmers.blockster.core.util.Calculations.*;
+import static edu.chalmers.blockster.core.objects.movement.Direction.DOWN;
+import static edu.chalmers.blockster.core.objects.movement.Direction.DOWN_LEFT;
+import static edu.chalmers.blockster.core.objects.movement.Direction.DOWN_RIGHT;
+import static edu.chalmers.blockster.core.objects.movement.Direction.LEFT;
+import static edu.chalmers.blockster.core.objects.movement.Direction.RIGHT;
+import static edu.chalmers.blockster.core.objects.movement.Direction.UP;
+import static edu.chalmers.blockster.core.objects.movement.Direction.UP_LEFT;
+import static edu.chalmers.blockster.core.objects.movement.Direction.UP_RIGHT;
+import static edu.chalmers.blockster.core.util.Calculations.BLOCK_FALL_DURATION;
+import static edu.chalmers.blockster.core.util.Calculations.GRAB_BLOCK_DURATION;
+import static edu.chalmers.blockster.core.util.Calculations.MOVE_LIFTED_BLOCK_DURATION;
+import static edu.chalmers.blockster.core.util.Calculations.STANDARD_MOVE_DURATION;
 
 /**
  * An enum to represent different animation states of the block.
@@ -23,7 +33,8 @@ public enum Movement {
 	CLIMB_RIGHT(UP_RIGHT, STANDARD_MOVE_DURATION, new CompositeSpline(UP, RIGHT)),
 	FALL_DOWN(DOWN, BLOCK_FALL_DURATION, new LinearSpline(DOWN)),
 	WAIT(STANDARD_MOVE_DURATION),
-	GRAB(GRAB_BLOCK_DURATION);
+	GRAB_RIGHT(GRAB_BLOCK_DURATION),
+	GRAB_LEFT(GRAB_BLOCK_DURATION);
 	
 	private final Direction direction;
 	private final float duration;

@@ -8,12 +8,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
+import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class AnimationFactory {
 
-	private final Map<AnimationState, Animation> arrayOfAnimations;
+	private final Map<Movement, Animation> arrayOfAnimations;
 	private final Map<Direction, Animation> walkAnimations;
 	private final Animation bluePortalAnimations, yellowPortalAnimations;
 	
@@ -24,15 +24,19 @@ public class AnimationFactory {
 	private static final float GRAB_TIME = 0.2f;
 	private static final int NBR_GRAB_PIC_WIDTH = 3, NBR_GRAB_PIC_HEIGHT = 2;
 	
+	private static final float pushTime = 0.12f;
+	private final static int nbrPushPicWidth = 6; 
+	
 	public AnimationFactory() {
 		
 		walkAnimations = new HashMap<Direction, Animation>();
-		arrayOfAnimations = new HashMap<AnimationState, Animation>();
+		arrayOfAnimations = new HashMap<Movement, Animation>();
 	
 		Texture playerWalk = new Texture(Gdx.files.internal("Animations/walk_animation1.png"));
 		Texture bluePortal = new Texture(Gdx.files.internal("Animations/blue_portal.png"));
 		Texture yellowPortal = new Texture(Gdx.files.internal("Animations/yellow_portal.png"));
 		Texture grab = new Texture(Gdx.files.internal("Animations/grab_animation.png"));
+		Texture push = new Texture(Gdx.files.internal("Animations/push_animation.png"));
 		
 		//split all the images into the TextureRegion matrix
 		TextureRegion[][] walkPics = TextureRegion.split(playerWalk, 
@@ -46,6 +50,8 @@ public class AnimationFactory {
 		
 		TextureRegion[][] grabPics = TextureRegion.split(grab, grab.getWidth()/NBR_GRAB_PIC_WIDTH, grab.getHeight()/NBR_GRAB_PIC_HEIGHT);
 		
+		TextureRegion[][] pushPics = TextureRegion.split(push, push.getWidth()/nbrPushPicWidth, push.getHeight()/2);
+		
 			
 		TextureRegion[] tempWalkLeft = new TextureRegion[NBR_WALK_PIC_WIDTH];
 		TextureRegion[] tempWalkRight = new TextureRegion[NBR_WALK_PIC_WIDTH];
@@ -53,7 +59,8 @@ public class AnimationFactory {
 		TextureRegion[] tempYellowPortal = new TextureRegion[NBR_PORTAL_PIC_WIDTH*NBR_PORTAL_PIC_HEIGHT];
 		TextureRegion[] tempGrabLeft = new TextureRegion[NBR_GRAB_PIC_WIDTH];
 		TextureRegion[] tempGrabRight = new TextureRegion[NBR_GRAB_PIC_WIDTH];
-		
+		TextureRegion[] tempPushLeft = new TextureRegion[nbrPushPicWidth];
+		TextureRegion[] tempPushRight = new TextureRegion[nbrPushPicWidth];
 		
 		// Get walk animations
 		for (int i = 0; i < NBR_WALK_PIC_WIDTH; i++) {
@@ -77,6 +84,12 @@ public class AnimationFactory {
 				tempGrabRight[i] = grabPics[1][i];
 		}
 		
+		// Get push Animations
+		for (int i = 0; i < nbrPushPicWidth; i++) {
+			tempPushRight[i] = pushPics[0][i];
+			tempPushLeft[i] = pushPics[1][i];
+		}
+		
 		// Set Portal Animations
 		bluePortalAnimations = new Animation(PORTAL_ANIM_TIME, tempBluePortal);
 		yellowPortalAnimations = new Animation(PORTAL_ANIM_TIME, tempYellowPortal);
@@ -89,12 +102,17 @@ public class AnimationFactory {
 		Animation grabRight = new Animation(GRAB_TIME, tempGrabRight);
 		grabRight.setPlayMode(Animation.REVERSED);
 		
+		Animation pushLeft = new Animation(pushTime, tempPushLeft);
+		Animation pushRight = new Animation(pushTime, tempPushRight);
+		
 		/**
 		 * link the the AnimationState to the correct animation
 		 */
-		arrayOfAnimations.put(AnimationState.GRAB_LEFT, grabLeft);
-		arrayOfAnimations.put(AnimationState.GRAB_RIGHT, grabRight);
+		arrayOfAnimations.put(Movement.GRAB_LEFT, grabLeft);
+		arrayOfAnimations.put(Movement.GRAB_RIGHT, grabRight);
 		
+		arrayOfAnimations.put(Movement.PUSH_LEFT, pushLeft);
+		arrayOfAnimations.put(Movement.PUSH_RIGHT, pushRight);
 		
 		walkAnimations.put(Direction.LEFT, ani);
 		walkAnimations.put(Direction.RIGHT, new Animation(WALK_ANIM_TIME, tempWalkRight));
@@ -104,7 +122,7 @@ public class AnimationFactory {
 		return walkAnimations;
 	}
 	
-	public Map<AnimationState, Animation> getArrayOfAnimations(){
+	public Map<Movement, Animation> getArrayOfAnimations(){
 		return arrayOfAnimations;
 	}
 

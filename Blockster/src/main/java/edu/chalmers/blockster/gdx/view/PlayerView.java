@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
+import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class PlayerView {
 	
@@ -22,11 +23,11 @@ public class PlayerView {
 	private final Player player;
 	private final Sprite sprite;
 	private TextureRegion standLeft, standRight;
-	private final Map<AnimationState, Animation> arrayOfAnimation;
+	private final Map<Movement, Animation> arrayOfAnimation;
 	private final Map<Direction, Animation> walkAnimations;
 	private float animTime;
 	
-	public PlayerView(Player player, Map<AnimationState, Animation> arrayOfAnimation,
+	public PlayerView(Player player, Map<Movement, Animation> arrayOfAnimation,
 			Map<Direction, Animation> walkAnimations, TextureRegion texture) {
 		this.player = player;
 		this.arrayOfAnimation = arrayOfAnimation;
@@ -49,29 +50,32 @@ public class PlayerView {
 		
 	public TextureRegion chooseAnimation(){
 		final AnimationState animState = player.getAnimationState();
+		final Movement movement = animState.getMovement();
 		animTime += Gdx.graphics.getDeltaTime();
-		if (!player.isGrabbingBlock() && animState == AnimationState.NONE) {
+		if ( !player.isGrabbingBlock() && movement == Movement.NONE) {
 			if (player.isMoving()) {
 				return getWalkingPic();
 			} else {
 				return getStillPic();
 			} 
 		} else {
-			return getAnimations(animState);
+			return getAnimations(movement);
 		}
 	}
-	private TextureRegion getAnimations(AnimationState state) {
-		if (player.isGrabbingBlock() && state == AnimationState.NONE) {
+	
+	private TextureRegion getAnimations(Movement movement) {
+		if (movement == Movement.PUSH_RIGHT || movement == Movement.PUSH_LEFT) {
+			return arrayOfAnimation.get(movement).getKeyFrame(animTime);
+
+		} else if (player.isGrabbingBlock() && movement != Movement.PULL_LEFT && movement != Movement.PULL_RIGHT) {
 			LOG.log(Level.INFO, "Grabbing");
-			
 			return player.getDirection() == Direction.LEFT ?
-					arrayOfAnimation.get(AnimationState.GRAB_RIGHT).getKeyFrame(animTime) :
-					arrayOfAnimation.get(AnimationState.GRAB_LEFT).getKeyFrame(animTime) ;
+					arrayOfAnimation.get(Movement.GRAB_RIGHT).getKeyFrame(animTime):
+					arrayOfAnimation.get(Movement.GRAB_LEFT).getKeyFrame(animTime);
 		} else {
 			return standRight;
 		}
 	}
-
 	private TextureRegion getWalkingPic() {
 		return walkAnimations.get(player.getDirection()).getKeyFrame(animTime, true);
 	}
