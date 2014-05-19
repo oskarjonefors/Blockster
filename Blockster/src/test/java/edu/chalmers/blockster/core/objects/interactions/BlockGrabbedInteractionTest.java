@@ -21,7 +21,7 @@ public class BlockGrabbedInteractionTest {
 	private BlockGrabbedInteraction interaction;
 	
 	private void checkDown() {
-		Movement none = Movement.NONE;
+		Movement none = Movement.GRAB;
 		
 		/*
 		 * Check down
@@ -53,7 +53,7 @@ public class BlockGrabbedInteractionTest {
 		player.setDirection(dir);
 		interaction.interact(dir);
 		
-		if (player.getAnimationState().getMovement() == Movement.NONE) {
+		if (player.getAnimationState().getMovement() == Movement.GRAB) {
 			fail("Horisontal test (No OOB) failed with a "
 					+dir.toString().toLowerCase()+"wards direction");
 		}
@@ -63,14 +63,14 @@ public class BlockGrabbedInteractionTest {
 		player.setDirection(dir);
 		interaction.interact(dir);
 		
-		if (player.getAnimationState().getMovement() != Movement.NONE){
+		if (player.getAnimationState().getMovement() != Movement.GRAB){
 			fail("Horisontal test (OOB) failed with a "
 					+dir.toString().toLowerCase()+"wards direction");
 		}
 	}
 	
 	private void checkUp() {
-		Movement none = Movement.NONE;
+		Movement none = Movement.GRAB;
 		
 		/*
 		 * Check up
@@ -147,7 +147,7 @@ public class BlockGrabbedInteractionTest {
 		blockMap.insertBlock(block2);
 		player.setWidth(100);
 		startInteraction();
-	
+		player.getAnimationState().updatePosition(player.getAnimationState().getMovement().getDuration());
 	}
 	
 	private void setVerticallyOutOfBoundsDown() {
@@ -175,9 +175,10 @@ public class BlockGrabbedInteractionTest {
 		blockAbove.setProperty("movable");
 		blockAbove.setProperty("weight");
 		blockMap.insertBlock(blockAbove);
+		
 		interaction.interact(Direction.RIGHT);
 		
-		if (player.getAnimationState().getMovement() != Movement.NONE) {
+		if (player.getAnimationState().getMovement() != Movement.GRAB) {
 			fail("Could move with a weighted block above");
 		}
 		
@@ -187,7 +188,7 @@ public class BlockGrabbedInteractionTest {
 		blockMap.insertBlock(blockAbove);
 		interaction.interact(Direction.RIGHT);
 		
-		if (player.getAnimationState().getMovement() == Movement.NONE) {
+		if (player.getAnimationState().getMovement() == Movement.GRAB) {
 			fail("Could not move with a weightless block above");
 		}
 	}
@@ -251,8 +252,8 @@ public class BlockGrabbedInteractionTest {
 		interaction.interact(Direction.LEFT);
 		
 		
-		success &= player.getAnimationState()
-				.getMovement() == Movement.NONE;
+		success &= player.getAnimationState().getMovement() == Movement.GRAB;
+		
 		
 		blockMap.insertBlock(new Block(0, 2, blockMap));
 		interaction.interact(Direction.LEFT);
@@ -268,8 +269,7 @@ public class BlockGrabbedInteractionTest {
 		boolean success = true;
 		block2.removeProperty("movable");
 		interaction.interact(Direction.RIGHT);
-		success &= (player.getAnimationState()
-				.getMovement() == Movement.NONE);
+		success &= player.getAnimationState().getMovement() == Movement.GRAB;
 
 
 		block2.setProperty("movable");
