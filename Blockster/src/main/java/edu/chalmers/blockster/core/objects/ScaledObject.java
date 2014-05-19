@@ -5,12 +5,12 @@ import edu.chalmers.blockster.core.util.PhysicalObject;
 public class ScaledObject implements PhysicalObject {
 	
 
-	protected float x;
-	protected float y;
+	private float x;
+	private float y;
 	protected float height;
 	protected float width;
-	protected float scaleX;
-	protected float scaleY;
+	private float scaleX;
+	private float scaleY;
 	
 	public ScaledObject(float x, float y, float scaleX, float scaleY) {
 		this.x = x * scaleX;

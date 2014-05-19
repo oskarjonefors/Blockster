@@ -44,15 +44,15 @@ public abstract class BlocksterObject extends ScaledObject {
 		Block block = EmptyBlock.getInstance();
 
 		if (dir == Direction.LEFT) {
-			block = blockMap.getBlock((int) (getX() / scaleX) - 1,
-					(int) ((2 * getY() + getHeight()) / 2 / scaleY));
+			block = blockMap.getBlock((int) (getX() / getScaleX()) - 1,
+					(int) ((2 * getY() + getHeight()) / 2 / getScaleY()));
 
 		}
 
 		if (dir == Direction.RIGHT) {
 			block = blockMap.getBlock(
-					(int) ((getX() + getWidth()) / scaleX) + 1,
-					(int) ((2 * getY() + getHeight()) / 2 / scaleY));
+					(int) ((getX() + getWidth()) / getScaleX()) + 1,
+					(int) ((2 * getY() + getHeight()) / 2 / getScaleY()));
 
 		}
 		return block;
@@ -71,11 +71,11 @@ public abstract class BlocksterObject extends ScaledObject {
 	}
 
 	public float getOriginX() {
-		return x;
+		return super.getX();
 	}
 
 	public float getOriginY() {
-		return y;
+		return super.getY();
 	}
 
 	public Vector2f getVelocity() {
@@ -86,16 +86,16 @@ public abstract class BlocksterObject extends ScaledObject {
 		// If there is an animation currently running then
 		// we want to return the relative position
 		if (anim != AnimationState.NONE) {
-			return x + anim.getRelativePosition().x * scaleX;
+			return getOriginX() + anim.getRelativePosition().x * getScaleX();
 		}
-		return x;
+		return getOriginX();
 	}
 
 	public float getY() {
 		if (anim != AnimationState.NONE) {
-			return y + anim.getRelativePosition().y * scaleY;
+			return getOriginY() + anim.getRelativePosition().y * getScaleY();
 		}
-		return y;
+		return getOriginY();
 	}
 
 	public void increaseGravity(float deltaTime) {
@@ -105,8 +105,9 @@ public abstract class BlocksterObject extends ScaledObject {
 
 	public void moveToNextPosition() {
 		final Direction direction = anim.getMovement().getDirection();
-		x += direction.getDeltaX() * scaleX;
-		y = Math.round(y / scaleY) * scaleY + direction.getDeltaY() * scaleY;
+		setX(getOriginX() + direction.getDeltaX() * getScaleX());
+		setY(Math.round(getOriginY() / getScaleY()) * getScaleY() +
+										direction.getDeltaY() * getScaleY());
 
 		LOG.log(Level.INFO,
 				"Moved " + this + " (" + direction + ") " + anim.getMovement()
@@ -155,8 +156,8 @@ public abstract class BlocksterObject extends ScaledObject {
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + ": ("
-				+ Math.round(getX() * 10) / (10 * scaleX) + ", "
-				+ Math.round(getY() * 10) / (10 * scaleY) + ")";
+				+ Math.round(getX() * 10) / (10 * getScaleX()) + ", "
+				+ Math.round(getY() * 10) / (10 * getScaleY()) + ")";
 	}
 
 }

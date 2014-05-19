@@ -17,7 +17,6 @@ public class PlayerTest {
 	private static Player player;
 	private static Block block; 
 	
-
 	@Before
 	public void setUp()  {
 		int[][] playerPositions = {{2,2}};
@@ -27,12 +26,10 @@ public class PlayerTest {
 		player.setWidth(100);
 		
 		blockMap.insertBlock(block);
-
 	}
-	
 
 	@Test
-	public void testGetAdjecentBlock() {		
+	public void testGetAdjacentBlock() {		
 		Boolean correct = false;
 		
 		player.setDirection(Direction.LEFT);
