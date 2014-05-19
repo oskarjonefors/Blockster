@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
-import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class PlayerView {
 	private final Player player;
@@ -47,7 +46,7 @@ public class PlayerView {
 	public TextureRegion chooseAnimation(){
 		final AnimationState animState = player.getAnimationState();
 		animTime += Gdx.graphics.getDeltaTime();
-		if (animState == AnimationState.NONE) {
+		if (!player.isGrabbingBlock() && animState == AnimationState.NONE) {
 			if (player.isMoving()) {
 				return getWalkingPic();
 			} else {
@@ -58,9 +57,8 @@ public class PlayerView {
 		}
 	}
 	private TextureRegion getAnimations(AnimationState state) {
-		if (player.isGrabbingBlock() &&
-			state.getMovement() != state.getMovement().PULL_LEFT &&
-			state.getMovement() != state.getMovement().PULL_RIGHT) {
+		if (player.isGrabbingBlock() && state == AnimationState.NONE) {
+			System.out.println("grabbing");
 			
 			return player.getDirection() == Direction.LEFT ?
 					arrayOfAnimation.get(AnimationState.GRAB_RIGHT).getKeyFrame(animTime) :
