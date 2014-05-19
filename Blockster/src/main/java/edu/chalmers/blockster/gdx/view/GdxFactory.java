@@ -63,27 +63,30 @@ public class GdxFactory implements Factory {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				final Cell cell = tileLayer.getCell(x, y);
-				
 				if (cell != null) {
-					final TiledMapTile tile = cell.getTile();
-					final Block block = new Block(x, y, blockMap);
-					final BlockView bView = new BlockView(block, tile);
-					
-					gdxMap.createBlockViewReference(block, bView);
-					blockMap.insertBlock(block);
-					setBlockProperties(tile.getProperties(), block);
-					
-					MapProperties mapProps = tile.getProperties();
-					
-					final Iterator<String> properties = mapProps.getKeys();
-					while(properties.hasNext()) {
-						final String property = properties.next();
-						initPortalViews(property, block);
-						block.setProperty(property);
-					}
+					processCell(cell, x, y);
 				}
 			}
 			blockMap.addActiveBlockListener(miniMap);
+		}
+	}
+	
+	private void processCell(Cell cell, int x, int y) {
+		final TiledMapTile tile = cell.getTile();
+		final Block block = new Block(x, y, blockMap);
+		final BlockView bView = new BlockView(block, tile);
+		
+		gdxMap.createBlockViewReference(block, bView);
+		blockMap.insertBlock(block);
+		setBlockProperties(tile.getProperties(), block);
+		
+		MapProperties mapProps = tile.getProperties();
+		
+		final Iterator<String> properties = mapProps.getKeys();
+		while(properties.hasNext()) {
+			final String property = properties.next();
+			initPortalViews(property, block);
+			block.setProperty(property);
 		}
 	}
 	
