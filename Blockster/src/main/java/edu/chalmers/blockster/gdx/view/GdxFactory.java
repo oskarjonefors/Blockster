@@ -2,7 +2,6 @@ package edu.chalmers.blockster.gdx.view;
 
 
 import java.util.Iterator;
-import java.util.Map;
 
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -29,8 +28,6 @@ public class GdxFactory implements Factory {
 	private final int blockHeight;
 	private final int[][] playerStartingPositions;
 	private final TiledMapTileLayer tileLayer;
-	private PortalView portalView;
-	private Map<Integer, PortalView> portalViews;
 	private AnimationFactory animFactory = new AnimationFactory();
 
 	private PortalView bluePortalView;

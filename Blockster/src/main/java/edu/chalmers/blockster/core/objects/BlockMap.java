@@ -72,7 +72,7 @@ public class BlockMap implements GridMap {
 		activeBlockListeners.add(listener);
 	}
 	
-	public List getActiveBlockListener(){
+	public List<ActiveBlockListener> getActiveBlockListener(){
 		return activeBlockListeners;
 	}
 
@@ -84,7 +84,7 @@ public class BlockMap implements GridMap {
 		listeners.add(listener);
 	}
 	
-	public List getListeners(){
+	public List<BlockMapListener> getListeners(){
 		return listeners;
 	}
 
