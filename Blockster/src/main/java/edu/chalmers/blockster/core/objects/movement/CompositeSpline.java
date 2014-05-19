@@ -74,20 +74,28 @@ public class CompositeSpline implements Spline {
 		if (deltaX == 0 && deltaY == 0) {
 			return Direction.NONE;
 		}
-		if (deltaX > 0) {
-			if (deltaY == 0) {
-				return Direction.RIGHT;
-			} else {
-				return deltaY > 0 ? Direction.UP_RIGHT : Direction.DOWN_RIGHT;
-			}
-		} else if (deltaX < 0) {
-			if (deltaY == 0) {
-				return Direction.LEFT;
-			} else {
-				return deltaY > 0 ? Direction.UP_LEFT : Direction.DOWN_LEFT;
-			}
+		if (deltaX < 0) {
+			return evaluateLeftDirection(deltaY);
+		} else if (deltaX > 0) {
+			return evaluateRightDirection(deltaY);
 		} else {
 			return deltaY > 0 ? Direction.UP : Direction.DOWN;
+		}
+	}
+	
+	private Direction evaluateLeftDirection(int deltaY) {
+		if (deltaY == 0) {
+			return Direction.LEFT;
+		} else {
+			return deltaY > 0 ? Direction.UP_LEFT : Direction.DOWN_LEFT;
+		}
+	}
+	
+	private Direction evaluateRightDirection(int deltaY) {
+		if (deltaY == 0) {
+			return Direction.RIGHT;
+		} else {
+			return deltaY > 0 ? Direction.UP_RIGHT : Direction.DOWN_RIGHT;
 		}
 	}
 
