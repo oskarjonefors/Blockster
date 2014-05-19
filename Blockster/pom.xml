@@ -6,7 +6,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Blockster</name>
-
+   		
 	<properties>
 		<mainClass>edu.chalmers.blockster.gdx.BlocksterLauncher</mainClass>
         <gdx.version>0.9.9</gdx.version>
@@ -67,6 +67,12 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>assets</directory>
+			</resource>
+		</resources>
+		
 		<pluginManagement>
 			<plugins>
 				<plugin>
