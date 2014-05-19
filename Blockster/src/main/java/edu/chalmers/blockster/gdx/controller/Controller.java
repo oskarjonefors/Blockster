@@ -74,7 +74,6 @@ public class Controller extends InputAdapter implements Disposable {
 	 */
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		Gdx.input.setInputProcessor(null);
 	}
 
