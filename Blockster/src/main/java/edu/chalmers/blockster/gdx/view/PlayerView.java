@@ -1,6 +1,8 @@
 package edu.chalmers.blockster.gdx.view;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,12 +16,14 @@ import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
 public class PlayerView {
+	
+	private static final Logger LOG = Logger.getLogger(PlayerView.class.getName());
+	
 	private final Player player;
 	private final Sprite sprite;
 	private TextureRegion standLeft, standRight;
 	private final Map<AnimationState, Animation> arrayOfAnimation;
 	private final Map<Direction, Animation> walkAnimations;
-	
 	private float animTime;
 	
 	public PlayerView(Player player, Map<AnimationState, Animation> arrayOfAnimation,
@@ -58,7 +62,7 @@ public class PlayerView {
 	}
 	private TextureRegion getAnimations(AnimationState state) {
 		if (player.isGrabbingBlock() && state == AnimationState.NONE) {
-			System.out.println("grabbing");
+			LOG.log(Level.INFO, "Grabbing");
 			
 			return player.getDirection() == Direction.LEFT ?
 					arrayOfAnimation.get(AnimationState.GRAB_RIGHT).getKeyFrame(animTime) :

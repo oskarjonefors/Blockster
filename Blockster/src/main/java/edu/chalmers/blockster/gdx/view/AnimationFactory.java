@@ -17,14 +17,12 @@ public class AnimationFactory {
 	private final Map<Direction, Animation> walkAnimations;
 	private final Animation bluePortalAnimations, yellowPortalAnimations;
 	
-	private final float walkAnimTime = 0.12f;
-	private final int nbrWalkPicWidth = 7, nbrWalkPicHeight = 2;
-	
-	private final float portalAnimTime = 0.1f;
-	private final int nbrPortalPicWidth = 4, nbrPortalPicHeigth = 2;
-	
-	private final float grabTime = 0.2f;
-	private final int nbrGrabPicWidth = 3, nbrGrabPicHeight = 2;
+	private static final float WALK_ANIM_TIME = 0.12f;
+	private static final int NBR_WALK_PIC_WIDTH = 7, NBR_WALK_PIC_HEIGHT = 2;
+	private static final float PORTAL_ANIM_TIME = 0.1f;
+	private static final int NBR_PORTAL_PIC_WIDTH = 4, NBR_PORTAL_PIC_HEIGHT = 2;
+	private static final float GRAB_TIME = 0.2f;
+	private static final int NBR_GRAB_PIC_WIDTH = 3, NBR_GRAB_PIC_HEIGHT = 2;
 	
 	public AnimationFactory() {
 		
@@ -38,27 +36,27 @@ public class AnimationFactory {
 		
 		//split all the images into the TextureRegion matrix
 		TextureRegion[][] walkPics = TextureRegion.split(playerWalk, 
-				playerWalk.getWidth()/nbrWalkPicWidth, playerWalk.getHeight()/nbrWalkPicHeight);
+				playerWalk.getWidth()/NBR_WALK_PIC_WIDTH, playerWalk.getHeight()/NBR_WALK_PIC_HEIGHT);
 		
-		TextureRegion[][] bluePortalPics = TextureRegion.split(bluePortal, bluePortal.getWidth()/nbrPortalPicWidth,
-				bluePortal.getHeight()/nbrPortalPicHeigth);
+		TextureRegion[][] bluePortalPics = TextureRegion.split(bluePortal, bluePortal.getWidth()/NBR_PORTAL_PIC_WIDTH,
+				bluePortal.getHeight()/NBR_PORTAL_PIC_HEIGHT);
 		
-		TextureRegion[][] yellowPortalPics = TextureRegion.split(yellowPortal, yellowPortal.getWidth()/nbrPortalPicWidth,
-				yellowPortal.getHeight()/nbrPortalPicHeigth);
+		TextureRegion[][] yellowPortalPics = TextureRegion.split(yellowPortal, yellowPortal.getWidth()/NBR_PORTAL_PIC_WIDTH,
+				yellowPortal.getHeight()/NBR_PORTAL_PIC_HEIGHT);
 		
-		TextureRegion[][] grabPics = TextureRegion.split(grab, grab.getWidth()/nbrGrabPicWidth, grab.getHeight()/nbrGrabPicHeight);
+		TextureRegion[][] grabPics = TextureRegion.split(grab, grab.getWidth()/NBR_GRAB_PIC_WIDTH, grab.getHeight()/NBR_GRAB_PIC_HEIGHT);
 		
 			
-		TextureRegion[] tempWalkLeft = new TextureRegion[nbrWalkPicWidth];
-		TextureRegion[] tempWalkRight = new TextureRegion[nbrWalkPicWidth];
-		TextureRegion[] tempBluePortal = new TextureRegion[nbrPortalPicWidth*nbrPortalPicHeigth];
-		TextureRegion[] tempYellowPortal = new TextureRegion[nbrPortalPicWidth*nbrPortalPicHeigth];
-		TextureRegion[] tempGrabLeft = new TextureRegion[nbrGrabPicWidth];
-		TextureRegion[] tempGrabRight = new TextureRegion[nbrGrabPicWidth];
+		TextureRegion[] tempWalkLeft = new TextureRegion[NBR_WALK_PIC_WIDTH];
+		TextureRegion[] tempWalkRight = new TextureRegion[NBR_WALK_PIC_WIDTH];
+		TextureRegion[] tempBluePortal = new TextureRegion[NBR_PORTAL_PIC_WIDTH*NBR_PORTAL_PIC_HEIGHT];
+		TextureRegion[] tempYellowPortal = new TextureRegion[NBR_PORTAL_PIC_WIDTH*NBR_PORTAL_PIC_HEIGHT];
+		TextureRegion[] tempGrabLeft = new TextureRegion[NBR_GRAB_PIC_WIDTH];
+		TextureRegion[] tempGrabRight = new TextureRegion[NBR_GRAB_PIC_WIDTH];
 		
 		
 		// Get walk animations
-		for (int i = 0; i < nbrWalkPicWidth; i++) {
+		for (int i = 0; i < NBR_WALK_PIC_WIDTH; i++) {
 			tempWalkRight[i] = walkPics[0][i];
 			tempWalkLeft[i] = walkPics[1][i];
 		}
@@ -66,29 +64,29 @@ public class AnimationFactory {
 		int index = 0;
 		
 		// Get portal Animations
-		for (int i = 0; i < nbrPortalPicHeigth; i++) {
-			for (int j = 0; j < nbrPortalPicWidth; j++) {
+		for (int i = 0; i < NBR_PORTAL_PIC_HEIGHT; i++) {
+			for (int j = 0; j < NBR_PORTAL_PIC_WIDTH; j++) {
 				tempBluePortal[index] = bluePortalPics[i][j];
 				tempYellowPortal[index] = yellowPortalPics[i][j];
 				index += 1;
 			}
 		}
 		//Get grab Animations
-		for (int i = 0; i < nbrGrabPicWidth; i++) {
+		for (int i = 0; i < NBR_GRAB_PIC_WIDTH; i++) {
 				tempGrabLeft[i] = grabPics[0][i];
 				tempGrabRight[i] = grabPics[1][i];
 		}
 		
 		// Set Portal Animations
-		bluePortalAnimations = new Animation(portalAnimTime, tempBluePortal);
-		yellowPortalAnimations = new Animation(portalAnimTime, tempYellowPortal);
+		bluePortalAnimations = new Animation(PORTAL_ANIM_TIME, tempBluePortal);
+		yellowPortalAnimations = new Animation(PORTAL_ANIM_TIME, tempYellowPortal);
 		
 		// Set arrayOfAnimation
-		Animation ani = new Animation(walkAnimTime, tempWalkLeft);
+		Animation ani = new Animation(WALK_ANIM_TIME, tempWalkLeft);
 		ani.setPlayMode(Animation.LOOP_REVERSED);
 		
-		Animation grabLeft = new Animation(grabTime, tempGrabLeft);
-		Animation grabRight = new Animation(grabTime, tempGrabRight);
+		Animation grabLeft = new Animation(GRAB_TIME, tempGrabLeft);
+		Animation grabRight = new Animation(GRAB_TIME, tempGrabRight);
 		grabRight.setPlayMode(Animation.REVERSED);
 		
 		/**
@@ -99,7 +97,7 @@ public class AnimationFactory {
 		
 		
 		walkAnimations.put(Direction.LEFT, ani);
-		walkAnimations.put(Direction.RIGHT, new Animation(walkAnimTime, tempWalkRight));
+		walkAnimations.put(Direction.RIGHT, new Animation(WALK_ANIM_TIME, tempWalkRight));
 	}
 	
 	public Map<Direction, Animation> getWalkAnimations(){
