@@ -64,7 +64,6 @@ public class BlockView implements TiledMapTile {
 	public TextureRegion getTextureRegion() {
 		if (!hasSetPreviousRotation) {
 			previousRotation = getTotalRotation();
-			System.out.println("previous: "+previousRotation);
 			hasSetPreviousRotation = true;
 		}
 
@@ -118,18 +117,15 @@ public class BlockView implements TiledMapTile {
 	}
 
 	public int getOrtagonalDegrees() {
-		System.out.println(getTotalRotation());
 		int dif = 45, targetVal = Math.round(getTotalRotation()) % 360;
 		int[] ortagonalDegrees = { 0, 90, 180, 270 };
 		int val =  Calculations.getClosestNumber(targetVal, dif, 0, ortagonalDegrees);
-		System.out.println(val);
 		return val;
 	}
 
 	private void updateRotation() {
 		Vector2f v = block.getAnimationState().getRelativePosition();
 		rotation = 180f + 360f * (float) (Math.atan2(-v.y, -v.x) / Math.PI);
-		System.out.println(rotation);
 	}
 
 	private boolean shouldRotate() {
