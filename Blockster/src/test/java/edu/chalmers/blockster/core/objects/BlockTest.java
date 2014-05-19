@@ -13,8 +13,8 @@ public class BlockTest {
 	
 	private BlockMap blockMap;
 	private Block block;
-	private AnimationState anim;
-	private Movement movement;
+	private Movement movementLeft;
+	private Movement movementRight;
 	private int startX;
 	private int startY;
 	private String property;
@@ -26,8 +26,8 @@ public class BlockTest {
 		startY = 2;
 		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		block = new Block(startX, startY, blockMap);
-		movement = Movement.PULL_LEFT;
-		anim = new AnimationState(movement);
+		movementLeft = Movement.PULL_LEFT;
+		movementRight = Movement.PULL_RIGHT;
 		
 		blockMap.insertBlock(block);
 	}
@@ -35,8 +35,8 @@ public class BlockTest {
 	@Test
 	public void testCanMove() {
 		boolean correct = true;
-		Direction dir = movement.getDirection();
-		block.setAnimationState(anim);
+		Direction dir = movementLeft.getDirection();
+		block.setAnimationState(new AnimationState(movementLeft));
 		
 		//#1 Can move
 		correct &= block.canMove(dir);
@@ -47,14 +47,19 @@ public class BlockTest {
 		correct &= !block.canMove(dir);
 		
 		//#3 Move outside the map width
-		Block anotherBlock = new Block(blockMap.getWidth(), startY, blockMap);
-		blockMap.insertBlock(anotherBlock);
+		block.removeFromGrid();
+		block.setX(0);
+		block.setY(startY);
+		blockMap.insertBlock(block);
 		correct &= !block.canMove(dir);
 		
 		//#4 Move outside the map width
-		Block oneBlock = new Block(0, startY, blockMap);
-		blockMap.insertBlock(oneBlock);
-		block.setAnimationState(new AnimationState(Movement.PULL_RIGHT));
+		block.removeFromGrid();
+		block.setX(blockMap.getWidth() - 1);
+		block.setY(startY);
+		blockMap.insertBlock(block);
+		block.setAnimationState(new AnimationState(movementRight));
+		dir = movementRight.getDirection();
 		correct &= !block.canMove(dir);
 		
 		assertTrue(correct);
@@ -62,16 +67,16 @@ public class BlockTest {
 
 	@Test
 	public void testMoveToNextPosition() {
-		block.setAnimationState(anim);
+		block.setAnimationState(new AnimationState(movementLeft));
 		block.moveToNextPosition();
-		assertTrue(Math.round(block.getX()) == movement.getDirection()
+		assertTrue(Math.round(block.getX()) == movementLeft.getDirection()
 												.getDeltaX() + startX);
 	}
 
 	@Test
 	public void testSetAnimationState() {
-		block.setAnimationState(anim);
-		assertTrue(anim.getMovement() == movement);
+		block.setAnimationState(new AnimationState(movementLeft));
+		assertTrue(new AnimationState(movementLeft).getMovement() == movementLeft);
 	}
 
 	@Test
