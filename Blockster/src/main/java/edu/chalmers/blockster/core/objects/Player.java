@@ -26,9 +26,6 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
 public class Player extends BlocksterObject implements Interactor {
 
 	private static final Logger LOG = Logger.getLogger(Player.class.getName());
-
-	private boolean dancing = false;
-
 	private final Block none;
 	private Block processedBlock;
 	private boolean grabbingBlock;
@@ -172,10 +169,6 @@ public class Player extends BlocksterObject implements Interactor {
 		return isInteracting() || getAnimationState() != AnimationState.NONE;
 	}
 
-	public boolean isDancing() {
-		return dancing;
-	}
-
 	public boolean isGrabbingBlock() {
 		return grabbingBlock;
 	}
@@ -238,10 +231,6 @@ public class Player extends BlocksterObject implements Interactor {
 				horizontalCollision = false;
 			}
 		}
-	}
-
-	public void setDancing(boolean b) {
-		dancing = true;
 	}
 
 	public void setGrabbing(boolean b) {
