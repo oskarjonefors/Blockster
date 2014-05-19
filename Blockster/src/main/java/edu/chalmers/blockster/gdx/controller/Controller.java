@@ -43,8 +43,6 @@ public class Controller extends InputAdapter implements Disposable {
 	private static final int RESTART_STAGE_BUTTON_R_FLAG = 1 << 6;
 	private static final int LEFT_BUTTON_UP_FLAG = 1 << 7;
 	private static final int RIGHT_BUTTON_UP_FLAG = 1 << 8;
-	private static final int DANCE_BUTTON_FLAG = 1 << 9;
-	private static final int DANCE_BUTTON_UP_FLAG = 1 << 10;
 	private static final int CLIMB_BUTTON_DOWN_FLAG = 1 << 0;
 	private static final int CLIMB_BUTTON_UP_FLAG = 1 << 1;
 	private static final int TOGGLE_FULLSCREEN_FLAG = 1 << 2;
@@ -78,20 +76,6 @@ public class Controller extends InputAdapter implements Disposable {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		Gdx.input.setInputProcessor(null);
-	}
-
-	private void handleDancing() {
-		if ((keyFlags & DANCE_BUTTON_FLAG) != 0) {
-			// Dance
-			keyFlags &= ~DANCE_BUTTON_FLAG;
-			model.getActivePlayer().setDancing(true);
-		}
-
-		if ((keyFlags & DANCE_BUTTON_UP_FLAG) != 0) {
-
-			keyFlags &= ~DANCE_BUTTON_UP_FLAG;
-			model.getActivePlayer().setDancing(false);
-		}
 	}
 
 	private void handleGameConditions() {
@@ -216,10 +200,6 @@ public class Controller extends InputAdapter implements Disposable {
 			// Restart level
 			keyFlags |= RESTART_STAGE_BUTTON_R_FLAG;
 		}
-		if (keyCode == Keys.D) {
-			// Dance
-			keyFlags |= DANCE_BUTTON_FLAG;
-		}
 
 		if (keyCode == Keys.UP) {
 			miscFlags |= CLIMB_BUTTON_DOWN_FLAG;
@@ -279,12 +259,6 @@ public class Controller extends InputAdapter implements Disposable {
 			keyFlags |= SWITCH_CHARACTER_BUTTON_UP_FLAG;
 		}
 
-		if (keyCode == Keys.D) {
-			// Stop dancing
-			keyFlags &= ~DANCE_BUTTON_FLAG;
-			keyFlags |= DANCE_BUTTON_UP_FLAG;
-		}
-
 		if (keyCode == Keys.UP) {
 			miscFlags &= ~CLIMB_BUTTON_DOWN_FLAG;
 			miscFlags |= CLIMB_BUTTON_UP_FLAG;
@@ -322,7 +296,6 @@ public class Controller extends InputAdapter implements Disposable {
 
 		handleMovement();
 		handleInteractions();
-		handleDancing();
 		handleGameConditions();
 
 	}
