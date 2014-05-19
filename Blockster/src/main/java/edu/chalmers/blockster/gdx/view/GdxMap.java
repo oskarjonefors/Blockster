@@ -55,7 +55,6 @@ public class GdxMap extends TiledMap implements BlockMapListener {
 		BlockView blockView = getBlockView(block);
 		Cell cell = new Cell();
 		cell.setTile(blockView);
-		System.out.println(blockView.getOrtagonalDegrees());
 		cell.setRotation(blockView.getOrtagonalDegrees() / 90);
 		blockLayer.setCell((int) block.getOriginX(), (int) block.getOriginY(), cell);
 	}
