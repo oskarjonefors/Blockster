@@ -61,7 +61,7 @@ public class AnimationState {
 	 * @return
 	 */
 	public boolean isDone() {
-		return move == Movement.NONE || elapsedTime >= move.getDuration();
+		return move.getDirection() == Direction.NONE || elapsedTime >= move.getDuration();
 	}
 	
 	public String toString() {

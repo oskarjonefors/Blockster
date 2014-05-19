@@ -59,4 +59,16 @@ public final class Calculations {
 	private static boolean isSolid(GridMap blockLayer, int x, int y) {
 		return blockLayer.hasBlock(x, y) && blockLayer.getBlock(x,y).isSolid();
 	}
+	
+	public static int getClosestNumber(int target, int maxDif, int defaultVal, int[] compareTo) {
+		int result = defaultVal;
+		for (int x : compareTo) {
+			if (Math.abs(x-target) < maxDif)
+	          {
+	              maxDif = Math.abs(x-target);
+	              result = x;
+	          }
+		}
+		return result;
+	}
 }
