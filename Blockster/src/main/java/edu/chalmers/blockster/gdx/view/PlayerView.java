@@ -52,7 +52,8 @@ public class PlayerView {
 		final AnimationState animState = player.getAnimationState();
 		final Movement movement = animState.getMovement();
 		animTime += Gdx.graphics.getDeltaTime();
-		if ( !player.isGrabbingBlock() && movement == Movement.NONE) {
+		
+		if (!player.isGrabbingBlock() && movement == Movement.NONE) {
 			if (player.isMoving()) {
 				return getWalkingPic();
 			} else {
@@ -64,23 +65,37 @@ public class PlayerView {
 	}
 	
 	private TextureRegion getAnimations(Movement movement) {
+		System.out.println("Movement: " +movement.toString());
 		if (movement == Movement.PUSH_RIGHT || movement == Movement.PUSH_LEFT) {
-			return arrayOfAnimation.get(movement).getKeyFrame(animTime);
+			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 
 		} else if (player.isGrabbingBlock() && movement != Movement.PULL_LEFT && movement != Movement.PULL_RIGHT) {
 			LOG.log(Level.INFO, "Grabbing");
 			return player.getDirection() == Direction.LEFT ?
 					arrayOfAnimation.get(Movement.GRAB_RIGHT).getKeyFrame(animTime):
 					arrayOfAnimation.get(Movement.GRAB_LEFT).getKeyFrame(animTime);
+					
+		} else if (movement == Movement.MOVE_LEFT || movement == Movement.MOVE_RIGHT) {
+			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
+			
+		} else if (movement == Movement.PLAYER_LIFT_LEFT || movement == Movement.PLAYER_LIFT_RIGHT
+				|| movement == Movement.PLAYER_PUT_LEFT || movement == Movement.PLAYER_PUT_RIGHT) {
+			return arrayOfAnimation.get(movement).getKeyFrame(animTime);
 		} else {
 			return standRight;
 		}
 	}
+
 	private TextureRegion getWalkingPic() {
 		return walkAnimations.get(player.getDirection()).getKeyFrame(animTime, true);
 	}
 	
 	private TextureRegion getStillPic() {
+		if (player.isLiftingBlock()) {
+			return player.getDirection() == Direction.LEFT ? 
+				arrayOfAnimation.get(Movement.MOVE_LEFT).getKeyFrame(animTime) :
+				arrayOfAnimation.get(Movement.MOVE_RIGHT).getKeyFrame(animTime);
+		}
 		switch (player.getDirection()) {
 		
 			case LEFT:	return standLeft; 

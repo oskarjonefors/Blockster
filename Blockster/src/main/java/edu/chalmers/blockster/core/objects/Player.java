@@ -194,6 +194,10 @@ public class Player extends BlocksterObject implements Interactor {
 			LOG.log(Level.INFO, "Can lift block at " + processedBlock.getX()
 					+ " " + processedBlock.getY());
 			// Lift process
+//			AnimationState state = (getDirection() == Direction.LEFT) ?
+//					new AnimationState(Movement.PLAYER_LIFT_LEFT) :
+//					new AnimationState(Movement.PLAYER_LIFT_RIGHT);
+//			this.setAnimationState(state);
 			interaction = new BlockLiftedInteraction(this, processedBlock,
 					blockMap);
 			interaction.startInteraction();
