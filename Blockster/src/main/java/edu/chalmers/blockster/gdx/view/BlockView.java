@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 
 import edu.chalmers.blockster.core.objects.Block;
-import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 import edu.chalmers.blockster.core.util.Calculations;
@@ -125,7 +124,22 @@ public class BlockView implements TiledMapTile {
 
 	private void updateRotation() {
 		Vector2f v = block.getAnimationState().getRelativePosition();
-		rotation = 180f + 360f * (float) (Math.atan2(-v.y, -v.x) / Math.PI);
+		switch (block.getAnimationState().getMovement().getDirection()) {
+		case UP_LEFT:
+			rotation = (float) (360d * Math.atan2(v.y, 1 + v.x) / (2 * Math.PI));
+			break;
+		case UP_RIGHT:
+			rotation = (float) (360d * Math.atan2(-v.y, 1 - v.x) / (2 * Math.PI));
+			break;
+		case DOWN_LEFT:
+			rotation = (float) (360d * Math.atan2(-v.y, 1 + v.x) / (2 * Math.PI));
+			break;
+		case DOWN_RIGHT:
+			rotation = (float) (360d * Math.atan2(v.y, 1 - v.x) / (2 * Math.PI));
+			break;
+		
+		default: break;
+		}
 	}
 
 	private boolean shouldRotate() {
