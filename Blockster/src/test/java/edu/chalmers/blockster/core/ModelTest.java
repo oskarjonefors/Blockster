@@ -274,10 +274,10 @@ public class ModelTest {
 	@Test
 	public void testUpdatePlayerAnimation() {
 		final Player activePlayer = model.getActivePlayer();
-		activePlayer.setAnimationState(AnimationState.LIFT_LEFT);
+		activePlayer.setAnimationState(new AnimationState(Movement.PUSH_RIGHT));
 		model.update(0.01f);
 		boolean correct = true;
-		correct &= activePlayer.getAnimationState() == AnimationState.LIFT_LEFT;
+		correct &= activePlayer.getAnimationState().getMovement() == Movement.PUSH_RIGHT;
 		model.update(100);
 		correct &= activePlayer.getAnimationState() == AnimationState.NONE;
 		assertTrue(correct);
