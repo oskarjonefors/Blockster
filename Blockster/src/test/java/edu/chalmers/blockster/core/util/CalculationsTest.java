@@ -1,6 +1,7 @@
 package edu.chalmers.blockster.core.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -102,4 +103,11 @@ public class CalculationsTest {
 		}
 	}
 	
+	@Test
+	public void testGetClosestNumber() {
+		int dif = 45, targetVal = Math.round(360 % 360);
+		int[] ortagonalDegrees = { 0, 90, 180, 270 };
+		int val =  Calculations.getClosestNumber(targetVal, dif, 0, ortagonalDegrees);
+		assertTrue(val == 0);
+	}	
 }

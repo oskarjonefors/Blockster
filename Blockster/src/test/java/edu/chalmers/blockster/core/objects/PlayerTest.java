@@ -27,12 +27,45 @@ public class PlayerTest {
 		player.setWidth(100);
 		
 		blockMap.insertBlock(block);
+	}
+
+	@Test
+	public void testCanClimbBlock() {
 
 	}
 	
-
 	@Test
-	public void testGetAdjecentBlock() {		
+	public void testClimbingCollision() {
+		
+	}
+	
+	@Test
+	public void testCanGrabBlock() {
+		
+	}
+	
+	@Test
+	public void testCanLiftBlock() {
+		
+	}
+	
+	@Test
+	public void testStartInteraction() {
+		
+	}
+	
+	@Test
+	public void hasMovedBlock() {
+		
+	}
+	
+	@Test
+	public void testIsSwitchingToMe() {
+		
+	}
+	
+	@Test
+	public void testGetAdjacentBlock() {		
 		Boolean correct = false;
 		
 		player.setDirection(Direction.LEFT);
@@ -42,7 +75,6 @@ public class PlayerTest {
 		correct &= (player.getAdjacentBlock() == block);
 		
 		assertTrue(correct);
-		
 	}
 	
 	@Test
@@ -119,7 +151,6 @@ public class PlayerTest {
 		 float lastposX = player.getX();
 		 player.setAnimationState(new AnimationState(Movement.MOVE_LEFT));
 		 player.updatePosition(0.5f);
-		 System.out.println("test last pos " + (lastposX == player.getX()));
 		 
 		 assertTrue(player.isLiftingBlock());
 	 }
@@ -190,7 +221,6 @@ public class PlayerTest {
 		 float lastXPos = player.getOriginX();
 		 player.updatePosition(0.1f);
 		 correct = (lastXPos != player.getX());
-		 System.out.println("test1 " + correct);
 		 
 		 //#2
 		 lastXPos = player.getX();
@@ -198,19 +228,34 @@ public class PlayerTest {
 		 player.setAnimationState(animState);
 		 player.updatePosition(1f);
 		 correct &= (lastXPos != player.getX());
-		 System.out.println("test2 " + correct);
 		 
-		 System.out.println("test3 " + correct);
 		 assertTrue(correct);
 	 }
 	 
 	 @Test
 	 public void testClimbBlock() {
-		 
+		 boolean correct = true;
 		 player.setDirection(Direction.RIGHT);
-//		 block.setProperty("solid");
+		 
+		 //#1 Block is there
 		 player.climbBlock();
+		 correct &= (player.getAnimationState().getMovement()
+				 					== Movement.CLIMB_RIGHT);
+		 player.setAnimationState(new AnimationState(Movement.NONE));
+		 
+		 //#2 Block is null
+		 block = null;
+		 player.climbBlock();
+		 correct &= (player.getAnimationState().getMovement() == Movement.NONE);
+		 
+		 //#3 Block is empty
+		 block = EmptyBlock.getInstance();
+		 player.climbBlock();
+		 correct &= (player.getAnimationState().getMovement() == Movement.NONE);
+		 
 
+//		 block.setProperty("solid");
+		 
 		 assertTrue(player.getAnimationState().getMovement() == Movement.CLIMB_RIGHT);
 	 }
 	 
@@ -230,7 +275,6 @@ public class PlayerTest {
 		 player2.startInteraction();
 		 correct &= (player2.getAnimationState().getMovement() == Movement.MOVE_LEFT);
 		 
-		 assertTrue(correct);
-		 
+		 assertTrue(correct);		 
 	 }
 }

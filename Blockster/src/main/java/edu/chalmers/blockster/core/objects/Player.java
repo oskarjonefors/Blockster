@@ -99,7 +99,7 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public void climbBlock() {
-		final Block block = getAdjacentBlock();
+		final Block block = getAdjacentBlock(); 
 		LOG.log(Level.INFO, "Can we climb block?");
 		if (!isGrabbingBlock() && canClimbBlock(block) && block.canBeClimbed()) {
 			LOG.log(Level.INFO, "We can climb block!");
