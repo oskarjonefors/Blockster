@@ -63,6 +63,7 @@ public class BlockView implements TiledMapTile {
 	public TextureRegion getTextureRegion() {
 		if (!hasSetPreviousRotation) {
 			previousRotation = getTotalRotation();
+			rotation = 0;
 			hasSetPreviousRotation = true;
 		}
 
