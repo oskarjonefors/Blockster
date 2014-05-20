@@ -1,6 +1,6 @@
 package edu.chalmers.blockster.core.objects;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +22,9 @@ public class BlockTest {
 	@Before
 	public void setUp() {
 		int[][] playerPositions = {{0,0}};
+		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		startX = 3;
 		startY = 2;
-		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		block = new Block(startX, startY, blockMap);
 		movementLeft = Movement.PULL_LEFT;
 		movementRight = Movement.PULL_RIGHT;

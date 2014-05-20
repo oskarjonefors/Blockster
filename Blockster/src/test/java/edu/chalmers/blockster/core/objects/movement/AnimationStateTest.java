@@ -1,9 +1,10 @@
 package edu.chalmers.blockster.core.objects.movement;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+
+import javax.vecmath.Vector2f;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AnimationStateTest {
@@ -14,6 +15,15 @@ public class AnimationStateTest {
 	@Before
 	public void setUp() {
 		anim = new AnimationState(Movement.PULL_LEFT);
+	}
+	
+	@Test
+	public void testGetRelativePosition() {
+		Vector2f zeroVector = new Vector2f(0f,0f);
+		AnimationState noAnimation = new AnimationState(Movement.NONE);
+		System.out.println(noAnimation.getRelativePosition());
+		System.out.println(zeroVector);
+		assertTrue(noAnimation.getRelativePosition().equals(zeroVector));
 	}
 	
 	@Test
