@@ -301,8 +301,9 @@ public class BlockGrabbedInteractionTest {
 	
 	@Test
 	public void testStartInteraction() {
-		assertTrue(player.getAnimationState() 
-				== AnimationState.GRAB_RIGHT);
+		Movement none = player.getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
+		assertTrue(player.getAnimationState().getMovement() 
+				== none);
 
 	}
 	
