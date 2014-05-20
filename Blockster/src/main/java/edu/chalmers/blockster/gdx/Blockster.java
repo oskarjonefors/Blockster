@@ -37,13 +37,13 @@ public class Blockster extends Game implements MapChangeListener {
 	private Model stage;
 	private Map<Model, GdxView> stages;
 	
-	private void addStagesToMap(Map<Model, GdxView> stageMap, File... maps) {
+	private void addStagesToMap(Map<Model, GdxView> stageMap, FileHandle... maps) {
 		final TmxMapLoader loader = new TmxMapLoader();
-		for (final File mapFile : maps) {
-			LOG.log(Level.FINE, "Stage found" + mapFile.getName());
-			final TiledMap map = loader.load("maps/"+mapFile.getName());
+		for (final FileHandle mapFile : maps) {
+			LOG.log(Level.FINE, "Stage found" + mapFile.name());
+			final TiledMap map = loader.load(mapFile.path());
 			final GdxFactory factory = new GdxFactory(map);
-			final Model model = new Model(factory, mapFile.getName());
+			final Model model = new Model(factory, mapFile.name());
 			final GdxView view = new GdxView(model, factory);
 			view.init();
 			
@@ -57,8 +57,8 @@ public class Blockster extends Game implements MapChangeListener {
 		controller = new Controller();
 		controller.addMapChangeListener(this);
 		try {
-			FileHandle fh = new FileHandle(new File(new File("assets"), "Gourmet Race.mp3"));
-			Music music = Gdx.audio.newMusic(fh);
+			FileHandle file = Gdx.files.internal("music/gourmet_race.mp3");
+			Music music = Gdx.audio.newMusic(file);
 			music.setLooping(true);
 			/* add music.play() here to make the music start. */
 			
@@ -94,8 +94,11 @@ public class Blockster extends Game implements MapChangeListener {
 	}
 
 	private void loadStages() throws IOException {
+		//FileHandle[] maps = Gdx.files.internal("./maps/").list();
+		FileHandle[] maps = {Gdx.files.internal("maps/Megamap.tmx")};
+		
 		stages = Collections.synchronizedSortedMap(new TreeMap<Model, GdxView>());
-		addStagesToMap(stages, listFilesInDirectory(new File("assets/maps/"), ".tmx"));
+		addStagesToMap(stages, maps);
 	}
 
 	@Override
