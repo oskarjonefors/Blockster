@@ -108,8 +108,11 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	
 	public boolean canPerformMove(Direction dir) {
 		boolean interactorCanMove = interactor.canMove(dir);
-		boolean interactedCanMove = interacted.canMove(dir);
-		return interactorCanMove && interactedCanMove;
+		boolean noBlockAbove = !blockLayer.hasBlock((int) interacted.getX(),
+				(int) interacted.getY() + 1);
+		boolean weightless = !blockLayer.getBlock((int) interacted.getX(),
+				(int) interacted.getY() + 1).hasWeight();
+		return interactorCanMove && (noBlockAbove || weightless);
 
 	}
 
