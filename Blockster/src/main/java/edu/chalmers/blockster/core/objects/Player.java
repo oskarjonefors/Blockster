@@ -61,11 +61,7 @@ public class Player extends BlocksterObject implements Interactor {
 			return false;
 		}
 		
-		if (isNextToBlock(block)) {
-			return !climbingCollision();
-		}
-		
-		return false;
+		return isNextToBlock(block) && !climbingCollision();
 	}
 
 	private boolean climbingCollision() {
