@@ -95,7 +95,7 @@ public class Blockster extends Game implements MapChangeListener {
 
 	private void loadStages() throws IOException {
 		//FileHandle[] maps = Gdx.files.internal("./maps/").list();
-		FileHandle[] maps = {Gdx.files.internal("maps/Megamap.tmx")};
+		FileHandle[] maps = {Gdx.files.internal("maps/stage1.tmx")};
 		
 		stages = Collections.synchronizedSortedMap(new TreeMap<Model, GdxView>());
 		addStagesToMap(stages, maps);
