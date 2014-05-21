@@ -77,6 +77,21 @@ public class PlayerTest {
 		if (player.getAnimationState() != AnimationState.NONE) {
 			fail("Could climb despite climbing collision");
 		}
+		
+		setUp();
+		Block liftable = new Block(1, 2, blockMap);
+		liftable.setProperty("liftable");
+		blockMap.insertBlock(liftable);
+		player.setDirection(Direction.LEFT);
+		player.liftBlock();
+		liftable.moveToNextPosition();
+		liftable.setAnimationState(AnimationState.NONE);
+		blockMap.insertBlock(liftable);
+		player.setDirection(Direction.RIGHT);
+		player.climbBlock();
+		if (player.getAnimationState() == AnimationState.NONE) {
+			fail("Couldn't climb a climbable block");
+		}
 	}
 	
 	@Test
