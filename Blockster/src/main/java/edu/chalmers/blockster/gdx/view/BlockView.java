@@ -119,8 +119,7 @@ public class BlockView implements TiledMapTile {
 	public int getOrtagonalDegrees() {
 		int dif = 45, targetVal = Math.round(getTotalRotation()) % 360;
 		int[] ortagonalDegrees = { 0, 90, 180, 270 };
-		int val =  Calculations.getClosestNumber(targetVal, dif, 0, ortagonalDegrees);
-		return val;
+		return  Calculations.getClosestNumber(targetVal, dif, 0, ortagonalDegrees);
 	}
 
 	private void updateRotation() {
