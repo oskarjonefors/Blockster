@@ -69,15 +69,6 @@ public class PlayerTest {
 		if (player.getAnimationState() != AnimationState.NONE) {
 			fail("Could climb despite climbing collision");
 		}
-		
-		setUp();
-		blockMap.insertBlock(new Block(3, 3, blockMap));
-		player.setDirection(Direction.LEFT);
-		player.setX(4.5f * player.getScaleX());
-		player.climbBlock();
-		if (player.getAnimationState() != AnimationState.NONE) {
-			fail("Climbable block should be out of reach");
-		}
 	}
 	
 	@Test
@@ -154,18 +145,23 @@ public class PlayerTest {
 	public void testIsNextToBlock() {
 		boolean correct = false;
 		
-		//#1
-		correct = player.isNextToBlock(block);
+		//#1 Left side of block
+		if (!player.isNextToBlock(block)) {
+			fail("Player should be next to block");
+		}
 		
-		//#2
+		//#2 Right side of block
+		player.setDirection(Direction.LEFT);
 		player.setX(512);
-		correct &= player.isNextToBlock(block);
+		if (!player.isNextToBlock(block)) {
+			fail("Player should be next to block");
+		}
 		
 		//#3
 		player.setY(0);
-		correct &= !player.isNextToBlock(block);
-		
-		assertTrue(correct);
+		if (player.isNextToBlock(block)) {
+			fail("Player shouldn't be next to block");
+		}
 	}
 	 @Test
 	 public void testMove() {

@@ -60,7 +60,12 @@ public class Player extends BlocksterObject implements Interactor {
 		if (block instanceof EmptyBlock) {
 			return false;
 		}
-		return isNextToBlock(block) && !climbingCollision();
+		
+		if (isNextToBlock(block)) {
+			return !climbingCollision();
+		}
+		
+		return false;
 	}
 
 	private boolean climbingCollision() {
@@ -190,10 +195,17 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public boolean isNextToBlock(Block block) {
-		return block != null
-				&& Math.abs(block.getX()
-						- (Math.round(getX()) / blockMap.getBlockWidth())) <= 1.1f
-				&& Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) <= 0.2f;
+		if (getDirection().getDeltaX() < 0) { 
+			return block != null
+					&& Math.abs(block.getX() + 1
+							- (Math.round(getX()) / blockMap.getBlockWidth())) <= 0.1f
+					&& Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) <= 0.2f;
+		} else {
+			return block != null
+					&& Math.abs(block.getX()
+							- (getX() + getWidth()) / getScaleX()) <= 0.25f
+					&& Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) <= 0.2f;
+		}
 	}
 
 	public void liftBlock() {
