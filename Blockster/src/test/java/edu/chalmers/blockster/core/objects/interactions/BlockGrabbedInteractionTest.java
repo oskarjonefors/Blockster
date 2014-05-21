@@ -195,6 +195,43 @@ public class BlockGrabbedInteractionTest {
 	}
 
 	@Test
+	public void testBlockAbovePulledBlock() {
+		{
+			Block weighted = new Block(2, 4, blockMap);
+			weighted.setProperty("weight");
+			blockMap.insertBlock(weighted);
+			tryPullBlockLeftwards(false);
+			
+			setUp();
+			blockMap.insertBlock(new Block(2, 4, blockMap));
+			tryPullBlockLeftwards(true);
+		}
+		
+		{
+			setUp();
+			Block weighted = new Block(2, 4, blockMap);
+			weighted.setProperty("weight");
+			blockMap.insertBlock(weighted);
+			blockMap.removeBlock(blockMap.getBlock(0, 2));
+			tryPullBlockLeftwards(false);
+			
+			setUp();
+			blockMap.insertBlock(new Block(2, 4, blockMap));
+			blockMap.removeBlock(blockMap.getBlock(0, 2));
+			tryPullBlockLeftwards(false);
+		}
+	}
+	
+	public void tryPullBlockLeftwards(boolean shouldPull) {
+		player.setDirection(Direction.LEFT);
+		interaction.interact(Direction.LEFT);
+		
+		if (player.getAnimationState().getMovement().isPullMovement() != shouldPull) {
+			fail("Should" + (shouldPull ? " " : " not ") + "be pulling block");
+		}
+	}
+	
+	@Test
 	public void testEndInteraction() {
 		boolean success = (player.getAnimationState() 
 						!= AnimationState.NONE);
@@ -252,17 +289,17 @@ public class BlockGrabbedInteractionTest {
 		player.setDirection(Direction.LEFT);
 		interaction.interact(Direction.LEFT);
 		
+		if (player.getAnimationState().getMovement() != Movement.GRAB_RIGHT) {
+			fail("Should still be grabbing block");
+		}
 		
-		success &= player.getAnimationState().getMovement() == Movement.GRAB_RIGHT;
-		
-		
-		blockMap.insertBlock(new Block(0, 2, blockMap));
+		setUp();
+		player.setDirection(Direction.LEFT);
 		interaction.interact(Direction.LEFT);
 		
-		success &= player.getAnimationState()
-				.getMovement().isPullMovement();
-		
-		assertTrue(success);
+		if (!player.getAnimationState().getMovement().isPullMovement()) {
+			fail("Should be pulling block");
+		}
 	}
 	
 	@Test
