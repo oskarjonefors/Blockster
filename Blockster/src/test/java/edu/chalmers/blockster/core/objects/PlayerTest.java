@@ -69,6 +69,15 @@ public class PlayerTest {
 		if (player.getAnimationState() != AnimationState.NONE) {
 			fail("Could climb despite climbing collision");
 		}
+		
+		setUp();
+		blockMap.insertBlock(new Block(3, 3, blockMap));
+		player.setDirection(Direction.LEFT);
+		player.setX(4.5f * player.getScaleX());
+		player.climbBlock();
+		if (player.getAnimationState() != AnimationState.NONE) {
+			fail("Climbable block should be out of reach");
+		}
 	}
 	
 	@Test
