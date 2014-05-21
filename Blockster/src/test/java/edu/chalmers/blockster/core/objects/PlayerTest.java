@@ -1,6 +1,6 @@
 package edu.chalmers.blockster.core.objects;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import javax.vecmath.Vector2f;
 
@@ -32,12 +32,43 @@ public class PlayerTest {
 
 	@Test
 	public void testCanClimbBlock() {
-
+		player.setDirection(Direction.LEFT);
+		player.climbBlock();
+		if (player.getAnimationState() != AnimationState.NONE) {
+			fail("Could climb empty blocks");
+		}
+		
+		setUp();
+		player.setDirection(Direction.RIGHT);
+		player.climbBlock();
+		if (player.getAnimationState() == AnimationState.NONE) {
+			fail("Couldn't climb a climbable block");
+		}
+		
+		setUp();
+		player.setDirection(Direction.LEFT);
+		player.setX(4.5f * player.getScaleX());
+		player.climbBlock();
+		if (player.getAnimationState() != AnimationState.NONE) {
+			fail("Climbable block should be out of reach");
+		}
 	}
 	
 	@Test
 	public void testClimbingCollision() {
+		player.setDirection(Direction.RIGHT);
+		player.climbBlock();
+		if (player.getAnimationState() == AnimationState.NONE) {
+			fail("Couldn't climb a climbable block");
+		}
 		
+		setUp();
+		blockMap.insertBlock(new Block(3, 3, blockMap));
+		player.setDirection(Direction.RIGHT);
+		player.climbBlock();
+		if (player.getAnimationState() != AnimationState.NONE) {
+			fail("Could climb despite climbing collision");
+		}
 	}
 	
 	@Test
