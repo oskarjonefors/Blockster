@@ -57,7 +57,6 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	private boolean canClimbBlock(Block block) {
-		assert block != null;
 		if (block instanceof EmptyBlock) {
 			return false;
 		}
@@ -76,7 +75,6 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	private boolean canGrabBlock(Block block) {
-		assert block != null;
 		return !isBusy() && isNextToBlock(block) && !isLiftingBlock();
 	}
 
