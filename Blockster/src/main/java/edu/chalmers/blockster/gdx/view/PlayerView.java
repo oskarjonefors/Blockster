@@ -5,15 +5,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.Player.World;
@@ -82,7 +79,6 @@ public class PlayerView {
 	}
 
 	private TextureRegion getAnimations(Movement movement) {
-		System.out.println("Movement: " +movement.toString());
 		if (movement == Movement.PUSH_RIGHT || movement == Movement.PUSH_LEFT) {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 
@@ -124,7 +120,7 @@ public class PlayerView {
 	}
 
 	public TextureRegion getCurrentAnimation(AnimationState anim, Float time){
-		return arrayOfAnimation.get(anim).getKeyFrame(time, true);
+		return arrayOfAnimation.get(anim.getMovement()).getKeyFrame(time, true);
 	}
 
 	public final void setSize(float width, float height) {
