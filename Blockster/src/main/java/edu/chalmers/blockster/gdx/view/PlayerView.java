@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -38,13 +39,23 @@ public class PlayerView {
 		sprite = new Sprite();
 	}
 	
-	public void draw(SpriteBatch batch){
+	public void draw(SpriteBatch batch, boolean isActive){
 		TextureRegion region = chooseAnimation();
 		int width = region.getRegionWidth(), height = region.getRegionHeight();
 		
 		sprite.setRegion(region);
 		setSize(width, height);
-		batch.draw(sprite, getX(), getY());
+		if (!isActive) {
+			final Color color = batch.getColor();
+			final float alpha = color.a;
+			color.a = alpha * 0.3f;
+			batch.setColor(color);
+			batch.draw(sprite, getX(), getY(), getX(), getY(), width, height, 1f, 1f, 0);
+			color.a = alpha;
+			batch.setColor(color);
+		} else {
+			batch.draw(sprite, getX(), getY());
+		}
 	}
 			
 		
@@ -114,6 +125,10 @@ public class PlayerView {
 		sprite.setSize(width, height);
 		player.setWidth(width);
 		player.setHeight(width);
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 	
 	public float getX() {
