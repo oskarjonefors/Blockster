@@ -69,7 +69,8 @@ public class Player extends BlocksterObject implements Interactor {
 		final int playerGridY = (int) (getY() / getScaleY());
 		if (blockMap.hasBlock(playerGridX, playerGridY + 1)) {
 			Block blockAbove = blockMap.getBlock(playerGridX, playerGridY + 1);
-			return blockAbove != processedBlock;
+			boolean notProcessedBlock = blockAbove != processedBlock;
+			return notProcessedBlock;
 		} else {
 			return false;
 		}
