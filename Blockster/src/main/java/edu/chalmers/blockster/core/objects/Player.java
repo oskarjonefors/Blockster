@@ -136,9 +136,9 @@ public class Player extends BlocksterObject implements Interactor {
 
 	public void startInteraction() {
 		final Block block = getAdjacentBlock();
-		if (block != null && block.isTeleporter()){
+		if (block.isTeleporter()){
 			enterTeleport();
-		} else if (block != null && canGrabBlock(block) && block.canBeGrabbed()) {
+		} else if (canGrabBlock(block) && block.canBeGrabbed()) {
 			LOG.log(Level.INFO, "Can grab block at " + block.getX() + " "
 					+ block.getY());
 			processedBlock = block;
