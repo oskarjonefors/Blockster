@@ -83,13 +83,15 @@ public class PlayerTest {
 		liftable.setProperty("liftable");
 		blockMap.insertBlock(liftable);
 		player.setDirection(Direction.LEFT);
+		player.startInteraction();
 		player.liftBlock();
 		liftable.moveToNextPosition();
+		liftable.getAnimationState().updatePosition(5);
 		liftable.setAnimationState(AnimationState.NONE);
 		blockMap.insertBlock(liftable);
 		player.setDirection(Direction.RIGHT);
 		player.climbBlock();
-		if (player.getAnimationState() == AnimationState.NONE) {
+		if (liftable.isLiftable() && player.getAnimationState() == AnimationState.NONE) {
 			fail("Couldn't climb a climbable block");
 		}
 	}
