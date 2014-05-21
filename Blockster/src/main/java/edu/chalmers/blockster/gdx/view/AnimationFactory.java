@@ -76,12 +76,12 @@ public class AnimationFactory {
 	private Map<Movement, Animation> generateAnimationMap(World world) {
 
 		final Map<Movement, Animation> animationMap = new HashMap<Movement, Animation>();
-		final String prefix = world == World.DAY ? "" : "night_";
+		final String prefix = world == World.DAY ? "Animations/" : "Animations/night_";
 
-		Texture grab = new Texture(Gdx.files.internal("Animations/" + prefix + "grab_animation.png"));
-		Texture push = new Texture(Gdx.files.internal("Animations/" + prefix + "push_animation.png"));
-		Texture carry = new Texture(Gdx.files.internal("Animations/" + prefix + "lift_animation.png"));
-		Texture lift =  new Texture(Gdx.files.internal("Animations/" + prefix + "lift_and_place_animation.png"));
+		Texture grab = new Texture(Gdx.files.internal(prefix + "grab_animation.png"));
+		Texture push = new Texture(Gdx.files.internal(prefix + "push_animation.png"));
+		Texture carry = new Texture(Gdx.files.internal(prefix + "lift_animation.png"));
+		Texture lift =  new Texture(Gdx.files.internal(prefix + "lift_and_place_animation.png"));
 
 		TextureRegion[][] grabPics = TextureRegion.split(grab, grab.getWidth()/NBR_GRAB_PIC_WIDTH, grab.getHeight()/NBR_PIC_HEIGHT);
 
@@ -89,7 +89,7 @@ public class AnimationFactory {
 
 		TextureRegion[][] carryPics = TextureRegion.split(carry, carry.getWidth()/NBR_CARRY_PICS_WIDTH, carry.getHeight()/NBR_PIC_HEIGHT);
 
-		TextureRegion[][] lift_Put_Pic = TextureRegion.split(lift, lift.getWidth()/LIFT_PIC_WIDTH, lift.getHeight()/LIFT_PIC_WIDTH);	
+		TextureRegion[][] liftPutPic = TextureRegion.split(lift, lift.getWidth()/LIFT_PIC_WIDTH, lift.getHeight()/LIFT_PIC_WIDTH);	
 
 		TextureRegion[] tempGrabLeft = new TextureRegion[NBR_GRAB_PIC_WIDTH];
 		TextureRegion[] tempGrabRight = new TextureRegion[NBR_GRAB_PIC_WIDTH];
@@ -107,10 +107,10 @@ public class AnimationFactory {
 			tempGrabLeft[i] = grabPics[0][i];
 			tempGrabRight[i] = grabPics[1][i];
 
-			tempLiftRight[i] = lift_Put_Pic[0][i];
-			tempLiftLeft[i] = lift_Put_Pic[1][i];
-			tempPutRight[i] = lift_Put_Pic[0][i];
-			tempPutLeft[i] = lift_Put_Pic[1][i];
+			tempLiftRight[i] = liftPutPic[0][i];
+			tempLiftLeft[i] = liftPutPic[1][i];
+			tempPutRight[i] = liftPutPic[0][i];
+			tempPutLeft[i] = liftPutPic[1][i];
 		}
 
 		// Get push Animations
@@ -132,8 +132,8 @@ public class AnimationFactory {
 		Animation pushLeft = new Animation(PUSH_TIME, tempPushLeft);
 		Animation pushRight = new Animation(PUSH_TIME, tempPushRight);
 
-		Animation CarryLeft = new Animation(CARRY_TIME, tempCarryLeft);
-		Animation CarryRight = new Animation(CARRY_TIME, tempCarryRight);
+		Animation carryLeft = new Animation(CARRY_TIME, tempCarryLeft);
+		Animation carryRight = new Animation(CARRY_TIME, tempCarryRight);
 
 		Animation liftLeft = new Animation(LIFT_TIME, tempLiftLeft);
 		Animation liftRight = new Animation(LIFT_TIME, tempLiftRight);
@@ -149,8 +149,8 @@ public class AnimationFactory {
 		animationMap.put(Movement.PUSH_LEFT, pushLeft);
 		animationMap.put(Movement.PUSH_RIGHT, pushRight);
 
-		animationMap.put(Movement.MOVE_LEFT, CarryLeft);
-		animationMap.put(Movement.MOVE_RIGHT, CarryRight);
+		animationMap.put(Movement.MOVE_LEFT, carryLeft);
+		animationMap.put(Movement.MOVE_RIGHT, carryRight);
 
 		animationMap.put(Movement.PLAYER_LIFT_LEFT, liftLeft);
 		animationMap.put(Movement.PLAYER_LIFT_RIGHT, liftRight);
