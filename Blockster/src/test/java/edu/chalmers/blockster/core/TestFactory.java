@@ -3,6 +3,7 @@ package edu.chalmers.blockster.core;
 import edu.chalmers.blockster.core.Factory;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.objects.Player.World;
 
 /**
  * Helper class to provide Factory functionality for the tests.
@@ -31,8 +32,8 @@ public class TestFactory implements Factory {
 	}
 
 	@Override
-	public Player createPlayer(float startX, float startY, BlockMap blockLayer) {
-		return new Player(startX, startY, blockMap);
+	public Player createPlayer(float startX, float startY, BlockMap blockLayer, World world) {
+		return new Player(startX, startY, blockMap, World.DAY);
 	}
 
 }

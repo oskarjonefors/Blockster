@@ -13,6 +13,7 @@ import edu.chalmers.blockster.core.Factory;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.objects.Player.World;
 
 public class GdxFactory implements Factory {
 	
@@ -88,8 +89,9 @@ public class GdxFactory implements Factory {
 	}
 	
 	@Override
-	public Player createPlayer(float startX, float startY, BlockMap blockLayer) {
-		return new Player(startX, startY, blockLayer);
+	public Player createPlayer(float startX, float startY, BlockMap blockLayer,
+			World world) {
+		return new Player(startX, startY, blockLayer, world);
 	}
 	
 	private void setBlockProperties(MapProperties props, Block block) {

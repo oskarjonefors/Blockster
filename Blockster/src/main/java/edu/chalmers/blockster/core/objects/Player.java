@@ -25,6 +25,10 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
  */
 public class Player extends BlocksterObject implements Interactor {
 
+	public enum World {
+		DAY, NIGHT;
+	}
+	
 	private static final Logger LOG = Logger.getLogger(Player.class.getName());
 	private final Block none;
 	private Block processedBlock;
@@ -33,6 +37,7 @@ public class Player extends BlocksterObject implements Interactor {
 	private PlayerInteraction interaction = PlayerInteraction.NONE;
 	private boolean horizontalCollision;
 	private boolean verticalCollision;
+	private World world;
 	private int wait = 0;
 	private boolean hasMovedBlock = false;
 	private List<GameEventListener> listeners;
@@ -40,7 +45,7 @@ public class Player extends BlocksterObject implements Interactor {
 
 	private boolean isMoving = false;
 
-	public Player(float startX, float startY, BlockMap blockMap) {
+	public Player(float startX, float startY, BlockMap blockMap, World world) {
 		super(startX, startY, blockMap, blockMap.getBlockWidth(),
 				blockMap.getBlockHeight());
 		defaultVelocity = new Vector2f(4 * blockMap.getBlockWidth(),
@@ -48,6 +53,7 @@ public class Player extends BlocksterObject implements Interactor {
 		none = EmptyBlock.getInstance();
 		processedBlock = none;
 		listeners = new ArrayList<GameEventListener>();
+		this.world = world;
 	}
 	
 	private boolean canClimbBlock(Block block) {
@@ -143,6 +149,10 @@ public class Player extends BlocksterObject implements Interactor {
 		}
 	}
 
+	public World getWorld() {
+		return world;
+	}
+	
 	public boolean hasMovedBlock() {
 		return hasMovedBlock;
 	}

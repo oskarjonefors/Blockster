@@ -12,6 +12,7 @@ import org.junit.Test;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.objects.Player.World;
 
 public class CalculationsTest {
 
@@ -30,7 +31,7 @@ public class CalculationsTest {
 	public void setUp() {
 		blockMap = new BlockMap(3, 3, 128, 128, new int[][] {{0, 0}});
 		block = new Block(1, 1, blockMap);
-		player = new Player(1, 1, blockMap);
+		player = new Player(1, 1, blockMap, World.DAY);
 		player.setWidth(100);
 		player.setHeight(100);
 		block.setProperty("solid");

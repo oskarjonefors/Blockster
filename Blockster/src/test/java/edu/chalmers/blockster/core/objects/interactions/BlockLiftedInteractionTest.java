@@ -10,6 +10,7 @@ import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.BlocksterObject;
 import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.objects.Player.World;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
@@ -24,7 +25,7 @@ public class BlockLiftedInteractionTest {
 	@Before
 	public void setUp() {
 		blockMap = new BlockMap(3, 4, 128, 128, new int[][] {{0,0}});
-		player = new Player(0, 0, blockMap);
+		player = new Player(0, 0, blockMap, World.DAY);
 		player.setDirection(Direction.RIGHT);
 		block = new Block(1, 0, blockMap);
 		interaction = new BlockLiftedInteraction(player, block, blockMap);

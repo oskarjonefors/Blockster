@@ -9,6 +9,7 @@ import org.junit.Test;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.objects.Player.World;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
@@ -128,7 +129,7 @@ public class BlockGrabbedInteractionTest {
 	@Before
 	public void setUp() {
 		blockMap = new BlockMap(10, 10, 128, 128, new int[][] {{1, 3}});
-		player = new Player(1, 3, blockMap);
+		player = new Player(1, 3, blockMap, World.DAY);
 		block1 = new Block(2, 3, blockMap);
 		block2 = new Block(3, 3, blockMap);
 		interaction = new BlockGrabbedInteraction(player, block1, blockMap);

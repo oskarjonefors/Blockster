@@ -7,6 +7,7 @@ import javax.vecmath.Vector2f;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.chalmers.blockster.core.objects.Player.World;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
@@ -23,7 +24,7 @@ public class PlayerTest {
 		int[][] playerPositions = {{2,2}};
 		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		block = new Block(3,2, blockMap);
-		player = new Player(2, 2, blockMap);
+		player = new Player(2, 2, blockMap, World.DAY);
 		player.setWidth(100);
 		
 		blockMap.insertBlock(block);
@@ -270,7 +271,7 @@ public class PlayerTest {
 		 correct = (player.getAnimationState().getMovement() == Movement.MOVE_RIGHT);
 				 
 		 //#2
-		 Player player2 = new Player(4, 2, blockMap);
+		 Player player2 = new Player(4, 2, blockMap, World.DAY);
 		 player2.setDirection(Direction.LEFT);
 		 player2.startInteraction();
 		 correct &= (player2.getAnimationState().getMovement() == Movement.MOVE_LEFT);

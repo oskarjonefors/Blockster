@@ -10,6 +10,7 @@ import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.GameEventListener;
 import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.objects.Player.World;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 
@@ -121,10 +122,12 @@ public class Model implements Comparable<Model>, GameEventListener {
 	}
 
 	private void setStartPositions() {
+		World world = World.DAY;
 		for (final float[] startPosition : map.getPlayerStartingPositions()) {
 			final Player player = factory.createPlayer(startPosition[0], 
-					startPosition[1], map);
+					startPosition[1], map, world);
 			players.add(player);
+			world = world == World.DAY ? World.NIGHT : World.DAY;
 		}
 	}
 

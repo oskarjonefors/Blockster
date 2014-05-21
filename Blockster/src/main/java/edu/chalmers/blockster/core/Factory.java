@@ -2,6 +2,7 @@ package edu.chalmers.blockster.core;
 
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.objects.Player.World;
 
 public interface Factory {
 	
@@ -9,6 +10,6 @@ public interface Factory {
 	
 	BlockMap getMap();
 
-	Player createPlayer(float startX, float startY, BlockMap blockLayer);
+	Player createPlayer(float startX, float startY, BlockMap blockLayer, World world);
 
 }
