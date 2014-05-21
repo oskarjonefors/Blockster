@@ -202,6 +202,16 @@ public class PlayerTest {
 	 }
 	 
 	 @Test
+	 public void testInteract() {
+		 player.setDirection(Direction.LEFT);
+		 player.interact();
+		 
+		 if (player.getVelocity().x == 0) {
+			 fail("Should be moving freely");
+		 }
+	 }
+	 
+	 @Test
 	 public void testLiftBlock() {
 		 
 		 player.setDirection(Direction.RIGHT);
