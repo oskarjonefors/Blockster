@@ -45,5 +45,12 @@ public class BlocksterObjectTest {
 		
 		assertTrue(player.getVelocity().equals(vector));
 	}
+	
+	@Test
+	public void testGetAdjecentBlock() {
+		player.setDirection(Direction.NONE);
+		Block block = player.getAdjacentBlock();
+		assertTrue(block instanceof EmptyBlock);
+	}
 
 }
