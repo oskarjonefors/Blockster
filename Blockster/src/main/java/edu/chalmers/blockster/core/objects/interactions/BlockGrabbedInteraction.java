@@ -15,15 +15,15 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	private static final Logger LOG = Logger
 			.getLogger(BlockGrabbedInteraction.class.getName());
 
-	private final Interactable interactable;
 	private final GridMap blockLayer;
+	private final Interactable interacted;
 	private final Interactor interactor;
 
 	public BlockGrabbedInteraction(Interactor interactor,
-			Interactable interactable, GridMap blockLayer) {
-		this.interactable = interactable;
-		this.blockLayer = blockLayer;
+			Interactable interacted, GridMap blockLayer) {
+		this.interacted = interacted;
 		this.interactor = interactor;
+		this.blockLayer = blockLayer;
 	}
 
 	@Override
@@ -33,9 +33,9 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 
 	private List<Interactable> getMoveableInteractables(Direction dir) {
 		final List<Interactable> movingBlocks = new ArrayList<Interactable>();
-		final int origY = (int) interactable.getY();
+		final int origY = (int) interacted.getY();
 		
-		int checkX = (int) interactable.getX();
+		int checkX = (int) interacted.getX();
 		
 		while (blockLayer.hasBlock(checkX, origY)) {
 			boolean noBlockAbove = !blockLayer.hasBlock(checkX, origY + 1);
@@ -59,7 +59,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	public void interact(Direction dir) {
 
 		LOG.log(Level.INFO, "Interacting: " + dir.name());
-		final float relativePosition = interactable.getX() - interactor.getX()
+		final float relativePosition = interacted.getX() - interactor.getX()
 				/ blockLayer.getBlockWidth();
 
 		if (isInReach()) {
@@ -74,20 +74,20 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	}
 
 	private boolean isInReach() {
-		return Math.abs(interactable.getX()
+		return Math.abs(interacted.getX()
 				- (Math.round(interactor.getX()) / interactor.getScaleX())) <= 1.1f
-				&& Math.abs(interactable.getY()
+				&& Math.abs(interacted.getY()
 						- (Math.round(interactor.getY()) / interactor
 								.getScaleY())) <= 0.2f;
 	}
 
 	private void pullBlock(Direction dir) {
 		Movement movement = Movement.getPullMovement(dir);
-		if (interactor.canMove(movement.getDirection())) {
+		if (canPerformMove(dir)) {
 			LOG.log(Level.INFO, "Can pull");
-			interactable.setAnimationState(new AnimationState(movement));
+			interacted.setAnimationState(new AnimationState(movement));
 			interactor.setAnimationState(new AnimationState(movement));
-			interactable.removeFromGrid();
+			interacted.removeFromGrid();
 		}
 	}
 
@@ -104,6 +104,13 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 			}
 			interactor.setAnimationState(new AnimationState(movement));
 		}
+	}
+	
+	public boolean canPerformMove(Direction dir) {
+		boolean interactorCanMove = interactor.canMove(dir);
+		boolean interactedCanMove = interacted.canMove(dir);
+		return interactorCanMove && interactedCanMove;
+
 	}
 
 	@Override
