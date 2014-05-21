@@ -80,14 +80,10 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	private boolean canLiftBlock(Block block) {
-		if (block != null) {
-			final int x = (int)block.getX();
-			final int y = (int)block.getY();
-			return grabbingBlock && isNextToBlock(block)
+		final int x = (int)block.getX();
+		final int y = (int)block.getY();
+		return grabbingBlock && isNextToBlock(block)
 				&& block.isLiftable() && !blockMap.hasBlock(x, y+1);
-		} else {
-			return false;
-		}
 	}
 
 	public boolean canMove(Direction dir) {
