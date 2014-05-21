@@ -43,18 +43,12 @@ public abstract class BlocksterObject extends ScaledObject {
 	public Block getAdjacentBlock() {
 		Block block = EmptyBlock.getInstance();
 
-		if (dir == Direction.LEFT) {
-			block = blockMap.getBlock((int) (getX() / getScaleX()) - 1,
+		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
+			block = blockMap.getBlock((int) (getX() / getScaleX()) + dir.getDeltaX(),
 					(int) ((2 * getY() + getHeight()) / 2 / getScaleY()));
 
 		}
-
-		if (dir == Direction.RIGHT) {
-			block = blockMap.getBlock(
-					(int) ((getX() + getWidth()) / getScaleX()) + 1,
-					(int) ((2 * getY() + getHeight()) / 2 / getScaleY()));
-
-		}
+		
 		return block;
 	}
 
