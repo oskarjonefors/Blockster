@@ -115,7 +115,12 @@ public class Player extends BlocksterObject implements Interactor {
 			Direction dir = Direction.getDirection(
 					getX() / blockMap.getBlockWidth(), block.getX());
 			if (isLiftingBlock()) {
-				setAnimationState(new AnimationState(getDirection() == Direction.LEFT ? Movement.LIFTING_CLIMB_LEFT : Movement.LIFTING_CLIMB_RIGHT));
+				Movement state = getDirection() == Direction.LEFT ?
+						Movement.LIFTING_CLIMB_LEFT : Movement.LIFTING_CLIMB_RIGHT;
+		
+				setAnimationState(new AnimationState(state));
+				
+				processedBlock.setAnimationState(new AnimationState(state));
 			} else {
 			setAnimationState(new AnimationState(Movement.getClimbMovement(dir)));
 			processedBlock.removeFromGrid();
