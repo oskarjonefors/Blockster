@@ -26,6 +26,7 @@ public class BlockTest {
 		startX = 3;
 		startY = 2;
 		block = new Block(startX, startY, blockMap);
+		block.setProperty("weight");
 		movementLeft = Movement.PULL_LEFT;
 		movementRight = Movement.PULL_RIGHT;
 		
@@ -203,7 +204,6 @@ public class BlockTest {
 		//Move block so the falling down happens
 		block.moveToNextPosition();
 		correct &= (block.getY() == 1);
-		
 		//Make the animation done and set it to none
 		float duration = block.getAnimationState().getMovement().getDuration();
 		block.getAnimationState().updatePosition(duration);
@@ -211,6 +211,7 @@ public class BlockTest {
 		
 		//Place a block in the way
 		Block newBlock = new Block(startX, 0, blockMap);
+		newBlock.setProperty("solid");
 		blockMap.insertBlock(newBlock);
 		block.fallDown();
 		block.moveToNextPosition();
