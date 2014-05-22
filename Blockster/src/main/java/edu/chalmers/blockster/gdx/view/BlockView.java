@@ -9,6 +9,8 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 
 import edu.chalmers.blockster.core.objects.Block;
+import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.objects.interactions.PlayerInteraction;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 import edu.chalmers.blockster.core.util.Calculations;
@@ -82,9 +84,15 @@ public class BlockView implements TiledMapTile {
 		return block.getY();
 	}
 
-	private boolean isClimbMovement() {
-		Movement movement = block.getAnimationState().getMovement();
-		return movement == Movement.CLIMB_LEFT || movement == Movement.CLIMB_RIGHT;
+	private boolean playerHasSameMovement() {
+		Movement blockMovement = block.getAnimationState().getMovement();
+		Movement playerMovement = Movement.NONE;
+		PlayerInteraction interaction = block.getInteraction();
+		if (interaction != PlayerInteraction.NONE) {
+			playerMovement = ((Player) interaction.getInteractor()).getAnimationState().getMovement();
+		}
+		
+		return blockMovement != Movement.NONE && blockMovement != playerMovement;
 	}
 
 	private boolean isMovementAnimationDiagonal() {
@@ -143,7 +151,10 @@ public class BlockView implements TiledMapTile {
 	}
 
 	private boolean shouldRotate() {
-		return isMovementAnimationDiagonal() && !isClimbMovement();
+
+		
+		
+		return isMovementAnimationDiagonal() && !playerHasSameMovement();
 	}
 
 }
