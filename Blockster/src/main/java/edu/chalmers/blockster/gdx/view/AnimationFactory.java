@@ -33,7 +33,9 @@ public class AnimationFactory {
 	private static final int NBR_CARRY_PICS_WIDTH = 6; 
 	private static final float LIFT_TIME = 0.1f;
 	private static final int LIFT_PIC_WIDTH = 3;
-
+	private static final float ZERO_ONE_TIME = 0.1f;
+	private static final int SIX_PIC_WIDTH = 6;
+	
 	public AnimationFactory() {
 
 		dayWalkAnimations = generateWalkMap(World.DAY);
@@ -43,9 +45,8 @@ public class AnimationFactory {
 
 		Texture bluePortal = new Texture(Gdx.files.internal("Animations/blue_portal.png"));
 		Texture yellowPortal = new Texture(Gdx.files.internal("Animations/yellow_portal.png"));
-
-
-
+		
+		//split all the images into the TextureRegion matrix
 		TextureRegion[][] bluePortalPics = TextureRegion.split(bluePortal, bluePortal.getWidth()/NBR_PORTAL_PIC_WIDTH,
 				bluePortal.getHeight()/NBR_PIC_HEIGHT);
 
@@ -57,8 +58,8 @@ public class AnimationFactory {
 
 
 
-		int index = 0;
 
+		int index = 0;
 		// Get portal Animations
 		for (int i = 0; i < NBR_PIC_HEIGHT; i++) {
 			for (int j = 0; j < NBR_PORTAL_PIC_WIDTH; j++) {
@@ -91,6 +92,12 @@ public class AnimationFactory {
 
 		TextureRegion[][] liftPutPic = TextureRegion.split(lift, lift.getWidth()/LIFT_PIC_WIDTH, lift.getHeight()/LIFT_PIC_WIDTH);	
 
+//		TextureRegion[][] pullPics = TextureRegion.split(pull, pull.getWidth()/SIX_PIC_WIDTH, pull.getHeight()/NBR_PIC_HEIGHT);
+		
+		TextureRegion[] tempWalkLeft = new TextureRegion[NBR_WALK_PIC_WIDTH];
+		TextureRegion[] tempWalkRight = new TextureRegion[NBR_WALK_PIC_WIDTH];
+		TextureRegion[] tempBluePortal = new TextureRegion[NBR_PORTAL_PIC_WIDTH*NBR_PIC_HEIGHT];
+		TextureRegion[] tempYellowPortal = new TextureRegion[NBR_PORTAL_PIC_WIDTH*NBR_PIC_HEIGHT];
 		TextureRegion[] tempGrabLeft = new TextureRegion[NBR_GRAB_PIC_WIDTH];
 		TextureRegion[] tempGrabRight = new TextureRegion[NBR_GRAB_PIC_WIDTH];
 		TextureRegion[] tempPushLeft = new TextureRegion[NBR_PUSH_PIC_WIDTH];
@@ -101,8 +108,10 @@ public class AnimationFactory {
 		TextureRegion[] tempLiftLeft = new TextureRegion[LIFT_PIC_WIDTH];
 		TextureRegion[] tempPutRight = new TextureRegion[LIFT_PIC_WIDTH];
 		TextureRegion[] tempPutLeft = new TextureRegion[LIFT_PIC_WIDTH];
+		TextureRegion[] tempPullLeft = new TextureRegion[SIX_PIC_WIDTH];
+		TextureRegion[] tempPullRight = new TextureRegion[SIX_PIC_WIDTH];
 
-		//Get grab Animations
+		//Get grab&Lift Animations
 		for (int i = 0; i < NBR_GRAB_PIC_WIDTH; i++) {
 			tempGrabLeft[i] = grabPics[0][i];
 			tempGrabRight[i] = grabPics[1][i];
@@ -113,18 +122,20 @@ public class AnimationFactory {
 			tempPutLeft[i] = liftPutPic[1][i];
 		}
 
-		// Get push Animations
-		for (int i = 0; i < NBR_PUSH_PIC_WIDTH; i++) {
+		// Get push and carry Animations
+		for (int i = 0; i < SIX_PIC_WIDTH; i++) {
 			tempPushRight[i] = pushPics[0][i];
 			tempPushLeft[i] = pushPics[1][i];
 
 			tempCarryRight[i] = carryPics[0][i];
 			tempCarryLeft[i] = carryPics[1][i];
+			
+//			tempPullLeft[i] = pullPics[0][i];
+//			tempPullRight[i] = pullPics[1][i];
+					
 		}
 
 		// Set arrayOfAnimation
-
-
 		Animation grabLeft = new Animation(GRAB_TIME, tempGrabLeft);
 		Animation grabRight = new Animation(GRAB_TIME, tempGrabRight);
 		grabRight.setPlayMode(Animation.REVERSED);
@@ -134,12 +145,17 @@ public class AnimationFactory {
 
 		Animation carryLeft = new Animation(CARRY_TIME, tempCarryLeft);
 		Animation carryRight = new Animation(CARRY_TIME, tempCarryRight);
-
+		carryLeft.setPlayMode(Animation.REVERSED);
+		
 		Animation liftLeft = new Animation(LIFT_TIME, tempLiftLeft);
 		Animation liftRight = new Animation(LIFT_TIME, tempLiftRight);
+		
 		Animation putLeft = new Animation(LIFT_TIME, tempPutLeft);
 		Animation putRight = new Animation(LIFT_TIME, tempPutRight);
 
+		Animation pullLeft = new Animation(ZERO_ONE_TIME, tempPullLeft);
+		Animation pullRight= new Animation(ZERO_ONE_TIME, tempPullRight);
+		
 		/**
 		 * link the the AnimationState to the correct animation
 		 */
