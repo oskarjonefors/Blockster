@@ -121,4 +121,14 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		interactor.setGrabbing(true);
 	}
 
+	@Override
+	public Interactor getInteractor() {
+		return interactor;
+	}
+
+	@Override
+	public Interactable getInteracted() {
+		return interacted;
+	}
+
 }

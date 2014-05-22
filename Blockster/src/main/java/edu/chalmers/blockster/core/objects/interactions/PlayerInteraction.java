@@ -22,6 +22,16 @@ public abstract class PlayerInteraction {
 		public void startInteraction() {
 			/* Does nothing */
 		}
+
+		@Override
+		public Interactor getInteractor() {
+			return null;
+		}
+
+		@Override
+		public Interactable getInteracted() {
+			return null;
+		}
 	}
 	
 	public abstract void interact(Direction dir);
@@ -29,4 +39,9 @@ public abstract class PlayerInteraction {
 	public abstract void endInteraction();
 	
 	public abstract void startInteraction();
+	
+	public abstract Interactor getInteractor();
+	
+	public abstract Interactable getInteracted();
+	
 }

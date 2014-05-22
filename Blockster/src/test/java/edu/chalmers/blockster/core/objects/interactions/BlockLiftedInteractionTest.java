@@ -142,7 +142,7 @@ public class BlockLiftedInteractionTest {
 	public void testCanPerformMoveCollisionPlayer() {
 		startInteraction();
 		blockMap.insertBlock(new Block(1, 1, blockMap));
-		assertTrue(!interaction.canPerformMove(Direction.RIGHT));
+		assertTrue(interaction.getMovePerformType(Direction.RIGHT) == 0);
 	}
 	
 	@Test
@@ -150,7 +150,7 @@ public class BlockLiftedInteractionTest {
 		startInteraction();
 		blockMap.insertBlock(new Block(1, 2, blockMap));
 		blockMap.insertBlock(new Block(1, 0, blockMap));
-		assertTrue(!interaction.canPerformMove(Direction.RIGHT));
+		assertTrue(interaction.getMovePerformType(Direction.RIGHT) == 0);
 	}
 	
 	@Test
@@ -158,13 +158,13 @@ public class BlockLiftedInteractionTest {
 		startInteraction();
 		blockMap.insertBlock(new Block(1, 2, blockMap));
 		blockMap.insertBlock(new Block(1, 1, blockMap));
-		assertTrue(!interaction.canPerformMove(Direction.RIGHT));
+		assertTrue(interaction.getMovePerformType(Direction.RIGHT) == 0);
 	}
 	
 	@Test
 	public void testCanPerformMoveSuccess() {
 		startInteraction();
-		assertTrue(interaction.canPerformMove(Direction.RIGHT));
+		assertTrue(interaction.getMovePerformType(Direction.RIGHT) == 1);
 	}
 	
 }

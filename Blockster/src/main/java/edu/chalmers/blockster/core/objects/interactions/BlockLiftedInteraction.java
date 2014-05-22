@@ -16,6 +16,10 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 	private final Interactor interactor;
 	private final Interactable interacted;
 	private final GridMap blockMap;
+	
+	private final static int CANNOT_MOVE = 0;
+	private final static int CAN_MOVE = 1;
+	private final static int CAN_CLIMB_DOWN = 2;
 
 	public BlockLiftedInteraction(Interactor interactor,
 			Interactable interacted, GridMap blockMap) {
@@ -27,14 +31,23 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 	@Override
 	public void interact(Direction dir) {
 		LOG.log(Level.INFO, "Interacting: " + dir.name());
-
-		if (canPerformMove(dir)) {
-			LOG.log(Level.INFO, "Can move");
-			Movement move = Movement.getMoveMovement(dir);
-			interactor.setAnimationState(new AnimationState(move));
-			interacted.setAnimationState(new AnimationState(move));
-			interacted.removeFromGrid();
+		Movement move;
+		
+		switch (getMovePerformType(dir)) {
+			case CAN_MOVE:
+				LOG.log(Level.INFO, "Can move");
+				move = Movement.getMoveMovement(dir);
+				break;
+			case CAN_CLIMB_DOWN:
+				move = Movement.getPlaceMovement(dir);
+				break;
+			default: return;
 		}
+		
+
+		interactor.setAnimationState(new AnimationState(move));
+		interacted.setAnimationState(new AnimationState(move));
+		interacted.removeFromGrid();
 	}
 
 	@Override
@@ -77,11 +90,25 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 		}
 	}
 
-	public boolean canPerformMove(Direction dir) {
+	public int getMovePerformType(Direction dir) {
 		boolean interactorCanMove = interactor.canMove(dir);
 		boolean interactedCanMove = interacted.canMove(dir);
-		return interactorCanMove && interactedCanMove;
+		if (interactorCanMove && interactedCanMove) {
+			return CAN_MOVE;
+		} else {
+			return CANNOT_MOVE;
+		}
 
+	}
+
+	@Override
+	public Interactor getInteractor() {
+		return interactor;
+	}
+
+	@Override
+	public Interactable getInteracted() {
+		return interacted;
 	}
 
 }

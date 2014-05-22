@@ -18,4 +18,6 @@ public interface Interactor extends PhysicalObject {
 
 	void setGrabbing(boolean b);
 	
+	boolean collisionBeneathNext(Direction dir);
+	
 }

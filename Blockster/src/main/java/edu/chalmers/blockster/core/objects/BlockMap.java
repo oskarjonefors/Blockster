@@ -254,8 +254,7 @@ public class BlockMap implements GridMap {
 
 	private void insertFinishedBlock(Block block) {
 		block.setAnimationState(AnimationState.NONE);
-		if (!hasBlock((int) block.getX(), (int) (block.getY() - 1))
-				&& !block.isLifted() && block.hasWeight()) {
+		if (!hasBlock((int) block.getX(), (int) (block.getY() - 1))) {
 			block.fallDown();
 		} else {
 			insertBlock(block);
