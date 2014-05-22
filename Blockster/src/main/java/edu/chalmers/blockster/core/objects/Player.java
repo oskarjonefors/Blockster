@@ -147,7 +147,7 @@ public class Player extends BlocksterObject implements Interactor {
 					+ block.getY());
 			processedBlock = block;
 			grabbingBlock = true;
-			interaction = new BlockGrabbedInteraction(this, block, blockMap);
+			setInteraction(new BlockGrabbedInteraction(this, block, blockMap));
 			interaction.startInteraction();
 		}
 	}
@@ -213,11 +213,11 @@ public class Player extends BlocksterObject implements Interactor {
 		if (canLiftBlock(processedBlock)) {
 			LOG.log(Level.INFO, "Can lift block at " + processedBlock.getX()
 					+ " " + processedBlock.getY());
-			interaction = new BlockLiftedInteraction(this, processedBlock,
-					blockMap);
+			setInteraction(new BlockLiftedInteraction(this, processedBlock,
+					blockMap));
 			interaction.startInteraction();
 		} else {
-			interaction = PlayerInteraction.NONE;
+			setInteraction(PlayerInteraction.NONE);
 		}
 		grabbingBlock = false;
 	}
@@ -259,7 +259,7 @@ public class Player extends BlocksterObject implements Interactor {
 			setAnimationState(new AnimationState(move));
 		} else {
 			setAnimationState(AnimationState.NONE);
-			interaction = PlayerInteraction.NONE;
+			setInteraction(PlayerInteraction.NONE);
 			hasMovedBlock = false;
 			processedBlock = none;
 		}
@@ -273,7 +273,7 @@ public class Player extends BlocksterObject implements Interactor {
 		} else {
 			setAnimationState(getDirection() == Direction.LEFT ? AnimationState.PLACE_LEFT
 					: AnimationState.PLACE_RIGHT);
-			interaction = PlayerInteraction.NONE;
+			setInteraction(PlayerInteraction.NONE);
 			hasMovedBlock = false;
 			processedBlock = none;
 		}
@@ -340,6 +340,11 @@ public class Player extends BlocksterObject implements Interactor {
 	public void setActiveAniRight(boolean b) {
 		activeAniRight = b;
 		
+	}
+	
+	private void setInteraction(PlayerInteraction interaction) {
+		this.interaction = interaction;
+		processedBlock.setInteraction(interaction);
 	}
 }
 
