@@ -88,9 +88,7 @@ public class Controller extends InputAdapter implements Disposable {
 			// Switching active character
 			keyFlags &= ~SWITCH_CHARACTER_BUTTON_UP_FLAG;
 			
-			if (model.nextPlayer()) {
-				view.nextPlayer();
-			}
+			model.nextPlayer();
 		}
 
 		if ((keyFlags & RESTART_STAGE_BUTTON_R_FLAG) != 0) {

@@ -140,10 +140,6 @@ public class GdxView implements ApplicationListener, Disposable {
 		yellowPortalView = factory.getPortalView(1);
 		
 	}
-
-	public void nextPlayer() {
-		background.switchMode();
-	}
 	
 	public void transitCamera() {
 		Vector3 cameraMoveVector = new Vector3(model.getActivePlayer().getX(),
@@ -234,7 +230,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		background.setScale(1);
 		background.setPosition(camera.position.x - background.getWidth() / 2,
 				camera.position.y - background.getHeight() / 2);
-		background.draw(batch);
+		background.draw(batch, model.getCurrentWorld());
 	}
 	
 	private void drawPlayers(SpriteBatch batch) {

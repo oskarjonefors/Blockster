@@ -100,14 +100,12 @@ public class Model implements Comparable<Model>, GameEventListener {
 	/**
 	 * Start controlling the next player.
 	 */
-	public boolean nextPlayer() {
+	public void nextPlayer() {
 		if (activePlayer.getAnimationState().getMovement() == Movement.NONE) {
 			final int pIndex = players.indexOf(activePlayer);
 			activePlayer = players.get((pIndex + 1) % players.size());
 			activePlayer.switchingToMe(true);
-			return true;
 		}
-		return false;
 	}
 
 	public void resetStartPositions() {
@@ -202,6 +200,10 @@ public class Model implements Comparable<Model>, GameEventListener {
 
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
+	}
+	
+	public World getCurrentWorld() {
+		return activePlayer.getWorld();
 	}
 	
 }

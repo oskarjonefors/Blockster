@@ -1,7 +1,12 @@
 package edu.chalmers.blockster.gdx.view;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import edu.chalmers.blockster.core.objects.Player;
 
 /**
  * A class used to draw background images.
@@ -11,30 +16,23 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class BackgroundImage {
 	
-	private TextureRegion dayRegion;
-	private TextureRegion nightRegion;
-	private TextureRegion currentRegion;
+	private final Map<Player.World, TextureRegion> backgrounds;
 	private float width;
 	private float height;
 	private float scaleX;
 	private float scaleY;
 	private float x;
 	private float y;
-	private GameMode mode;
-	
-	public enum GameMode {
-		DAY, NIGHT;
-	}
 	
 	public BackgroundImage(TextureRegion day, TextureRegion night) {
-		dayRegion = day;
-		nightRegion = night;
-		currentRegion = dayRegion;
-		width = dayRegion.getRegionWidth();
-		height = dayRegion.getRegionHeight();
+		backgrounds = new HashMap<Player.World, TextureRegion>();
+		backgrounds.put(Player.World.DAY, day);
+		backgrounds.put(Player.World.NIGHT, night);
+		
+		width = day.getRegionWidth();
+		height = day.getRegionHeight();
 		scaleX = 1f;
 		scaleY = 1f;
-		mode = GameMode.DAY;
 	}
 	
 	private void setHeight(float height) {
@@ -49,8 +47,8 @@ public class BackgroundImage {
 		return scaleX;
 	}
 
-	public void draw(SpriteBatch batch) {
-		batch.draw(currentRegion, x, y, width*scaleX, height*scaleY);
+	public void draw(SpriteBatch batch, Player.World world) {
+		batch.draw(backgrounds.get(world), x, y, width*scaleX, height*scaleY);
 	}
 	
 	public void setScale(float scaleXY) {
@@ -90,21 +88,7 @@ public class BackgroundImage {
 		this.x = x;
 		this.y = y;
 	}
-
-	public GameMode getMode() {
-		return mode;
-	}
-
-	public void setMode(GameMode mode) {
-		this.mode = mode;
-		currentRegion = (mode == GameMode.DAY ? dayRegion : nightRegion);
-		setWidth(currentRegion.getRegionWidth());
-		setHeight(currentRegion.getRegionHeight());
-	}
-
-	public void switchMode() {
-		setMode(mode == GameMode.DAY ? GameMode.NIGHT : GameMode.DAY);
-	}
+	
 	public float getWidth() {
 		return width;
 	}
