@@ -284,7 +284,6 @@ public class BlockGrabbedInteractionTest {
 	
 	@Test
 	public void testInteractLeft() {
-		boolean success = true;
 		blockMap.removeBlock(blockMap.getBlock(0, 2));
 		
 		player.setDirection(Direction.LEFT);
@@ -342,7 +341,6 @@ public class BlockGrabbedInteractionTest {
 		Movement none = player.getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
 		assertTrue(player.getAnimationState().getMovement() 
 				== none);
-
 	}
 	
 
