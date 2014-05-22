@@ -314,11 +314,9 @@ public class GdxView implements ApplicationListener, Disposable {
 
 	public PlayerView createPlayerView(Player player) {
 
-		final Texture tex = new Texture("Animations/standRight.png");
-		final TextureRegion texr = new TextureRegion(tex);
 		final AnimationFactory animF = new AnimationFactory();
 		final World pWorld = player.getWorld();
 		return new PlayerView(player, animF.getArrayOfAnimations(pWorld),
-				animF.getWalkAnimations(pWorld), texr);
+				animF.getWalkAnimations(pWorld));
 	}
 }

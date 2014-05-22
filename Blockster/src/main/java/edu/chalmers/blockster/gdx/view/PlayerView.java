@@ -32,7 +32,7 @@ public class PlayerView {
 	private Animation lastAnimation;
 	
 	public PlayerView(Player player, Map<Movement, Animation> arrayOfAnimation,
-			Map<Direction, Animation> walkAnimations, TextureRegion texture) {
+			Map<Direction, Animation> walkAnimations) {
 		this.player = player;
 		this.arrayOfAnimation = arrayOfAnimation;
 		this.walkAnimations = walkAnimations;
@@ -40,7 +40,6 @@ public class PlayerView {
 		final String prefix = player.getWorld() == World.DAY ? "" : "night_";
 		Texture standPic = new Texture ("Animations/" + prefix + "stand.png");
 		TextureRegion[][] standPics = TextureRegion.split(standPic, standPic.getWidth(), standPic.getHeight()/2);
-		
 		
 		standLeft = standPics[1][0];
 		standRight = standPics[0][0];
