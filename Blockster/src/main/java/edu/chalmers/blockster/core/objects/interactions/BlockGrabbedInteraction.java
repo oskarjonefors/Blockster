@@ -113,7 +113,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 				(int) interacted.getY() + 1);
 		boolean weightless = !blockLayer.getBlock((int) interacted.getX(),
 				(int) interacted.getY() + 1).hasWeight();
-		return !collisionBeneathNext && interactorCanMove && (noBlockAbove 
+		return collisionBeneathNext && interactorCanMove && (noBlockAbove 
 				|| weightless);
 
 	}
