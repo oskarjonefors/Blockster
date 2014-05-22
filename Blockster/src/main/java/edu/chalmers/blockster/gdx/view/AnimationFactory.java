@@ -35,6 +35,8 @@ public class AnimationFactory {
 	private static final int LIFT_PIC_WIDTH = 3;
 	private static final float ZERO_ONE_TIME = 0.1f;
 	private static final int SIX_PIC_WIDTH = 6;
+	private static final int TWO_PIC_WIDTH = 2;
+	
 	
 	public AnimationFactory() {
 
@@ -83,6 +85,9 @@ public class AnimationFactory {
 		Texture push = new Texture(Gdx.files.internal(prefix + "push_animation.png"));
 		Texture carry = new Texture(Gdx.files.internal(prefix + "lift_animation.png"));
 		Texture lift =  new Texture(Gdx.files.internal(prefix + "lift_and_place_animation.png"));
+		Texture jump = new Texture(Gdx.files.internal(prefix + "jump.png"));
+		Texture liftJump = new Texture(Gdx.files.internal(prefix + "jump_with_block.png"));
+		
 
 		TextureRegion[][] grabPics = TextureRegion.split(grab, grab.getWidth()/NBR_GRAB_PIC_WIDTH, grab.getHeight()/NBR_PIC_HEIGHT);
 
@@ -92,12 +97,12 @@ public class AnimationFactory {
 
 		TextureRegion[][] liftPutPic = TextureRegion.split(lift, lift.getWidth()/LIFT_PIC_WIDTH, lift.getHeight()/LIFT_PIC_WIDTH);	
 
-//		TextureRegion[][] pullPics = TextureRegion.split(pull, pull.getWidth()/SIX_PIC_WIDTH, pull.getHeight()/NBR_PIC_HEIGHT);
+		TextureRegion[][] jumpPics = TextureRegion.split(jump, jump.getWidth()/TWO_PIC_WIDTH, jump.getHeight()/NBR_PIC_HEIGHT);
 		
-		TextureRegion[] tempWalkLeft = new TextureRegion[NBR_WALK_PIC_WIDTH];
-		TextureRegion[] tempWalkRight = new TextureRegion[NBR_WALK_PIC_WIDTH];
-		TextureRegion[] tempBluePortal = new TextureRegion[NBR_PORTAL_PIC_WIDTH*NBR_PIC_HEIGHT];
-		TextureRegion[] tempYellowPortal = new TextureRegion[NBR_PORTAL_PIC_WIDTH*NBR_PIC_HEIGHT];
+		TextureRegion[][] jumpWithBlockPics = TextureRegion.split(liftJump, liftJump.getWidth()/TWO_PIC_WIDTH, liftJump.getHeight()/NBR_PIC_HEIGHT);
+		
+//		TextureRegion[][] pullPics = TextureRegion.split(pull, pull.getWidth()/SIX_PIC_WIDTH, pull.getHeight()/NBR_PIC_HEIGHT);
+
 		TextureRegion[] tempGrabLeft = new TextureRegion[NBR_GRAB_PIC_WIDTH];
 		TextureRegion[] tempGrabRight = new TextureRegion[NBR_GRAB_PIC_WIDTH];
 		TextureRegion[] tempPushLeft = new TextureRegion[NBR_PUSH_PIC_WIDTH];
@@ -110,7 +115,11 @@ public class AnimationFactory {
 		TextureRegion[] tempPutLeft = new TextureRegion[LIFT_PIC_WIDTH];
 		TextureRegion[] tempPullLeft = new TextureRegion[SIX_PIC_WIDTH];
 		TextureRegion[] tempPullRight = new TextureRegion[SIX_PIC_WIDTH];
-
+		TextureRegion[] tempJumpLeft = new TextureRegion[TWO_PIC_WIDTH];
+		TextureRegion[] tempJumpRight = new TextureRegion[TWO_PIC_WIDTH];
+		TextureRegion[] tempLiftJumpLeft = new TextureRegion[TWO_PIC_WIDTH];
+		TextureRegion[] tempLiftJumpRight = new TextureRegion[TWO_PIC_WIDTH];
+		
 		//Get grab&Lift Animations
 		for (int i = 0; i < NBR_GRAB_PIC_WIDTH; i++) {
 			tempGrabLeft[i] = grabPics[0][i];
@@ -134,6 +143,14 @@ public class AnimationFactory {
 //			tempPullRight[i] = pullPics[1][i];
 					
 		}
+		
+		for (int i = 0; i < TWO_PIC_WIDTH; i++) {
+			tempJumpRight[i] = jumpPics[0][i];
+			tempJumpLeft[i] = jumpPics[1][i];
+			
+			tempLiftJumpRight[i] = jumpWithBlockPics[0][i];  
+			tempLiftJumpLeft[i] = jumpWithBlockPics[1][i];
+		}
 
 		// Set arrayOfAnimation
 		Animation grabLeft = new Animation(GRAB_TIME, tempGrabLeft);
@@ -156,6 +173,12 @@ public class AnimationFactory {
 		Animation pullLeft = new Animation(ZERO_ONE_TIME, tempPullLeft);
 		Animation pullRight= new Animation(ZERO_ONE_TIME, tempPullRight);
 		
+		Animation jumpLeft = new Animation(ZERO_ONE_TIME, tempJumpLeft);
+		Animation jumpRight = new Animation(ZERO_ONE_TIME, tempJumpRight);
+		
+		Animation liftJumpLeft = new Animation(ZERO_ONE_TIME, tempLiftJumpLeft);
+		Animation liftJumpRight = new Animation(ZERO_ONE_TIME, tempLiftJumpRight);
+		
 		/**
 		 * link the the AnimationState to the correct animation
 		 */
@@ -170,8 +193,12 @@ public class AnimationFactory {
 
 		animationMap.put(Movement.PLAYER_LIFT_LEFT, liftLeft);
 		animationMap.put(Movement.PLAYER_LIFT_RIGHT, liftRight);
+		
 		animationMap.put(Movement.PLAYER_PUT_LEFT, putLeft);
 		animationMap.put(Movement.PLAYER_PUT_RIGHT, putRight);
+		
+		animationMap.put(Movement.CLIMB_LEFT, jumpLeft);
+		animationMap.put(Movement.CLIMB_RIGHT, jumpRight);
 
 		return animationMap;
 	}

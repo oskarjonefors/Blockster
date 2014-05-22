@@ -99,7 +99,6 @@ public class PlayerView {
 	}
 
 	private TextureRegion getAnimations(Movement movement) {
-//		System.out.println("Movement: " +movement.name());
 		if (movement == Movement.PUSH_RIGHT || movement == Movement.PUSH_LEFT) {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 
@@ -119,6 +118,8 @@ public class PlayerView {
 		} else if (movement == Movement.PULL_LEFT || movement == Movement.PULL_RIGHT) {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
 			
+		} else if (movement == Movement.CLIMB_LEFT ||movement == Movement.CLIMB_RIGHT) {
+			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
 		} else {
 			return standRight;
 		}
