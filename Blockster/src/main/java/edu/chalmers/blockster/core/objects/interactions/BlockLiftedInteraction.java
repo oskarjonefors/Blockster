@@ -93,8 +93,11 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 	public int getMovePerformType(Direction dir) {
 		boolean interactorCanMove = interactor.canMove(dir);
 		boolean interactedCanMove = interacted.canMove(dir);
-		if (interactorCanMove && interactedCanMove) {
+		boolean collisionBeneathNext = interactor.collisionBeneathNext(dir);
+		if (interactorCanMove && interactedCanMove && collisionBeneathNext) {
 			return CAN_MOVE;
+		} else if (interactorCanMove && interactedCanMove){
+			return CAN_CLIMB_DOWN;
 		} else {
 			return CANNOT_MOVE;
 		}
