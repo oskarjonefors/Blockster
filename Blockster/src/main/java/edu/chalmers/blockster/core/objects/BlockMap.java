@@ -242,10 +242,11 @@ public class BlockMap implements GridMap {
 
 	public void updateActiveBlocks(float deltaTime) {
 		for (final Block block : new HashSet<Block>(activeBlocks)) {
-			block.getAnimationState().updatePosition(deltaTime);
-			LOG.log(Level.INFO, "Updating " + block);
-			if (block.getAnimationState().isDone()) {
-				LOG.log(Level.INFO, "Animation on " + block + " is done");
+			AnimationState anim = block.getAnimationState();
+			anim.updatePosition(deltaTime);
+			LOG.log(Level.FINE, "Updating " + block);
+			if (anim.isDone()) {
+				LOG.log(Level.FINE, "Animation on " + block + " is done");
 				block.moveToNextPosition();
 				insertFinishedBlock(block);
 			}

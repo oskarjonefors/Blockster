@@ -145,7 +145,6 @@ public class BlockView implements TiledMapTile {
 		case DOWN_RIGHT:
 			rotation = (float) (360d * Math.atan2(v.y, 1 - v.x) / (2 * Math.PI));
 			break;
-		
 		default: break;
 		}
 	}
