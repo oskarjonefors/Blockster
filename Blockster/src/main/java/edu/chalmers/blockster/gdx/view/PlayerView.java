@@ -116,9 +116,12 @@ public class PlayerView {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime);
 			
 		} else if (movement == Movement.PULL_LEFT || movement == Movement.PULL_RIGHT) {
-			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
+			return standRight;
 			
 		} else if (movement == Movement.CLIMB_LEFT ||movement == Movement.CLIMB_RIGHT) {
+			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
+			
+		} else if (movement == Movement.LIFTING_CLIMB_LEFT ||movement == Movement.LIFTING_CLIMB_RIGHT) {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
 		} else {
 			return standRight;

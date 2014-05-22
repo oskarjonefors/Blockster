@@ -199,6 +199,11 @@ public class AnimationFactory {
 		
 		animationMap.put(Movement.CLIMB_LEFT, jumpLeft);
 		animationMap.put(Movement.CLIMB_RIGHT, jumpRight);
+		
+		animationMap.put(Movement.LIFTING_CLIMB_RIGHT, liftJumpRight);
+		animationMap.put(Movement.LIFTING_CLIMB_LEFT, liftJumpLeft);
+		
+		
 
 		return animationMap;
 	}
