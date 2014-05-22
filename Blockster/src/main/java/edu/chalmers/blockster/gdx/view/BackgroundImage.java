@@ -34,14 +34,6 @@ public class BackgroundImage {
 		scaleX = 1f;
 		scaleY = 1f;
 	}
-	
-	private void setHeight(float height) {
-		this.height = height;
-	}
-	
-	private void setWidth(float width) {
-		this.width = width;
-	}
 
 	public float getScaleX() {
 		return scaleX;
