@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.chalmers.blockster.core.objects.interactions.Interactable;
+import edu.chalmers.blockster.core.objects.interactions.Interactor;
 import edu.chalmers.blockster.core.objects.interactions.PlayerInteraction;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
@@ -56,10 +57,9 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 		
 		if ( !collisionBelow && hasWeight()) {
 			if (isLifted()) {
-				if(!getInteraction().getInteractor()
-						.collisionBeneathNext(Direction.NONE)) {
-					getInteraction().getInteractor()
-						.setAnimationState(new AnimationState(Movement.FALL_DOWN));
+				Interactor interactor = getInteraction().getInteractor();
+				if(!interactor.collisionBeneathNext(Direction.NONE)) {
+					interactor.setAnimationState(new AnimationState(Movement.FALL_DOWN));
 					setAnimationState(new AnimationState(Movement.FALL_DOWN));
 				}
 			} else {

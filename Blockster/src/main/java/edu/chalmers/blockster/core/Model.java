@@ -111,11 +111,12 @@ public class Model implements Comparable<Model>, GameEventListener {
 	public void resetStartPositions() {
 		final float[][] startPositions = map.getPlayerStartingPositions();
 		for (int i = 0; i < startPositions.length; i++) {
-			players.get(i).setX(startPositions[i][0]);
-			players.get(i).setY(startPositions[i][1]);
-			players.get(i).setVelocityX(0);
-			players.get(i).setVelocityY(0);
-			players.get(i).resetGravity();
+			final Player player = players.get(i);
+			player.setX(startPositions[i][0]);
+			player.setY(startPositions[i][1]);
+			player.setVelocityX(0);
+			player.setVelocityY(0);
+			player.resetGravity();
 		}
 	}
 
