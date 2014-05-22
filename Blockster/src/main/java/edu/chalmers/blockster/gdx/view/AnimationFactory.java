@@ -86,9 +86,9 @@ public class AnimationFactory {
 
 		TextureRegion[][] grabPics = TextureRegion.split(grab, grab.getWidth()/NBR_GRAB_PIC_WIDTH, grab.getHeight()/NBR_PIC_HEIGHT);
 
-		TextureRegion[][] pushPics = TextureRegion.split(push, push.getWidth()/NBR_PUSH_PIC_WIDTH, push.getHeight()/NBR_PIC_HEIGHT);
+		TextureRegion[][] pushPics = TextureRegion.split(push, push.getWidth()/SIX_PIC_WIDTH, push.getHeight()/NBR_PIC_HEIGHT);
 
-		TextureRegion[][] carryPics = TextureRegion.split(carry, carry.getWidth()/NBR_CARRY_PICS_WIDTH, carry.getHeight()/NBR_PIC_HEIGHT);
+		TextureRegion[][] carryPics = TextureRegion.split(carry, carry.getWidth()/SIX_PIC_WIDTH, carry.getHeight()/NBR_PIC_HEIGHT);
 
 		TextureRegion[][] liftPutPic = TextureRegion.split(lift, lift.getWidth()/LIFT_PIC_WIDTH, lift.getHeight()/LIFT_PIC_WIDTH);	
 

@@ -36,9 +36,14 @@ public class PlayerView {
 		this.player = player;
 		this.arrayOfAnimation = arrayOfAnimation;
 		this.walkAnimations = walkAnimations;
+		
 		final String prefix = player.getWorld() == World.DAY ? "" : "night_";
-		standLeft = new TextureRegion(new Texture("Animations/" + prefix + "standLeft.png"));
-		standRight = new TextureRegion(new Texture("Animations/" + prefix + "standRight.png"));
+		Texture standPic = new Texture ("Animations/" + prefix + "stand.png");
+		TextureRegion[][] standPics = TextureRegion.split(standPic, standPic.getWidth(), standPic.getHeight()/2);
+		
+		
+		standLeft = standPics[1][0];
+		standRight = standPics[0][0];
 
 		sprite = new Sprite();
 	}
