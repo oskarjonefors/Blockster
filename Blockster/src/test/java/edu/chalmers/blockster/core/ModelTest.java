@@ -171,6 +171,11 @@ public class ModelTest {
 	}
 
 	@Test
+	public void testGetCurrentWorld() {
+		assertTrue(model.getCurrentWorld() != null);
+	}
+	
+	@Test
 	public void testNextPlayer() {
 		boolean correct = true;
 		
@@ -292,7 +297,6 @@ public class ModelTest {
 		boolean correct = true;
 		final Vector2f velocity = activePlayer.getVelocity();
 		correct &= velocity.y != 0;
-		System.out.println(correct);
 		
 		final Block solidBlock = new Block(50, 50, blockMap);
 		solidBlock.setProperty("Solid");
