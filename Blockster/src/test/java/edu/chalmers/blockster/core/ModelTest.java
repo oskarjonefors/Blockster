@@ -18,27 +18,11 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class ModelTest {
 	
-	private static Model model;
-	private static Model model2;
-	private static Model model3;
-	private static Model model4;
-	private static Factory factory;
-	
-	private class TestHelper {
-		private String name;
-		
-		public TestHelper(String name) {
-			this.name = name;
-		}
-		
-		public String getName() {
-			return name;
-		}
-		
-		public void setName(String name) {
-			this.name = name;
-		}
-	}
+	private Model model;
+	private Model model2;
+	private Model model3;
+	private Model model4;
+	private Factory factory;
 	
 	@Before
 	public void setUp() {
@@ -72,9 +56,10 @@ public class ModelTest {
 
 	@Test
 	public void testModel() {
-		Model testModel = new Model(factory, "testModel");
+		final String name = "testModel";
+		Model testModel = new Model(factory, name);
 		
-		assertTrue(testModel.getName().equals("testModel"));
+		assertTrue(testModel.getName().equals(name));
 		
 	}
 
@@ -119,12 +104,8 @@ public class ModelTest {
 	@Test
 	public void testEqualsObject() {
 		
-		final TestHelper helper = new TestHelper("blockModel");
-		
 		boolean correct = true;
-		correct &= !model.equals(helper);
 		correct &= !model.equals(model2);
-		correct &= !model.equals("blockModel");
 		correct &= !model3.equals(model4);
 		correct &= model2.equals(model3);
 		correct &= !model.equals(null);
@@ -137,7 +118,7 @@ public class ModelTest {
 		Set<Block> activeBlocks = model.getActiveBlocks();
 		activeBlocks.add(new Block(0, 0, null));
 		
-		assertTrue(model.getActiveBlocks().size() == 1);
+		assertTrue(activeBlocks.size() == 1);
 	}
 
 	@Test
@@ -232,15 +213,17 @@ public class ModelTest {
 		final float resetPlayer2X = p2.getX();
 		final float resetPlayer2Y = p2.getY();
 		
-		correct &= player1StartX != movedPlayer1X;
-		correct &= player1StartY != movedPlayer1Y;
-		correct &= player2StartX != movedPlayer2X;
-		correct &= player2StartY != movedPlayer2Y;
+		final float tolerance = 0.0001f;
 		
-		correct &= player1StartX == resetPlayer1X;
-		correct &= player1StartY == resetPlayer1Y;
-		correct &= player2StartX == resetPlayer2X;
-		correct &= player2StartY == resetPlayer2Y;
+		correct &= Math.abs(player1StartX - movedPlayer1X) > tolerance;
+		correct &= Math.abs(player1StartY - movedPlayer1Y) > tolerance;
+		correct &= Math.abs(player2StartX - movedPlayer2X) > tolerance;
+		correct &= Math.abs(player2StartY - movedPlayer2Y) > tolerance;
+		
+		correct &= Math.abs(player1StartX - resetPlayer1X) < tolerance;
+		correct &= Math.abs(player1StartY - resetPlayer1Y) < tolerance;
+		correct &= Math.abs(player2StartX - resetPlayer2X) < tolerance;
+		correct &= Math.abs(player2StartY - resetPlayer2Y) < tolerance;
 		
 		assertTrue(correct);
 	}
