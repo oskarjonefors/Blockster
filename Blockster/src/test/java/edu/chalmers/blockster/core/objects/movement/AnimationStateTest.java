@@ -32,7 +32,7 @@ public class AnimationStateTest {
 		
 		anim.updatePosition(deltaTime);
 		
-		assertTrue(Math.abs(startTime - (startTime + deltaTime)) < tolerance);
+		assertTrue(Math.abs(anim.getElapsedTime() - (startTime + deltaTime)) < tolerance);
 	}
 
 	@Test
