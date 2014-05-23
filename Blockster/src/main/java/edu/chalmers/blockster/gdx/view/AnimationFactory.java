@@ -30,11 +30,11 @@ public class AnimationFactory {
 	private static final float PUSH_TIME = 0.1f;
 	private static final int NBR_PUSH_PIC_WIDTH = 6; 
 	private static final float CARRY_TIME = 0.1f;
-	private static final int NBR_CARRY_PICS_WIDTH = 6; 
 	private static final float LIFT_TIME = 0.1f;
 	private static final int LIFT_PIC_WIDTH = 3;
 	private static final float ZERO_ONE_TIME = 0.1f;
 	private static final int SIX_PIC_WIDTH = 6;
+	private static final int THREE_PIC_WIDTH = 3;
 	private static final int TWO_PIC_WIDTH = 2;
 	
 	
@@ -84,6 +84,7 @@ public class AnimationFactory {
 		Texture grab = new Texture(Gdx.files.internal(prefix + "grab_animation.png"));
 		Texture push = new Texture(Gdx.files.internal(prefix + "push_animation.png"));
 		Texture pull = new Texture(Gdx.files.internal(prefix + "pull_animation.png"));
+		Texture put = new Texture(Gdx.files.internal(prefix + "lift_and_place_animation.png"));
 		Texture carry = new Texture(Gdx.files.internal(prefix + "lift_animation.png"));
 		Texture lift =  new Texture(Gdx.files.internal(prefix + "lift_and_place_animation.png"));
 		Texture jump = new Texture(Gdx.files.internal(prefix + "jump.png"));
@@ -103,17 +104,19 @@ public class AnimationFactory {
 		TextureRegion[][] jumpWithBlockPics = TextureRegion.split(liftJump, liftJump.getWidth()/TWO_PIC_WIDTH, liftJump.getHeight()/NBR_PIC_HEIGHT);
 		
 		TextureRegion[][] pullPics = TextureRegion.split(pull, pull.getWidth()/SIX_PIC_WIDTH, pull.getHeight()/NBR_PIC_HEIGHT);
+		
+		TextureRegion[][] putPics = TextureRegion.split(put, put.getWidth()/THREE_PIC_WIDTH, put.getHeight()/NBR_PIC_HEIGHT);
 
 		TextureRegion[] tempGrabLeft = new TextureRegion[NBR_GRAB_PIC_WIDTH];
 		TextureRegion[] tempGrabRight = new TextureRegion[NBR_GRAB_PIC_WIDTH];
 		TextureRegion[] tempPushLeft = new TextureRegion[NBR_PUSH_PIC_WIDTH];
 		TextureRegion[] tempPushRight = new TextureRegion[NBR_PUSH_PIC_WIDTH];
-		TextureRegion[] tempCarryLeft = new TextureRegion[NBR_CARRY_PICS_WIDTH];
-		TextureRegion[] tempCarryRight = new TextureRegion[NBR_CARRY_PICS_WIDTH];
+		TextureRegion[] tempCarryLeft = new TextureRegion[SIX_PIC_WIDTH];
+		TextureRegion[] tempCarryRight = new TextureRegion[SIX_PIC_WIDTH];
 		TextureRegion[] tempLiftRight = new TextureRegion[LIFT_PIC_WIDTH];
 		TextureRegion[] tempLiftLeft = new TextureRegion[LIFT_PIC_WIDTH];
-		TextureRegion[] tempPutRight = new TextureRegion[LIFT_PIC_WIDTH];
-		TextureRegion[] tempPutLeft = new TextureRegion[LIFT_PIC_WIDTH];
+		TextureRegion[] tempPutRight = new TextureRegion[THREE_PIC_WIDTH];
+		TextureRegion[] tempPutLeft = new TextureRegion[THREE_PIC_WIDTH];
 		TextureRegion[] tempPullLeft = new TextureRegion[SIX_PIC_WIDTH];
 		TextureRegion[] tempPullRight = new TextureRegion[SIX_PIC_WIDTH];
 		TextureRegion[] tempJumpLeft = new TextureRegion[TWO_PIC_WIDTH];
@@ -122,7 +125,7 @@ public class AnimationFactory {
 		TextureRegion[] tempLiftJumpRight = new TextureRegion[TWO_PIC_WIDTH];
 		
 		//Get grab&Lift Animations
-		for (int i = 0; i < NBR_GRAB_PIC_WIDTH; i++) {
+		for (int i = 0; i < THREE_PIC_WIDTH; i++) {
 			tempGrabLeft[i] = grabPics[0][i];
 			tempGrabRight[i] = grabPics[1][i];
 

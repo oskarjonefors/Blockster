@@ -83,18 +83,24 @@ public class PlayerView {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 
 		} else if (player.isGrabbingBlock() && movement != Movement.PULL_LEFT && movement != Movement.PULL_RIGHT) {
-			return player.getDirection() == Direction.LEFT ?
-					arrayOfAnimation.get(Movement.GRAB_RIGHT).getKeyFrame(animTime):
-						arrayOfAnimation.get(Movement.GRAB_LEFT).getKeyFrame(animTime);
+
+			if (lastMovement == Movement.PULL_LEFT) {
+				lastMovement = Movement.NONE;
+				return arrayOfAnimation.get(Movement.GRAB_RIGHT).getKeyFrame(animTime);
+			} else {
+				lastMovement = Movement.NONE;
+				return arrayOfAnimation.get(Movement.GRAB_LEFT).getKeyFrame(animTime);
+			}
 
 		} else if (movement == Movement.MOVE_LEFT || movement == Movement.MOVE_RIGHT) {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 
 		} else if (movement == Movement.PLAYER_LIFT_LEFT || movement == Movement.PLAYER_LIFT_RIGHT
 				|| movement == Movement.PLAYER_PUT_LEFT || movement == Movement.PLAYER_PUT_RIGHT) {
-			return arrayOfAnimation.get(movement).getKeyFrame(animTime);
+			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 			
 		} else if (movement == Movement.PULL_LEFT || movement == Movement.PULL_RIGHT) {
+			lastMovement = movement;
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime);
 			
 		} else if (movement == Movement.CLIMB_LEFT ||movement == Movement.CLIMB_RIGHT) {
@@ -104,6 +110,7 @@ public class PlayerView {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
 			
 		} else {
+			lastMovement = movement;
 			return standRight;
 		}
 	}
