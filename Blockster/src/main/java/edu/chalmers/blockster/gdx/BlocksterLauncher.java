@@ -7,7 +7,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
  * Application to launch an instance of the game.
  */
 public class BlocksterLauncher {
-	
+
 	private BlocksterLauncher() {
 	}
 

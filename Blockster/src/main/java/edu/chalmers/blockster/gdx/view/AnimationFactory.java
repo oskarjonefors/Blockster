@@ -170,8 +170,8 @@ public class AnimationFactory {
 		Animation putLeft = new Animation(LIFT_TIME, tempPutLeft);
 		Animation putRight = new Animation(LIFT_TIME, tempPutRight);
 
-		Animation pullLeft = new Animation(ZERO_ONE_TIME, tempPullLeft);
-		Animation pullRight= new Animation(ZERO_ONE_TIME, tempPullRight);
+		//Animation pullLeft = new Animation(ZERO_ONE_TIME, tempPullLeft);
+		//Animation pullRight= new Animation(ZERO_ONE_TIME, tempPullRight);
 		
 		Animation jumpLeft = new Animation(ZERO_ONE_TIME, tempJumpLeft);
 		Animation jumpRight = new Animation(ZERO_ONE_TIME, tempJumpRight);

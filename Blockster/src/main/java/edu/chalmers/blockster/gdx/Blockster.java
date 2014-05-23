@@ -81,17 +81,17 @@ public class Blockster extends Game implements MapChangeListener {
 		viewer.dispose();
 	}
 	
-	private File[] listFilesInDirectory(File directory, final String fileEnding) {
-		
-		final FileFilter ff = new FileFilter() {
-			@Override
-			public boolean accept(File f) {
-				return f.getName().endsWith(fileEnding);
-			}
-		};
-		
-		return directory.listFiles(ff);
-	}
+//	private File[] listFilesInDirectory(File directory, final String fileEnding) {
+//		
+//		final FileFilter ff = new FileFilter() {
+//			@Override
+//			public boolean accept(File f) {
+//				return f.getName().endsWith(fileEnding);
+//			}
+//		};
+//		
+//		return directory.listFiles(ff);
+//	}
 
 	private void loadStages() throws IOException {
 		//FileHandle[] maps = Gdx.files.internal("./maps/").list();
