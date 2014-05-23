@@ -115,7 +115,7 @@ public abstract class BlocksterObject extends ScaledObject {
 
 	public void setAnimationState(AnimationState anim) {
 		if (this.anim.isDone()) {
-			LOG.log(Level.INFO, "Giving animation state " + anim + " to "
+			LOG.log(Level.FINE, "Giving animation state " + anim + " to "
 					+ this);
 			this.anim = anim;
 		}

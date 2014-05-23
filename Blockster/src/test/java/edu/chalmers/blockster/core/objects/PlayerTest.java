@@ -236,8 +236,8 @@ public class PlayerTest {
 		 boolean correct = player.collidedHorisontally();
 		 
 		 //#2
-		 player.move(new Vector2f(384, 0));
-		 correct = !player.collidedHorisontally();
+		 player.setX(382);
+		 correct &= !player.collidedHorisontally();
 		 
 		 assertTrue(correct);
 	 }
@@ -250,7 +250,7 @@ public class PlayerTest {
 		 //#2
 		 player.setX(384);
 		 player.setY(300);
-		 correct = !player.collidedHorisontally();
+		 correct &= !player.collidedHorisontally();
 		 
 		 assertTrue(correct); 
 	 }
@@ -317,7 +317,7 @@ public class PlayerTest {
 		 correct &= (player.getAnimationState().getMovement()
 				 					== Movement.CLIMB_RIGHT);
 		 player.setAnimationState(new AnimationState(Movement.NONE));
-		 System.out.println(correct);
+
 		 //#2 Block is null
 		 setUp();
 		 block = null;

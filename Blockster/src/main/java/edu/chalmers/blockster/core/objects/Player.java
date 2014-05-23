@@ -136,7 +136,7 @@ public class Player extends BlocksterObject implements Interactor {
 
 	public void endInteraction() {
 		interaction.endInteraction();
-		LOG.log(Level.INFO, "Ending interaction");
+		LOG.log(Level.FINE, "Ending interaction");
 	}
 
 	public Block getProcessedBlock() {
@@ -148,7 +148,7 @@ public class Player extends BlocksterObject implements Interactor {
 		if (block.isTeleporter()){
 			enterTeleport();
 		} else if (canGrabBlock(block) && block.canBeGrabbed()) {
-			LOG.log(Level.INFO, "Can grab block at " + block.getX() + " "
+			LOG.log(Level.FINE, "Can grab block at " + block.getX() + " "
 					+ block.getY());
 			processedBlock = block;
 			grabbingBlock = true;
@@ -214,9 +214,9 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public void liftBlock() {
-		LOG.log(Level.INFO, "Trying to lift block " + processedBlock);
+		LOG.log(Level.FINE, "Trying to lift block " + processedBlock);
 		if (canLiftBlock(processedBlock)) {
-			LOG.log(Level.INFO, "Can lift block at " + processedBlock.getX()
+			LOG.log(Level.FINE, "Can lift block at " + processedBlock.getX()
 					+ " " + processedBlock.getY());
 			setInteraction(new BlockLiftedInteraction(this, processedBlock,
 					blockMap));
