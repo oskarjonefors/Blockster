@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.Block;
-import edu.chalmers.blockster.core.objects.BlockMap;
+import edu.chalmers.blockster.core.objects.BlocksterMap;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.World;
 import edu.chalmers.blockster.core.objects.movement.Direction;
@@ -25,7 +25,7 @@ public class PlayerInteractionTest {
 	public void testGetters() {
 		final List<Point> playerPositions = new ArrayList<Point>(); 
 		playerPositions.add(new Point(2, 4));
-		BlockMap blockMap = new BlockMap(10, 10, 100, 100, playerPositions);
+		BlocksterMap blockMap = new BlocksterMap(10, 10, 100, 100, playerPositions);
 		Block block = new Block(1, 1, blockMap);
 		Player player = new Player(2, 4, blockMap, World.DAY);
 		

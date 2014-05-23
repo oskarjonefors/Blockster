@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.Block;
-import edu.chalmers.blockster.core.objects.BlockMap;
+import edu.chalmers.blockster.core.objects.BlocksterMap;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.World;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
@@ -23,7 +23,7 @@ public class BlockGrabbedInteractionTest {
 	private Player player;
 	private Block block1;
 	private Block block2;
-	private BlockMap blockMap;
+	private BlocksterMap blockMap;
 	private BlockGrabbedInteraction interaction;
 	
 	private void checkDown() {
@@ -134,7 +134,7 @@ public class BlockGrabbedInteractionTest {
 	public void setUp() {
 		final List<Point> playerPositions = new ArrayList<Point>(); 
 		playerPositions.add(new Point(1, 3));
-		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
+		blockMap = new BlocksterMap(10, 10, 128, 128, playerPositions);
 		player = new Player(1, 3, blockMap, World.DAY);
 		block1 = new Block(2, 3, blockMap);
 		block2 = new Block(3, 3, blockMap);

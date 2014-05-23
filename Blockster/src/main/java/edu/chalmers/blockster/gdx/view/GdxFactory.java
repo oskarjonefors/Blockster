@@ -15,14 +15,14 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import edu.chalmers.blockster.core.Factory;
 import edu.chalmers.blockster.core.objects.Block;
-import edu.chalmers.blockster.core.objects.BlockMap;
+import edu.chalmers.blockster.core.objects.BlocksterMap;
 import edu.chalmers.blockster.core.objects.BlocksterObject;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.World;
 
 public class GdxFactory implements Factory {
 	
-	private BlockMap blockMap;
+	private BlocksterMap blockMap;
 	private GdxMap gdxMap;
 	private MiniMap miniMap;
 
@@ -59,9 +59,9 @@ public class GdxFactory implements Factory {
 	public void createMap() {
 		final List<Point> tempList = new ArrayList<Point>();
 		tempList.add(new Point(0, 0));
-		final BlockMap tempMap = new BlockMap(1, 1, 1f, 1f, tempList);
+		final BlocksterMap tempMap = new BlocksterMap(1, 1, 1f, 1f, tempList);
 		miniMap = new MiniMap(width, height, new Player(0, 0, tempMap, World.DAY));
-		blockMap = new BlockMap(width, height, blockWidth, blockHeight, playerStartingPositions);
+		blockMap = new BlocksterMap(width, height, blockWidth, blockHeight, playerStartingPositions);
 		gdxMap = new GdxMap(blockMap);
 		blockMap.addListener(gdxMap);
 		blockMap.addListener(miniMap);
@@ -100,7 +100,7 @@ public class GdxFactory implements Factory {
 	}
 	
 	@Override
-	public Player createPlayer(float startX, float startY, BlockMap blockLayer,
+	public Player createPlayer(float startX, float startY, BlocksterMap blockLayer,
 			World world) {
 		return new Player(startX, startY, blockLayer, world);
 	}
@@ -138,7 +138,7 @@ public class GdxFactory implements Factory {
 	}
 
 	@Override
-	public BlockMap getMap() {
+	public BlocksterMap getMap() {
 		return blockMap;
 	}
 	

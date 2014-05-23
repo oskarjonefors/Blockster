@@ -13,13 +13,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.Block;
-import edu.chalmers.blockster.core.objects.BlockMap;
+import edu.chalmers.blockster.core.objects.BlocksterMap;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.World;
 
 public class CalculationsTest {
 
-	private BlockMap blockMap;
+	private BlocksterMap blockMap;
 	private Block block;
 	private Player player;
 	
@@ -34,7 +34,7 @@ public class CalculationsTest {
 	public void setUp() {
 		final List<Point> playerPositions = new ArrayList<Point>(); 
 		playerPositions.add(new Point(0, 0));
-		blockMap = new BlockMap(3, 3, 128, 128, playerPositions);
+		blockMap = new BlocksterMap(3, 3, 128, 128, playerPositions);
 		block = new Block(1, 1, blockMap);
 		player = new Player(1, 1, blockMap, World.DAY);
 		player.setWidth(100);

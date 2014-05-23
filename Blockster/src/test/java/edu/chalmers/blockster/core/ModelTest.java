@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.Block;
-import edu.chalmers.blockster.core.objects.BlockMap;
+import edu.chalmers.blockster.core.objects.BlocksterMap;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Movement;
@@ -79,7 +79,7 @@ public class ModelTest {
 	@Test
 	public void testInit() {
 		model.init();
-		final BlockMap map = model.getMap();
+		final BlocksterMap map = model.getMap();
 		
 		//Check correct dimensions
 		if (map.getWidth() != 320) {
@@ -344,7 +344,7 @@ public class ModelTest {
 	@Test
 	public void testCollision() {
 		final Player activePlayer = model.getActivePlayer();
-		final BlockMap blockMap = model.getMap();
+		final BlocksterMap blockMap = model.getMap();
 		
 		model.update(5);
 		final Vector2f velocity = activePlayer.getVelocity();

@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.Block;
-import edu.chalmers.blockster.core.objects.BlockMap;
+import edu.chalmers.blockster.core.objects.BlocksterMap;
 import edu.chalmers.blockster.core.objects.BlocksterObject;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.World;
@@ -20,7 +20,7 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class BlockLiftedInteractionTest {
 	
-	private BlockMap blockMap;
+	private BlocksterMap blockMap;
 	private Block block;
 	private Player player;
 	private BlockLiftedInteraction interaction;
@@ -29,7 +29,7 @@ public class BlockLiftedInteractionTest {
 	public void setUp() {
 		final List<Point> playerPositions = new ArrayList<Point>(); 
 		playerPositions.add(new Point(0, 0));
-		blockMap = new BlockMap(3, 4, 128, 128, playerPositions);
+		blockMap = new BlocksterMap(3, 4, 128, 128, playerPositions);
 		player = new Player(0, 0, blockMap, World.DAY);
 		player.setDirection(Direction.RIGHT);
 		block = new Block(1, 0, blockMap);

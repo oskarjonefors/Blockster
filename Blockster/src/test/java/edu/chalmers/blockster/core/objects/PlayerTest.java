@@ -18,7 +18,7 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class PlayerTest {
 
-	private BlockMap blockMap;
+	private BlocksterMap blockMap;
 	private Player player;
 	private Block block; 
 	
@@ -27,7 +27,7 @@ public class PlayerTest {
 	public void setUp()  {
 		final List<Point> playerPositions = new ArrayList<Point>(); 
 		playerPositions.add(new Point(2, 2));
-		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
+		blockMap = new BlocksterMap(10, 10, 128, 128, playerPositions);
 		block = new Block(3,2, blockMap);
 		player = new Player(2, 2, blockMap, World.DAY);
 		player.setWidth(100);

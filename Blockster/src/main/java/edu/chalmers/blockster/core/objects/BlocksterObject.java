@@ -40,18 +40,6 @@ public abstract class BlocksterObject extends ScaledObject {
 	 */
 	public abstract boolean canMove(Direction dir);
 
-	public Block getAdjacentBlock() {
-		Block block = EmptyBlock.getInstance();
-
-		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
-			block = blockMap.getBlock((int) (getX() / getScaleX()) + dir.getDeltaX(),
-					(int) ((2 * getY() + getHeight()) / 2 / getScaleY()));
-
-		}
-		
-		return block;
-	}
-
 	public AnimationState getAnimationState() {
 		return anim;
 	}

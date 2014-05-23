@@ -14,7 +14,7 @@ import edu.chalmers.blockster.gdx.view.MiniMap;
 
 public class BlockMapTest {
 
-	private BlockMap blockMap;
+	private BlocksterMap blockMap;
 	private MiniMap map;
 	private List<Point> startPos;
 	
@@ -23,39 +23,39 @@ public class BlockMapTest {
 		startPos = new ArrayList<Point>();
 		startPos.add(new Point(1, 1));
 		startPos.add(new Point(2, 2));
-		blockMap = new BlockMap(8, 12, 48, 48, startPos);
+		blockMap = new BlocksterMap(8, 12, 48, 48, startPos);
 		map = new MiniMap(2, 2, new Player(0f, 0f, blockMap, World.DAY));
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestWidth() {
-		blockMap = new BlockMap(-1, 1, 48, 48, startPos);
+		blockMap = new BlocksterMap(-1, 1, 48, 48, startPos);
 		// if no AssertionError, set test to fail
 		assertTrue(false);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestHeight(){
-		blockMap = new BlockMap(1, -1, 48, 48, startPos);
+		blockMap = new BlocksterMap(1, -1, 48, 48, startPos);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestBlockWidth() {
-		blockMap = new BlockMap(1, 1, -48, 48, startPos);
+		blockMap = new BlocksterMap(1, 1, -48, 48, startPos);
 		assertTrue(false);
 	}
 	
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestBlockHeigth() {
-		blockMap = new BlockMap(1, 1, 48, 48, startPos);
+		blockMap = new BlocksterMap(1, 1, 48, 48, startPos);
 		assertTrue(false);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestNbrOfPlayers() {
 			final List<Point> emptyList = new ArrayList<Point>();
-			blockMap = new BlockMap(1, 1, 48, 48, emptyList);
+			blockMap = new BlocksterMap(1, 1, 48, 48, emptyList);
 		assertTrue(false);
 	}
 	@Test(expected=IllegalArgumentException.class)
@@ -63,7 +63,7 @@ public class BlockMapTest {
 			final List<Point> starts = new ArrayList<Point>();
 			starts.add(new Point(-1, 1));
 			starts.add(new Point(2, 2));
-			blockMap = new BlockMap(1, 1, 48, 48, starts);
+			blockMap = new BlocksterMap(1, 1, 48, 48, starts);
 		
 
 		assertTrue(false);
@@ -74,7 +74,7 @@ public class BlockMapTest {
 			final List<Point> starts = new ArrayList<Point>();
 			starts.add(new Point(1, -1));
 			starts.add(new Point(2, 2));
-			blockMap = new BlockMap(1, 1, 48, 48, starts);
+			blockMap = new BlocksterMap(1, 1, 48, 48, starts);
 
 			assertTrue(false);
 	}

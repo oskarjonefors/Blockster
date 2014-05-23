@@ -157,6 +157,17 @@ public class Player extends BlocksterObject implements Interactor {
 			interaction.startInteraction();
 		}
 	}
+	
+	public Block getAdjacentBlock() {
+		Block block = EmptyBlock.getInstance();
+		final Direction dir = getDirection();
+		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
+			return blockMap.getBlock((int) (getX() / getScaleX()) + dir.getDeltaX(),
+					(int) ((2 * getY() + getHeight()) / 2 / getScaleY()));
+		}
+		
+		return block;
+	}
 
 	public World getWorld() {
 		return world;

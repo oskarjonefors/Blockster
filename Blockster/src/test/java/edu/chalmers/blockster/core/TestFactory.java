@@ -3,7 +3,7 @@ package edu.chalmers.blockster.core;
 import java.awt.Point;
 import java.util.List;
 
-import edu.chalmers.blockster.core.objects.BlockMap;
+import edu.chalmers.blockster.core.objects.BlocksterMap;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.World;
 
@@ -15,11 +15,11 @@ import edu.chalmers.blockster.core.objects.World;
 
 public class TestFactory implements Factory {
 
-	private BlockMap blockMap;
+	private BlocksterMap blockMap;
 	
 	public TestFactory(int mapWidth, int mapHeight, float blockWidth,
 			float blockHeight, List<Point> playerStartingPositions) {
-		blockMap = new BlockMap(mapWidth, mapHeight, blockWidth, blockHeight,
+		blockMap = new BlocksterMap(mapWidth, mapHeight, blockWidth, blockHeight,
 				playerStartingPositions);
 	}
 	
@@ -29,12 +29,12 @@ public class TestFactory implements Factory {
 	}
 
 	@Override
-	public BlockMap getMap() {
+	public BlocksterMap getMap() {
 		return blockMap;
 	}
 
 	@Override
-	public Player createPlayer(float startX, float startY, BlockMap blockLayer, World world) {
+	public Player createPlayer(float startX, float startY, BlocksterMap blockLayer, World world) {
 		return new Player(startX, startY, blockMap, World.DAY);
 	}
 
