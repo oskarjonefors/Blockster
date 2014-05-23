@@ -1,6 +1,6 @@
 package edu.chalmers.blockster.core.objects;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -40,24 +40,29 @@ public class BlockTest {
 
 	@Test
 	public void testCanMove() {
-		boolean correct = true;
 		Direction dir = movementLeft.getDirection();
 		block.setAnimationState(new AnimationState(movementLeft));
 		
 		//#1 Can move
-		correct &= block.canMove(dir);
+		if (!block.canMove(dir)) {
+			fail("Block should be able to move");
+		}
 		
 		//#2 Can not move
 		Block newBlock = new Block(startX - 1, startY, blockMap);
 		blockMap.insertBlock(newBlock);
-		correct &= !block.canMove(dir);
+		if (block.canMove(dir)) {
+			fail("Block shouldn't be able to move");
+		}
 		
 		//#3 Move outside the map width
 		block.removeFromGrid();
 		block.setX(0);
 		block.setY(startY);
 		blockMap.insertBlock(block);
-		correct &= !block.canMove(dir);
+		if (block.canMove(dir)) {
+			fail("Block shouldn't be able to move");
+		}
 		
 		//#4 Move outside the map width
 		block.removeFromGrid();
@@ -66,149 +71,161 @@ public class BlockTest {
 		blockMap.insertBlock(block);
 		block.setAnimationState(new AnimationState(movementRight));
 		dir = movementRight.getDirection();
-		correct &= !block.canMove(dir);
-		
-		assertTrue(correct);
+		if (block.canMove(dir)) {
+			fail("Block shouldn't be able to move");
+		}
 	}
 
 	@Test
 	public void testMoveToNextPosition() {
 		block.setAnimationState(new AnimationState(movementLeft));
 		block.moveToNextPosition();
-		assertTrue(Math.round(block.getX()) == movementLeft.getDirection()
-												.getDeltaX() + startX);
+		if (Math.round(block.getX()) != movementLeft.getDirection()
+												.getDeltaX() + startX) {
+			fail("Did not move to the next position");
+		}
 	}
 
 	@Test
 	public void testSetAnimationState() {
 		block.setAnimationState(new AnimationState(movementLeft));
-		assertTrue(new AnimationState(movementLeft).getMovement() == movementLeft);
+		if (block.getAnimationState().getMovement() != movementLeft) {
+			fail("did not set animation state");
+		}
 	}
 
 	@Test
 	public void testBlock() {
-		boolean correct = true;
 		Block block = new Block(startX, startY, blockMap);
-		correct &= !block.isLifted();
-		
-		assertTrue(correct);
+		if (block.isLifted()) {
+			fail("Should not be lifted");
+		}
 	}
 
 	@Test
 	public void testSetProperty() {
-		boolean correct = true;
-		
 		//#1 Liftable
 		property = "liftable";
 		block.setProperty(property);
-		correct &= block.isLiftable();
+		if (!block.isLiftable()) {
+			fail("Should be liftable");
+		}
 		
 		//#2 Movable
 		property = "movable";
 		block.setProperty(property);
-		correct &= block.isMovable();
+		if (!block.isMovable()) {
+			fail("Should be movable");
+		}
 		
 		//#3 Weight
 		property = "weight";
 		block.setProperty(property);
-		correct &= block.hasWeight();
+		if (!block.hasWeight()) {
+			fail("Should have weight");
+		}
 		
 		//#4 Solid
 		property = "solid";
 		block.setProperty(property);
-		correct &= block.isSolid();
-		
-		assertTrue(correct);
+		if (!block.isSolid()) {
+			fail("Should be solid");
+		}
 	}
 
 	@Test
 	public void testIsLifted() {
 		block.setLifted(true);
-		assertTrue(block.isLifted());
+		if (!block.isLifted()) {
+			fail("Should be lifted");
+		}
 	}
 
 	@Test
 	public void testIsTeleporter() {
-		boolean correct = true;
-		
 		//#1 Non-teleporter block
-		correct &= !block.isTeleporter();
+		if (block.isTeleporter()) {
+			fail("Incorrect precondition");
+		}
 		
 		//#2 Teleporter block
 		block.setProperty("teleporter");
-		correct &= block.isTeleporter();
-		
-		assertTrue(correct);
+		if (!block.isTeleporter()) {
+			fail("Incorrect boolean value");
+		}
 	}
 
 	@Test
 	public void testIsSolid() {
-		boolean correct = true;
-		
 		//#1 Non-solid block
-		correct &= !block.isSolid();
+		if (block.isSolid()) {
+			fail("Incorrect preconditions");
+		}
 		
 		//#2 Solid block
 		block.setProperty("solid");
-		correct &= block.isSolid();
-		
-		assertTrue(correct);
+		if (!block.isSolid()) {
+			fail("Incorrect boolean value");
+		}
 	}
 
 	@Test
 	public void testIsLiftable() {
-		boolean correct = true;
 		
 		//#1 Non-liftable block
-		correct &= !block.isLiftable();
+		if (block.isLiftable()) {
+			fail("Incorrect preconditions");
+		}
 		
 		//#2 Liftable block
 		block.setProperty("liftable");
-		correct &= block.isLiftable();
-		
-		assertTrue(correct);
+		if (!block.isLiftable()) {
+			fail("Incorrect boolean value");
+		}
 	}
 
 	@Test
 	public void testIsMovable() {
-		boolean correct = true;
-		
 		//#1 Non-movable block
-		correct &= !block.isMovable();
+		if (block.isMovable()) {
+			fail("Incorrect preconditions");
+		}
 		
 		//#2 Movable block
 		block.setProperty("movable");
-		correct &= block.isMovable();
-		
-		assertTrue(correct);
+		if (!block.isMovable()) {
+			fail("Incorrect boolean value");
+		}
 	}
 
 	@Test
 	public void testHasWeight() {
-		boolean correct = true;
-		
 		//#1 Has no weight
-		correct &= !block.isSolid();
+		if (block.isSolid()) {
+			fail("Incorrect preconditions");
+		}
 		
 		//#2 Has weight
 		block.setProperty("weight");
-		correct &= block.hasWeight();
-		
-		assertTrue(correct);
+		if (!block.hasWeight()) {
+			fail("Incorrect boolean value");
+		}
 	}
 
 	@Test
 	public void testFallDown() {
-		boolean correct = true;
-
 		block.fallDown();
 		
 		//Is animation correct?
-		correct &= (block.getAnimationState().getMovement() == Movement.FALL_DOWN);
+		if (block.getAnimationState().getMovement() != Movement.FALL_DOWN) {
+			fail("Should be falling down");
+		}
 		
 		//Move block so the falling down happens
 		block.moveToNextPosition();
-		correct &= (block.getY() == 1);
+		if (block.getY() != 1) {
+			fail("Did not move to the correct place");
+		}
 		//Make the animation done and set it to none
 		float duration = block.getAnimationState().getMovement().getDuration();
 		block.getAnimationState().updatePosition(duration);
@@ -220,59 +237,67 @@ public class BlockTest {
 		blockMap.insertBlock(newBlock);
 		block.fallDown();
 		block.moveToNextPosition();
-		correct &= !(block.getY() == 0);
-		
-		assertTrue(correct);
+		if (block.getY() == 0) {
+			fail("Did not move to the correct place");
+		}
 	}
 
 	@Test
 	public void testSetLifted() {
-		boolean correct = true;
-		
 		block.setLifted(true);
-		correct &= block.isLifted();
+		if (!block.isLifted()) {
+			fail("Wasn't lifted");
+		}
 		
 		block.setLifted(false);
-		correct &= !block.isLifted();
-		
-		assertTrue(correct);
+		if (block.isLifted()) {
+			fail("Wasn't put down");
+		}
 	}
 
 	@Test
 	public void testRemoveFromGrid() {
 		block.removeFromGrid();
-		assertTrue(!blockMap.hasBlock(startX, startY));
+		if (blockMap.hasBlock(startX, startY)) {
+			fail("Was not removed from grid");
+		}
 	}
 
 	@Test
 	public void testCanBeClimbed() {
-		boolean correct = true;
 		
-		correct &= block.canBeClimbed();
+		if (!block.canBeClimbed()) {
+			fail("Should be climbable");
+		}
 		
 		Block newBlock = new Block(startX, startY + 1, blockMap);
 		blockMap.insertBlock(newBlock);
-		correct &= !block.canBeClimbed();
-		
-		assertTrue(correct);
+		if (block.canBeClimbed()) {
+			fail("Should not be climbable");
+		}
 	}
 
 	@Test
 	public void testCanBeGrabbed() {
-		boolean correct = true;
 		
-		correct &= !block.canBeGrabbed();
+		if (block.canBeGrabbed()) {
+			fail("Should not be grabable");
+		}
 		
 		block.setProperty("movable");
-		correct &= block.canBeGrabbed();
+		if (!block.canBeGrabbed()) {
+			fail("Should be grabable");
+		}
 		
 		block.removeProperty("movable");
 		block.setProperty("liftable");
-		correct &= block.canBeGrabbed();
+		if (!block.canBeGrabbed()) {
+			fail("Should be grabable");
+		}
 		
 		block.setProperty("movable");
-		correct&= block.canBeGrabbed();
-		
-		assertTrue(correct);
+		if (!block.canBeGrabbed()) {
+			fail("Should be grabable");
+		}
 	}
 }
