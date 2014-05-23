@@ -2,6 +2,7 @@ package edu.chalmers.blockster.core.objects;
 
 import static edu.chalmers.blockster.core.util.Calculations.collisionEitherCorner;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -228,12 +229,12 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public void move(Vector2f distance) {
-		float[] previousPosition = { getX(), getY() };
+		final Point2D.Float previousPosition = new Point2D.Float(getX(), getY());
 
 		if (Math.abs(distance.x) > 0) {
 			setX(getX() + distance.x);
 			if (collisionEitherCorner(this, getBlockLayer())) {
-				setX(previousPosition[0]);
+				setX(previousPosition.x);
 				horizontalCollision = true;
 			} else {
 				horizontalCollision = false;
@@ -244,7 +245,7 @@ public class Player extends BlocksterObject implements Interactor {
 		if (Math.abs(distance.y) > 0) {
 			setY(getY() + distance.y);
 			if (collisionEitherCorner(this, getBlockLayer())) {
-				setY(previousPosition[1]);
+				setY(previousPosition.y);
 				if (distance.y < 0) {
 					setY(((int) getY() / getBlockLayer().getBlockHeight())
 							* getBlockLayer().getBlockHeight());
