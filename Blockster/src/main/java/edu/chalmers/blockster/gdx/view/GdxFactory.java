@@ -48,7 +48,7 @@ public class GdxFactory implements Factory {
 	
 	@Override
 	public void createMap() {
-		miniMap = new MiniMap(width, height);
+		miniMap = new MiniMap(width, height, new Player(0, 0, blockMap, World.DAY));
 		blockMap = new BlockMap(width, height, blockWidth, blockHeight, playerStartingPositions);
 		gdxMap = new GdxMap(blockMap);
 		blockMap.addListener(gdxMap);

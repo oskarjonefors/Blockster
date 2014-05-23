@@ -62,7 +62,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	public static final int INACTIVE_PLAYER = Color.rgba8888(0, 0, 1f, 1f);
 	
-	public MiniMap (int mapWidth, int mapHeight) {
+	public MiniMap (int mapWidth, int mapHeight, Player activePlayer) {
 		this.scaleX = 1;
 		this.scaleY = 1;
 		this.width = mapWidth;
@@ -78,6 +78,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		
 		minimapSprite = new Sprite();
 		minimapSprite.setColor(1, 1, 1, 1);
+		
+		this.activePlayer = activePlayer;
 	}
 	
 	@Override

@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.chalmers.blockster.core.objects.Player.World;
 import edu.chalmers.blockster.gdx.view.MiniMap;
 
 public class BlockMapTest {
@@ -18,7 +19,7 @@ public class BlockMapTest {
 	@Before
 	public void setUp() {
 		blockMap = new BlockMap(8, 12, 48, 48, new int[][] {{1,1},{2,2}});
-		map = new MiniMap(2, 2);
+		map = new MiniMap(2, 2, new Player(0f, 0f, blockMap, World.DAY));
 		correct = false;
 	}
 	
@@ -78,7 +79,6 @@ public class BlockMapTest {
 
 	@Test
 	public void addActiveBlockListenerTest() {
-		MiniMap map = new MiniMap(2, 2);
 		
 		correct = blockMap.getListeners().size() == 0;
 		blockMap.addActiveBlockListener(map);
