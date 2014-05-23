@@ -199,7 +199,7 @@ public class Player extends BlocksterObject implements Interactor {
 		return liftingBlock;
 	}
 
-	public boolean isNextToBlock(Block block) {
+	public boolean isNextToBlock(BlocksterObject block) {
 		if (getDirection().getDeltaX() < 0) { 
 			return block != null
 					&& Math.abs(block.getX() + 1
