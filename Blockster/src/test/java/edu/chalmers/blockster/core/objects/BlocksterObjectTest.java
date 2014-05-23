@@ -20,8 +20,6 @@ public class BlocksterObjectTest {
 	
 	private BlockMap blockMap;
 	private Player player;
-	private AnimationState anim;
-	private Direction dir;
 
 	@Before
 	public void setUp(){
@@ -29,12 +27,12 @@ public class BlocksterObjectTest {
 		playerPositions.add(new Point(0, 0));
 		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		player = new Player(0,0,blockMap, World.DAY);
-		anim = new AnimationState(Movement.MOVE_RIGHT);
-		dir = anim.getMovement().getDirection();
 	}
 
 	@Test
 	public void testSetDefaultVelocity() {
+		final AnimationState anim = new AnimationState(Movement.MOVE_RIGHT);
+		final Direction dir = anim.getMovement().getDirection();
 		player.setVelocityX(0f);
 		player.setVelocityY(0f);
 		Vector2f vector = new Vector2f(4f*blockMap.getBlockWidth(),0f);
