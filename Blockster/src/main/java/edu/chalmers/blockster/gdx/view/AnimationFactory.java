@@ -84,7 +84,7 @@ public class AnimationFactory {
 		Texture grab = new Texture(Gdx.files.internal(prefix + "grab_animation.png"));
 		Texture push = new Texture(Gdx.files.internal(prefix + "push_animation.png"));
 		Texture pull = new Texture(Gdx.files.internal(prefix + "pull_animation.png"));
-		Texture put = new Texture(Gdx.files.internal(prefix + "lift_and_place_animation.png"));
+		//Texture put = new Texture(Gdx.files.internal(prefix + "lift_and_place_animation.png"));
 		Texture carry = new Texture(Gdx.files.internal(prefix + "lift_animation.png"));
 		Texture lift =  new Texture(Gdx.files.internal(prefix + "lift_and_place_animation.png"));
 		Texture jump = new Texture(Gdx.files.internal(prefix + "jump.png"));
