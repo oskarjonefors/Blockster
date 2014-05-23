@@ -69,7 +69,14 @@ public class BlockLiftedInteractionTest {
 		
 		System.out.println(block);
 		System.out.println(player);
-		assertTrue(block.getX() == 0 && player.getX() == 0);
+		if(block.getX() != 0) {
+			fail("Block is positioned incorrectly");
+		}
+		
+
+		if(player.getX() != 0) {
+			fail("Block is positioned incorrectly");
+		}
 	}
 
 	@Test
@@ -83,7 +90,13 @@ public class BlockLiftedInteractionTest {
 		
 		System.out.println(block);
 		System.out.println(player);
-		assertTrue(block.getX() == 1 && player.getX() == 1*player.getScaleX());
+		if (block.getX() != 1) {
+			fail("Block is positioned incorrectly");
+		}
+		
+		if (player.getX() != 1*player.getScaleX()) {
+			fail("Player is positioned incorrectly");
+		}
 	}
 	
 	private void finishAnimation(BlocksterObject object) {
