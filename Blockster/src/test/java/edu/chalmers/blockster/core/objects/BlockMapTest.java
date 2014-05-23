@@ -1,10 +1,12 @@
 package edu.chalmers.blockster.core.objects;
 
-import static org.junit.Assert.*;
-import junit.framework.AssertionFailedError;
+import static org.junit.Assert.assertTrue;
+
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.Player.World;
@@ -15,43 +17,48 @@ public class BlockMapTest {
 	private BlockMap blockMap;
 	private boolean correct = false;
 	private MiniMap map;
+	private List<Point> startPos;
 	
 	@Before
 	public void setUp() {
-		blockMap = new BlockMap(8, 12, 48, 48, new int[][] {{1,1},{2,2}});
+		final List<Point> startPos = new ArrayList<Point>();
+		startPos.add(new Point(1, 1));
+		startPos.add(new Point(2, 2));
+		blockMap = new BlockMap(8, 12, 48, 48, startPos);
 		map = new MiniMap(2, 2, new Player(0f, 0f, blockMap, World.DAY));
 		correct = false;
 	}
 	
 	@Test(expected=AssertionError.class)
 	public void constructorFailureTestWidth() {
-		blockMap = new BlockMap(-1, 1, 48, 48, new int[][] {{1,1},{2,2}});
+		blockMap = new BlockMap(-1, 1, 48, 48, startPos);
 		// if no AssertionError, set test to fail
 		assertTrue(false);
 	}
 	
 	@Test(expected=AssertionError.class)
-	public void constructorFailureTestHeigth(){
-		blockMap = new BlockMap(1, -1, 48, 48, new int[][] {{1,1},{2,2}});
+	public void constructorFailureTestHeight(){
+		blockMap = new BlockMap(1, -1, 48, 48, startPos);
 	}
 	
 	@Test(expected=AssertionError.class)
 	public void constructorFailureTestBlockWidth() {
-		blockMap = new BlockMap(1, 1, -48, 48, new int[][] {{1,1},{2,2}});
+		blockMap = new BlockMap(1, 1, -48, 48, startPos);
 		assertTrue(false);
 	}
 	
 	
 	@Test(expected=AssertionError.class)
 	public void constructorFailureTestBlockHeigth() {
-		blockMap = new BlockMap(1, 1, 48, 48, new int[][] {{1,1},{2,2}});
+		blockMap = new BlockMap(1, 1, 48, 48, startPos);
 		assertTrue(false);
 	}
 	
 	@Test(expected=AssertionError.class)
 	public void constructorFailureTestNbrOfPlayers() {
 		try {
-			blockMap = new BlockMap(1, 1, 48, 48, new int[][] {{}, {}});
+			final List<Point> emptyList = new ArrayList<Point>();
+			blockMap = new BlockMap(1, 1, 48, 48, emptyList);
 		} catch (AssertionError e) {
 			System.out.println(e.getMessage());
 		}
@@ -60,7 +67,10 @@ public class BlockMapTest {
 	@Test(expected=AssertionError.class)
 	public void constructorFailureTestStartPosX() {
 		try {
-			blockMap = new BlockMap(1, 1, 48, 48, new int[][] {{-1,1}, {2,2}});
+			final List<Point> starts = new ArrayList<Point>();
+			starts.add(new Point(-1, 1));
+			starts.add(new Point(2, 2));
+			blockMap = new BlockMap(1, 1, 48, 48, starts);
 		} catch (AssertionError e) {
 			System.out.println(e.getMessage());
 		}
@@ -70,7 +80,10 @@ public class BlockMapTest {
 	@Test(expected=AssertionError.class)
 	public void constructorFailureTestStartPosY() {
 		try {
-			blockMap = new BlockMap(1, 1, 48, 48, new int[][] {{1,-1}, {2,2}});
+			final List<Point> starts = new ArrayList<Point>();
+			starts.add(new Point(1, -1));
+			starts.add(new Point(2, 2));
+			blockMap = new BlockMap(1, 1, 48, 48, starts);
 		} catch (AssertionError e) {
 			System.out.println(e.getMessage());
 		}

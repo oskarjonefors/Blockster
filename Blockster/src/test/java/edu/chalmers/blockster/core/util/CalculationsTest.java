@@ -3,8 +3,11 @@ package edu.chalmers.blockster.core.util;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.awt.Point;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +32,9 @@ public class CalculationsTest {
 	
 	@Before
 	public void setUp() {
-		blockMap = new BlockMap(3, 3, 128, 128, new int[][] {{0, 0}});
+		final List<Point> playerPositions = new ArrayList<Point>(); 
+		playerPositions.add(new Point(0, 0));
+		blockMap = new BlockMap(3, 3, 128, 128, playerPositions);
 		block = new Block(1, 1, blockMap);
 		player = new Player(1, 1, blockMap, World.DAY);
 		player.setWidth(100);

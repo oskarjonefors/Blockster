@@ -2,6 +2,10 @@ package edu.chalmers.blockster.core.objects;
 
 import static org.junit.Assert.assertTrue;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.vecmath.Vector2f;
 
 import org.junit.Before;
@@ -21,7 +25,8 @@ public class BlocksterObjectTest {
 
 	@Before
 	public void setUp(){
-		int[][] playerPositions = {{0,0}};
+		final List<Point> playerPositions = new ArrayList<Point>(); 
+		playerPositions.add(new Point(0, 0));
 		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		player = new Player(0,0,blockMap, World.DAY);
 		anim = new AnimationState(Movement.MOVE_RIGHT);

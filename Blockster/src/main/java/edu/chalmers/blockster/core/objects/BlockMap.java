@@ -1,5 +1,6 @@
 package edu.chalmers.blockster.core.objects;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -20,7 +21,7 @@ public class BlockMap implements GridMap {
 	private static final Logger LOG = Logger
 			.getLogger(BlockMap.class.getName());
 	private Block[][] blockMap;
-	private float[][] playerStartingPositions;
+	private List<Point> playerStartingPositions;
 	private final float blockWidth, blockHeight;
 
 	private Set<Block> activeBlocks;
@@ -28,33 +29,26 @@ public class BlockMap implements GridMap {
 	private List<ActiveBlockListener> activeBlockListeners;
 
 	public BlockMap(int width, int height, float blockWidth, float blockHeight,
-			int[][] playerStartingPositions) {
+			List<Point> playerStartingPositions) {
 		String posi = "must be positive";
 		assert width > 0 : "Width of map "+posi;
 		assert height > 0 : "Height of map "+posi;
 		assert blockWidth > 0 : "Width of blocks "+posi;
 		assert blockHeight > 0 : "Height of blocks "+posi;
-		assert playerStartingPositions.length > 0 : "There must be at least one player on the map";
+		assert playerStartingPositions.size() > 0 : "There must be at least one player on the map";
 
 		this.listeners = new ArrayList<BlockMapListener>();
 		this.activeBlockListeners = new ArrayList<ActiveBlockListener>();
 		this.blockWidth = blockWidth;
 		this.blockHeight = blockHeight;
-		this.playerStartingPositions = new float[playerStartingPositions.length][2];
+		this.playerStartingPositions = playerStartingPositions;
 
-		// Places the players in the grid
-		for (int i = 0; i < playerStartingPositions.length; i++) {
-			int[] startPosition = playerStartingPositions[i];
-			assert startPosition.length == 2;
+		// Checks if the starting positions are valid
+		for (int i = 0; i < playerStartingPositions.size(); i++) {
+			final Point startPosition = playerStartingPositions.get(i);
 
-			int startPositionX = startPosition[0];
-			int startPositionY = startPosition[1];
-
-			assert startPositionX >= 0 && startPositionX < width : "Player is not on map (x-axis)";
-			assert startPositionY >= 0 && startPositionY < height : "Player is not on map (y-axis)";
-
-			this.playerStartingPositions[i][0] = startPositionX;
-			this.playerStartingPositions[i][1] = startPositionY;
+			assert startPosition.x >= 0 && startPosition.y < width : "Player is not on map (x-axis)";
+			assert startPosition.y >= 0 && startPosition.y < height : "Player is not on map (y-axis)";
 		}
 
 		blockMap = new Block[width][height];
@@ -236,8 +230,8 @@ public class BlockMap implements GridMap {
 	 * 
 	 * @return
 	 */
-	public float[][] getPlayerStartingPositions() {
-		return playerStartingPositions.clone();
+	public List<Point> getPlayerStartingPositions() {
+		return new ArrayList<Point>(playerStartingPositions);
 	}
 
 	public void updateActiveBlocks(float deltaTime) {

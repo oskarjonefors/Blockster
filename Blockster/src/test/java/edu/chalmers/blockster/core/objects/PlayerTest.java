@@ -2,6 +2,10 @@ package edu.chalmers.blockster.core.objects;
 
 import static org.junit.Assert.*;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.vecmath.Vector2f;
 
 import org.junit.Before;
@@ -21,7 +25,8 @@ public class PlayerTest {
 
 	@Before
 	public void setUp()  {
-		int[][] playerPositions = {{2,2}};
+		final List<Point> playerPositions = new ArrayList<Point>(); 
+		playerPositions.add(new Point(2, 2));
 		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		block = new Block(3,2, blockMap);
 		player = new Player(2, 2, blockMap, World.DAY);

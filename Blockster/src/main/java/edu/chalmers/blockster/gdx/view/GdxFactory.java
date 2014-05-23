@@ -1,7 +1,10 @@
 package edu.chalmers.blockster.gdx.view;
 
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -12,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import edu.chalmers.blockster.core.Factory;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
+import edu.chalmers.blockster.core.objects.BlocksterObject;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.Player.World;
 
@@ -25,7 +29,7 @@ public class GdxFactory implements Factory {
 	private final int height;
 	private final int blockWidth;
 	private final int blockHeight;
-	private final int[][] playerStartingPositions;
+	private final List<Point> playerStartingPositions;
 	private final TiledMapTileLayer tileLayer;
 	private AnimationFactory animFactory = new AnimationFactory();
 
@@ -48,7 +52,10 @@ public class GdxFactory implements Factory {
 	
 	@Override
 	public void createMap() {
-		miniMap = new MiniMap(width, height, new Player(0, 0, blockMap, World.DAY));
+		final List<Point> tempList = new ArrayList<Point>();
+		tempList.add(new Point(0, 0));
+		final BlockMap tempMap = new BlockMap(1, 1, 1f, 1f, tempList);
+		miniMap = new MiniMap(width, height, new Player(0, 0, tempMap, World.DAY));
 		blockMap = new BlockMap(width, height, blockWidth, blockHeight, playerStartingPositions);
 		gdxMap = new GdxMap(blockMap);
 		blockMap.addListener(gdxMap);
@@ -73,14 +80,13 @@ public class GdxFactory implements Factory {
 		final TiledMapTile tile = cell.getTile();
 		final Block block = new Block(x, y, blockMap);
 		final BlockView bView = new BlockView(block, tile);
+		final MapProperties tileProps = tile.getProperties();
 		
 		gdxMap.createBlockViewReference(block, bView);
 		blockMap.insertBlock(block);
-		setBlockProperties(tile.getProperties(), block);
+		setBlockProperties(tileProps, block);
 		
-		MapProperties mapProps = tile.getProperties();
-		
-		final Iterator<String> properties = mapProps.getKeys();
+		final Iterator<String> properties = tileProps.getKeys();
 		while(properties.hasNext()) {
 			final String property = properties.next();
 			initPortalViews(property, block);
@@ -101,7 +107,7 @@ public class GdxFactory implements Factory {
 		}
 	}
 	
-	private int[][] getPlayerStartingPositions(TiledMap map) {
+	private List<Point> getPlayerStartingPositions(TiledMap map) {
 		
 		final MapProperties mapProps = map.getProperties();
 		
@@ -113,30 +119,23 @@ public class GdxFactory implements Factory {
 			throw new IllegalArgumentException("Given map's nbrOfPlayers value "
 					+ mapProps.get("nbrOfPlayers") + " is incorrect. Should be a number 0 <= 10");
 		}
-			
-		int[][] startingPositions = new int[nbrOfPlayers][2];
+		
+		List<Point> startingPositions = new ArrayList<Point>();
 		
 		for(int i = 1; i <= nbrOfPlayers ; i++) {
 			
-			final String playerStart = (String)mapProps.get("playerStart" + i);
-			final String[] playerStarts = playerStart.split(":");
-			int[] playerStartFloats = new int[playerStarts.length];
+			final String playerStartString = (String)mapProps.get("playerStart" + i);
+			final String[] playerStarts = playerStartString.split(":");
+			final Point playerStart = new Point();
+			playerStart.x = Integer.parseInt(playerStarts[0]);
+			playerStart.y = Integer.parseInt(playerStarts[1]);
 			
-			for(int j = 0; j < playerStarts.length; j++) {
-				try {
-					playerStartFloats[j] = Integer.parseInt(playerStarts[j]);
-				} catch (NumberFormatException e) {
-					throw new IllegalArgumentException("Field player start has wrong"
-							+ " format: " + playerStart + ". Should be an float position"
-									+ " with the following format: x:y");
-				}
-			}
-			startingPositions[i - 1] = playerStartFloats;
+			startingPositions.add(playerStart);
 		}
 		return startingPositions;
 	}
 	
-	public void initPortalViews(String property, Block block) {
+	public void initPortalViews(String property, BlocksterObject block) {
 		if ("blue".equals(property)) {
 			bluePortalView = new PortalView(block.getX()*blockWidth, block.getY()*blockHeight, animFactory.getPortalAnimation(0));
 		} else if ("yellow".equals(property)) {

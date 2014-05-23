@@ -1,6 +1,8 @@
 package edu.chalmers.blockster.core;
 
-import edu.chalmers.blockster.core.Factory;
+import java.awt.Point;
+import java.util.List;
+
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.Player.World;
@@ -16,7 +18,7 @@ public class TestFactory implements Factory {
 	private BlockMap blockMap;
 	
 	public TestFactory(int mapWidth, int mapHeight, float blockWidth,
-			float blockHeight, int[][] playerStartingPositions) {
+			float blockHeight, List<Point> playerStartingPositions) {
 		blockMap = new BlockMap(mapWidth, mapHeight, blockWidth, blockHeight,
 				playerStartingPositions);
 	}

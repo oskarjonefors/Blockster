@@ -1,5 +1,6 @@
 package edu.chalmers.blockster.core;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -109,11 +110,12 @@ public class Model implements Comparable<Model>, GameEventListener {
 	}
 
 	public void resetStartPositions() {
-		final float[][] startPositions = map.getPlayerStartingPositions();
-		for (int i = 0; i < startPositions.length; i++) {
+		final List<Point> startPositions = map.getPlayerStartingPositions();
+		for (int i = 0; i < startPositions.size(); i++) {
 			final Player player = players.get(i);
-			player.setX(startPositions[i][0]);
-			player.setY(startPositions[i][1]);
+			final Point point = startPositions.get(i);
+			player.setX(point.x);
+			player.setY(point.y);
 			player.setVelocityX(0);
 			player.setVelocityY(0);
 			player.resetGravity();
@@ -122,9 +124,9 @@ public class Model implements Comparable<Model>, GameEventListener {
 
 	private void setStartPositions() {
 		World world = World.DAY;
-		for (final float[] startPosition : map.getPlayerStartingPositions()) {
-			final Player player = factory.createPlayer(startPosition[0], 
-					startPosition[1], map, world);
+		for (final Point startPosition : map.getPlayerStartingPositions()) {
+			final Player player = factory.createPlayer(startPosition.x, 
+					startPosition.y, map, world);
 			players.add(player);
 			world = world == World.DAY ? World.NIGHT : World.DAY;
 		}

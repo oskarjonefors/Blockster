@@ -2,6 +2,8 @@ package edu.chalmers.blockster.core;
 
 import static org.junit.Assert.*;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +28,9 @@ public class ModelTest {
 	
 	@Before
 	public void setUp() {
-		int[][] playerStartingPositions = {{100, 100}, {120,100}};
+		List<Point> playerStartingPositions = new ArrayList<Point>();
+		playerStartingPositions.add(new Point(100, 100));
+		playerStartingPositions.add(new Point(120, 100));
 		factory = new TestFactory(320, 240, 1f, 1f, playerStartingPositions);
 		
 		model = new Model(factory, "blockModel");

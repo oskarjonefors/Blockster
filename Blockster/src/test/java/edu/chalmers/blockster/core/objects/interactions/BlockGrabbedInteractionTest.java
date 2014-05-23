@@ -3,6 +3,10 @@ package edu.chalmers.blockster.core.objects.interactions;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -128,7 +132,9 @@ public class BlockGrabbedInteractionTest {
 	
 	@Before
 	public void setUp() {
-		blockMap = new BlockMap(10, 10, 128, 128, new int[][] {{1, 3}});
+		final List<Point> playerPositions = new ArrayList<Point>(); 
+		playerPositions.add(new Point(1, 3));
+		blockMap = new BlockMap(10, 10, 128, 128, playerPositions);
 		player = new Player(1, 3, blockMap, World.DAY);
 		block1 = new Block(2, 3, blockMap);
 		block2 = new Block(3, 3, blockMap);

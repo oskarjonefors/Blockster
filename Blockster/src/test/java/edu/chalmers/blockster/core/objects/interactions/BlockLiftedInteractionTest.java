@@ -2,8 +2,11 @@ package edu.chalmers.blockster.core.objects.interactions;
 
 import static org.junit.Assert.*;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.Block;
@@ -24,7 +27,9 @@ public class BlockLiftedInteractionTest {
 	
 	@Before
 	public void setUp() {
-		blockMap = new BlockMap(3, 4, 128, 128, new int[][] {{0,0}});
+		final List<Point> playerPositions = new ArrayList<Point>(); 
+		playerPositions.add(new Point(0, 0));
+		blockMap = new BlockMap(3, 4, 128, 128, playerPositions);
 		player = new Player(0, 0, blockMap, World.DAY);
 		player.setDirection(Direction.RIGHT);
 		block = new Block(1, 0, blockMap);

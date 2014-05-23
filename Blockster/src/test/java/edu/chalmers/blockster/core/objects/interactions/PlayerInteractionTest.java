@@ -2,6 +2,10 @@ package edu.chalmers.blockster.core.objects.interactions;
 
 import static org.junit.Assert.*;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.Block;
@@ -19,7 +23,9 @@ public class PlayerInteractionTest {
 	
 	@Test
 	public void testGetters() {
-		BlockMap blockMap = new BlockMap(10, 10, 100, 100, new int[][] {{2, 4}});
+		final List<Point> playerPositions = new ArrayList<Point>(); 
+		playerPositions.add(new Point(2, 4));
+		BlockMap blockMap = new BlockMap(10, 10, 100, 100, playerPositions);
 		Block block = new Block(1, 1, blockMap);
 		Player player = new Player(2, 4, blockMap, World.DAY);
 		
