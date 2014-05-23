@@ -24,8 +24,13 @@ public class PlayerInteractionTest {
 		Player player = new Player(2, 4, blockMap, World.DAY);
 		
 		PlayerInteraction interaction = new BlockGrabbedInteraction(player, block, blockMap);
-		assertTrue(interaction.getInteracted() == block 
-				&& interaction.getInteractor() == player);
+		if (interaction.getInteracted() != block) {
+			fail("Incorrect return value from getInteracted()");
+		}
+		
+		if(interaction.getInteractor() != player) {
+			fail("Incorrect return value from getInteractor()");	
+		}
 	}
 	
 	@Test
