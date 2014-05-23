@@ -105,7 +105,7 @@ public class AnimationFactory {
 		
 		TextureRegion[][] pullPics = TextureRegion.split(pull, pull.getWidth()/SIX_PIC_WIDTH, pull.getHeight()/NBR_PIC_HEIGHT);
 		
-		TextureRegion[][] putPics = TextureRegion.split(put, put.getWidth()/THREE_PIC_WIDTH, put.getHeight()/NBR_PIC_HEIGHT);
+		//TextureRegion[][] putPics = TextureRegion.split(put, put.getWidth()/THREE_PIC_WIDTH, put.getHeight()/NBR_PIC_HEIGHT);
 
 		TextureRegion[] tempGrabLeft = new TextureRegion[NBR_GRAB_PIC_WIDTH];
 		TextureRegion[] tempGrabRight = new TextureRegion[NBR_GRAB_PIC_WIDTH];
