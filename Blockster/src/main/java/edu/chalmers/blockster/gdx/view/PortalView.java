@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class PortalView {
 	private Sprite sprite;
-	private TextureRegion region;
 	private final Animation animations;
 	private float time, posX, posY;
 	
@@ -20,7 +19,7 @@ public class PortalView {
 		sprite = new Sprite(); 
 	}
 	public void draw(SpriteBatch batch) {
-		region = chooseAnimation();
+		final TextureRegion region = chooseAnimation();
 		int width = region.getRegionWidth();
 		int height = region.getRegionHeight();
 		

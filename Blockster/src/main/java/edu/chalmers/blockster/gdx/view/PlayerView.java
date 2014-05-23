@@ -20,16 +20,12 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class PlayerView {
 
-	private static final Logger LOG = Logger.getLogger(PlayerView.class.getName());
-
 	private final Player player;
 	private final Sprite sprite;
 	private TextureRegion standLeft, standRight;
 	private final Map<Movement, Animation> arrayOfAnimation;
 	private final Map<Direction, Animation> walkAnimations;
 	private float animTime;
-	private Movement lastMovement;
-	private Animation lastAnimation;
 	
 	public PlayerView(Player player, Map<Movement, Animation> arrayOfAnimation,
 			Map<Direction, Animation> walkAnimations) {
@@ -38,8 +34,8 @@ public class PlayerView {
 		this.walkAnimations = walkAnimations;
 		
 		final String prefix = player.getWorld() == World.DAY ? "" : "night_";
-		Texture standPic = new Texture ("Animations/" + prefix + "stand.png");
-		TextureRegion[][] standPics = TextureRegion.split(standPic, standPic.getWidth(), standPic.getHeight()/2);
+		final Texture standPic = new Texture ("Animations/" + prefix + "stand.png");
+		final TextureRegion[][] standPics = TextureRegion.split(standPic, standPic.getWidth(), standPic.getHeight()/2);
 		
 		standLeft = standPics[1][0];
 		standRight = standPics[0][0];
@@ -73,20 +69,6 @@ public class PlayerView {
 		final Movement movement = animState.getMovement();
 		animTime += Gdx.graphics.getDeltaTime();
 		
-		//Check if we change movement
-//		if (movement != Movement.NONE && movement != Movement.WAIT && movement != null) {
-//			System.out.println("Current movement is: " + movement.name());
-//			if (movement != lastMovement) {
-//				lastMovement = movement;
-//				lastAnimation = arrayOfAnimation.get(lastMovement);
-//				System.out.println("LastMovement turned in to: " +lastMovement);
-//			}
-//		} else if (player.getActiveAniRight() || player.getActiveAniLeft()
-//				&& lastMovement == Movement.MOVE_LEFT || lastMovement == Movement.MOVE_RIGHT) {
-//			
-//			return lastAnimation.getKeyFrame(animTime, true);
-//		}
-//		
 		if (!player.isGrabbingBlock() && movement == Movement.NONE) {
 			if (player.isMoving()) {
 				return getWalkingPic();
@@ -103,7 +85,6 @@ public class PlayerView {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 
 		} else if (player.isGrabbingBlock() && movement != Movement.PULL_LEFT && movement != Movement.PULL_RIGHT) {
-			LOG.log(Level.INFO, "Grabbing");
 			return player.getDirection() == Direction.LEFT ?
 					arrayOfAnimation.get(Movement.GRAB_RIGHT).getKeyFrame(animTime):
 						arrayOfAnimation.get(Movement.GRAB_LEFT).getKeyFrame(animTime);

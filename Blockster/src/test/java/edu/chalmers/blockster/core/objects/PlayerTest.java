@@ -123,7 +123,7 @@ public class PlayerTest {
 	
 	@Test
 	public void testGetAdjacentBlock() {		
-		Boolean correct = false;
+		boolean correct = false;
 		
 		player.setDirection(Direction.LEFT);
 		correct = !(player.getAdjacentBlock() == block);
@@ -219,8 +219,6 @@ public class PlayerTest {
 		 block.setProperty("movable");
 		 player.startInteraction(); 
 		 player.liftBlock();
-		 
-		 float lastposX = player.getX();
 		 player.setAnimationState(new AnimationState(Movement.MOVE_LEFT));
 		 player.updatePosition(0.5f);
 		 
@@ -314,21 +312,18 @@ public class PlayerTest {
 		 correct &= (player.getAnimationState().getMovement()
 				 					== Movement.CLIMB_RIGHT);
 		 player.setAnimationState(new AnimationState(Movement.NONE));
-		 
+		 System.out.println(correct);
 		 //#2 Block is null
+		 setUp();
 		 block = null;
 		 player.climbBlock();
 		 correct &= (player.getAnimationState().getMovement() == Movement.NONE);
-		 
 		 //#3 Block is empty
+		 setUp();
 		 block = EmptyBlock.getInstance();
 		 player.climbBlock();
 		 correct &= (player.getAnimationState().getMovement() == Movement.NONE);
-		 
-
-//		 block.setProperty("solid");
-		 
-		 assertTrue(player.getAnimationState().getMovement() == Movement.CLIMB_RIGHT);
+		 assertTrue(correct);
 	 }
 	 
 	 @Test

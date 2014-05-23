@@ -59,7 +59,7 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	private boolean canClimbBlock(Block block) {
-		if (block instanceof EmptyBlock) {
+		if (block instanceof EmptyBlock || block == null) {
 			return false;
 		}
 		
@@ -109,9 +109,9 @@ public class Player extends BlocksterObject implements Interactor {
 
 	public void climbBlock() {
 		final Block block = getAdjacentBlock(); 
-		LOG.log(Level.INFO, "Can we climb block?");
+		LOG.log(Level.FINE, "Can we climb block?");
 		if (!isGrabbingBlock() && canClimbBlock(block) && block.canBeClimbed()) {
-			LOG.log(Level.INFO, "We can climb block!");
+			LOG.log(Level.FINE, "We can climb block!");
 			Direction dir = Direction.getDirection(
 					getX() / blockMap.getBlockWidth(), block.getX());
 			if (isLiftingBlock()) {
