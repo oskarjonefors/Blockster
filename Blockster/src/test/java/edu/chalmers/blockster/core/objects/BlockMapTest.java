@@ -165,7 +165,7 @@ public class BlockMapTest {
 			fail("Incorrect preconditions, block wasn't inserted");
 		}
 		blockMap.removeBlock(block);
-		if (blockMap.getBlock(3, 2) != block) {
+		if (blockMap.getBlock(3, 2) == block) {
 			fail("block wasn't removed");
 		}
 	}
