@@ -92,14 +92,13 @@ public class BlockLiftedInteractionTest {
 		block.removeFromGrid();
 		finishAnimation(block);
 		finishAnimation(player);
-		
-		System.out.println(block);
-		System.out.println(player);
 		if (block.getX() != 1) {
 			fail("Block is positioned incorrectly");
 		}
 		
-		if (player.getX() != 1*player.getScaleX()) {
+		final float tolerance = 0.00001f;
+		
+		if (Math.abs(player.getX() - player.getScaleX()) > tolerance) {
 			fail("Player is positioned incorrectly");
 		}
 	}
@@ -208,7 +207,9 @@ public class BlockLiftedInteractionTest {
 	@Test
 	public void testCanPerformMoveSuccess() {
 		startInteraction();
-		assertTrue(interaction.getMovePerformType(Direction.RIGHT) == 1);
+		if(interaction.getMovePerformType(Direction.RIGHT) != 1) {
+			fail("Should be able to perform move.");
+		};
 	}
 	
 }

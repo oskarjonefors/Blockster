@@ -61,7 +61,7 @@ public class BlockGrabbedInteractionTest {
 		
 		if (player.getAnimationState().getMovement() == Movement.GRAB_RIGHT) {
 			fail("Horisontal test (No OOB) failed with a "
-					+dir.toString().toLowerCase()+"wards direction");
+					+dir+"wards direction");
 		}
 	}
 	
@@ -71,7 +71,7 @@ public class BlockGrabbedInteractionTest {
 		
 		if (player.getAnimationState().getMovement() !=Movement.GRAB_RIGHT){
 			fail("Horisontal test (OOB) failed with a "
-					+dir.toString().toLowerCase()+"wards direction");
+					+dir+"wards direction");
 		}
 	}
 	
@@ -204,7 +204,7 @@ public class BlockGrabbedInteractionTest {
 	@Test
 	public void testBlockAbovePulledBlock() {
 		{
-			Block weighted = new Block(2, 4, blockMap);
+			final Block weighted = new Block(2, 4, blockMap);
 			weighted.setProperty("weight");
 			blockMap.insertBlock(weighted);
 			tryPullBlockLeftwards(false);
