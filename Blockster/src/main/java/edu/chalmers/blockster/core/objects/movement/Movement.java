@@ -67,7 +67,7 @@ public enum Movement {
 		return pullMovement;
 	}
 	
-	public static boolean isPullMovement(float relativePosition, Direction dir) {
+	public static boolean checkIfPullMovement(float relativePosition, Direction dir) {
 		return dir.getDeltaX() * relativePosition < 0;
 	}
 

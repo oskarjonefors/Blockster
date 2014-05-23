@@ -64,7 +64,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 				/ blockLayer.getBlockWidth();
 
 		if (isInReach()) {
-			if (Movement.isPullMovement(relativePosition, dir)) {
+			if (Movement.checkIfPullMovement(relativePosition, dir)) {
 				pullBlock(dir);
 			} else {
 				pushBlocks(dir);
