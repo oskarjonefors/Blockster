@@ -1,6 +1,6 @@
 package edu.chalmers.blockster.core.objects;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -93,23 +93,35 @@ public class BlockMapTest {
 	@Test
 	public void addActiveBlockListenerTest() {
 		
-		correct = blockMap.getListeners().size() == 0;
-		blockMap.addActiveBlockListener(map);
-		correct &= blockMap.getActiveBlockListener().size() == 1;
-		correct &= blockMap.getActiveBlockListener().get(0).equals(map);
+		if (blockMap.getListeners().size() == 0) {
+			fail("incorrect number of listeners");
+		}
 		
-		assertTrue(correct);
+		blockMap.addActiveBlockListener(map);
+		
+		if (blockMap.getActiveBlockListener().size() != 1) {
+			fail("incorrect number of listeners");
+		}
+
+		if (!blockMap.getActiveBlockListener().get(0).equals(map)) {
+			fail("incorrect listener was added");
+		}
 	}
 	
 	@Test
 	public void removeActiveBlockListenerTest(){
 		
 		blockMap.addActiveBlockListener(map);
-		correct = blockMap.getActiveBlockListener().size() == 1;
-		blockMap.removeActiveBlockListener(map);
-		correct &= blockMap.getActiveBlockListener().isEmpty();
 		
-		assertTrue(correct);
+		if (blockMap.getActiveBlockListener().size() != 1) {
+			fail("incorrect number of listeners");
+		}
+		
+		blockMap.removeActiveBlockListener(map);
+		
+		if (!blockMap.getActiveBlockListener().isEmpty()) {
+			fail("block map should not have any listeners");
+		}
 	}
 	
 	@Test
@@ -156,16 +168,15 @@ public class BlockMapTest {
 	
 	@Test
 	public void getHeightTest() {
-		assertTrue(blockMap.getHeight() == 12);
+		if (blockMap.getHeight() != 12) {
+			fail("incorrect height");
+		}
 	}
 	
 	@Test
 	public void getWidthTest() {
-		assertTrue(blockMap.getWidth() == 8);
-	}
-	
-	@Test
-	public void hasBlockTest() {
-		
+		if (blockMap.getWidth() != 8) {
+			fail("incorrect width");
+		}
 	}
 }
