@@ -160,23 +160,26 @@ public class ModelTest {
 
 	@Test
 	public void testGetName() {
-		if (!model.getName().equals("blockModel")) {
+		final String name = "blockModel";
+		if (!model.getName().equals(name)) {
 			fail("The two strings should be equal");
 		}
-		if (model2.getName().equals("blockModel")) {
+		if (model2.getName().equals(name)) {
 			fail("The two strings shouldn't be equal");
 		}
 	}
 
 	@Test
 	public void testGetPlayers() {
-		boolean correct = true;
 		List<Player> players = model.getPlayers();
 		
-		correct &= !players.isEmpty();
-		correct &= players.size() == 2;
+		if (players.isEmpty()) {
+			fail("There are no players");
+		}
+		if (players.size() != 2) {
+			fail("There should be exactly two players");
+		}
 		
-		assertTrue(correct);
 	}
 
 	@Test
