@@ -231,10 +231,9 @@ public class PlayerTest {
 	 
 	 @Test
 	 public void testCollidedHorizontally() {
-		 boolean correct = false;
 		 
 		 //#1
-		 correct = player.collidedHorisontally();
+		 boolean correct = player.collidedHorisontally();
 		 
 		 //#2
 		 player.move(new Vector2f(384, 0));
@@ -245,10 +244,8 @@ public class PlayerTest {
 	 
 	 @Test
 	 public void testCollidedVerticaly() {
-		 boolean correct = false;
-		 
 		 //#1
-		 correct = player.collidedVertically();
+		 boolean correct = player.collidedVertically();
 		 
 		 //#2
 		 player.setX(384);
@@ -294,10 +291,11 @@ public class PlayerTest {
 		 //#1
 		 float lastXPos = player.getOriginX();
 		 player.updatePosition(0.1f);
-		 correct = (lastXPos != player.getX());
+		 final float playerX = player.getX();
+		 correct = (lastXPos != playerX);
 		 
 		 //#2
-		 lastXPos = player.getX();
+		 lastXPos = playerX;
 		 AnimationState animState = new AnimationState(Movement.MOVE_LEFT);
 		 player.setAnimationState(animState);
 		 player.updatePosition(1f);
