@@ -15,7 +15,6 @@ import edu.chalmers.blockster.gdx.view.MiniMap;
 public class BlockMapTest {
 
 	private BlockMap blockMap;
-	private boolean correct = false;
 	private MiniMap map;
 	private List<Point> startPos;
 	
@@ -26,7 +25,6 @@ public class BlockMapTest {
 		startPos.add(new Point(2, 2));
 		blockMap = new BlockMap(8, 12, 48, 48, startPos);
 		map = new MiniMap(2, 2, new Player(0f, 0f, blockMap, World.DAY));
-		correct = false;
 	}
 	
 	@Test(expected=AssertionError.class)
