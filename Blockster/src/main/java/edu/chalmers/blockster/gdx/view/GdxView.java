@@ -305,7 +305,6 @@ public class GdxView implements ApplicationListener, Disposable {
 		final float vY = pY - viewHeight - 1;
 		
 		final List<Player> playerList = model.getPlayers();
-		final float[][] playerPosz= new float[playerList.size()][2];
 		final List<Point2D.Float> playerPos = new ArrayList<Point2D.Float>();
 		for (Player player : playerList) {
 			playerPos.add(new Point2D.Float(player.getX() / scaleX, ((player.getY() + player.getHeight() / 2f) / scaleY)));
