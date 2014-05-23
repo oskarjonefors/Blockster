@@ -91,7 +91,7 @@ public class BlockMapTest {
 	@Test
 	public void addActiveBlockListenerTest() {
 		
-		if (blockMap.getListeners().size() == 0) {
+		if (!blockMap.getListeners().isEmpty()) {
 			fail("incorrect number of listeners");
 		}
 		
@@ -125,7 +125,7 @@ public class BlockMapTest {
 	@Test
 	public void addListenerTest() {
 		
-		if (blockMap.getListeners().size() != 0) {
+		if (!blockMap.getListeners().isEmpty()) {
 			fail("incorrect number of listeners");
 		}
 		blockMap.addListener(map);
@@ -141,7 +141,7 @@ public class BlockMapTest {
 			fail("incorrect number of listeners");
 		}
 		blockMap.removeListener(map);
-		if (blockMap.getListeners().size() != 0) {
+		if (!blockMap.getListeners().isEmpty()) {
 			fail("incorrect number of listeners");
 		}
 	}
