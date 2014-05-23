@@ -145,7 +145,9 @@ public class ModelTest {
 		Set<Block> activeBlocks = model.getActiveBlocks();
 		activeBlocks.add(new Block(0, 0, null));
 		
-		assertTrue(activeBlocks.size() == 1);
+		if (activeBlocks.size() != 1) {
+			fail("Active blocks should contain exactly one block");
+		}
 	}
 
 	@Test
