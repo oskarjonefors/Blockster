@@ -70,7 +70,7 @@ public class ModelTest {
 		final String name = "testModel";
 		Model testModel = new Model(factory, name);
 		
-		assertTrue(testModel.getName().equals(name));
+		assertTrue(name.equals(testModel.getName()));
 		
 	}
 
@@ -161,10 +161,10 @@ public class ModelTest {
 	@Test
 	public void testGetName() {
 		final String name = "blockModel";
-		if (!model.getName().equals(name)) {
+		if (!name.equals(model.getName())) {
 			fail("The two strings should be equal");
 		}
-		if (model2.getName().equals(name)) {
+		if (name.equals(model2.getName())) {
 			fail("The two strings shouldn't be equal");
 		}
 	}
