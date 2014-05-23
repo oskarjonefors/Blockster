@@ -1,7 +1,10 @@
 package edu.chalmers.blockster.gdx.view;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.awt.geom.Point2D;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -51,7 +54,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	private Texture previousTexture;
 	private Pixmap previousPixmap;
 	private final int width, height;
-	private float[][] playerPos;
+	private List<Point2D.Float> playerPos;
 	
 	private float viewX, viewY, viewportWidth, viewportHeight;
 	public static final int NO_BLOCK = Color.rgba8888(0, 0, 0, 1f);
@@ -74,7 +77,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		activeBlocks = new HashSet<Block>();
 		staticBlocks = new HashSet<Block>();
 		
-		playerPos = new float[0][0];
+		playerPos = new ArrayList<Point2D.Float>();
 		
 		minimapSprite = new Sprite();
 		minimapSprite.setColor(1, 1, 1, 1);
@@ -152,15 +155,13 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	private void drawPlayers(Pixmap pixmap, Bounds bounds) {
 		pixmap.setColor(INACTIVE_PLAYER);
-		for(int i = 0; i < playerPos.length; i++) {
-			final float x =  playerPos[i][0];
-			final float y = playerPos[i][1];
+		for(Point2D.Float point : playerPos) {
 			final int r = (int) Math.round(scaleX*0.5);
 
-			if (bounds.contains(x, y)) {
+			if (bounds.contains(point.x, point.y)) {
 				pixmap.setColor(ACTIVE_PLAYER);
-				pixmap.fillCircle(Math.round(x * scaleX), 
-						getPixMapY(pixmap, Math.round((y+0.3f) * scaleY)), 
+				pixmap.fillCircle(Math.round(point.x * scaleX), 
+						getPixMapY(pixmap, Math.round((point.y+0.3f) * scaleY)), 
 								r);
 			}
 
@@ -282,8 +283,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		this.activePlayer = player;
 	}
 
-	public void setPlayerLocations(float[][] locations) {
-		playerPos = locations.clone();
+	public void setPlayerLocations(List<Point2D.Float> locations) {
+		playerPos = locations;
 	}
 	
 	public void setScaleX(int scaleX) {

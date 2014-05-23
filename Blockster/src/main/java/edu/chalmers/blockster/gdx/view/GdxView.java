@@ -1,5 +1,7 @@
 package edu.chalmers.blockster.gdx.view;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -303,11 +305,10 @@ public class GdxView implements ApplicationListener, Disposable {
 		final float vY = pY - viewHeight - 1;
 		
 		final List<Player> playerList = model.getPlayers();
-		final float[][] playerPos = new float[playerList.size()][2];
-		for (int i = 0; i < playerList.size(); i++) {
-			final Player player = playerList.get(i);
-			playerPos[i][0] = player.getX() / scaleX;
-			playerPos[i][1] = (player.getY() + player.getHeight() / 2f) / scaleY;
+		final float[][] playerPosz= new float[playerList.size()][2];
+		final List<Point2D.Float> playerPos = new ArrayList<Point2D.Float>();
+		for (Player player : playerList) {
+			playerPos.add(new Point2D.Float(player.getX() / scaleX, ((player.getY() + player.getHeight() / 2f) / scaleY)));
 		}
 		
 		miniMap.setPlayerLocations(playerPos);
