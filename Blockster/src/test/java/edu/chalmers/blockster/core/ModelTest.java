@@ -48,14 +48,21 @@ public class ModelTest {
 		final int model4Hash = model4.hashCode();
 		final Model nullModel = new Model(factory, null);
 		
-		boolean correct = true;
+		if (modelHash == model2Hash) {
+			fail("Hashcode shouldn't be equal");
+		}
 		
-		correct &= modelHash != model2Hash;
-		correct &= model2Hash == model3Hash;
-		correct &= model3Hash != model4Hash;
-		correct &= nullModel.hashCode() == 31;
+		if (model2Hash != model3Hash) {
+			fail("Hashcode should be equal");
+		}
+		if (model3Hash == model4Hash) {
+			fail("Hashcode should be equal");
+		}
 		
-		assertTrue(correct);
+		if (nullModel.hashCode() != 31) {
+			fail("Hashcode should be 31");
+		}
+		
 	}
 
 	@Test
@@ -69,52 +76,68 @@ public class ModelTest {
 
 	@Test
 	public void testInit() {
-		boolean correct = true;
 		model.init();
 		final BlockMap map = model.getMap();
 		
 		//Check correct dimensions
-		correct &= map.getWidth() == 320;
-		correct &= map.getHeight() == 240;
+		if (map.getWidth() != 320) {
+			fail("Map has the incorrect width");
+		}
+		
+		if (map.getHeight() != 240) {
+			fail("Map has the incorrect width");
+		}
 		
 		//Check player starts
 		final Player p1 = model.getActivePlayer();
-		correct &= p1.getX() == 100;
-		correct &= p1.getY() == 100;
+		if (p1.getX() != 100) {
+			fail(p1 + " is incorrectly positioned");
+		}
+		
+		if (p1.getY() != 100) {
+			fail(p1 + " is incorrectly positioned");
+		}
 		
 		model.nextPlayer();
-		
 		final Player p2 = model.getActivePlayer();
 		
-		correct &= p2.getX() == 120;
-		correct &= p2.getY() == 100;
+		if (p2.getX() != 120) {
+			fail(p2 + " is incorrectly positioned");
+		}
 		
-		assertTrue(correct);
+		if (p2.getY() != 100) {
+			fail(p2 + " is incorrectly positioned");
+		}
 		
 	}
 
 	@Test
-	public void testCompareTo() {
-		
-		boolean correct = true;
-		
-		correct &= model.compareTo(model2) != 0;
-		correct &= model2.compareTo(model3) == 0;
-		correct &= model3.compareTo(model4) != 0;
-		
-		assertTrue(correct);
+	public void testCompareTo() {		
+		if (model.compareTo(model2) == 0) {
+			fail();
+		}
+		if (model2.compareTo(model3) != 0) {
+			fail();
+		}
+		if (model3.compareTo(model4) == 0) {
+			fail();
+		}
 	}
 
 	@Test
 	public void testEqualsObject() {
-		
-		boolean correct = true;
-		correct &= !model.equals(model2);
-		correct &= !model3.equals(model4);
-		correct &= model2.equals(model3);
-		correct &= !model.equals(null);
-		
-		assertTrue(correct);
+		if (model.equals(model2)) {
+			fail("The two models should not be equal");
+		}
+		if (model3.equals(model4)) {
+			fail("The two models should not be equal");
+		}
+		if (!model2.equals(model3)) {
+			fail("The two models should be equal");
+		}
+		if (model.equals(null)) {
+			fail("The model should not be null");
+		}
 	}
 
 	@Test
@@ -137,11 +160,12 @@ public class ModelTest {
 
 	@Test
 	public void testGetName() {
-		final String blockModelString = "blockModel";
-		boolean correct = true;
-		correct &= blockModelString.equals(model.getName());
-		correct &= !blockModelString.equals(model2.getName());
-		assertTrue(correct);
+		if (!model.getName().equals("blockModel")) {
+			fail("The two strings should be equal");
+		}
+		if (model2.getName().equals("blockModel")) {
+			fail("The two strings shouldn't be equal");
+		}
 	}
 
 	@Test
@@ -162,7 +186,6 @@ public class ModelTest {
 	
 	@Test
 	public void testNextPlayer() {
-		boolean correct = true;
 		
 		final Player p1 = model.getActivePlayer();
 		
@@ -180,16 +203,21 @@ public class ModelTest {
 		
 		final Player p4 = model.getActivePlayer();
 		
-		correct &= !p1.equals(p2);
-		correct &= p1.equals(p3);
-		correct &= p3.equals(p4);
+		if (p1.equals(p2)) {
+			fail(p1 + " should not equal " + p2);
+		}
 		
-		assertTrue(correct);
+		if (!p1.equals(p3)) {
+			fail(p1 + " should be equal to " + p3);
+		}
+		
+		if (!p3.equals(p4)) {
+			fail(p3 + " should be equal to " + p4);
+		}
 	}
 
 	@Test
 	public void testResetStartPositions() {
-		boolean correct = true;
 		
 		final Player p1 = model.getActivePlayer();
 		final float player1StartX = p1.getX();
@@ -219,17 +247,30 @@ public class ModelTest {
 		
 		final float tolerance = 0.0001f;
 		
-		correct &= Math.abs(player1StartX - movedPlayer1X) > tolerance;
-		correct &= Math.abs(player1StartY - movedPlayer1Y) > tolerance;
-		correct &= Math.abs(player2StartX - movedPlayer2X) > tolerance;
-		correct &= Math.abs(player2StartY - movedPlayer2Y) > tolerance;
-		
-		correct &= Math.abs(player1StartX - resetPlayer1X) < tolerance;
-		correct &= Math.abs(player1StartY - resetPlayer1Y) < tolerance;
-		correct &= Math.abs(player2StartX - resetPlayer2X) < tolerance;
-		correct &= Math.abs(player2StartY - resetPlayer2Y) < tolerance;
-		
-		assertTrue(correct);
+		if (Math.abs(player1StartX - movedPlayer1X) <= tolerance) {
+			fail("Player should have moved");
+		}
+		if (Math.abs(player1StartY - movedPlayer1Y) <= tolerance) {
+			fail("Player should have moved");
+		}
+		if (Math.abs(player2StartX - movedPlayer2X) <= tolerance) {
+			fail("Player should have moved");
+		}
+		if (Math.abs(player2StartY - movedPlayer2Y) <= tolerance) {
+			fail("Player should have moved");
+		}
+		if (Math.abs(player1StartX - resetPlayer1X) >= tolerance) {
+			fail("Player should have moved");
+		}
+		if (Math.abs(player1StartY - resetPlayer1Y) >= tolerance) {
+			fail("Player should have moved");
+		}
+		if (Math.abs(player2StartX - resetPlayer2X) >= tolerance) {
+			fail("Player should have moved");
+		}
+		if (Math.abs(player2StartY - resetPlayer2Y) >= tolerance) {
+			fail("Player should have moved");
+		}
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -239,28 +280,42 @@ public class ModelTest {
 	
 	@Test
 	public void testUpdateWin() {
-		boolean correct = true;
 		final int preGoalPlayers = model.getPlayers().size();
 		final int postGoalPlayers;
-		correct &= model.getGameState() == GameState.GAME_RUNNING;
+		if (model.getGameState() != GameState.GAME_RUNNING) {
+			fail("Game should be running");
+		}
 		model.playerReachedGoal();
 		model.getActivePlayer().setAnimationState(new AnimationState(Movement.MOVE_LEFT));
-		correct &= model.getGameState() == GameState.GAME_RUNNING;
+		if (model.getGameState() != GameState.GAME_RUNNING) {
+			fail("Game should be running");
+		}
 		model.update(Movement.MOVE_LEFT.getDuration() / 2);
-		correct &= model.getGameState() == GameState.GAME_RUNNING;
+		if (model.getGameState() != GameState.GAME_RUNNING) {
+			fail("Game should be running");
+		}
 		model.update(Movement.MOVE_LEFT.getDuration() / 2 + 1);
-		correct &= model.getGameState() == GameState.GAME_RUNNING;
+		if (model.getGameState() != GameState.GAME_RUNNING) {
+			fail("Game should be running");
+		}
 		
 		postGoalPlayers = model.getPlayers().size();
 		model.playerReachedGoal();
 		model.getActivePlayer().setAnimationState(new AnimationState(Movement.MOVE_LEFT));
-		correct &= model.getGameState() == GameState.GAME_RUNNING;
+		if (model.getGameState() != GameState.GAME_RUNNING) {
+			fail("Game should be running");
+		}
 		model.update(Movement.MOVE_LEFT.getDuration() / 2);
-		correct &= model.getGameState() == GameState.GAME_RUNNING;
+		if (model.getGameState() != GameState.GAME_RUNNING) {
+			fail("Game should be running");
+		}
 		model.update(Movement.MOVE_LEFT.getDuration() / 2 + 1);
-		correct &= postGoalPlayers < preGoalPlayers;
-		correct &= model.getGameState() == GameState.GAME_WON;
-		assertTrue(correct);
+		if (postGoalPlayers >= preGoalPlayers) {
+			fail("There should be at least one player in goal already");
+		}
+		if (model.getGameState() != GameState.GAME_WON) {
+			fail("Game should be running");
+		}
 	}
 	
 	@Test
@@ -268,11 +323,13 @@ public class ModelTest {
 		final Player activePlayer = model.getActivePlayer();
 		activePlayer.setAnimationState(new AnimationState(Movement.PUSH_RIGHT));
 		model.update(0.01f);
-		boolean correct = true;
-		correct &= activePlayer.getAnimationState().getMovement() == Movement.PUSH_RIGHT;
+		if (activePlayer.getAnimationState().getMovement() != Movement.PUSH_RIGHT) {
+			fail("Player should still be moving");
+		}
 		model.update(100);
-		correct &= activePlayer.getAnimationState() == AnimationState.NONE;
-		assertTrue(correct);
+		if (activePlayer.getAnimationState() != AnimationState.NONE) {
+			fail("Player should not have an animation");
+		}
 	}
 	
 	@Test
@@ -281,9 +338,10 @@ public class ModelTest {
 		final BlockMap blockMap = model.getMap();
 		
 		model.update(5);
-		boolean correct = true;
 		final Vector2f velocity = activePlayer.getVelocity();
-		correct &= velocity.y != 0;
+		if (velocity.y == 0) {
+			fail("Should be falling");
+		}
 		
 		final Block solidBlock = new Block(50, 50, blockMap);
 		solidBlock.setProperty("Solid");
@@ -292,8 +350,9 @@ public class ModelTest {
 		activePlayer.setY(51f);
 		model.update(0.01f);
 		
-		correct &= velocity.y == 0;
-		assertTrue(correct);
+		if (velocity.y != 0) {
+			fail("Should not be moving vertically");
+		}
 		
 	}
 	
