@@ -27,65 +27,56 @@ public class BlockMapTest {
 		map = new MiniMap(2, 2, new Player(0f, 0f, blockMap, World.DAY));
 	}
 	
-	@Test(expected=AssertionError.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestWidth() {
 		blockMap = new BlockMap(-1, 1, 48, 48, startPos);
 		// if no AssertionError, set test to fail
 		assertTrue(false);
 	}
 	
-	@Test(expected=AssertionError.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestHeight(){
 		blockMap = new BlockMap(1, -1, 48, 48, startPos);
 	}
 	
-	@Test(expected=AssertionError.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestBlockWidth() {
 		blockMap = new BlockMap(1, 1, -48, 48, startPos);
 		assertTrue(false);
 	}
 	
 	
-	@Test(expected=AssertionError.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestBlockHeigth() {
 		blockMap = new BlockMap(1, 1, 48, 48, startPos);
 		assertTrue(false);
 	}
 	
-	@Test(expected=AssertionError.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestNbrOfPlayers() {
-		try {
 			final List<Point> emptyList = new ArrayList<Point>();
 			blockMap = new BlockMap(1, 1, 48, 48, emptyList);
-		} catch (AssertionError e) {
-			System.out.println(e.getMessage());
-		}
 		assertTrue(false);
 	}
-	@Test(expected=AssertionError.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestStartPosX() {
-		try {
 			final List<Point> starts = new ArrayList<Point>();
 			starts.add(new Point(-1, 1));
 			starts.add(new Point(2, 2));
 			blockMap = new BlockMap(1, 1, 48, 48, starts);
-		} catch (AssertionError e) {
-			System.out.println(e.getMessage());
-		}
+		
+
 		assertTrue(false);
 	}
 	
-	@Test(expected=AssertionError.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestStartPosY() {
-		try {
 			final List<Point> starts = new ArrayList<Point>();
 			starts.add(new Point(1, -1));
 			starts.add(new Point(2, 2));
 			blockMap = new BlockMap(1, 1, 48, 48, starts);
-		} catch (AssertionError e) {
-			System.out.println(e.getMessage());
-		}
-		assertTrue(false);
+
+			assertTrue(false);
 	}
 
 	@Test

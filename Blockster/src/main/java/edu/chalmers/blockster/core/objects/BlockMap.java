@@ -31,23 +31,41 @@ public class BlockMap implements GridMap {
 	public BlockMap(int width, int height, float blockWidth, float blockHeight,
 			List<Point> playerStartingPositions) {
 		String posi = "must be positive";
-		assert width > 0 : "Width of map "+posi;
-		assert height > 0 : "Height of map "+posi;
-		assert blockWidth > 0 : "Width of blocks "+posi;
-		assert blockHeight > 0 : "Height of blocks "+posi;
-		assert !playerStartingPositions.isEmpty() : "There must be at least one player on the map";
+		
+		if (width <= 0) {
+			throw new IllegalArgumentException("Width of map "+posi);
+		}
+		
+		if (height <= 0) {
+			throw new IllegalArgumentException("Height of map "+posi);
+		}
+		
+		if (blockWidth <= 0) {
+			throw new IllegalArgumentException("Width of blocks "+posi);
+		}
+		
+		if (height <= 0) {
+			throw new IllegalArgumentException("Height of blocks "+posi);
+		}
+		
+		if (playerStartingPositions.isEmpty()) {
+			throw new IllegalArgumentException("There must be at least one player on the map");
+		}
+		
+		for (Point p : playerStartingPositions) {
+			if (p.x < 0 || p.x >= width) {
+				throw new IllegalArgumentException("Player is not on map (x-axis): "+p.x);
+			}
+			if (p.y < 0 || p.y >= height) {
+				throw new IllegalArgumentException("Player is not on map (y-axis): "+p.y);
+			}
+		}
 
 		this.listeners = new ArrayList<BlockMapListener>();
 		this.activeBlockListeners = new ArrayList<ActiveBlockListener>();
 		this.blockWidth = blockWidth;
 		this.blockHeight = blockHeight;
 		this.playerStartingPositions = playerStartingPositions;
-
-		// Checks if the starting positions are valid
-		for (Point p : playerStartingPositions) {
-			assert p.x >= 0 && p.x < width : "Player is not on map (x-axis)";
-			assert p.y >= 0 && p.y < height : "Player is not on map (y-axis)";
-		}
 
 		blockMap = new Block[width][height];
 		activeBlocks = new HashSet<Block>();
