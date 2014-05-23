@@ -32,6 +32,32 @@ public class BlockLiftedInteractionTest {
 	}
 	
 	@Test
+	public void testClimbDown() {
+		blockMap.removeBlock(block);
+		player.setX(1 * player.getScaleX());
+		player.setY(1 * player.getScaleY());
+		block.setX(2);
+		block.setY(1);
+		blockMap.insertBlock(block);
+		interaction.startInteraction();
+		player.getAnimationState().updatePosition(5);
+		block.getAnimationState().updatePosition(5);
+		block.moveToNextPosition();
+		blockMap.insertBlock(block);
+		
+		interaction.interact(Direction.LEFT);
+		
+		if (player.getAnimationState().getMovement() != Movement.PLACE_LEFT) {
+			fail("Did not set the correct animation state on "+player);
+		}
+		
+		
+		if (block.getAnimationState().getMovement() != Movement.PLACE_LEFT) {
+			fail("Did not set the correct animation state on "+block);
+		}
+	}
+	
+	@Test
 	public void testInteractFailure() {
 		startInteraction();
 		blockMap.insertBlock(new Block(1,1,blockMap));
