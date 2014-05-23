@@ -18,10 +18,9 @@ public class BlockTest {
 	private BlockMap blockMap;
 	private Block block;
 	private Movement movementLeft;
-	private Movement movementRight;
 	private int startX;
 	private int startY;
-	private String property;
+	
 
 	@Before
 	public void setUp() {
@@ -33,13 +32,13 @@ public class BlockTest {
 		block = new Block(startX, startY, blockMap);
 		block.setProperty("weight");
 		movementLeft = Movement.PULL_LEFT;
-		movementRight = Movement.PULL_RIGHT;
 		
 		blockMap.insertBlock(block);
 	}
 
 	@Test
 	public void testCanMove() {
+		final Movement movementRight = Movement.PULL_RIGHT;
 		Direction dir = movementLeft.getDirection();
 		block.setAnimationState(new AnimationState(movementLeft));
 		
@@ -104,8 +103,9 @@ public class BlockTest {
 
 	@Test
 	public void testSetProperty() {
+		
 		//#1 Liftable
-		property = "liftable";
+		String property = "liftable";
 		block.setProperty(property);
 		if (!block.isLiftable()) {
 			fail("Should be liftable");
