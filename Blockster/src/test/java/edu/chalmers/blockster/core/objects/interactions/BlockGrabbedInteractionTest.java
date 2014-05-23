@@ -234,15 +234,13 @@ public class BlockGrabbedInteractionTest {
 	
 	@Test
 	public void testEndInteraction() {
-		boolean success = (player.getAnimationState() 
-						!= AnimationState.NONE);
-		
 		interaction.endInteraction();
 		
-		success &= player.getAnimationState()
-				== AnimationState.NONE;
+		if (player.getAnimationState()
+				!= AnimationState.NONE) {
+			fail ("Animation state should be NONE");
+		}
 		
-		assertTrue(success);
 	}
 	
 	@Test
@@ -304,18 +302,20 @@ public class BlockGrabbedInteractionTest {
 	
 	@Test
 	public void testInteractRight() {
-		boolean success = true;
 		block2.removeProperty("movable");
 		interaction.interact(Direction.RIGHT);
-		success &= player.getAnimationState().getMovement() == Movement.GRAB_RIGHT;
+		if (player.getAnimationState().getMovement() != Movement.GRAB_RIGHT) {
+			fail("Player should be grabbing a block to the right");
+		}
 
 
 		block2.setProperty("movable");
 		interaction.interact(Direction.RIGHT);
-		success &= (player.getAnimationState()
-				.getMovement() != Movement.NONE);
+		if (player.getAnimationState()
+				.getMovement() == Movement.NONE) {
+			fail("Player should be moving");
+		}
 
-		assertTrue(success);
 	}
 	
 	@Test
@@ -339,8 +339,9 @@ public class BlockGrabbedInteractionTest {
 	@Test
 	public void testStartInteraction() {
 		Movement none = player.getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
-		assertTrue(player.getAnimationState().getMovement() 
-				== none);
+		if (player.getAnimationState().getMovement() != none) {
+			fail("Player shouldn't be moving");
+		}
 	}
 	
 
