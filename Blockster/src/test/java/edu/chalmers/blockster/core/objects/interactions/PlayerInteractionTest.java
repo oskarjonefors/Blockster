@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import edu.chalmers.blockster.core.objects.Block;
+import edu.chalmers.blockster.core.objects.BlockMap;
+import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.objects.Player.World;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
 /**
@@ -12,6 +16,17 @@ import edu.chalmers.blockster.core.objects.movement.Direction;
  *
  */
 public class PlayerInteractionTest {
+	
+	@Test
+	public void testGetters() {
+		BlockMap blockMap = new BlockMap(10, 10, 100, 100, new int[][] {{2, 4}});
+		Block block = new Block(1, 1, blockMap);
+		Player player = new Player(2, 4, blockMap, World.DAY);
+		
+		PlayerInteraction interaction = new BlockGrabbedInteraction(player, block, blockMap);
+		assertTrue(interaction.getInteracted() == block 
+				&& interaction.getInteractor() == player);
+	}
 	
 	@Test
 	public void testInteract() {
