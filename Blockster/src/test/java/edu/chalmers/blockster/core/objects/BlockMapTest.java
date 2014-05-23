@@ -20,7 +20,7 @@ public class BlockMapTest {
 	
 	@Before
 	public void setUp() {
-		final List<Point> startPos = new ArrayList<Point>();
+		startPos = new ArrayList<Point>();
 		startPos.add(new Point(1, 1));
 		startPos.add(new Point(2, 2));
 		blockMap = new BlockMap(8, 12, 48, 48, startPos);
@@ -91,6 +91,7 @@ public class BlockMapTest {
 	@Test
 	public void addActiveBlockListenerTest() {
 		
+
 		if (!blockMap.getListeners().isEmpty()) {
 			fail("incorrect number of listeners");
 		}

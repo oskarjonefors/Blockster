@@ -35,7 +35,7 @@ public class BlockMap implements GridMap {
 		assert height > 0 : "Height of map "+posi;
 		assert blockWidth > 0 : "Width of blocks "+posi;
 		assert blockHeight > 0 : "Height of blocks "+posi;
-		assert playerStartingPositions.size() > 0 : "There must be at least one player on the map";
+		assert !playerStartingPositions.isEmpty() : "There must be at least one player on the map";
 
 		this.listeners = new ArrayList<BlockMapListener>();
 		this.activeBlockListeners = new ArrayList<ActiveBlockListener>();
