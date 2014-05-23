@@ -70,7 +70,9 @@ public class ModelTest {
 		final String name = "testModel";
 		Model testModel = new Model(factory, name);
 		
-		assertTrue(name.equals(testModel.getName()));
+		if (!name.equals(testModel.getName())) {
+			fail("Incorrect name");
+		}
 		
 	}
 
@@ -152,7 +154,9 @@ public class ModelTest {
 
 	@Test
 	public void testGetActivePlayer() {
-		assertFalse(model.getActivePlayer() == null);
+		if(model.getActivePlayer() == null) {
+			fail("The active player doesn't exist");
+		}
 	}
 
 	@Test
