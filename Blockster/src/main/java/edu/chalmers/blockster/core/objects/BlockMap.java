@@ -44,11 +44,9 @@ public class BlockMap implements GridMap {
 		this.playerStartingPositions = playerStartingPositions;
 
 		// Checks if the starting positions are valid
-		for (int i = 0; i < playerStartingPositions.size(); i++) {
-			final Point startPosition = playerStartingPositions.get(i);
-
-			assert startPosition.x >= 0 && startPosition.y < width : "Player is not on map (x-axis)";
-			assert startPosition.y >= 0 && startPosition.y < height : "Player is not on map (y-axis)";
+		for (Point p : playerStartingPositions) {
+			assert p.x >= 0 && p.x < width : "Player is not on map (x-axis)";
+			assert p.y >= 0 && p.y < height : "Player is not on map (y-axis)";
 		}
 
 		blockMap = new Block[width][height];
