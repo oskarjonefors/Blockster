@@ -24,6 +24,7 @@ public class PlayerView {
 	private final Map<Movement, Animation> arrayOfAnimation;
 	private final Map<Direction, Animation> walkAnimations;
 	private float animTime;
+	private Movement lastMovement;
 	
 	public PlayerView(Player player, Map<Movement, Animation> arrayOfAnimation,
 			Map<Direction, Animation> walkAnimations) {
