@@ -29,7 +29,9 @@ public class PlayerTest {
 		playerPositions.add(new Point(2, 2));
 		blockMap = new BlocksterMap(10, 10, 128, 128, playerPositions);
 		block = new Block(3,2, blockMap);
-		player = new Player(2, 2, blockMap, World.DAY);
+		block.setProperty("solid");
+		player = new Player(0, 0, blockMap, World.DAY);
+		player.move(new Vector2f(256, 256));
 		player.setWidth(100);
 		
 		blockMap.insertBlock(block);
@@ -233,11 +235,11 @@ public class PlayerTest {
 	 public void testCollidedHorizontally() {
 		 
 		 //#1
-		 boolean correct = player.collidedHorisontally();
+		 boolean correct = !player.collidedHorisontally();
 		 
 		 //#2
-		 player.setX(382);
-		 correct &= !player.collidedHorisontally();
+		 player.move(new Vector2f(128, 0));
+		 correct &= player.collidedHorisontally();
 		 
 		 assertTrue(correct);
 	 }
@@ -245,11 +247,14 @@ public class PlayerTest {
 	 @Test
 	 public void testCollidedVerticaly() {
 		 //#1
+		 final Block tempBlock = new Block(2, 1, blockMap);
+		 tempBlock.setProperty("solid");
+		 blockMap.insertBlock(tempBlock);
+		 player.move(new Vector2f(0, -128));
 		 boolean correct = player.collidedVertically();
-		 
+
 		 //#2
-		 player.setX(384);
-		 player.setY(300);
+		 player.move(new Vector2f(128, 44));
 		 correct &= !player.collidedHorisontally();
 		 
 		 assertTrue(correct); 
