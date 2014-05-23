@@ -77,12 +77,14 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 
 	@Override
 	public void startInteraction() {
-		final Direction dir = Direction.getDirection(interactor.getX(),
-				interacted.getX() * blockMap.getBlockWidth());
-		AnimationState anim = new AnimationState(Movement.getLiftMovement(dir));
-
+		final float interactorX = interactor.getX();
+		final float interactedX = interacted.getX();
+		final Direction dir = Direction.getDirection(interactorX, interactedX
+				* blockMap.getBlockWidth());
+		final AnimationState anim = new AnimationState(Movement.getLiftMovement(dir));
+		
 		if (interacted.canMove(anim.getMovement().getDirection())
-				&& !blockMap.hasBlock((int) interacted.getX(),
+				&& !blockMap.hasBlock((int) interactedX,
 						(int) interacted.getY() + 1)) {
 			interactor.setLifting(true);
 			interacted.setAnimationState(anim);

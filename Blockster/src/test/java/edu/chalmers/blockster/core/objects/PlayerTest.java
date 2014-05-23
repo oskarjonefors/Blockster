@@ -18,9 +18,9 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
 
 public class PlayerTest {
 
-	private static BlockMap blockMap;
-	private static Player player;
-	private static Block block; 
+	private BlockMap blockMap;
+	private Player player;
+	private Block block; 
 	
 
 	@Before
@@ -173,7 +173,6 @@ public class PlayerTest {
 	
 	@Test
 	public void testIsNextToBlock() {
-		boolean correct = false;
 		
 		//#1 Left side of block
 		if (!player.isNextToBlock(block)) {
@@ -195,15 +194,15 @@ public class PlayerTest {
 	}
 	 @Test
 	 public void testMove() {
-		 boolean correct = false;
-		 Vector2f vector = new Vector2f(10,10);
+		 final Vector2f vector = new Vector2f(10,10);
 		 
 		 //#1
-		 float prevPos = player.getX();
+		 final float prevPos = player.getX();
 		 player.move(vector);
-		 correct = (prevPos != player.getX());
 		 
-		 assertTrue(correct);
+		 final float tolerance = 0.0001f;
+		 
+		 assertTrue(Math.abs(prevPos - player.getX()) > tolerance);
 	 }
 	 
 	 @Test
@@ -302,7 +301,10 @@ public class PlayerTest {
 		 AnimationState animState = new AnimationState(Movement.MOVE_LEFT);
 		 player.setAnimationState(animState);
 		 player.updatePosition(1f);
-		 correct &= (lastXPos != player.getX());
+		 
+		 final float tolerance = 0.0001f;
+		 
+		 correct &= (Math.abs(lastXPos - player.getX()) > tolerance);
 		 
 		 assertTrue(correct);
 	 }
