@@ -37,10 +37,10 @@ public class CompositeSplineTest {
 			successLoop &= Math.abs(splinePos.length()) < diff;
 		}
 		
-		
-		boolean testStart = distStart < diff;
-		boolean testEnd = spline.getDirection() == Direction.NONE 
-				|| distEnd == Math.abs(end.length());
+		final float tolerance = 0.00001f;
+		final boolean testStart = distStart < diff;
+		final boolean testEnd = spline.getDirection() == Direction.NONE
+				|| Math.abs(distEnd - Math.abs(end.length())) < tolerance;
 		
 		assertTrue(testStart && testEnd  && successLoop);
 	}

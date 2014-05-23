@@ -104,18 +104,21 @@ public class MovementDirectionTest {
 
 	@Test
 	public void testGetSpline() {
-		Movement moveLeft = Movement.getMoveMovement(left);
-		Movement placeRight = Movement.getPlaceMovement(right);
-		Movement climbLeft = Movement.getClimbMovement(left);
+		final Movement moveLeft = Movement.getMoveMovement(left);
+		final Movement placeRight = Movement.getPlaceMovement(right);
+		final Movement climbLeft = Movement.getClimbMovement(left);
+		final Spline moveLeftSpline = moveLeft.getSpline();
+		final Spline placeRightSpline = placeRight.getSpline();
+		final Spline climbLeftSpline = climbLeft.getSpline();
 		
-		boolean linearMoveLeft = moveLeft.getSpline() instanceof LinearSpline;
-		boolean bezierPlaceRight = placeRight.getSpline() instanceof BezierSpline;
-		boolean compositeClimbLeft = climbLeft.getSpline() instanceof CompositeSpline;
-		boolean leftSplineLeftwardsDirection = moveLeft.getSpline().getDirection().getDeltaX() < 0;
-		boolean rightSplineRightwardsDirection = placeRight.getSpline().getDirection().getDeltaX() > 0;
-		boolean rightSplineDownwardsDirection = placeRight.getSpline().getDirection().getDeltaY() < 0;
-		boolean climbSplineUpwardsDirection = climbLeft.getSpline().getDirection().getDeltaY() > 0;
-		boolean climbSplineLeftwardsDirection = climbLeft.getSpline().getDirection().getDeltaX() < 0;
+		boolean linearMoveLeft = moveLeftSpline instanceof LinearSpline;
+		boolean bezierPlaceRight = placeRightSpline instanceof BezierSpline;
+		boolean compositeClimbLeft = climbLeftSpline instanceof CompositeSpline;
+		boolean leftSplineLeftwardsDirection = moveLeftSpline.getDirection().getDeltaX() < 0;
+		boolean rightSplineRightwardsDirection = placeRightSpline.getDirection().getDeltaX() > 0;
+		boolean rightSplineDownwardsDirection = placeRightSpline.getDirection().getDeltaY() < 0;
+		boolean climbSplineUpwardsDirection = climbLeftSpline.getDirection().getDeltaY() > 0;
+		boolean climbSplineLeftwardsDirection = climbLeftSpline.getDirection().getDeltaX() < 0;
 		
 		assertTrue(linearMoveLeft && bezierPlaceRight && compositeClimbLeft && leftSplineLeftwardsDirection 
 				&& rightSplineRightwardsDirection && rightSplineDownwardsDirection && climbSplineUpwardsDirection
@@ -142,10 +145,10 @@ public class MovementDirectionTest {
 		float positive = 1.5f;
 		float negative = -1.5f;
 		boolean success = true;
-		success &= Movement.isPullMovement(positive, left);
-		success &= !Movement.isPullMovement(negative, left);
-		success &= !Movement.isPullMovement(positive, right);
-		success &= Movement.isPullMovement(negative, right);
+		success &= Movement.checkIfPullMovement(positive, left);
+		success &= !Movement.checkIfPullMovement(negative, left);
+		success &= !Movement.checkIfPullMovement(positive, right);
+		success &= Movement.checkIfPullMovement(negative, right);
 		
 		assertTrue(success);
 	}
