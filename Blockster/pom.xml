@@ -136,7 +136,7 @@
 				<configuration>
 					<effort>Max</effort>
 					<includeTests>true</includeTests>
-					<threshold>Medium</threshold>
+					<threshold>Low</threshold>
 					<excludeFilterFile>${project.basedir}/findbugs-exclude.xml</excludeFilterFile>
 					<plugins>
 						<plugin>
