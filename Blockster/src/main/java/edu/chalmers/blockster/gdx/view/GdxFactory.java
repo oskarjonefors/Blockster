@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
@@ -17,7 +18,7 @@ import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.BlocksterObject;
 import edu.chalmers.blockster.core.objects.Player;
-import edu.chalmers.blockster.core.objects.Player.World;
+import edu.chalmers.blockster.core.objects.World;
 
 public class GdxFactory implements Factory {
 	
@@ -42,8 +43,12 @@ public class GdxFactory implements Factory {
 
 	public GdxFactory(TiledMap map) {
 		playerStartingPositions = getPlayerStartingPositions(map);
-		
-		tileLayer = (TiledMapTileLayer) map.getLayers().get(0);
+		final MapLayer mapLayer = map.getLayers().get(0);
+		if(mapLayer instanceof TiledMapTileLayer) {
+			tileLayer = (TiledMapTileLayer) mapLayer;
+		} else {
+			tileLayer = new TiledMapTileLayer(0,0,0,0);
+		}
 		width = tileLayer.getWidth();
 		height = tileLayer.getHeight();
 		blockWidth = (int) tileLayer.getTileWidth();
@@ -120,7 +125,7 @@ public class GdxFactory implements Factory {
 					+ mapProps.get("nbrOfPlayers") + " is incorrect. Should be a number 0 <= 10");
 		}
 		
-		List<Point> startingPositions = new ArrayList<Point>();
+		final List<Point> startingPositions = new ArrayList<Point>();
 		
 		for(int i = 1; i <= nbrOfPlayers ; i++) {
 			

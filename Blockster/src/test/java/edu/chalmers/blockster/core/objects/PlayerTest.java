@@ -11,7 +11,7 @@ import javax.vecmath.Vector2f;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.chalmers.blockster.core.objects.Player.World;
+import edu.chalmers.blockster.core.objects.World;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;

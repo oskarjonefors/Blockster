@@ -13,7 +13,7 @@ import org.junit.Test;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.Player;
-import edu.chalmers.blockster.core.objects.Player.World;
+import edu.chalmers.blockster.core.objects.World;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;

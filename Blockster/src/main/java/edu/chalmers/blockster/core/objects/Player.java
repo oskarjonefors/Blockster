@@ -24,10 +24,6 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
  * 
  */
 public class Player extends BlocksterObject implements Interactor {
-
-	public enum World {
-		DAY, NIGHT;
-	}
 	
 	private static final Logger LOG = Logger.getLogger(Player.class.getName());
 	private final Block none;

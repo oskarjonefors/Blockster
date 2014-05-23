@@ -1,12 +1,12 @@
 package edu.chalmers.blockster.gdx.view;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import edu.chalmers.blockster.core.objects.Player;
+import edu.chalmers.blockster.core.objects.World;
 
 /**
  * A class used to draw background images.
@@ -16,7 +16,7 @@ import edu.chalmers.blockster.core.objects.Player;
 
 public class BackgroundImage {
 	
-	private final Map<Player.World, TextureRegion> backgrounds;
+	private final Map<World, TextureRegion> backgrounds;
 	private float width;
 	private float height;
 	private float scaleX;
@@ -25,9 +25,9 @@ public class BackgroundImage {
 	private float y;
 	
 	public BackgroundImage(TextureRegion day, TextureRegion night) {
-		backgrounds = new HashMap<Player.World, TextureRegion>();
-		backgrounds.put(Player.World.DAY, day);
-		backgrounds.put(Player.World.NIGHT, night);
+		backgrounds = new EnumMap<World, TextureRegion>(World.class);
+		backgrounds.put(World.DAY, day);
+		backgrounds.put(World.NIGHT, night);
 		
 		width = day.getRegionWidth();
 		height = day.getRegionHeight();
@@ -39,7 +39,7 @@ public class BackgroundImage {
 		return scaleX;
 	}
 
-	public void draw(SpriteBatch batch, Player.World world) {
+	public void draw(SpriteBatch batch, World world) {
 		batch.draw(backgrounds.get(world), x, y, width*scaleX, height*scaleY);
 	}
 	
