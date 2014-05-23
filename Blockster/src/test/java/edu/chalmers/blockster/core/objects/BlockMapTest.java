@@ -127,21 +127,25 @@ public class BlockMapTest {
 	@Test
 	public void addListenerTest() {
 		
-		correct = blockMap.getListeners().size() == 0;
+		if (blockMap.getListeners().size() != 0) {
+			fail("incorrect number of listeners");
+		}
 		blockMap.addListener(map);
-		correct &= blockMap.getListeners().size() == 1;
-		
-		assertTrue(correct);
+		if (blockMap.getListeners().size() != 1) {
+			fail("incorrect number of listeners");
+		}
 	}
 	
 	@Test
 	public void removeListenerTest() {
 		blockMap.addListener(map);
-		correct = blockMap.getListeners().size() == 1;
+		if (blockMap.getListeners().size() != 1) {
+			fail("incorrect number of listeners");
+		}
 		blockMap.removeListener(map);
-		correct &= blockMap.getListeners().size() == 0;
-		
-		assertTrue(correct);
+		if (blockMap.getListeners().size() != 0) {
+			fail("incorrect number of listeners");
+		}
 	}
 	
 	@Test
@@ -149,9 +153,9 @@ public class BlockMapTest {
 		Block block = new Block(2, 1, blockMap);
 		
 		blockMap.insertBlock(block);
-		correct = blockMap.getBlock(2, 1) == block;
-		
-		assertTrue(correct);
+		if (blockMap.getBlock(2, 1) != block) {
+			fail("block was not inserted in blockmap");
+		}
 	}
 	
 	@Test
@@ -159,11 +163,13 @@ public class BlockMapTest {
 		Block block = new Block(3, 2, blockMap);
 		
 		blockMap.insertBlock(block);	
-		correct = blockMap.getBlock(3, 2) == block;
+		if (blockMap.getBlock(3, 2) != block) {
+			fail("Incorrect preconditions, block wasn't inserted");
+		}
 		blockMap.removeBlock(block);
-		correct &= blockMap.getBlock(3, 2) != block;
-		
-		assertTrue(correct);
+		if (blockMap.getBlock(3, 2) != block) {
+			fail("block wasn't removed");
+		}
 	}
 	
 	@Test
