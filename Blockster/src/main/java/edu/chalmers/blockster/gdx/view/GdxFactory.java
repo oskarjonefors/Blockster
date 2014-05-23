@@ -116,26 +116,15 @@ public class GdxFactory implements Factory {
 		
 		final MapProperties mapProps = map.getProperties();
 		
-		int nbrOfPlayers;
-		
-		try {
-			nbrOfPlayers = Integer.parseInt((String)mapProps.get("nbrOfPlayers"));
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException("Given map's nbrOfPlayers value "
-					+ mapProps.get("nbrOfPlayers") + " is incorrect. Should be a number 0 <= 10");
-		}
+		int	nbrOfPlayers = Integer.parseInt((String)mapProps.get("nbrOfPlayers"));
 		
 		final List<Point> startingPositions = new ArrayList<Point>();
 		
 		for(int i = 1; i <= nbrOfPlayers ; i++) {
-			
 			final String playerStartString = (String)mapProps.get("playerStart" + i);
 			final String[] playerStarts = playerStartString.split(":");
-			final Point playerStart = new Point();
-			playerStart.x = Integer.parseInt(playerStarts[0]);
-			playerStart.y = Integer.parseInt(playerStarts[1]);
-			
-			startingPositions.add(playerStart);
+			startingPositions.add(new Point(Integer.parseInt(playerStarts[0]),
+					Integer.parseInt(playerStarts[1])));
 		}
 		return startingPositions;
 	}
