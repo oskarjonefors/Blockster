@@ -237,7 +237,7 @@ public class PlayerTest {
 		 correct = player.collidedHorisontally();
 		 
 		 //#2
-		 player.setX(384);
+		 player.move(new Vector2f(384, 0));
 		 correct = !player.collidedHorisontally();
 		 
 		 assertTrue(correct);
