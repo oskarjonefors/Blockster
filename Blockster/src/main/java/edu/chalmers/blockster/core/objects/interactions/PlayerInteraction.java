@@ -5,9 +5,21 @@ import edu.chalmers.blockster.core.objects.movement.Direction;
 public abstract class PlayerInteraction {
 
 	public static final PlayerInteraction NONE = new NoInteraction();
+	private final Interactor interactor;
+	private final Interactable interacted;
+	
+	
+	public PlayerInteraction(Interactor interactor, Interactable interacted) {
+		this.interactor = interactor;
+		this.interacted = interacted;
+	}
 	
 	private static class NoInteraction extends PlayerInteraction{
 
+		public NoInteraction() {
+			super(null, null);
+		}
+		
 		@Override
 		public void interact(Direction dir) {
 			/* Does nothing */
@@ -22,16 +34,7 @@ public abstract class PlayerInteraction {
 		public void startInteraction() {
 			/* Does nothing */
 		}
-
-		@Override
-		public Interactor getInteractor() {
-			return null;
-		}
-
-		@Override
-		public Interactable getInteracted() {
-			return null;
-		}
+		
 	}
 	
 	public abstract void interact(Direction dir);
@@ -40,8 +43,12 @@ public abstract class PlayerInteraction {
 	
 	public abstract void startInteraction();
 	
-	public abstract Interactor getInteractor();
+	public final Interactor getInteractor() {
+		return interactor;
+	}
 	
-	public abstract Interactable getInteracted();
+	public final Interactable getInteracted() {
+		return interacted;
+	}
 	
 }

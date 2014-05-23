@@ -23,6 +23,7 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 
 	public BlockLiftedInteraction(Interactor interactor,
 			Interactable interacted, GridMap blockMap) {
+		super(interactor, interacted);
 		this.interactor = interactor;
 		this.interacted = interacted;
 		this.blockMap = blockMap;
@@ -102,16 +103,6 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 			return CANNOT_MOVE;
 		}
 
-	}
-
-	@Override
-	public Interactor getInteractor() {
-		return interactor;
-	}
-
-	@Override
-	public Interactable getInteracted() {
-		return interacted;
 	}
 
 }

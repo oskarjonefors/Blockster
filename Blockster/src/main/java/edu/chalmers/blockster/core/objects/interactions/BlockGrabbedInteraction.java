@@ -21,6 +21,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 
 	public BlockGrabbedInteraction(Interactor interactor,
 			Interactable interacted, GridMap blockLayer) {
+		super(interactor, interacted);
 		this.interacted = interacted;
 		this.interactor = interactor;
 		this.blockLayer = blockLayer;
@@ -121,16 +122,6 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	@Override
 	public void startInteraction() {
 		interactor.setGrabbing(true);
-	}
-
-	@Override
-	public Interactor getInteractor() {
-		return interactor;
-	}
-
-	@Override
-	public Interactable getInteracted() {
-		return interacted;
 	}
 
 }
