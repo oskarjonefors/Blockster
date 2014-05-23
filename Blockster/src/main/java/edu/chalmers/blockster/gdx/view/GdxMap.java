@@ -9,8 +9,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import edu.chalmers.blockster.core.objects.Block;
-import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.BlockMapListener;
+import edu.chalmers.blockster.core.util.GridMap;
 
 /**
  * 
@@ -23,13 +23,13 @@ public class GdxMap extends TiledMap implements BlockMapListener {
 	private final TiledMapTileLayer blockLayer;
 	private final Map<Block, BlockView> blocks;
 
-	public GdxMap (BlockMap blockMap) {
+	public GdxMap (GridMap gridMap) {
 		super();
 
 		blocks = new HashMap<Block, BlockView>();
-		blockLayer = new TiledMapTileLayer(blockMap.getWidth(), 
-				blockMap.getHeight(), (int) blockMap.getBlockWidth(), 
-				(int) blockMap.getBlockHeight());
+		blockLayer = new TiledMapTileLayer(gridMap.getWidth(), 
+				gridMap.getHeight(), (int) gridMap.getBlockWidth(), 
+				(int) gridMap.getBlockHeight());
 		getLayers().add(blockLayer);
 	}
 

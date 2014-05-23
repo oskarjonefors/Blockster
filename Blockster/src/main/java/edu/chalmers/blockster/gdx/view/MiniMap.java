@@ -181,7 +181,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		}
 	}
 
-	private void drawViewport(Pixmap pixmap, Bounds bounds) {
+	private void drawViewport(Pixmap pixmap) {
 		pixmap.setColor(VIEWPORT);
 		int x = Math.max(1, Math.round(viewX * scaleX));
 		int y = Math.max(1, Math.round(viewY * scaleY));
@@ -235,7 +235,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		drawStaticBlocks(pixmap, bounds);
 		drawActiveBlocks(pixmap, bounds);
 		drawPlayers(pixmap, bounds);
-		drawViewport(pixmap, bounds);
+		drawViewport(pixmap);
 		
 		return pixmap;
 	}

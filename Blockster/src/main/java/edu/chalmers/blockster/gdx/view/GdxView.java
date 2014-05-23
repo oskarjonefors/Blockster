@@ -142,8 +142,11 @@ public class GdxView implements ApplicationListener, Disposable {
 	}
 	
 	public void transitCamera() {
-		Vector3 cameraMoveVector = new Vector3(model.getActivePlayer().getX(),
-				model.getActivePlayer().getY(), 0);
+		final Player activePlayer = model.getActivePlayer();
+		final float playerX = activePlayer.getX();
+		final float playerY = activePlayer.getY();
+		
+		final Vector3 cameraMoveVector = new Vector3(playerX, playerY, 0);
 
 		/* Set the "direction" of the cameraMoveVector towards the active player */
 		cameraMoveVector.sub(camera.position);
@@ -157,12 +160,11 @@ public class GdxView implements ApplicationListener, Disposable {
 
 		camera.translate(cameraMoveVector);
 
-		final boolean cameraInPlace = camera.position.epsilonEquals(model
-				.getActivePlayer().getX(), model.getActivePlayer().getY(), 0,
-				30f);
+		final boolean cameraInPlace = camera.position.epsilonEquals(
+				playerX, playerY, 0, 30f);
 
 		if (cameraInPlace) {
-			model.getActivePlayer().switchingToMe(false);
+			activePlayer.switchingToMe(false);
 		}
 	}
 
