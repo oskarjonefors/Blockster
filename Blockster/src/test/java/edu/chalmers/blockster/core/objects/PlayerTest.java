@@ -347,7 +347,7 @@ public class PlayerTest {
 	 }
 	 
 	 @Test
-	 public void testLiftBlock() {
+	 public void testLiftBlockSuccess() {
 		 
 		 player.setDirection(Direction.RIGHT);
 		 block.setProperty("liftable");
@@ -355,8 +355,47 @@ public class PlayerTest {
 		 player.startInteraction(); 
 		 player.liftBlock();
 		 
-		 assertTrue(player.isLiftingBlock());
+		 if (!player.isLiftingBlock()) {
+			 fail("Should be lifting block");
+		 }
 	 }
+	 
+	 @Test
+	 public void testLiftBlockCantLift() {
+		 
+		 player.setDirection(Direction.RIGHT);
+		 block.setProperty("liftable");
+		 block.setProperty("movable");
+		 player.liftBlock();
+		 
+		 if (player.isLiftingBlock()) {
+			 fail("Should not be lifting block");
+		 }
+	 }
+	 
+	 @Test
+	 public void testLiftBlockCantBeLifted() {
+		 
+		 player.setDirection(Direction.RIGHT);
+		 player.startInteraction(); 
+		 player.liftBlock();
+		 
+		 if (player.isLiftingBlock()) {
+			 fail("Should not be lifting block");
+		 }
+	 }
+	 
+	 @Test
+	 public void testLiftBlockNeitherPreconditions() {
+		 player.setDirection(Direction.RIGHT);
+		 player.liftBlock();
+		 
+		 if (player.isLiftingBlock()) {
+			 fail("Should not be lifting block");
+		 }
+	 }
+	 
+	 
 	 
 	 @Test
 	 public void testCollidedHorizontally() {
