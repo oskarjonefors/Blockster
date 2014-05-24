@@ -21,7 +21,7 @@ public class BlocksterMap implements GridMap, BlockMap {
 	private static final Logger LOG = Logger
 			.getLogger(BlocksterMap.class.getName());
 	private Block[][] blockMap;
-	final private List<Point> playerStartingPositions;
+	private final List<Point> playerStartingPositions;
 	private final float blockWidth, blockHeight;
 
 	private final Set<Block> activeBlocks;

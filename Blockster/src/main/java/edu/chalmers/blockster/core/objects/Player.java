@@ -78,10 +78,7 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	private boolean canLiftBlock(Block block) {
-		boolean grabbingBlock = this.grabbingBlock;
-		boolean isNextToBlock = isNextToBlock(block);
-		
-		return grabbingBlock && isNextToBlock;
+		return grabbingBlock && isNextToBlock(block);
 	}
 
 	public boolean canMove(Direction dir) {
@@ -295,8 +292,8 @@ public class Player extends BlocksterObject implements Interactor {
 	
 	public boolean isLiftingOrPlacing() {
 		final Movement move = getAnimationState().getMovement();
-		return (move == Movement.PLAYER_PLACE_LEFT || move == Movement.PLAYER_PLACE_RIGHT ||
-				move == Movement.PLAYER_LIFT_LEFT || move == Movement.PLAYER_LIFT_RIGHT);
+		return move == Movement.PLAYER_PLACE_LEFT || move == Movement.PLAYER_PLACE_RIGHT ||
+				move == Movement.PLAYER_LIFT_LEFT || move == Movement.PLAYER_LIFT_RIGHT;
 	}
 
 	public void updatePosition(float deltaTime) {
