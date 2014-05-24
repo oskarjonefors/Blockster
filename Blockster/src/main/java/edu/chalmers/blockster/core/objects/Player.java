@@ -215,7 +215,7 @@ public class Player extends BlocksterObject implements Interactor {
 		if (isLiftingBlock()) {
 			return block != null
 					&& Math.abs((int) block.getX()
-							- Math.round(getX() / blockMap.getBlockWidth())) <= 1
+							- (int) (getX() / blockMap.getBlockWidth())) <= 1
 					&& Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) <= 0.2f;
 		} else if (getDirection().getDeltaX() < 0) { 
 			return block != null
