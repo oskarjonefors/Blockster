@@ -215,9 +215,11 @@ public class BlockTest {
 	@Test
 	public void testFallDown() {
 		block.fallDown();
-		
+
 		//Is animation correct?
-		if (block.getAnimationState().getMovement() != Movement.FALL_DOWN) {
+		final AnimationState anim = block.getAnimationState();
+		final Movement movement = anim.getMovement();
+		if (movement != Movement.FALL_DOWN) {
 			fail("Should be falling down");
 		}
 		
@@ -227,8 +229,8 @@ public class BlockTest {
 			fail("Did not move to the correct place");
 		}
 		//Make the animation done and set it to none
-		float duration = block.getAnimationState().getMovement().getDuration();
-		block.getAnimationState().updatePosition(duration);
+		float duration = movement.getDuration();
+		anim.updatePosition(duration);
 		block.setAnimationState(AnimationState.NONE);
 		
 		//Place a block in the way

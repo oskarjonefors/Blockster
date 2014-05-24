@@ -10,6 +10,13 @@
 		<Class name="edu.chalmers.blockster.gdx.BlocksterLauncher" />
 		<Bug code="SEC" />
 	</Match>
+	
+	<!-- libGDX way of splitting up texture atlases forces us to access an array with a constant index. -->
+	<Match>
+		<Class name="edu.chalmers.blockster.gdx.view.PlayerView" />
+		<Bug code="CLI" />
+	</Match>
+
 	<!-- Disable certain bugs (often false positives) in JUnit tests -->
 	<Match>
 		<Class name="~.*\.*Test" />
