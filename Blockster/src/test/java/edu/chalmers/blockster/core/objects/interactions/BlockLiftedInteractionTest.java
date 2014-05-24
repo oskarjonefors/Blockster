@@ -74,8 +74,6 @@ public class BlockLiftedInteractionTest {
 		finishAnimation(block);
 		finishAnimation(player);
 		
-		System.out.println(block);
-		System.out.println(player);
 		if(block.getX() != 0) {
 			fail("Block is positioned incorrectly");
 		}
@@ -108,7 +106,7 @@ public class BlockLiftedInteractionTest {
 	private void finishAnimation(BlocksterObject object) {
 		AnimationState anim = object.getAnimationState();
 		anim.updatePosition(anim.getMovement().getDuration());
-		System.out.println(object+" "+anim);
+		
 		object.moveToNextPosition();
 		object.setAnimationState(AnimationState.NONE);
 	}
