@@ -38,6 +38,10 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 			return x >= this.x - 3 && x < this.x + width + 3
 					&& y >= this.y - 3 && y < this.y + height + 3;
 		}
+		
+		public String toString() {
+			return "Bounds X:" + x + " Y: " + y;
+		}
 	}
 	private final Set<Block> activeBlocks;
 	
@@ -157,7 +161,6 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		pixmap.setColor(INACTIVE_PLAYER);
 		for(Point2D.Float point : playerPos) {
 			final int r = (int) Math.round(scaleX*0.5);
-
 			if (bounds.contains(point.x, point.y)) {
 				pixmap.setColor(ACTIVE_PLAYER);
 				pixmap.fillCircle(Math.round(point.x * scaleX), 
