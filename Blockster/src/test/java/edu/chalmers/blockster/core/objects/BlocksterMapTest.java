@@ -1,6 +1,7 @@
 package edu.chalmers.blockster.core.objects;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -9,10 +10,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.chalmers.blockster.core.objects.World;
 import edu.chalmers.blockster.gdx.view.MiniMap;
 
-public class BlockMapTest {
+public class BlocksterMapTest {
 
 	private BlocksterMap blockMap;
 	private MiniMap map;
@@ -174,5 +174,20 @@ public class BlockMapTest {
 		if (blockMap.getWidth() != 8) {
 			fail("incorrect width");
 		}
+	}
+	
+	@Test
+	public void blockMapListenersTest() {
+		blockMap.addListener(map);
+		Block block = new Block(1, 1,  blockMap);
+		blockMap.insertBlock(block);
+		blockMap.removeBlock(block);
+		
+		if (blockMap.hasBlock(1, 1)) {
+			fail("did not remove block properly");
+		}
+		
+		
+		
 	}
 }
