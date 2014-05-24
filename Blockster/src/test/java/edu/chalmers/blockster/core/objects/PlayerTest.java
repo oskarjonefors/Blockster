@@ -207,15 +207,49 @@ public class PlayerTest {
 		}
 	}
 	
-	
-	@Ignore @Test
-	public void testStartInteraction() {
-		//TODO
+	@Test
+	public void testCanMove() {
+		if (!player.canMove(Direction.LEFT)) {
+			fail("Player should be able to move left");
+		}
+		
+		player.setX(0);
+		if (player.canMove(Direction.LEFT)) {
+			fail("Player shouldn't be able to move left");
+		}
+		
+		player.setX(player.getScaleX() + 1);
+		Block solidBlock = new Block(0, 2, blockMap);
+		solidBlock.setProperty("solid");
+		blockMap.insertBlock(solidBlock);
+		if (player.canMove(Direction.LEFT)) {
+			fail("Player shouldn't be able to move left");
+		}
 	}
 	
-	@Ignore @Test
+	@Test
 	public void hasMovedBlock() {
-		//TODO
+		if (player.hasMovedBlock()) {
+			fail("Player has not actually moved a block");
+		}
+		
+		Block floor = new Block(3, 1, blockMap);
+		floor.setProperty("solid");
+		
+		block.setProperty("movable");
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		player.updatePosition(5);
+		player.interact();
+		
+		if (player.hasMovedBlock() && 
+				player.getAnimationState().getMovement().getDuration() == 0) {
+			fail("Player has not actually moved a block");
+		}
+		
+		if (!player.hasMovedBlock()) {
+			fail("Player has actually moved a block");
+		}
 	}
 	
 	@Ignore @Test
