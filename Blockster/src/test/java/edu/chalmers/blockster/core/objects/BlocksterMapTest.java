@@ -210,13 +210,20 @@ public class BlocksterMapTest {
 			}
 		}
 		@Test
-		public void insertFinishedBlocks() {
+		public void insertFinishedBlockTest() {
 			Block blockTop = new Block(1, 2, blockMap);
 			blockTop.setProperty("solid");
 			blockTop.setProperty("weight");
 			Block blockBottom = new Block(1, 1, blockMap);
 			blockBottom.setProperty("solid");
+			
 			blockMap.insertBlock(blockBottom);
-			blockMap.insertBlock(blockTop);
+			blockMap.addActiveBlock(blockTop);
+			
+			blockMap.updateActiveBlocks(0.1f);
+			
+			if (blockMap.getActiveBlocks().contains(blockTop)) {
+				fail("Did not remove active block after insertFinishedBLock");
+			}
 		}
 }
