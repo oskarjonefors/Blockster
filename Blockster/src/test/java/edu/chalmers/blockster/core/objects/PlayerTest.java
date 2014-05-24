@@ -104,9 +104,70 @@ public class PlayerTest {
 		}
 	}
 	
-	@Ignore @Test
-	public void testCanGrabBlock() {
-		//TODO
+	@Test
+	public void testCanGrabBlockPlayerBusy() {
+		block.setProperty("movable");
+		player.setAnimationState(new AnimationState(Movement.WAIT));
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		if (player.isGrabbingBlock()) {
+			fail("Should not be grabbing block");
+		}
+	}
+	
+	@Test
+	public void testCanGrabBlockOutOfRange() {
+		block.setProperty("movable");
+		player.setDirection(Direction.RIGHT);
+		player.setX(0);
+		player.startInteraction();
+		if (player.isGrabbingBlock()) {
+			fail("Should not be grabbing block");
+		}
+	}
+	
+	@Test
+	public void testCanGrabBlockPlayerLiftingBlock() {
+		//Make blocks on both sides of player movable
+		Block anotherBlock = new Block(1, 2, blockMap);
+		anotherBlock.setProperty("movable");
+		block.setProperty("movable");
+		
+		//Make the block that will be lifted liftable
+		block.setProperty("liftable");
+		
+		//Begin lifting the block to the right
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		player.liftBlock();
+		
+		//Finish the animation
+		block.getAnimationState().updatePosition(5);
+		player.updatePosition(5);
+		
+		//Move the actors to the next positions
+		block.moveToNextPosition();
+		player.moveToNextPosition();
+		
+		//Remove animations
+		block.setAnimationState(AnimationState.NONE);
+		player.setAnimationState(AnimationState.NONE);
+		
+		//Insert blocks to map
+		blockMap.insertBlock(block);
+		blockMap.insertBlock(anotherBlock);
+		
+		//Check if preconditions were met
+		if (!player.isLiftingBlock()) {
+			fail("At this point the player should be lifting "+block);
+		}
+		
+		//Try to grab block on the left side and hopefully fail
+		player.setDirection(Direction.LEFT);
+		player.startInteraction();
+		if (player.isGrabbingBlock()) {
+			fail("Should not be grabbing block");
+		}
 	}
 	
 	@Ignore @Test
