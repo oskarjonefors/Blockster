@@ -211,6 +211,8 @@ public class BlocksterMapTest {
 		}
 		@Test
 		public void insertFinishedBlockTest() {
+			blockMap.addActiveBlockListener(map);
+			
 			Block blockTop = new Block(1, 2, blockMap);
 			blockTop.setProperty("solid");
 			blockTop.setProperty("weight");
