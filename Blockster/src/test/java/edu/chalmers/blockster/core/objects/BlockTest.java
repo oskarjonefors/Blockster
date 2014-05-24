@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.chalmers.blockster.core.objects.interactions.PlayerInteraction;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
@@ -36,6 +37,25 @@ public class BlockTest {
 		blockMap.insertBlock(block);
 	}
 
+	@Test
+	public void testGetInteraction() {
+		Player player = new Player(2, 2, blockMap, World.DAY);
+		PlayerInteraction interaction;
+		
+		block.setProperty("movable");
+		
+		player.setWidth(100);
+		player.setHeight(100);
+		player.setDirection(Direction.RIGHT);
+		
+		player.startInteraction();
+		interaction = block.getInteraction();
+		if (interaction == null || interaction == PlayerInteraction.NONE) {
+			fail("Should have an interaction");
+		}
+		
+	}
+	
 	@Test
 	public void testCanMove() {
 		final Movement movementRight = Movement.PULL_RIGHT;
