@@ -34,13 +34,12 @@ public class Player extends BlocksterObject implements Interactor {
 	private PlayerInteraction interaction = PlayerInteraction.NONE;
 	private boolean horizontalCollision;
 	private boolean verticalCollision;
-	private World world;
-	private int wait = 0;
-	private boolean hasMovedBlock = false;
-	private List<GameEventListener> listeners;
-	private boolean switchFromMe = false;
-
-	private boolean isMoving = false;
+	private final World world;
+	private int wait;
+	private boolean movedBlock;
+	private final List<GameEventListener> listeners;
+	private boolean switchFromMe;
+	private boolean moving;
 	private boolean activeAniRight;
 	private boolean activeAniLeft;
 
@@ -67,18 +66,15 @@ public class Player extends BlocksterObject implements Interactor {
 		final int playerGridX = (int) (getX() / getScaleX());
 		final int playerGridY = (int) (getY() / getScaleY());
 		if (blockMap.hasBlock(playerGridX, playerGridY + 1)) {
-			Block blockAbove = blockMap.getBlock(playerGridX, playerGridY + 1);
-			return blockAbove != processedBlock;
+			final Block blockAbove = blockMap.getBlock(playerGridX, playerGridY + 1);
+			return !blockAbove.equals(processedBlock);
 		} else {
 			return false;
 		}
 	}
 
 	private boolean canGrabBlock(Block block) {
-		boolean isBusy = isBusy();
-		boolean isNextToBlock = isNextToBlock(block);
-		
-		return !isBusy && isNextToBlock;
+		return !isBusy() && isNextToBlock(block);
 	}
 
 	private boolean canLiftBlock(Block block) {
@@ -112,10 +108,10 @@ public class Player extends BlocksterObject implements Interactor {
 		LOG.log(Level.FINE, "Can we climb block?");
 		if (!isGrabbingBlock() && canClimbBlock(block) && block.canBeClimbed()) {
 			LOG.log(Level.FINE, "We can climb block!");
-			Direction dir = Direction.getDirection(
+			final Direction dir = Direction.getDirection(
 					getX() / blockMap.getBlockWidth(), block.getX());
 			if (isLiftingBlock()) {
-				Movement state = getDirection() == Direction.LEFT ?
+				final Movement state = getDirection() == Direction.LEFT ?
 						Movement.LIFTING_CLIMB_LEFT : Movement.LIFTING_CLIMB_RIGHT;
 		
 				setAnimationState(new AnimationState(state));
@@ -162,14 +158,13 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	public Block getAdjacentBlock() {
-		Block block = EmptyBlock.getInstance();
 		final Direction dir = getDirection();
 		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
 			return blockMap.getBlock((int) (getX() / getScaleX()) + dir.getDeltaX(),
 					(int) ((2 * getY() + getHeight()) / 2 / getScaleY()));
+		} else {
+			return EmptyBlock.getInstance();
 		}
-		
-		return block;
 	}
 
 	public World getWorld() {
@@ -177,21 +172,21 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	public boolean hasMovedBlock() {
-		return hasMovedBlock;
+		return movedBlock;
 	}
 
 	public void interact() {
 		if (isInteracting() && getAnimationState().isDone()) {
-			if (!directionChanged || !isLiftingBlock()) {
-				interaction.interact(getDirection());
-				hasMovedBlock = true;
-				directionChanged = false;
-			} else {
+			if (directionChanged && isLiftingBlock()) {
 				wait++;
 				if (wait > 2) {
 					directionChanged = false;
 					wait = 0;
 				}
+			} else {
+				interaction.interact(getDirection());
+				movedBlock = true;
+				directionChanged = false;
 			}
 		} else {
 			setDefaultVelocity(getDirection());
@@ -218,14 +213,14 @@ public class Player extends BlocksterObject implements Interactor {
 		boolean isNextToBlock = isLiftingBlock() && block != null
 				&& Math.abs((int) block.getX()
 						- (int) (getX() / blockMap.getBlockWidth())) <= 1
-				&& Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) <= 0.2f;
+				&& Math.abs(block.getY() - getY() / blockMap.getBlockHeight()) <= 0.2f;
 		isNextToBlock |= getDirection().getDeltaX() < 0 && block != null
 				&& Math.abs(block.getX() + 1
-						- (Math.round(getX()) / blockMap.getBlockWidth())) <= 0.1f
-				&& Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) <= 0.2f;
+						- Math.round(getX()) / blockMap.getBlockWidth()) <= 0.1f
+				&& Math.abs(block.getY() - getY() / blockMap.getBlockHeight()) <= 0.2f;
 		isNextToBlock |= block != null && Math.abs(block.getX() - (getX() + getWidth())
-				/ getScaleX()) <= 0.25f && Math.abs(block.getY() - (getY() /
-						blockMap.getBlockHeight())) <= 0.2f;
+				/ getScaleX()) <= 0.25f && Math.abs(block.getY() - getY() /
+						blockMap.getBlockHeight()) <= 0.2f;
 		
 		return isNextToBlock;
 	}
@@ -277,12 +272,12 @@ public class Player extends BlocksterObject implements Interactor {
 	public void setGrabbing(boolean b) {
 		grabbingBlock = b;
 		if (b) {
-			Movement move = getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
+			final Movement move = getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
 			setAnimationState(new AnimationState(move));
 		} else {
 			setAnimationState(AnimationState.NONE);
 			setInteraction(PlayerInteraction.NONE);
-			hasMovedBlock = false;
+			movedBlock = false;
 			processedBlock = none;
 		}
 	}
@@ -296,13 +291,13 @@ public class Player extends BlocksterObject implements Interactor {
 			setAnimationState(getDirection() == Direction.LEFT ? new AnimationState(Movement.PLAYER_PUT_LEFT)
 					: new AnimationState(Movement.PLAYER_PUT_RIGHT));
 			setInteraction(PlayerInteraction.NONE);
-			hasMovedBlock = false;
+			movedBlock = false;
 			processedBlock = none;
 		}
 	}
 
 	public void updatePosition(float deltaTime) {
-		isMoving = !(getVelocity().x == 0);
+		moving = !(getVelocity().x == 0);
 		final AnimationState anim = getAnimationState();
 		if (anim == AnimationState.NONE) {
 			final Vector2f velocity = getVelocity();
@@ -337,13 +332,13 @@ public class Player extends BlocksterObject implements Interactor {
 			setAnimationState(new AnimationState(Movement.MOVE_RIGHT));
 		}
 		
-		for (GameEventListener listener : listeners) {
+		for (final GameEventListener listener : listeners) {
 			listener.playerReachedGoal();
 		}	
 	}
 	
 	public boolean isMoving() {
-		return isMoving;
+		return moving;
 	}
 	
 	public boolean getActiveAniRight() {
