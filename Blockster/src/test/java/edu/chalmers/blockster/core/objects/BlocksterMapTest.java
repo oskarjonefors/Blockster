@@ -5,8 +5,8 @@ import static org.junit.Assert.fail;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -192,7 +192,7 @@ public class BlocksterMapTest {
 		public void getBlocksTest() {
 			Block block = new Block(1, 1, blockMap);
 			blockMap.insertBlock(block);
-			HashSet set = (HashSet)blockMap.getBlocks();
+			Set<Block> set = blockMap.getBlocks();
 			
 			if (!set.contains(block)) {
 				fail("getBlock fail");
@@ -203,7 +203,7 @@ public class BlocksterMapTest {
 			Block block = new Block(1, 1, blockMap);
 			blockMap.addActiveBlock(block);
 			
-			HashSet set = (HashSet)blockMap.getActiveBlocks();
+			Set<Block> set = blockMap.getActiveBlocks();
 			
 			if (!set.contains(block)) {
 				fail("Fail to get active blocks");
