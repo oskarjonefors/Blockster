@@ -258,24 +258,27 @@ public class BlocksterMap implements GridMap, BlockMap {
 	}
 	
 	private void verifyMapMeasurements(int width, int height, float blockWidth, float blockHeight) {
+		
+		final String posi = ". Must be positive.";
+		
 		if (width <= 0) {
 			throw new IllegalArgumentException("Width of map is " + width + 
-					". Must be positive.");
+					posi);
 		}
 		
 		if (height <= 0) {
 			throw new IllegalArgumentException("Height of map is "  + height +
-					". Must be positive.");
+					posi);
 		}
 		
 		if (blockWidth <= 0) {
 			throw new IllegalArgumentException("Width of blocks is " + blockWidth
-					+ ". Must be positive.");
+					+ posi);
 		}
 		
 		if (height <= 0) {
 			throw new IllegalArgumentException("Height of blocks is " + blockHeight
-					+ ". Must be positive.");
+					+ posi);
 		}
 	}
 	
