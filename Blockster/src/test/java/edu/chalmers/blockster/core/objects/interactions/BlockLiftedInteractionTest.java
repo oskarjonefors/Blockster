@@ -65,7 +65,9 @@ public class BlockLiftedInteractionTest {
 	@Test
 	public void testInteractFailure() {
 		startInteraction();
-		blockMap.insertBlock(new Block(1,1,blockMap));
+		Block solidBlock = new Block(1,1,blockMap);
+		solidBlock.setProperty("solid");
+		blockMap.insertBlock(solidBlock);
 		
 		interaction.interact(Direction.RIGHT);
 		block.removeFromGrid();
@@ -184,7 +186,9 @@ public class BlockLiftedInteractionTest {
 	@Test
 	public void testCanPerformMoveCollisionPlayer() {
 		startInteraction();
-		blockMap.insertBlock(new Block(1, 1, blockMap));
+		Block solidBlock = new Block(1, 1, blockMap);
+		solidBlock.setProperty("Solid");
+		blockMap.insertBlock(solidBlock);
 		assertTrue(interaction.getMovePerformType(Direction.RIGHT) == 0);
 	}
 	
