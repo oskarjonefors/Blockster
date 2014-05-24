@@ -176,7 +176,8 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public void interact() {
-		if (isInteracting() && getAnimationState().isDone()) {
+		if (isInteracting() && getAnimationState().isDone() 
+				&& processedBlock.getAnimationState().isDone()) {
 			if (directionChanged && isLiftingBlock()) {
 				wait++;
 				if (wait > 2) {
@@ -188,7 +189,7 @@ public class Player extends BlocksterObject implements Interactor {
 				movedBlock = true;
 				directionChanged = false;
 			}
-		} else {
+		} else if (!isInteracting()) {
 			setDefaultVelocity(getDirection());
 		}
 	}
