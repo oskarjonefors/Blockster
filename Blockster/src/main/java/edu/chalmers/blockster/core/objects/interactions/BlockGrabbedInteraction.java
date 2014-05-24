@@ -59,7 +59,7 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	@Override
 	public void interact(Direction dir) {
 
-		LOG.log(Level.INFO, "Interacting: " + dir.name());
+		LOG.log(Level.FINE, "Interacting: " + dir.name());
 		final float relativePosition = interacted.getX() - interactor.getX()
 				/ blockLayer.getBlockWidth();
 
