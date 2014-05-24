@@ -52,12 +52,12 @@ public class BlockLiftedInteractionTest {
 		
 		interaction.interact(Direction.LEFT);
 		
-		if (player.getAnimationState().getMovement() != Movement.PLACE_LEFT) {
+		if (player.getAnimationState().getMovement() != Movement.CLIMB_DOWN_LEFT) {
 			fail("Did not set the correct animation state on "+player);
 		}
 		
 		
-		if (block.getAnimationState().getMovement() != Movement.PLACE_LEFT) {
+		if (block.getAnimationState().getMovement() != Movement.CLIMB_DOWN_LEFT) {
 			fail("Did not set the correct animation state on "+block);
 		}
 	}
