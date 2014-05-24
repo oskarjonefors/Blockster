@@ -21,17 +21,19 @@ public class AnimationFactory {
 	private final Animation bluePortalAnimations, yellowPortalAnimations;
 
 	private static final int NBR_PIC_HEIGHT = 2;
+	
 	private static final float WALK_ANIM_TIME = 0.12f;
 	private static final int NBR_WALK_PIC_WIDTH = 7;
 	private static final float PORTAL_ANIM_TIME = 0.1f;
 	private static final int NBR_PORTAL_PIC_WIDTH = 4;
-	private static final float GRAB_TIME = 0.2f;
+	private static final float GRAB_TIME = 0.1f;
 	private static final int NBR_GRAB_PIC_WIDTH = 3; 
 	private static final float PUSH_TIME = 0.1f;
 	private static final int NBR_PUSH_PIC_WIDTH = 6; 
 	private static final float CARRY_TIME = 0.1f;
 	private static final float LIFT_TIME = 0.1f;
 	private static final int LIFT_PIC_WIDTH = 3;
+	
 	private static final float ZERO_ONE_TIME = 0.1f;
 	private static final int SIX_PIC_WIDTH = 6;
 	private static final int THREE_PIC_WIDTH = 3;

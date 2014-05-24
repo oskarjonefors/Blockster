@@ -80,19 +80,22 @@ public class PlayerView {
 	}
 
 	private TextureRegion getAnimations(Movement movement) {
+		
 		if (movement == Movement.PUSH_RIGHT || movement == Movement.PUSH_LEFT) {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 
 		} else if (player.isGrabbingBlock() && movement != Movement.PULL_LEFT && movement != Movement.PULL_RIGHT) {
-
-			if (lastMovement == Movement.PULL_LEFT) {
-				lastMovement = Movement.NONE;
+			if (lastMovement == Movement.GRAB_LEFT) {
+				System.out.println("Movement is grab_LEFT");
+				player.setDirection(Direction.LEFT);
 				return arrayOfAnimation.get(Movement.GRAB_RIGHT).getKeyFrame(animTime);
+				
 			} else {
-				lastMovement = Movement.NONE;
+				player.setDirection(Direction.RIGHT);
+				System.out.println("Movement is grab_RIGHT");
 				return arrayOfAnimation.get(Movement.GRAB_LEFT).getKeyFrame(animTime);
 			}
-
+			
 		} else if (movement == Movement.MOVE_LEFT || movement == Movement.MOVE_RIGHT) {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 
@@ -101,7 +104,6 @@ public class PlayerView {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 			
 		} else if (movement == Movement.PULL_LEFT || movement == Movement.PULL_RIGHT) {
-			lastMovement = movement;
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime);
 			
 		} else if (movement == Movement.CLIMB_LEFT ||movement == Movement.CLIMB_RIGHT) {
@@ -117,6 +119,8 @@ public class PlayerView {
 	}
 
 	private TextureRegion getWalkingPic() {
+		lastMovement = player.getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
+		System.out.println("lastMovement = " + lastMovement);
 		return walkAnimations.get(player.getDirection()).getKeyFrame(animTime, true);
 	}
 
