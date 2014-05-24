@@ -39,8 +39,8 @@ public enum Movement {
 	GRAB_LEFT(GRAB_BLOCK_DURATION),
 	PLAYER_LIFT_LEFT(STANDARD_MOVE_DURATION),
 	PLAYER_LIFT_RIGHT(STANDARD_MOVE_DURATION),
-	PLAYER_PUT_LEFT(STANDARD_MOVE_DURATION),
-	PLAYER_PUT_RIGHT(STANDARD_MOVE_DURATION),
+	PLAYER_PLACE_LEFT(STANDARD_MOVE_DURATION),
+	PLAYER_PLACE_RIGHT(STANDARD_MOVE_DURATION),
 	CLIMB_DOWN_LEFT(DOWN_LEFT, STANDARD_MOVE_DURATION, new BezierSpline(DOWN_LEFT)),
 	CLIMB_DOWN_RIGHT(DOWN_RIGHT, STANDARD_MOVE_DURATION, new BezierSpline(DOWN_RIGHT));
 	
@@ -120,6 +120,14 @@ public enum Movement {
 	public static Movement getPlaceMovement(Direction dir) {
 		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
 			return dir == Direction.LEFT ? PLACE_LEFT : PLACE_RIGHT;
+		} else {
+			return NONE;
+		}
+	}
+	
+	public static Movement getPlayerPlaceMovement(Direction dir) {
+		if (dir == Direction.LEFT || dir == Direction.RIGHT){
+			return dir == Direction.LEFT ? PLAYER_PLACE_LEFT : PLAYER_PLACE_RIGHT;
 		} else {
 			return NONE;
 		}

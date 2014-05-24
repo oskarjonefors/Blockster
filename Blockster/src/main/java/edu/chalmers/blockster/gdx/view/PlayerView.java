@@ -69,7 +69,8 @@ public class PlayerView {
 		final Movement movement = animState.getMovement();
 		animTime += Gdx.graphics.getDeltaTime();
 
-		if (!player.isGrabbingBlock() && movement == Movement.NONE) {
+		if (!player.isGrabbingBlock() && movement == Movement.NONE ||
+				player.isLiftingOrPlacing()) {
 			if (player.isMoving()) {
 				return getWalkingPic();
 			} else {

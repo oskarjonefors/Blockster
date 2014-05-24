@@ -180,6 +180,9 @@ public class AnimationFactory {
 		animationMap.put(Movement.CLIMB_DOWN_LEFT, liftJumpLeft);
 		animationMap.put(Movement.CLIMB_DOWN_RIGHT, liftJumpRight);
 		
+		animationMap.put(Movement.PLAYER_PLACE_LEFT, carryLeft);
+		animationMap.put(Movement.PLAYER_PLACE_RIGHT, carryRight);
+		
 
 		return animationMap;
 	}

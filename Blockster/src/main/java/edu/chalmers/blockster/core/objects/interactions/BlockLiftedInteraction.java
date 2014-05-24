@@ -67,6 +67,8 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 		}
 		
 		if (done) {
+			interactor.setAnimationState(new AnimationState(
+					Movement.getPlayerPlaceMovement(dir)));
 			interactor.setLifting(false);
 			interacted.setLifted(false);
 			interacted.removeFromGrid();
