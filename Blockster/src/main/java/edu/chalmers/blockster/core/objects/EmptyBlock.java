@@ -2,7 +2,7 @@ package edu.chalmers.blockster.core.objects;
 
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 
-public class EmptyBlock extends Block {
+public final class EmptyBlock extends Block {
 	private static volatile EmptyBlock instance = null;
 	
 	private EmptyBlock() {

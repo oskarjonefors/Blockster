@@ -8,9 +8,9 @@ public class MovementDirectionTest {
 	
 	
 
-	private final static Direction left = Direction.LEFT;
-	private final static Direction right = Direction.RIGHT;
-	private final static Direction up = Direction.UP;
+	private final static Direction LEFT = Direction.LEFT;
+	private final static Direction RIGHT = Direction.RIGHT;
+	private final static Direction UP = Direction.UP;
 	
 	
 	
@@ -25,9 +25,9 @@ public class MovementDirectionTest {
 
 	@Test
 	public void testGetClimbMovement() {
-		Movement leftMovement = Movement.getClimbMovement(left);
-		Movement rightMovement = Movement.getClimbMovement(right);
-		Movement neither = Movement.getClimbMovement(up);
+		Movement leftMovement = Movement.getClimbMovement(LEFT);
+		Movement rightMovement = Movement.getClimbMovement(RIGHT);
+		Movement neither = Movement.getClimbMovement(UP);
 		
 		assertTrue(leftMovement == Movement.CLIMB_LEFT 
 				&& rightMovement == Movement.CLIMB_RIGHT
@@ -36,7 +36,7 @@ public class MovementDirectionTest {
 
 	@Test
 	public void testGetDeltaX() {
-		assertTrue(left.getDeltaX() < 0 && right.getDeltaX() > 0);
+		assertTrue(LEFT.getDeltaX() < 0 && RIGHT.getDeltaX() > 0);
 	}
 	
 	@Test
@@ -49,9 +49,9 @@ public class MovementDirectionTest {
 
 	@Test
 	public void testGetLiftMovement() {
-		Movement liftRight = Movement.getLiftMovement(left);
-		Movement liftLeft = Movement.getLiftMovement(right);
-		Movement neither = Movement.getLiftMovement(up);
+		Movement liftRight = Movement.getLiftMovement(LEFT);
+		Movement liftLeft = Movement.getLiftMovement(RIGHT);
+		Movement neither = Movement.getLiftMovement(UP);
 		
 		assertTrue(liftLeft == Movement.LIFT_LEFT 
 				&& liftRight == Movement.LIFT_RIGHT
@@ -60,9 +60,9 @@ public class MovementDirectionTest {
 
 	@Test
 	public void testGetMoveMovement() {
-		Movement moveLeft = Movement.getMoveMovement(left);
-		Movement moveRight = Movement.getMoveMovement(right);
-		Movement neither = Movement.getMoveMovement(up);
+		Movement moveLeft = Movement.getMoveMovement(LEFT);
+		Movement moveRight = Movement.getMoveMovement(RIGHT);
+		Movement neither = Movement.getMoveMovement(UP);
 		
 		assertTrue(moveLeft == Movement.MOVE_LEFT 
 				&& moveRight == Movement.MOVE_RIGHT
@@ -71,9 +71,9 @@ public class MovementDirectionTest {
 
 	@Test
 	public void testGetPlaceMovement() {
-		Movement placeLeft = Movement.getPlaceMovement(left);
-		Movement placeRight = Movement.getPlaceMovement(right);
-		Movement neither = Movement.getPlaceMovement(up);
+		Movement placeLeft = Movement.getPlaceMovement(LEFT);
+		Movement placeRight = Movement.getPlaceMovement(RIGHT);
+		Movement neither = Movement.getPlaceMovement(UP);
 		
 		assertTrue(placeLeft == Movement.PLACE_LEFT 
 				&& placeRight == Movement.PLACE_RIGHT
@@ -82,9 +82,9 @@ public class MovementDirectionTest {
 
 	@Test
 	public void testGetPullMovement() {
-		Movement pullLeft = Movement.getPullMovement(left);
-		Movement pullRight = Movement.getPullMovement(right);
-		Movement neither = Movement.getPullMovement(up);
+		Movement pullLeft = Movement.getPullMovement(LEFT);
+		Movement pullRight = Movement.getPullMovement(RIGHT);
+		Movement neither = Movement.getPullMovement(UP);
 		
 		assertTrue(pullLeft == Movement.PULL_LEFT 
 				&& pullRight == Movement.PULL_RIGHT
@@ -93,9 +93,9 @@ public class MovementDirectionTest {
 
 	@Test
 	public void testGetPushMovement() {
-		Movement pushLeft = Movement.getPushMovement(left);
-		Movement pushRight = Movement.getPushMovement(right);
-		Movement neither = Movement.getPushMovement(up);
+		Movement pushLeft = Movement.getPushMovement(LEFT);
+		Movement pushRight = Movement.getPushMovement(RIGHT);
+		Movement neither = Movement.getPushMovement(UP);
 		
 		assertTrue(pushLeft == Movement.PUSH_LEFT 
 				&& pushRight == Movement.PUSH_RIGHT
@@ -104,9 +104,9 @@ public class MovementDirectionTest {
 
 	@Test
 	public void testGetSpline() {
-		final Movement moveLeft = Movement.getMoveMovement(left);
-		final Movement placeRight = Movement.getPlaceMovement(right);
-		final Movement climbLeft = Movement.getClimbMovement(left);
+		final Movement moveLeft = Movement.getMoveMovement(LEFT);
+		final Movement placeRight = Movement.getPlaceMovement(RIGHT);
+		final Movement climbLeft = Movement.getClimbMovement(LEFT);
 		final Spline moveLeftSpline = moveLeft.getSpline();
 		final Spline placeRightSpline = placeRight.getSpline();
 		final Spline climbLeftSpline = climbLeft.getSpline();
@@ -127,10 +127,10 @@ public class MovementDirectionTest {
 
 	@Test
 	public void testIsPullMovement() {
-		Movement pullLeft = Movement.getPullMovement(left);
-		Movement pullRight = Movement.getPullMovement(right);
-		Movement notPullLeft = Movement.getPushMovement(left);
-		Movement notPullRight = Movement.getPushMovement(right);
+		Movement pullLeft = Movement.getPullMovement(LEFT);
+		Movement pullRight = Movement.getPullMovement(RIGHT);
+		Movement notPullLeft = Movement.getPushMovement(LEFT);
+		Movement notPullRight = Movement.getPushMovement(RIGHT);
 		
 		boolean pullMovements = pullLeft.isPullMovement() 
 							&& pullRight.isPullMovement();
@@ -145,10 +145,10 @@ public class MovementDirectionTest {
 		float positive = 1.5f;
 		float negative = -1.5f;
 		boolean success = true;
-		success &= Movement.checkIfPullMovement(positive, left);
-		success &= !Movement.checkIfPullMovement(negative, left);
-		success &= !Movement.checkIfPullMovement(positive, right);
-		success &= Movement.checkIfPullMovement(negative, right);
+		success &= Movement.checkIfPullMovement(positive, LEFT);
+		success &= !Movement.checkIfPullMovement(negative, LEFT);
+		success &= !Movement.checkIfPullMovement(positive, RIGHT);
+		success &= Movement.checkIfPullMovement(negative, RIGHT);
 		
 		assertTrue(success);
 	}
