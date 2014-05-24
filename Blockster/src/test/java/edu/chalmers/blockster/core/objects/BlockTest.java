@@ -231,9 +231,9 @@ public class BlockTest {
 			fail("Incorrect boolean value");
 		}
 	}
-
+	
 	@Test
-	public void testFallDown() {
+	public void testFallNormally() {
 		block.fallDown();
 
 		//Is animation correct?
@@ -248,19 +248,100 @@ public class BlockTest {
 		if (block.getY() != 1) {
 			fail("Did not move to the correct place");
 		}
-		//Make the animation done and set it to none
-		float duration = movement.getDuration();
-		anim.updatePosition(duration);
-		block.setAnimationState(AnimationState.NONE);
-		
-		//Place a block in the way
-		Block newBlock = new Block(startX, 0, blockMap);
+	}
+	
+	@Test
+	public void testFallCollisionBelow() {
+		Block newBlock = new Block(startX, 1, blockMap);
 		newBlock.setProperty("solid");
 		blockMap.insertBlock(newBlock);
 		block.fallDown();
 		block.moveToNextPosition();
-		if (block.getY() == 0) {
+		if (block.getY() == 1) {
+			fail("Moved when it shouldn't");
+		}
+	}
+	
+	@Test
+	public void testFallCollisionBelowNotSolid() {
+		Block newBlock = new Block(startX, 1, blockMap);
+		blockMap.insertBlock(newBlock);
+		block.fallDown();
+		block.moveToNextPosition();
+		if (block.getY() != 1) {
 			fail("Did not move to the correct place");
+		}
+	}
+	
+	@Test
+	public void testFallWeightless() {
+		block.removeProperty("Weight");
+		block.fallDown();
+		block.moveToNextPosition();
+		if (block.getY() == 1) {
+			fail("Moved when it shouldn't");
+		}	
+	}
+	
+	@Test
+	public void testFallWeightlessAndCollision() {
+		Block newBlock = new Block(startX, 1, blockMap);
+		newBlock.setProperty("solid");
+		block.removeProperty("weight");
+		blockMap.insertBlock(newBlock);
+		block.fallDown();
+		block.moveToNextPosition();
+		if (block.getY() == 1) {
+			fail("Moved when it shouldn't");
+		}
+	}
+	
+	@Test
+	public void testFallLiftedCollisionBeneath() {
+		Player player = new Player(2, 2, blockMap, World.DAY);
+		Block anotherBlock = new Block(2, 1, blockMap);
+		
+		block.setProperty("movable");
+		block.setProperty("liftable");
+		anotherBlock.setProperty("solid");
+		blockMap.insertBlock(anotherBlock);
+		
+		player.setWidth(100);
+		player.setHeight(100);
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		
+		player.liftBlock();
+		player.updatePosition(5);
+		block.moveToNextPosition();
+		blockMap.updateActiveBlocks(5);
+		
+		if (block.getAnimationState() != AnimationState.NONE) {
+			fail("Should have stopped moving by now");
+		}
+	}
+	
+	@Test
+	public void testFallLiftedNoCollisionBeneath() {
+		Player player = new Player(2, 2, blockMap, World.DAY);
+		AnimationState anim;
+		block.setProperty("movable");
+		block.setProperty("liftable");
+		
+		player.setWidth(100);
+		player.setHeight(100);
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		
+		player.liftBlock();
+		player.updatePosition(5);
+		block.moveToNextPosition();
+		blockMap.updateActiveBlocks(5);
+		
+		anim = block.getAnimationState();
+		
+		if (anim == AnimationState.NONE) {
+			fail("Shouldn't have stopped moving yet: "+anim);
 		}
 	}
 
