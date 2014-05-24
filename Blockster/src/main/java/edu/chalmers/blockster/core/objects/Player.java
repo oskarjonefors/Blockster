@@ -212,20 +212,19 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public boolean isNextToBlock(BlocksterObject block) {
-		if (isLiftingBlock()) {
-			return block != null
-					&& Math.abs((int) block.getX()
-							- (int) (getX() / blockMap.getBlockWidth())) <= 1
-					&& Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) <= 0.2f;
-		} else if (getDirection().getDeltaX() < 0) { 
-			return block != null
-					&& Math.abs(block.getX() + 1
-							- (Math.round(getX()) / blockMap.getBlockWidth())) <= 0.1f
-					&& Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) <= 0.2f;
-		}
-		return block != null && Math.abs(block.getX() - (getX() + getWidth())
+		boolean isNextToBlock = isLiftingBlock() && block != null
+				&& Math.abs((int) block.getX()
+						- (int) (getX() / blockMap.getBlockWidth())) <= 1
+				&& Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) <= 0.2f;
+		isNextToBlock |= getDirection().getDeltaX() < 0 && block != null
+				&& Math.abs(block.getX() + 1
+						- (Math.round(getX()) / blockMap.getBlockWidth())) <= 0.1f
+				&& Math.abs(block.getY() - (getY() / blockMap.getBlockHeight())) <= 0.2f;
+		isNextToBlock |= block != null && Math.abs(block.getX() - (getX() + getWidth())
 				/ getScaleX()) <= 0.25f && Math.abs(block.getY() - (getY() /
 						blockMap.getBlockHeight())) <= 0.2f;
+		
+		return isNextToBlock;
 	}
 
 	public void liftBlock() {
