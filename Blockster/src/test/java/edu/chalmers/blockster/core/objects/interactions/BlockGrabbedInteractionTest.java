@@ -1,6 +1,5 @@
 package edu.chalmers.blockster.core.objects.interactions;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.awt.Point;
@@ -27,7 +26,9 @@ public class BlockGrabbedInteractionTest {
 	private BlockGrabbedInteraction interaction;
 	
 	private void checkDown() {
-		Movement none = player.getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
+		final Movement none = Movement.GRAB_LEFT; 
+		final Movement none2 = Movement.GRAB_RIGHT;
+		Movement playerMovement;
 		
 		/*
 		 * Check down
@@ -39,8 +40,8 @@ public class BlockGrabbedInteractionTest {
 		 */
 		player.setDirection(Direction.LEFT);
 		interaction.interact(Direction.LEFT);
-		
-		if (player.getAnimationState().getMovement() != none){
+		playerMovement = player.getAnimationState().getMovement();
+		if (playerMovement != none && playerMovement != none2){
 			fail("Horisontal test failed on the left side");
 		}
 		
@@ -49,27 +50,33 @@ public class BlockGrabbedInteractionTest {
 		 */
 		player.setDirection(Direction.RIGHT);
 		interaction.interact(Direction.RIGHT);
+		playerMovement = player.getAnimationState().getMovement();
 		
-		if (player.getAnimationState().getMovement() != none){
+		if (playerMovement != none && playerMovement != none2){
 			fail("Horisontal test failed on the right side");
 		}
 	}
 	
 	private void checkNoOutOfBoundsHorisontally(Direction dir) {
+		final Movement none = Movement.GRAB_LEFT; 
+		final Movement none2 = Movement.GRAB_RIGHT;
 		player.setDirection(dir);
 		interaction.interact(dir);
-		
-		if (player.getAnimationState().getMovement() == Movement.GRAB_RIGHT) {
+		final Movement playerMovement = player.getAnimationState().getMovement();
+		if (playerMovement != none && playerMovement != none2) {
 			fail("Horisontal test (No OOB) failed with a "
 					+dir+"wards direction");
 		}
 	}
 	
 	private void checkOutOfBoundsHorisontally(Direction dir) {
+		final Movement none = Movement.GRAB_LEFT; 
+		final Movement none2 = Movement.GRAB_RIGHT;
 		player.setDirection(dir);
 		interaction.interact(dir);
 		
-		if (player.getAnimationState().getMovement() !=Movement.GRAB_RIGHT){
+		final Movement playerMovement = player.getAnimationState().getMovement();
+		if (playerMovement != none && playerMovement != none2){
 			fail("Horisontal test (OOB) failed with a "
 					+dir+"wards direction");
 		}
