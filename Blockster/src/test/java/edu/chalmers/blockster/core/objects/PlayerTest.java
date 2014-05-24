@@ -139,6 +139,12 @@ public class PlayerTest {
 		//Begin lifting the block to the right
 		player.setDirection(Direction.RIGHT);
 		player.startInteraction();
+		
+		//Finish grabbing animation
+		block.getAnimationState().updatePosition(5);
+		player.updatePosition(5);
+		
+		//Lift up the block
 		player.liftBlock();
 		
 		//Finish the animation
@@ -170,10 +176,37 @@ public class PlayerTest {
 		}
 	}
 	
-	@Ignore @Test
-	public void testCanLiftBlock() {
-		//TODO
+	@Test
+	public void testCanLiftBlockOutOfRange() {
+		block.setProperty("liftable");
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		
+		//Finish grabbing animation
+		block.getAnimationState().updatePosition(5);
+		player.updatePosition(5);
+		
+		//Test if out of range
+		player.setX(0);
+		player.liftBlock();
+		if (player.getAnimationState().getMovement() != Movement.GRAB_RIGHT) {
+			fail(player + " should not be lifting " + block 
+					+ " due to being out of range");
+		}
 	}
+	
+	@Test
+	public void testCanLiftNoBlockInParticular() {
+		block.setProperty("liftable");
+		player.setDirection(Direction.RIGHT);
+		player.liftBlock();
+		if (player.getAnimationState().getMovement() == Movement.LIFT_RIGHT ||
+				player.getAnimationState().getMovement() == Movement.LIFT_LEFT) {
+			fail(player + " should not be lifting " + block 
+					+ " due to not actually being a grabbed block");
+		}
+	}
+	
 	
 	@Ignore @Test
 	public void testStartInteraction() {
