@@ -82,10 +82,10 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	private boolean canLiftBlock(Block block) {
-		final int x = (int)block.getX();
-		final int y = (int)block.getY();
-		return grabbingBlock && isNextToBlock(block)
-				&& block.isLiftable() && !blockMap.hasBlock(x, y+1);
+		boolean grabbingBlock = this.grabbingBlock;
+		boolean isNextToBlock = isNextToBlock(block);
+		
+		return grabbingBlock && isNextToBlock;
 	}
 
 	public boolean canMove(Direction dir) {
@@ -232,7 +232,7 @@ public class Player extends BlocksterObject implements Interactor {
 
 	public void liftBlock() {
 		LOG.log(Level.FINE, "Trying to lift block " + processedBlock);
-		if (canLiftBlock(processedBlock)) {
+		if (canLiftBlock(processedBlock) && processedBlock.canBeLifted()) {
 			LOG.log(Level.FINE, "Can lift block at " + processedBlock.getX()
 					+ " " + processedBlock.getY());
 			setInteraction(new BlockLiftedInteraction(this, processedBlock,

@@ -134,4 +134,9 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 		properties.add(property.toLowerCase(Locale.ENGLISH));
 	}
 	
+	public boolean canBeLifted() {
+		return isLiftable() && !blockMap.hasBlock((int) getX(), 
+				(int) getY()+1);
+	}
+	
 }
