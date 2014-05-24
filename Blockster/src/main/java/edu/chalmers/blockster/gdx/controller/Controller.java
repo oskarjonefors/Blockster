@@ -131,18 +131,15 @@ public class Controller extends InputAdapter implements Disposable {
 			// Character is moving left
 			activePlayer.setDirection(LEFT);
 			activePlayer.interact();
-			activePlayer.setActiveAniLeft(true);
 		}
 
 		if ((keyFlags & LEFT_BUTTON_UP_FLAG) != 0) {
 			activePlayer.setDefaultVelocity(NONE);
-			activePlayer.setActiveAniLeft(false);
 			keyFlags &= ~LEFT_BUTTON_UP_FLAG;
 		}
 
 		if ((keyFlags & RIGHT_BUTTON_UP_FLAG) != 0) {
 			activePlayer.setDefaultVelocity(NONE);
-			activePlayer.setActiveAniRight(false);
 			keyFlags &= ~RIGHT_BUTTON_UP_FLAG;
 		}
 
@@ -150,7 +147,6 @@ public class Controller extends InputAdapter implements Disposable {
 			// Character is moving right
 			activePlayer.setDirection(RIGHT);
 			activePlayer.interact();
-			activePlayer.setActiveAniRight(true);
 		}
 
 		if ((miscFlags & CLIMB_BUTTON_DOWN_FLAG) != 0) {

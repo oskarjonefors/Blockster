@@ -40,8 +40,6 @@ public class Player extends BlocksterObject implements Interactor {
 	private final List<GameEventListener> listeners;
 	private boolean switchFromMe;
 	private boolean moving;
-	private boolean activeAniRight;
-	private boolean activeAniLeft;
 
 	public Player(float startX, float startY, BlockMap blockMap, World world) {
 		super(startX, startY, blockMap, blockMap.getBlockWidth(),
@@ -339,24 +337,6 @@ public class Player extends BlocksterObject implements Interactor {
 	
 	public boolean isMoving() {
 		return moving;
-	}
-	
-	public boolean getActiveAniRight() {
-		return activeAniRight;
-	}
-
-	public boolean getActiveAniLeft() {
-		return activeAniLeft;
-	}
-
-	public void setActiveAniLeft(boolean b) {
-		activeAniLeft = b;
-		
-	}
-
-	public void setActiveAniRight(boolean b) {
-		activeAniRight = b;
-		
 	}
 	
 	private void setInteraction(PlayerInteraction interaction) {
