@@ -86,13 +86,11 @@ public class PlayerView {
 
 		} else if (player.isGrabbingBlock() && movement != Movement.PULL_LEFT && movement != Movement.PULL_RIGHT) {
 			if (lastMovement == Movement.GRAB_LEFT) {
-				System.out.println("Movement is grab_LEFT");
 				player.setDirection(Direction.LEFT);
 				return arrayOfAnimation.get(Movement.GRAB_RIGHT).getKeyFrame(animTime);
 				
 			} else {
 				player.setDirection(Direction.RIGHT);
-				System.out.println("Movement is grab_RIGHT");
 				return arrayOfAnimation.get(Movement.GRAB_LEFT).getKeyFrame(animTime);
 			}
 			
