@@ -16,6 +16,10 @@
 		<Class name="edu.chalmers.blockster.gdx.view.PlayerView" />
 		<Bug code="CLI" />
 	</Match>
+	<Match>
+		<Class name="edu.chalmers.blockster.gdx.view.AnimationFactory" />
+		<Bug code="CLI" />
+	</Match>
 
 	<!-- Ignore false positive in PlayerTest -->
 	<Match>
