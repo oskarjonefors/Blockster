@@ -9,6 +9,7 @@ import java.util.List;
 import javax.vecmath.Vector2f;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.World;
@@ -103,29 +104,29 @@ public class PlayerTest {
 		}
 	}
 	
-	@Test
+	@Ignore @Test
 	public void testCanGrabBlock() {
-		
+		//TODO
 	}
 	
-	@Test
+	@Ignore @Test
 	public void testCanLiftBlock() {
-		
+		//TODO
 	}
 	
-	@Test
+	@Ignore @Test
 	public void testStartInteraction() {
-		
+		//TODO
 	}
 	
-	@Test
+	@Ignore @Test
 	public void hasMovedBlock() {
-		
+		//TODO
 	}
 	
-	@Test
+	@Ignore @Test
 	public void testIsSwitchingToMe() {
-		
+		//TODO
 	}
 	
 	@Test
