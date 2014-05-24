@@ -93,6 +93,14 @@
 
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<configuration>
+					<mainClass>edu.chalmers.blockster.gdx.BlocksterLauncher</mainClass>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.4</version>
@@ -113,8 +121,8 @@
 				<version>0.7.0.201403182114</version>
 				<executions>
 					<execution>
-					<id>prepare</id>
-					<phase>initialize</phase>
+						<id>prepare</id>
+						<phase>initialize</phase>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
@@ -167,28 +175,12 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			<!-- <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<includeTests>true</includeTests>
-					<targetJdk>${maven.compiler.target}</targetJdk>
-					<linkXRef>false</linkXRef>
-					<rulesets>
-						<ruleset>${project.basedir}/pmd-rules.xml</ruleset>
-					</rulesets>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
-							<goal>cpd-check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin> -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-pmd-plugin</artifactId> 
+				<version>3.1</version> <configuration> <includeTests>true</includeTests> 
+				<targetJdk>${maven.compiler.target}</targetJdk> <linkXRef>false</linkXRef> 
+				<rulesets> <ruleset>${project.basedir}/pmd-rules.xml</ruleset> </rulesets> 
+				</configuration> <executions> <execution> <phase>verify</phase> <goals> <goal>check</goal> 
+				<goal>cpd-check</goal> </goals> </execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
