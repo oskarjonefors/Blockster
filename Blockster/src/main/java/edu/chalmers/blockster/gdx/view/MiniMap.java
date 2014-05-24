@@ -40,7 +40,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		}
 		
 		public String toString() {
-			return "Bounds X:" + x + " Y: " + y;
+			return "Bounds X:" + x + " Y: " + y +
+					" Width: " + width + " Height: " + height;
 		}
 	}
 	private final Set<Block> activeBlocks;
@@ -222,6 +223,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		//Get the center point of the player, then subtract by offset
 		float x = (activePlayer.getX() + activePlayer.getWidth() / 2f) 
 				/ activePlayer.getScaleX() - OFFSET_X;
+
 		float y = (activePlayer.getY() + activePlayer.getHeight() / 2f) 
 				/ activePlayer.getScaleY() - OFFSET_Y + 1;
 		

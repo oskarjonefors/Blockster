@@ -307,7 +307,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		final List<Player> playerList = model.getPlayers();
 		final List<Point2D.Float> playerPos = new ArrayList<Point2D.Float>();
 		for (Player player : playerList) {
-			playerPos.add(new Point2D.Float(player.getX() / scaleX, (player.getY() + player.getHeight() / 2f / scaleY)));
+			playerPos.add(new Point2D.Float(player.getX() / scaleX, (player.getY() + (player.getHeight() / 2f)) / scaleY));
 		}
 		
 		miniMap.setPlayerLocations(playerPos);
