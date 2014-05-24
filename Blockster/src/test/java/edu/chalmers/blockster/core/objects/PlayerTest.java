@@ -443,26 +443,94 @@ public class PlayerTest {
 	 
 	 @Test
 	 public void testClimbBlock() {
-		 boolean correct = true;
 		 player.setDirection(Direction.RIGHT);
+		 player.climbBlock();
+		 if (player.getAnimationState().getMovement()
+				 					!= Movement.CLIMB_RIGHT) {
+			 fail("Should be climbing block");
+		 } 
+	 }
+	 
+	 @Test
+	 public void testClimbEmptyBlock() {
+		 player.setDirection(Direction.RIGHT);
+		 blockMap.removeBlock(block);
+		 player.climbBlock();
+		 if (player.getAnimationState().getMovement() != Movement.NONE) {
+			 fail("Shouldn't be climbing block");
+		 }
+	 }
+	 
+	 @Test
+	 public void testClimbLeft() {
+		 Block solidBlock = new Block(1, 2, blockMap);
+		 solidBlock.setProperty("solid");
+		 blockMap.insertBlock(solidBlock);
+		 player.setDirection(Direction.LEFT);
+		 player.climbBlock();
+		 if (player.getAnimationState().getMovement()
+				 					!= Movement.CLIMB_LEFT) {
+			 fail("Should be climbing block");
+		 } 
+	 }
+	 
+	 @Test
+	 public void testClimbLiftingBlockLeft() {
+		 Block anotherBlock = new Block(1, 2, blockMap);
+		 anotherBlock.setProperty("solid");
+		 block.setProperty("liftable");
+		 blockMap.insertBlock(anotherBlock);
 		 
-		 //#1 Block is there
+		 player.setDirection(Direction.RIGHT);
+		 player.startInteraction();
+		 player.liftBlock();
+		 
+		 player.updatePosition(5);
+		 block.getAnimationState().updatePosition(5);
+		 block.moveToNextPosition();
+		 blockMap.insertBlock(block);
+		 
+		 player.setDirection(Direction.LEFT);
 		 player.climbBlock();
-		 correct &= (player.getAnimationState().getMovement()
-				 					== Movement.CLIMB_RIGHT);
-		 player.setAnimationState(new AnimationState(Movement.NONE));
-
-		 //#2 Block is null
-		 setUp();
-		 block = null;
+		 
+		 if (player.getAnimationState().getMovement() != Movement.LIFTING_CLIMB_LEFT) {
+			 fail("Should be climbing with block");
+		 }
+	 }
+	 
+	 @Test
+	 public void testClimbLiftingBlockRight() {
+		 Block anotherBlock = new Block(1, 2, blockMap);
+		 anotherBlock.setProperty("liftable");
+		 blockMap.insertBlock(anotherBlock);
+		 
+		 player.setDirection(Direction.LEFT);
+		 player.startInteraction();
+		 player.liftBlock();
+		 
+		 player.updatePosition(5);
+		 anotherBlock.getAnimationState().updatePosition(5);
+		 anotherBlock.moveToNextPosition();
+		 blockMap.insertBlock(anotherBlock);
+		 
+		 player.setDirection(Direction.RIGHT);
 		 player.climbBlock();
-		 correct &= (player.getAnimationState().getMovement() == Movement.NONE);
-		 //#3 Block is empty
-		 setUp();
-		 block = EmptyBlock.getInstance();
+		 
+		 if (player.getAnimationState().getMovement() != Movement.LIFTING_CLIMB_RIGHT) {
+			 fail("Should be climbing with block");
+		 }
+	 }
+	 
+	 @Test
+	 public void testClimbWhileGrabbing() {
+		 block.setProperty("movable");
+		 
+		 player.setDirection(Direction.RIGHT);
+		 player.startInteraction();
 		 player.climbBlock();
-		 correct &= (player.getAnimationState().getMovement() == Movement.NONE);
-		 assertTrue(correct);
+		 if (player.getAnimationState().getMovement() != Movement.GRAB_RIGHT) {
+			 fail("Should still be grabbing");
+		 }
 	 }
 	 
 	 @Test
