@@ -137,12 +137,12 @@
 					<effort>Max</effort>
 					<includeTests>true</includeTests>
 					<threshold>Low</threshold>
-					<excludeFilterFile>${project.basedir}/findbugs-exclude.xml</excludeFilterFile>
+					<excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
 					<plugins>
 						<plugin>
 							<groupId>com.mebigfatguy.fb-contrib</groupId>
 							<artifactId>fb-contrib</artifactId>
-							<version>5.2.0</version>
+							<version>5.2.1</version>
 						</plugin>
 					</plugins>
 				</configuration>

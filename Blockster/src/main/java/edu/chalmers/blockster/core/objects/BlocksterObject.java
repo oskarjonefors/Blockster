@@ -91,10 +91,6 @@ public abstract class BlocksterObject extends ScaledObject {
 		setX(getOriginX() + direction.getDeltaX() * getScaleX());
 		setY(Math.round(getOriginY() / scaleY) * scaleY +
 										direction.getDeltaY() * scaleY);
-
-		LOG.log(Level.FINE,
-				"Moved " + this + " (" + direction + ") " + anim.getMovement()
-						+ ") (" + anim + ")");
 	}
 
 	public void resetGravity() {

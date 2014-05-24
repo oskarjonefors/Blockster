@@ -17,6 +17,27 @@
 		<Bug code="CLI" />
 	</Match>
 
+	<!-- Ignore false positive in PlayerTest -->
+	<Match>
+		<Class name="edu.chalmers.blockster.core.objects.PlayerTest" />
+		<Method name="testMove" />
+		<Bug code="PRMC" />
+	</Match>
+
+    <!-- Ignore false positive in BlockGrabbedInteractionTest -->
+	<Match>
+		<Class name="edu.chalmers.blockster.core.objects.interactions.BlockGrabbedInteractionTest" />
+		<Method name="testBlockAbovePulledBlock" />
+		<Bug code="PRMC" />
+	</Match>
+
+    <!-- Ignore false positive in BlockLiftedInteractionTest -->
+	<Match>
+		<Class name="edu.chalmers.blockster.core.objects.interactions.BlockLiftedInteractionTest" />
+		<Method name="testClimbDown" />
+		<Bug code="PRMC" />
+	</Match>
+
 	<!-- Disable certain bugs (often false positives) in JUnit tests -->
 	<Match>
 		<Class name="~.*\.*Test" />
