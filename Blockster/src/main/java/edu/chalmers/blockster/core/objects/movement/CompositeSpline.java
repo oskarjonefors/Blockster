@@ -64,8 +64,9 @@ public class CompositeSpline implements Spline {
 		int deltaX = 0;
 		int deltaY = 0;
 		for (LinearSpline spline : partialSplines) {
-			deltaX += spline.getDirection().getDeltaX();
-			deltaY += spline.getDirection().getDeltaY();
+			final Direction dir = spline.getDirection();
+			deltaX += dir.getDeltaX();
+			deltaY += dir.getDeltaY();
 		}
 		return evaluateDirection(deltaX, deltaY);
 	}
