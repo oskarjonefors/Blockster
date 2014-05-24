@@ -21,12 +21,12 @@ public class BlocksterMap implements GridMap, BlockMap {
 	private static final Logger LOG = Logger
 			.getLogger(BlocksterMap.class.getName());
 	private Block[][] blockMap;
-	private List<Point> playerStartingPositions;
+	final private List<Point> playerStartingPositions;
 	private final float blockWidth, blockHeight;
 
-	private Set<Block> activeBlocks;
-	private List<BlockMapListener> listeners;
-	private List<ActiveBlockListener> activeBlockListeners;
+	private final Set<Block> activeBlocks;
+	private final List<BlockMapListener> listeners;
+	private final List<ActiveBlockListener> activeBlockListeners;
 
 	public BlocksterMap(int width, int height, float blockWidth, float blockHeight,
 			List<Point> playerStartingPositions) {
@@ -109,7 +109,7 @@ public class BlocksterMap implements GridMap, BlockMap {
 		final int y = Math.round(block.getY());
 		setBlock(x, y, EmptyBlock.getInstance());
 
-		for (BlockMapListener listener : listeners) {
+		for (final BlockMapListener listener : listeners) {
 			listener.blockRemoved(block);
 		}
 	}
@@ -125,7 +125,7 @@ public class BlocksterMap implements GridMap, BlockMap {
 		final int y = Math.round(block.getY());
 		setBlock(x, y, block);
 
-		for (BlockMapListener listener : listeners) {
+		for (final BlockMapListener listener : listeners) {
 			listener.blockInserted(block);
 		}
 	}
@@ -203,7 +203,7 @@ public class BlocksterMap implements GridMap, BlockMap {
 	 */
 	@Override
 	public Set<Block> getBlocks() {
-		Set<Block> blocks = new HashSet<Block>();
+		final Set<Block> blocks = new HashSet<Block>();
 		for (int i = 0; i < blockMap.length; i++) {
 			Collections.addAll(blocks, blockMap[i]);
 		}
@@ -232,7 +232,7 @@ public class BlocksterMap implements GridMap, BlockMap {
 	@Override
 	public void updateActiveBlocks(float deltaTime) {
 		for (final Block block : new HashSet<Block>(activeBlocks)) {
-			AnimationState anim = block.getAnimationState();
+			final AnimationState anim = block.getAnimationState();
 			anim.updatePosition(deltaTime);
 			LOG.log(Level.FINE, "Updating " + block);
 			if (anim.isDone()) {
@@ -245,15 +245,15 @@ public class BlocksterMap implements GridMap, BlockMap {
 
 	private void insertFinishedBlock(Block block) {
 		block.setAnimationState(AnimationState.NONE);
-		if (!hasBlock((int) block.getX(), (int) (block.getY() - 1))) {
-			block.fallDown();
-		} else {
+		if (hasBlock((int) block.getX(), (int) (block.getY() - 1))) {
 			insertBlock(block);
 			activeBlocks.remove(block);
 
-			for (ActiveBlockListener listener : activeBlockListeners) {
+			for (final ActiveBlockListener listener : activeBlockListeners) {
 				listener.blockDeactivated(block);
 			}
+		} else {
+			block.fallDown();
 		}
 	}
 	
@@ -289,7 +289,7 @@ public class BlocksterMap implements GridMap, BlockMap {
 			throw new IllegalArgumentException("There must be at least one player on the map");
 		}
 		
-		for (Point p : playerStartingPositions) {
+		for (final Point p : playerStartingPositions) {
 			if (p.x < 0 || p.x >= mapWidth) {
 				throw new IllegalArgumentException("Player is not on map (x-axis): "+p.x);
 			}
@@ -306,7 +306,7 @@ public class BlocksterMap implements GridMap, BlockMap {
 	public void addActiveBlock(Block block) {
 		activeBlocks.add(block);
 
-		for (ActiveBlockListener listener : activeBlockListeners) {
+		for (final ActiveBlockListener listener : activeBlockListeners) {
 			listener.blockActivated(block);
 		}
 	}
