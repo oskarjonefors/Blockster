@@ -100,7 +100,7 @@ public class GdxView implements ApplicationListener, Disposable {
 			drawObjects();
 			
 		} else if (model.getGameState() == GameState.GAME_WON) {
-			Texture winPic = new Texture("menuPics/winPic.jpg");
+			Texture winPic = new Texture("menuPics/logo.png");
 			SpriteBatch batch = new SpriteBatch();
 			
 			batch.begin();
