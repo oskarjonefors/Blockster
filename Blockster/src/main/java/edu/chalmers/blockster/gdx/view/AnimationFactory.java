@@ -101,10 +101,6 @@ public class AnimationFactory {
 		TextureRegion[] tempPushRight = new TextureRegion[SIX_PIC_WIDTH];
 		TextureRegion[] tempCarryLeft = new TextureRegion[SIX_PIC_WIDTH];
 		TextureRegion[] tempCarryRight = new TextureRegion[SIX_PIC_WIDTH];
-		TextureRegion[] tempLiftRight = new TextureRegion[THREE_PIC_WIDTH];
-		TextureRegion[] tempLiftLeft = new TextureRegion[THREE_PIC_WIDTH];
-		TextureRegion[] tempPutRight = new TextureRegion[THREE_PIC_WIDTH];
-		TextureRegion[] tempPutLeft = new TextureRegion[THREE_PIC_WIDTH];
 		TextureRegion[] tempPullLeft = new TextureRegion[SIX_PIC_WIDTH];
 		TextureRegion[] tempPullRight = new TextureRegion[SIX_PIC_WIDTH];
 		TextureRegion[] tempJumpLeft = new TextureRegion[TWO_PIC_WIDTH];
