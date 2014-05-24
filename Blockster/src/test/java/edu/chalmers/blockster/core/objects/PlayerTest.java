@@ -354,8 +354,6 @@ public class PlayerTest {
 		 block.setProperty("movable");
 		 player.startInteraction(); 
 		 player.liftBlock();
-		 player.setAnimationState(new AnimationState(Movement.MOVE_LEFT));
-		 player.updatePosition(0.5f);
 		 
 		 assertTrue(player.isLiftingBlock());
 	 }
