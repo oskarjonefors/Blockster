@@ -75,7 +75,7 @@ public class PlayerView {
 				return getStillPic();
 			} 
 		} else {
-		System.out.println("Spelaren har movement: " + player.getAnimationState().getMovement().toString());
+		System.out.println("Spelaren har movement: " + player.getAnimationState().getMovement());
 			return getAnimations(movement);
 		}
 	}
