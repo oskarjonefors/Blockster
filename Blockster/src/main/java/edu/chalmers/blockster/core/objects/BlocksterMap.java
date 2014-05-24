@@ -30,36 +30,8 @@ public class BlocksterMap implements GridMap, BlockMap {
 
 	public BlocksterMap(int width, int height, float blockWidth, float blockHeight,
 			List<Point> playerStartingPositions) {
-		String posi = "must be positive";
-		
-		if (width <= 0) {
-			throw new IllegalArgumentException("Width of map "+posi);
-		}
-		
-		if (height <= 0) {
-			throw new IllegalArgumentException("Height of map "+posi);
-		}
-		
-		if (blockWidth <= 0) {
-			throw new IllegalArgumentException("Width of blocks "+posi);
-		}
-		
-		if (height <= 0) {
-			throw new IllegalArgumentException("Height of blocks "+posi);
-		}
-		
-		if (playerStartingPositions.isEmpty()) {
-			throw new IllegalArgumentException("There must be at least one player on the map");
-		}
-		
-		for (Point p : playerStartingPositions) {
-			if (p.x < 0 || p.x >= width) {
-				throw new IllegalArgumentException("Player is not on map (x-axis): "+p.x);
-			}
-			if (p.y < 0 || p.y >= height) {
-				throw new IllegalArgumentException("Player is not on map (y-axis): "+p.y);
-			}
-		}
+		verifyMapMeasurements(width, height, blockWidth, blockHeight);
+		verifyPlayerStartingPositions(playerStartingPositions, width, height);
 
 		this.listeners = new ArrayList<BlockMapListener>();
 		this.activeBlockListeners = new ArrayList<ActiveBlockListener>();
@@ -281,6 +253,45 @@ public class BlocksterMap implements GridMap, BlockMap {
 
 			for (ActiveBlockListener listener : activeBlockListeners) {
 				listener.blockDeactivated(block);
+			}
+		}
+	}
+	
+	private void verifyMapMeasurements(int width, int height, float blockWidth, float blockHeight) {
+		if (width <= 0) {
+			throw new IllegalArgumentException("Width of map is " + width + 
+					". Must be positive.");
+		}
+		
+		if (height <= 0) {
+			throw new IllegalArgumentException("Height of map is "  + height +
+					". Must be positive.");
+		}
+		
+		if (blockWidth <= 0) {
+			throw new IllegalArgumentException("Width of blocks is " + blockWidth
+					+ ". Must be positive.");
+		}
+		
+		if (height <= 0) {
+			throw new IllegalArgumentException("Height of blocks is " + blockHeight
+					+ ". Must be positive.");
+		}
+	}
+	
+	private void verifyPlayerStartingPositions(List<Point> playerStartingPositions,
+			int mapWidth, int mapHeight) {
+		
+		if (playerStartingPositions.isEmpty()) {
+			throw new IllegalArgumentException("There must be at least one player on the map");
+		}
+		
+		for (Point p : playerStartingPositions) {
+			if (p.x < 0 || p.x >= mapWidth) {
+				throw new IllegalArgumentException("Player is not on map (x-axis): "+p.x);
+			}
+			if (p.y < 0 || p.y >= mapHeight) {
+				throw new IllegalArgumentException("Player is not on map (y-axis): "+p.y);
 			}
 		}
 	}
