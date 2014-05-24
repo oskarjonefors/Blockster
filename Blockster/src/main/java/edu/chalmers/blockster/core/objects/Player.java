@@ -85,21 +85,17 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public boolean canMove(Direction dir) {
-		final BlockMap bLayer = getBlockLayer();
-		final float mapWidth = bLayer.getWidth();
 		final int checkX = (int) (getOriginX() / getScaleX()) + dir.getDeltaX();
 		final int checkY = (int) (getOriginY() / getScaleY()) + dir.getDeltaY();
-		final boolean collisionForward = bLayer.hasBlock(checkX , checkY);
 
-		return checkX >= 0 && checkX <= mapWidth - 1 && !collisionForward;
-
+		return !getBlockMap().collisionAt(checkX , checkY);
 	}
 	
 	public boolean collisionBeneathNext(Direction dir) {
 		final int checkX = (int) (getOriginX() / getScaleX()) + dir.getDeltaX();
 		final int checkY = (int) (getOriginY() / getScaleY()) + dir.getDeltaY();
 	
-		return checkY >= 0 && getBlockLayer().hasBlock(checkX, checkY - 1);
+		return checkY >= 0 && getBlockMap().hasBlock(checkX, checkY - 1);
 	}		
 
 
@@ -245,7 +241,7 @@ public class Player extends BlocksterObject implements Interactor {
 
 		if (Math.abs(distance.x) > 0) {
 			setX(getX() + distance.x);
-			if (collisionEitherCorner(this, getBlockLayer())) {
+			if (collisionEitherCorner(this, getBlockMap())) {
 				setX(previousPosition.x);
 				horizontalCollision = true;
 			} else {
@@ -256,11 +252,11 @@ public class Player extends BlocksterObject implements Interactor {
 
 		if (Math.abs(distance.y) > 0) {
 			setY(getY() + distance.y);
-			if (collisionEitherCorner(this, getBlockLayer())) {
+			if (collisionEitherCorner(this, getBlockMap())) {
 				setY(previousPosition.y);
 				if (distance.y < 0) {
-					setY(((int) getY() / getBlockLayer().getBlockHeight())
-							* getBlockLayer().getBlockHeight());
+					setY(((int) getY() / getBlockMap().getBlockHeight())
+							* getBlockMap().getBlockHeight());
 				}
 				verticalCollision = true;
 			} else {

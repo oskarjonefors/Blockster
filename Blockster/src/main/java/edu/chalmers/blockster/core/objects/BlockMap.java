@@ -116,4 +116,6 @@ public interface BlockMap extends GridMap{
 
 	void addActiveBlock(Block block);
 
+	boolean collisionAt(int checkX, int checkY);
+
 }

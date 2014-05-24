@@ -44,7 +44,7 @@ public abstract class BlocksterObject extends ScaledObject {
 		return anim;
 	}
 
-	public BlockMap getBlockLayer() {
+	public BlockMap getBlockMap() {
 		return blockMap;
 	}
 
@@ -82,7 +82,7 @@ public abstract class BlocksterObject extends ScaledObject {
 
 	public void increaseGravity(float deltaTime) {
 		totalTime += deltaTime;
-		setVelocityY(-9.82F * totalTime * getBlockLayer().getBlockHeight());
+		setVelocityY(-9.82F * totalTime * getBlockMap().getBlockHeight());
 	}
 
 	public void moveToNextPosition() {
