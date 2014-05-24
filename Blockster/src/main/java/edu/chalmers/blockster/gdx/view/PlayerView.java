@@ -64,6 +64,7 @@ public class PlayerView {
 
 
 	public TextureRegion chooseAnimation(){
+		
 		final AnimationState animState = player.getAnimationState();
 		final Movement movement = animState.getMovement();
 		animTime += Gdx.graphics.getDeltaTime();
@@ -75,54 +76,27 @@ public class PlayerView {
 				return getStillPic();
 			} 
 		} else {
-		System.out.println("Spelaren har movement: " + player.getAnimationState().getMovement());
 			return getAnimations(movement);
 		}
 	}
 
 	private TextureRegion getAnimations(Movement movement) {
-		
-		if (movement == Movement.PUSH_RIGHT || movement == Movement.PUSH_LEFT) {
+		if (movement == Movement.PUSH_LEFT || movement == Movement.PUSH_RIGHT) {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
-			
+	  
 		} else if (player.isGrabbingBlock() && movement != Movement.PULL_LEFT && movement != Movement.PULL_RIGHT) {
 			if (lastMovement == Movement.GRAB_LEFT) {
 				player.setDirection(Direction.LEFT);
 				return arrayOfAnimation.get(Movement.GRAB_RIGHT).getKeyFrame(animTime);
-				
 			} else {
 				player.setDirection(Direction.RIGHT);
 				return arrayOfAnimation.get(Movement.GRAB_LEFT).getKeyFrame(animTime);
 			}
-			
-		} else if (movement == Movement.MOVE_LEFT || movement == Movement.MOVE_RIGHT) {
-			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
-
-		} else if (movement == Movement.PLAYER_LIFT_LEFT || movement == Movement.PLAYER_LIFT_RIGHT) {
-			System.out.println("FUNGERAR");
-			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
-			
-		} else if (movement == Movement.PLAYER_PUT_LEFT || movement == Movement.PLAYER_PUT_RIGHT) {
-			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
-			
-		} else if (movement == Movement.PULL_LEFT || movement == Movement.PULL_RIGHT) {
-			return arrayOfAnimation.get(movement).getKeyFrame(animTime);
-			
-		} else if (movement == Movement.CLIMB_LEFT ||movement == Movement.CLIMB_RIGHT) {
-			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
-			
-		} else if (movement == Movement.LIFTING_CLIMB_LEFT || movement == Movement.LIFTING_CLIMB_RIGHT) {
-			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
-			
-		} else if(movement == Movement.CLIMB_DOWN_LEFT || movement == Movement.CLIMB_DOWN_RIGHT) {
-			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
-			
 		} else {
-			lastMovement = movement;
-			return standRight;
+			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 		}
 	}
-
+				
 	private TextureRegion getWalkingPic() {
 		lastMovement = player.getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
 		return walkAnimations.get(player.getDirection()).getKeyFrame(animTime, true);
@@ -133,15 +107,9 @@ public class PlayerView {
 			return player.getDirection() == Direction.LEFT ? 
 					arrayOfAnimation.get(Movement.MOVE_LEFT).getKeyFrame(animTime) :
 						arrayOfAnimation.get(Movement.MOVE_RIGHT).getKeyFrame(animTime);
+		} else {
+		return player.getDirection() == Direction.LEFT ? standLeft : standRight;
 		}
-		switch (player.getDirection()) {
-
-		case LEFT:	return standLeft; 
-		case RIGHT:	return standRight;
-		default:	return standRight;
-
-		}
-
 	}
 
 	public TextureRegion getCurrentAnimation(AnimationState anim, Float time){

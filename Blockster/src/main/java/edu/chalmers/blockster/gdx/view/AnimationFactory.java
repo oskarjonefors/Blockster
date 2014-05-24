@@ -21,6 +21,7 @@ public class AnimationFactory {
 	private final Animation bluePortalAnimations, yellowPortalAnimations;
 
 	private static final float ZERO_ONE_TIME = 0.1f;
+	private static final float ZERO_THREE_TIME = 0.3f;
 	
 	private static final int NBR_PIC_HEIGHT = 2;
 	private static final int NBR_PORTAL_PIC_WIDTH = 4;
@@ -78,7 +79,6 @@ public class AnimationFactory {
 		Texture push = new Texture(Gdx.files.internal(prefix + "push_animation.png"));
 		Texture pull = new Texture(Gdx.files.internal(prefix + "pull_animation.png"));
 		Texture carry = new Texture(Gdx.files.internal(prefix + "lift_animation.png"));
-		Texture lift =  new Texture(Gdx.files.internal(prefix + "lift_and_place_animation.png"));
 		Texture jump = new Texture(Gdx.files.internal(prefix + "jump.png"));
 		Texture liftJump = new Texture(Gdx.files.internal(prefix + "jump_with_block.png"));
 		
@@ -88,8 +88,6 @@ public class AnimationFactory {
 		TextureRegion[][] pushPics = TextureRegion.split(push, push.getWidth()/SIX_PIC_WIDTH, push.getHeight()/NBR_PIC_HEIGHT);
 
 		TextureRegion[][] carryPics = TextureRegion.split(carry, carry.getWidth()/SIX_PIC_WIDTH, carry.getHeight()/NBR_PIC_HEIGHT);
-
-		TextureRegion[][] liftPutPic = TextureRegion.split(lift, lift.getWidth()/THREE_PIC_WIDTH, lift.getHeight()/THREE_PIC_WIDTH);	
 
 		TextureRegion[][] jumpPics = TextureRegion.split(jump, jump.getWidth()/TWO_PIC_WIDTH, jump.getHeight()/NBR_PIC_HEIGHT);
 		
@@ -118,11 +116,6 @@ public class AnimationFactory {
 		for (int i = 0; i < THREE_PIC_WIDTH; i++) {
 			tempGrabLeft[i] = grabPics[0][i];
 			tempGrabRight[i] = grabPics[1][i];
-
-			tempLiftRight[i] = liftPutPic[0][i];
-			tempLiftLeft[i] = liftPutPic[1][i];
-			tempPutRight[i] = liftPutPic[0][i];
-			tempPutLeft[i] = liftPutPic[1][i];
 		}
 
 		// Get push and carry Animations
@@ -161,14 +154,8 @@ public class AnimationFactory {
 		Animation carryRight = new Animation(ZERO_ONE_TIME, tempCarryRight);
 		carryLeft.setPlayMode(Animation.REVERSED);
 		
-		Animation liftLeft = new Animation(ZERO_ONE_TIME, tempLiftLeft);
-		Animation liftRight = new Animation(ZERO_ONE_TIME, tempLiftRight);
-		
-		Animation putLeft = new Animation(ZERO_ONE_TIME, tempPutLeft);
-		Animation putRight = new Animation(ZERO_ONE_TIME, tempPutRight);
-
-		Animation jumpLeft = new Animation(ZERO_ONE_TIME, tempJumpLeft);
-		Animation jumpRight = new Animation(ZERO_ONE_TIME, tempJumpRight);
+		Animation jumpLeft = new Animation(ZERO_THREE_TIME, tempJumpLeft);
+		Animation jumpRight = new Animation(ZERO_THREE_TIME, tempJumpRight);
 		
 		Animation liftJumpLeft = new Animation(ZERO_ONE_TIME, tempLiftJumpLeft);
 		Animation liftJumpRight = new Animation(ZERO_ONE_TIME, tempLiftJumpRight);
@@ -188,12 +175,6 @@ public class AnimationFactory {
 		animationMap.put(Movement.MOVE_LEFT, carryLeft);
 		animationMap.put(Movement.MOVE_RIGHT, carryRight);
 
-		animationMap.put(Movement.PLAYER_LIFT_LEFT, liftLeft);
-		animationMap.put(Movement.PLAYER_LIFT_RIGHT, liftRight);
-		
-		animationMap.put(Movement.PLAYER_PUT_LEFT, putLeft);
-		animationMap.put(Movement.PLAYER_PUT_RIGHT, putRight);
-		
 		animationMap.put(Movement.CLIMB_LEFT, jumpLeft);
 		animationMap.put(Movement.CLIMB_RIGHT, jumpRight);
 		

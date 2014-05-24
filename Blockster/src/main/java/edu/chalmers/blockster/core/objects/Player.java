@@ -289,11 +289,9 @@ public class Player extends BlocksterObject implements Interactor {
 		if (lift) {
 			setAnimationState(getDirection() == Direction.LEFT ? new AnimationState(Movement.PLAYER_LIFT_LEFT)
 					: new AnimationState(Movement.PLAYER_LIFT_RIGHT));
-			System.out.println("setting movment to : " +getAnimationState().getMovement());
 		} else {
 			setAnimationState(getDirection() == Direction.LEFT ? new AnimationState(Movement.PLAYER_PUT_LEFT)
 					: new AnimationState(Movement.PLAYER_PUT_RIGHT));
-			System.out.println("setting movment to : " +getAnimationState().getMovement());
 			setInteraction(PlayerInteraction.NONE);
 			hasMovedBlock = false;
 			processedBlock = none;

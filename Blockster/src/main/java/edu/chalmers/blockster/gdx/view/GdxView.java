@@ -158,7 +158,7 @@ public class GdxView implements ApplicationListener, Disposable {
 		 * moves
 		 */
 		cameraMoveVector.nor();
-		cameraMoveVector.scl(50f);
+		cameraMoveVector.scl(30f);
 
 		camera.translate(cameraMoveVector);
 
