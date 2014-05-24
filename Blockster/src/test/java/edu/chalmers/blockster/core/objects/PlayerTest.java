@@ -377,6 +377,7 @@ public class PlayerTest {
 	 public void testLiftBlockCantBeLifted() {
 		 
 		 player.setDirection(Direction.RIGHT);
+		 block.setProperty("movable");
 		 player.startInteraction(); 
 		 player.liftBlock();
 		 
