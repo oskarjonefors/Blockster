@@ -40,7 +40,7 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 				move = Movement.getMoveMovement(dir);
 				break;
 			case CAN_CLIMB_DOWN:
-				move = Movement.getPlaceMovement(dir);
+				move = Movement.getClimbDownMovement(dir);
 				break;
 			default: return;
 		}

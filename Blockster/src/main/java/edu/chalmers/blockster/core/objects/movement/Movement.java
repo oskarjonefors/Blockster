@@ -40,7 +40,9 @@ public enum Movement {
 	PLAYER_LIFT_LEFT(STANDARD_MOVE_DURATION),
 	PLAYER_LIFT_RIGHT(STANDARD_MOVE_DURATION),
 	PLAYER_PUT_LEFT(STANDARD_MOVE_DURATION),
-	PLAYER_PUT_RIGHT(STANDARD_MOVE_DURATION);
+	PLAYER_PUT_RIGHT(STANDARD_MOVE_DURATION),
+	CLIMB_DOWN_LEFT(DOWN_LEFT, STANDARD_MOVE_DURATION, new BezierSpline(DOWN_LEFT)),
+	CLIMB_DOWN_RIGHT(DOWN_RIGHT, STANDARD_MOVE_DURATION, new BezierSpline(DOWN_RIGHT));
 	
 	private final Direction direction;
 	private final float duration;
@@ -137,5 +139,13 @@ public enum Movement {
 	 */
 	public Spline getSpline() {
 		return spline;
+	}
+
+	public static Movement getClimbDownMovement(Direction dir) {
+		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
+			return dir == Direction.LEFT ? CLIMB_DOWN_LEFT : CLIMB_DOWN_RIGHT;
+		} else {
+			return NONE;
+		}
 	}
 }

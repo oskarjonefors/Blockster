@@ -75,6 +75,7 @@ public class PlayerView {
 				return getStillPic();
 			} 
 		} else {
+		System.out.println("Spelaren har movement: " + player.getAnimationState().getMovement().toString());
 			return getAnimations(movement);
 		}
 	}
@@ -97,8 +98,11 @@ public class PlayerView {
 		} else if (movement == Movement.MOVE_LEFT || movement == Movement.MOVE_RIGHT) {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 
-		} else if (movement == Movement.PLAYER_LIFT_LEFT || movement == Movement.PLAYER_LIFT_RIGHT
-				|| movement == Movement.PLAYER_PUT_LEFT || movement == Movement.PLAYER_PUT_RIGHT) {
+		} else if (movement == Movement.PLAYER_LIFT_LEFT || movement == Movement.PLAYER_LIFT_RIGHT) {
+			System.out.println("FUNGERAR");
+			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
+			
+		} else if (movement == Movement.PLAYER_PUT_LEFT || movement == Movement.PLAYER_PUT_RIGHT) {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 			
 		} else if (movement == Movement.PULL_LEFT || movement == Movement.PULL_RIGHT) {
@@ -108,6 +112,9 @@ public class PlayerView {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
 			
 		} else if (movement == Movement.LIFTING_CLIMB_LEFT || movement == Movement.LIFTING_CLIMB_RIGHT) {
+			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
+			
+		} else if(movement == Movement.CLIMB_DOWN_LEFT || movement == Movement.CLIMB_DOWN_RIGHT) {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, false);
 			
 		} else {
