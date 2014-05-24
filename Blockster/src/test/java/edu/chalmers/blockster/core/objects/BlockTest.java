@@ -403,4 +403,35 @@ public class BlockTest {
 			fail("Should be grabable");
 		}
 	}
+	
+	@Test
+	public void testCanBeLiftedBlockAbove() {
+		blockMap.insertBlock(new Block(3, 3, blockMap));
+		block.setProperty("liftable");
+		if (block.canBeLifted()) {
+			fail("There is a block blocking the way");
+		}
+	}
+	
+	@Test
+	public void testCanBeLiftedNotLiftable() {
+		if (block.canBeLifted()) {
+			fail("The block isn't liftable");
+		}
+	}
+	
+	@Test
+	public void testCanBeLiftedDoubleFail() {
+		blockMap.insertBlock(new Block(3, 3, blockMap));
+		if (block.canBeLifted()) {
+			fail("There is a block blocking the way, and the block isn't liftable");
+		}
+	}
+	
+	public void testCanBeLiftedSuccess() {
+		block.setProperty("liftable");
+		if (!block.canBeLifted()) {
+			fail("The block should be liftable");
+		}
+	}
 }
