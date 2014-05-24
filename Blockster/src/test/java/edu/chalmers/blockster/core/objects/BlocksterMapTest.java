@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.Before;
@@ -186,8 +187,36 @@ public class BlocksterMapTest {
 		if (blockMap.hasBlock(1, 1)) {
 			fail("did not remove block properly");
 		}
-		
-		
-		
 	}
+		@Test
+		public void getBlocksTest() {
+			Block block = new Block(1, 1, blockMap);
+			blockMap.insertBlock(block);
+			HashSet set = (HashSet)blockMap.getBlocks();
+			
+			if (!set.contains(block)) {
+				fail("getBlock fail");
+		}
+	}
+		@Test
+		public void getActiveBlocksTest() {
+			Block block = new Block(1, 1, blockMap);
+			blockMap.addActiveBlock(block);
+			
+			HashSet set = (HashSet)blockMap.getActiveBlocks();
+			
+			if (!set.contains(block)) {
+				fail("Fail to get active blocks");
+			}
+		}
+		@Test
+		public void insertFinishedBlocks() {
+			Block blockTop = new Block(1, 2, blockMap);
+			blockTop.setProperty("solid");
+			blockTop.setProperty("weight");
+			Block blockBottom = new Block(1, 1, blockMap);
+			blockBottom.setProperty("solid");
+			blockMap.insertBlock(blockBottom);
+			blockMap.insertBlock(blockTop);
+		}
 }
