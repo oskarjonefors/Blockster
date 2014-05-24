@@ -56,7 +56,11 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 	
 	private boolean canClimbBlock(Block block) {
-		if (block instanceof EmptyBlock || block == null) {
+		if (block == null) {
+			return false;
+		}
+		
+		if (block instanceof EmptyBlock) {
 			return false;
 		}
 		
