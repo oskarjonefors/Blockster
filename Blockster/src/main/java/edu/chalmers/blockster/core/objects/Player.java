@@ -75,7 +75,10 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	private boolean canGrabBlock(Block block) {
-		return !isBusy() && isNextToBlock(block) && !isLiftingBlock();
+		boolean isBusy = isBusy();
+		boolean isNextToBlock = isNextToBlock(block);
+		
+		return !isBusy && isNextToBlock;
 	}
 
 	private boolean canLiftBlock(Block block) {
