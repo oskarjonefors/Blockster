@@ -17,9 +17,9 @@ public class BlockLiftedInteraction extends PlayerInteraction {
 	private final Interactable interacted;
 	private final GridMap blockMap;
 	
-	private final static int CANNOT_MOVE = 0;
-	private final static int CAN_MOVE = 1;
-	private final static int CAN_CLIMB_DOWN = 2;
+	private static final int CANNOT_MOVE = 0;
+	private static final int CAN_MOVE = 1;
+	private static final int CAN_CLIMB_DOWN = 2;
 
 	public BlockLiftedInteraction(Interactor interactor,
 			Interactable interacted, GridMap blockMap) {
