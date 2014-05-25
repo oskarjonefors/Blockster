@@ -63,7 +63,7 @@ public final class Calculations {
 	public static int getClosestNumber(int target, int maxDif, int defaultVal, int[] compareTo) {
 		int result = defaultVal;
 		int dif = maxDif;
-		for (int x : compareTo) {
+		for (final int x : compareTo) {
 			if (Math.abs(x-target) < dif) {
 				dif = Math.abs(x-target);
 				result = x;
