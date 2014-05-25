@@ -798,4 +798,79 @@ public class PlayerTest {
 		}
 	}
 	
+	@Test
+	public void testIsNextToNull() {
+		if (player.isNextToBlock(null)) {
+			fail("Player cannot be close to null");
+		}
+	}
+	
+	@Test
+	public void testIsNotNextToBlockHorisontally() {
+		block.setProperty("movable");
+		player.setDirection(Direction.LEFT);
+		player.startInteraction();
+		
+		player.updatePosition(5);
+		block.getAnimationState().updatePosition(5);
+		
+		player.setX(0);
+		if (player.isNextToBlock(block)) {
+			fail("Player is pretty far away from block");
+		}
+	}
+	
+	@Test
+	public void testIsNotNextToBlockVertically() {
+		block.setProperty("movable");
+		player.setDirection(Direction.LEFT);
+		player.startInteraction();
+		
+		player.updatePosition(5);
+		block.getAnimationState().updatePosition(5);
+		
+		player.setY(6 * player.getScaleY());
+		if (player.isNextToBlock(block)) {
+			fail("Player is pretty far away from block");
+		}
+	}
+	
+	@Test
+	public void testIsNotNextToLiftedBlockVertically() {
+		block.setProperty("movable");
+		block.setProperty("liftable");
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		player.updatePosition(5);
+		block.getAnimationState().updatePosition(5);
+		player.liftBlock();
+		if (!player.isLiftingBlock()) {
+			fail("Incorrect precondition");
+		}
+		
+		player.setY(6 * player.getScaleY());
+		if (player.isNextToBlock(block)) {
+			fail("Player is pretty far away from block");
+		}
+	}
+	
+	@Test
+	public void testIsNotNextToLiftedBlockHorisontally() {
+		block.setProperty("movable");
+		block.setProperty("liftable");
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		player.updatePosition(5);
+		block.getAnimationState().updatePosition(5);
+		player.liftBlock();
+		if (!player.isLiftingBlock()) {
+			fail("Incorrect precondition");
+		}
+		
+		player.setX(0);
+		if (player.isNextToBlock(block)) {
+			fail("Player is pretty far away from block");
+		}
+	}
+	
 }
