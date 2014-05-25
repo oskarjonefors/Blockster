@@ -46,8 +46,9 @@ public class Block extends AbstractBlocksterObject implements GridObject, Intera
 		final int checkX = (int) (getOriginX() / getScaleX()) + dir.getDeltaX();
 		final int checkY = (int) (getOriginY() / getScaleY()) + dir.getDeltaY();
 		final boolean collision = blockLayer.hasBlock(checkX,checkY);
+		final boolean animationDone = getAnimationState().isDone();
 		
-		return checkX >= 0 && checkX <= mapWidth - 1 && !collision;
+		return checkX >= 0 && checkX <= mapWidth - 1 && !collision && animationDone;
 
 	}
 
