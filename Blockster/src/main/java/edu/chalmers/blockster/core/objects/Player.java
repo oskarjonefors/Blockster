@@ -13,7 +13,7 @@ import javax.vecmath.Vector2f;
 import edu.chalmers.blockster.core.objects.interactions.BlockGrabbedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.BlockLiftedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.Interactor;
-import edu.chalmers.blockster.core.objects.interactions.PlayerInteraction;
+import edu.chalmers.blockster.core.objects.interactions.AbstractPlayerInteraction;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
@@ -31,7 +31,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 	private Block processedBlock;
 	private boolean grabbingBlock;
 	private boolean liftingBlock;
-	private PlayerInteraction interaction = PlayerInteraction.NONE;
+	private AbstractPlayerInteraction interaction = AbstractPlayerInteraction.NONE;
 	private boolean horizontalCollision;
 	private boolean verticalCollision;
 	private final World world;
@@ -194,7 +194,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 	}
 
 	public boolean isInteracting() {
-		return interaction != PlayerInteraction.NONE;
+		return interaction != AbstractPlayerInteraction.NONE;
 	}
 
 	public boolean isLiftingBlock() {
@@ -230,7 +230,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 					blockMap));
 			interaction.startInteraction();
 		} else {
-			setInteraction(PlayerInteraction.NONE);
+			setInteraction(AbstractPlayerInteraction.NONE);
 		}
 		grabbingBlock = false;
 	}
@@ -272,7 +272,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 			setAnimationState(new AnimationState(move));
 		} else {
 			setAnimationState(AnimationState.NONE);
-			setInteraction(PlayerInteraction.NONE);
+			setInteraction(AbstractPlayerInteraction.NONE);
 			movedBlock = false;
 			processedBlock = none;
 		}
@@ -286,7 +286,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 		} else {
 			setAnimationState(getDirection() == Direction.LEFT ? new AnimationState(Movement.PLAYER_PLACE_LEFT)
 					: new AnimationState(Movement.PLAYER_PLACE_RIGHT));
-			setInteraction(PlayerInteraction.NONE);
+			setInteraction(AbstractPlayerInteraction.NONE);
 			movedBlock = false;
 			processedBlock = none;
 		}
@@ -343,7 +343,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 		return moving;
 	}
 	
-	private void setInteraction(PlayerInteraction interaction) {
+	private void setInteraction(AbstractPlayerInteraction interaction) {
 		this.interaction = interaction;
 		processedBlock.setInteraction(interaction);
 	}

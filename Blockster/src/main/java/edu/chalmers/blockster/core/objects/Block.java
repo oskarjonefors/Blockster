@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 import edu.chalmers.blockster.core.objects.interactions.Interactable;
 import edu.chalmers.blockster.core.objects.interactions.Interactor;
-import edu.chalmers.blockster.core.objects.interactions.PlayerInteraction;
+import edu.chalmers.blockster.core.objects.interactions.AbstractPlayerInteraction;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
@@ -20,7 +20,7 @@ public class Block extends AbstractBlocksterObject implements GridObject, Intera
 	
 	private final Set<String> properties;
 
-	private PlayerInteraction interaction;
+	private AbstractPlayerInteraction interaction;
 
 	private boolean lifted;
 	public Block(float startX, float startY, BlockMap blockLayer) {
@@ -68,7 +68,7 @@ public class Block extends AbstractBlocksterObject implements GridObject, Intera
 		}
 	}
 
-	public PlayerInteraction getInteraction() {
+	public AbstractPlayerInteraction getInteraction() {
 		return interaction;
 	}
 	
@@ -122,7 +122,7 @@ public class Block extends AbstractBlocksterObject implements GridObject, Intera
 		}
 	}
 
-	public void setInteraction(PlayerInteraction interaction) {
+	public void setInteraction(AbstractPlayerInteraction interaction) {
 		this.interaction = interaction;
 	}
 

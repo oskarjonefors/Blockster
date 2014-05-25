@@ -10,7 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.Player;
-import edu.chalmers.blockster.core.objects.interactions.PlayerInteraction;
+import edu.chalmers.blockster.core.objects.interactions.AbstractPlayerInteraction;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
@@ -88,8 +88,8 @@ public class BlockView implements TiledMapTile {
 	private boolean playerHasSameMovement() {
 		Movement blockMovement = block.getAnimationState().getMovement();
 		Movement playerMovement = Movement.NONE;
-		PlayerInteraction interaction = block.getInteraction();
-		if (interaction != PlayerInteraction.NONE) {
+		AbstractPlayerInteraction interaction = block.getInteraction();
+		if (interaction != AbstractPlayerInteraction.NONE) {
 			playerMovement = ((Player) interaction.getInteractor()).getAnimationState().getMovement();
 		}
 		

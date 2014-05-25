@@ -10,7 +10,7 @@ import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 import edu.chalmers.blockster.core.util.GridMap;
 
-public class BlockGrabbedInteraction extends PlayerInteraction {
+public class BlockGrabbedInteraction extends AbstractPlayerInteraction {
 
 	private static final Logger LOG = Logger
 			.getLogger(BlockGrabbedInteraction.class.getName());

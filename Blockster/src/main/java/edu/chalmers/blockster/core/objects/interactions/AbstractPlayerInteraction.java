@@ -2,19 +2,19 @@ package edu.chalmers.blockster.core.objects.interactions;
 
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
-public abstract class PlayerInteraction {
+public abstract class AbstractPlayerInteraction {
 
-	public static final PlayerInteraction NONE = new NoInteraction();
+	public static final AbstractPlayerInteraction NONE = new NoInteraction();
 	private final Interactor interactor;
 	private final Interactable interacted;
 	
 	
-	public PlayerInteraction(Interactor interactor, Interactable interacted) {
+	public AbstractPlayerInteraction(Interactor interactor, Interactable interacted) {
 		this.interactor = interactor;
 		this.interacted = interacted;
 	}
 	
-	private static class NoInteraction extends PlayerInteraction{
+	private static class NoInteraction extends AbstractPlayerInteraction{
 
 		public NoInteraction() {
 			super(null, null);
