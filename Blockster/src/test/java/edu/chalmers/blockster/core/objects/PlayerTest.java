@@ -21,7 +21,17 @@ public class PlayerTest {
 	private BlocksterMap blockMap;
 	private Player player;
 	private Block block; 
+	private boolean reachedGoal = false;
+	private final GameEventListener listener = new GameEventListener() {
 
+		@Override
+		public void playerReachedGoal() {
+			reachedGoal = true;
+		}
+		
+	};
+	
+	
 
 	@Before
 	public void setUp()  {
@@ -667,21 +677,29 @@ public class PlayerTest {
 
 	@Test
 	public void testEnterTeleporter() {
-		boolean correct = false;
+		player.addGameEventListener(listener);
 		block.setProperty("teleporter");
 
 		//#1
 		player.setDirection(Direction.RIGHT);
 		player.startInteraction();
-		correct = (player.getAnimationState().getMovement() == Movement.MOVE_RIGHT);
+		if (player.getAnimationState().getMovement() != Movement.MOVE_RIGHT) {
+			fail("Incorrect movement");
+		}
+		if (!reachedGoal) {
+			fail("Never reached goal");
+		}
 
 		//#2
 		Player player2 = new Player(4, 2, blockMap, World.DAY);
 		player2.setDirection(Direction.LEFT);
 		player2.startInteraction();
-		correct &= (player2.getAnimationState().getMovement() == Movement.MOVE_LEFT);
-
-		assertTrue(correct);		 
+		if (player2.getAnimationState().getMovement() != Movement.MOVE_LEFT) {
+			fail("Incorrect movement");
+		}
+		if (!reachedGoal) {
+			fail("Never reached goal");
+		}
 	}
 	
 	@Test
