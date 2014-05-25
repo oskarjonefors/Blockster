@@ -428,22 +428,77 @@ public class PlayerTest {
 	 }
 	 
 	 @Test
-	 public void testEndInteraction() {
-		 boolean correct = false;
+	 public void testEndGrabInteraction() {
+		 block.setProperty("movable");
 		 player.setDirection(Direction.RIGHT);
 		 
-		 //#1
 		 player.startInteraction();
+		 if (!player.isGrabbingBlock()) {
+			 fail("Invalid precondition");
+		 }
 		 player.endInteraction();
-		 correct = !player.isGrabbingBlock();
+		 if (player.isGrabbingBlock()) {
+			 fail("Should no longer be grabbing a block");
+		 }
 
-		 //#2
-		 player.liftBlock();
-		 player.endInteraction();
-		 correct &= !player.isLiftingBlock();
-		 
-		 assertTrue(correct);
 	 }
+	 
+	 @Test
+	 public void testEndLiftInteractionRight() {
+		 block.setProperty("movable");
+		 block.setProperty("liftable");
+		 player.setDirection(Direction.RIGHT);
+		 
+		 player.startInteraction();
+		 if (!player.isGrabbingBlock()) {
+			 fail("Invalid precondition");
+		 }
+		 player.updatePosition(5);
+		 player.liftBlock();
+		 player.updatePosition(5);
+		 block.getAnimationState().updatePosition(5);
+		 if (!player.isLiftingBlock()) {
+			 fail("Invalid precondition");
+		 }
+		 
+		 player.endInteraction();
+		 if (player.isLiftingBlock()) {
+			 fail("Should no longer be lifting a block");
+		 }
+		 if (block.getAnimationState().getMovement() != Movement.PLACE_RIGHT) {
+			 fail("Should be placing block");
+		 }
+	 }
+	 
+	 @Test
+	 public void testEndLiftInteractionLeft() {
+		 Block anotherBlock = new Block(1, 2, blockMap);
+		 anotherBlock.setProperty("movable");
+		 anotherBlock.setProperty("liftable");
+		 blockMap.insertBlock(anotherBlock);
+		 player.setDirection(Direction.LEFT);
+		 
+		 player.startInteraction();
+		 if (!player.isGrabbingBlock()) {
+			 fail("Invalid precondition");
+		 }
+		 player.updatePosition(5);
+		 player.liftBlock();
+		 player.updatePosition(5);
+		 anotherBlock.getAnimationState().updatePosition(5);
+		 if (!player.isLiftingBlock()) {
+			 fail("Invalid precondition");
+		 }
+		 
+		 player.endInteraction();
+		 if (player.isLiftingBlock()) {
+			 fail("Should no longer be lifting a block");
+		 }
+		 if (anotherBlock.getAnimationState().getMovement() != Movement.PLACE_LEFT) {
+			 fail("Should be placing block");
+		 }
+	 }
+	 
 	 
 	 @Test
 	 public void testGetProcessedBlock() {
