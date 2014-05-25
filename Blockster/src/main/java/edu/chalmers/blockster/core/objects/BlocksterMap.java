@@ -242,7 +242,8 @@ public class BlocksterMap implements GridMap, BlockMap {
 	 */
 	@Override
 	public void updateActiveBlocks(float deltaTime) {
-		for (final Block block : new HashSet<Block>(activeBlocks)) {
+		final HashSet<Block> blockSet = new HashSet<Block>(activeBlocks);
+		for (final Block block : blockSet) {
 			final AnimationState anim = block.getAnimationState();
 			anim.updatePosition(deltaTime);
 			LOG.log(Level.FINE, "Updating " + block);
