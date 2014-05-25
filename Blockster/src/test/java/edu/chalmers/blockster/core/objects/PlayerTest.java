@@ -22,7 +22,7 @@ public class PlayerTest {
 	private BlocksterMap blockMap;
 	private Player player;
 	private Block block; 
-	
+
 
 	@Before
 	public void setUp()  {
@@ -34,7 +34,7 @@ public class PlayerTest {
 		player = new Player(0, 0, blockMap, World.DAY);
 		player.move(new Vector2f(256, 256));
 		player.setWidth(100);
-		
+
 		blockMap.insertBlock(block);
 	}
 
@@ -45,14 +45,14 @@ public class PlayerTest {
 		if (player.getAnimationState() != AnimationState.NONE) {
 			fail("Could climb empty blocks");
 		}
-		
+
 		setUp();
 		player.setDirection(Direction.RIGHT);
 		player.climbBlock();
 		if (player.getAnimationState() == AnimationState.NONE) {
 			fail("Couldn't climb a climbable block");
 		}
-		
+
 		setUp();
 		player.setDirection(Direction.LEFT);
 		player.setX(4.5f * player.getScaleX());
@@ -61,7 +61,7 @@ public class PlayerTest {
 			fail("Climbable block should be out of reach");
 		}
 	}
-	
+
 	@Test
 	public void testClimbingCollision() {
 		player.setDirection(Direction.RIGHT);
@@ -69,7 +69,7 @@ public class PlayerTest {
 		if (player.getAnimationState() == AnimationState.NONE) {
 			fail("Couldn't climb a climbable block");
 		}
-		
+
 		setUp();
 		blockMap.insertBlock(new Block(3, 3, blockMap));
 		player.setDirection(Direction.RIGHT);
@@ -77,7 +77,7 @@ public class PlayerTest {
 		if (player.getAnimationState() != AnimationState.NONE) {
 			fail("Could climb despite climbing collision");
 		}
-		
+
 		setUp();
 		blockMap.insertBlock(new Block(2, 3, blockMap));
 		player.setDirection(Direction.RIGHT);
@@ -85,7 +85,7 @@ public class PlayerTest {
 		if (player.getAnimationState() != AnimationState.NONE) {
 			fail("Could climb despite climbing collision");
 		}
-		
+
 		setUp();
 		Block liftable = new Block(1, 2, blockMap);
 		liftable.setProperty("liftable");
@@ -103,7 +103,7 @@ public class PlayerTest {
 			fail("Couldn't climb a climbable block");
 		}
 	}
-	
+
 	@Test
 	public void testCanGrabBlockPlayerBusy() {
 		block.setProperty("movable");
@@ -114,7 +114,7 @@ public class PlayerTest {
 			fail("Should not be grabbing block");
 		}
 	}
-	
+
 	@Test
 	public void testCanGrabBlockOutOfRange() {
 		block.setProperty("movable");
@@ -125,49 +125,49 @@ public class PlayerTest {
 			fail("Should not be grabbing block");
 		}
 	}
-	
+
 	@Test
 	public void testCanGrabBlockPlayerLiftingBlock() {
 		//Make blocks on both sides of player movable
 		Block anotherBlock = new Block(1, 2, blockMap);
 		anotherBlock.setProperty("movable");
 		block.setProperty("movable");
-		
+
 		//Make the block that will be lifted liftable
 		block.setProperty("liftable");
-		
+
 		//Begin lifting the block to the right
 		player.setDirection(Direction.RIGHT);
 		player.startInteraction();
-		
+
 		//Finish grabbing animation
 		block.getAnimationState().updatePosition(5);
 		player.updatePosition(5);
-		
+
 		//Lift up the block
 		player.liftBlock();
-		
+
 		//Finish the animation
 		block.getAnimationState().updatePosition(5);
 		player.updatePosition(5);
-		
+
 		//Move the actors to the next positions
 		block.moveToNextPosition();
 		player.moveToNextPosition();
-		
+
 		//Remove animations
 		block.setAnimationState(AnimationState.NONE);
 		player.setAnimationState(AnimationState.NONE);
-		
+
 		//Insert blocks to map
 		blockMap.insertBlock(block);
 		blockMap.insertBlock(anotherBlock);
-		
+
 		//Check if preconditions were met
 		if (!player.isLiftingBlock()) {
 			fail("At this point the player should be lifting "+block);
 		}
-		
+
 		//Try to grab block on the left side and hopefully fail
 		player.setDirection(Direction.LEFT);
 		player.startInteraction();
@@ -175,17 +175,17 @@ public class PlayerTest {
 			fail("Should not be grabbing block");
 		}
 	}
-	
+
 	@Test
 	public void testCanLiftBlockOutOfRange() {
 		block.setProperty("liftable");
 		player.setDirection(Direction.RIGHT);
 		player.startInteraction();
-		
+
 		//Finish grabbing animation
 		block.getAnimationState().updatePosition(5);
 		player.updatePosition(5);
-		
+
 		//Test if out of range
 		player.setX(0);
 		player.liftBlock();
@@ -194,7 +194,7 @@ public class PlayerTest {
 					+ " due to being out of range");
 		}
 	}
-	
+
 	@Test
 	public void testCanLiftNoBlockInParticular() {
 		block.setProperty("liftable");
@@ -206,18 +206,18 @@ public class PlayerTest {
 					+ " due to not actually being a grabbed block");
 		}
 	}
-	
+
 	@Test
 	public void testCanMove() {
 		if (!player.canMove(Direction.LEFT)) {
 			fail("Player should be able to move left");
 		}
-		
+
 		player.setX(0);
 		if (player.canMove(Direction.LEFT)) {
 			fail("Player shouldn't be able to move left");
 		}
-		
+
 		player.setX(player.getScaleX() + 1);
 		Block solidBlock = new Block(0, 2, blockMap);
 		solidBlock.setProperty("solid");
@@ -226,422 +226,452 @@ public class PlayerTest {
 			fail("Player shouldn't be able to move left");
 		}
 	}
-	
+
 	@Test
 	public void hasMovedBlock() {
 		if (player.hasMovedBlock()) {
 			fail("Player has not actually moved a block");
 		}
-		
+
 		Block floor = new Block(3, 1, blockMap);
 		floor.setProperty("solid");
-		
+
 		block.setProperty("movable");
 		player.setDirection(Direction.RIGHT);
 		player.startInteraction();
 		player.updatePosition(5);
 		player.interact();
-		
+
 		if (player.hasMovedBlock() && 
 				player.getAnimationState().getMovement().getDuration() == 0) {
 			fail("Player has not actually moved a block");
 		}
-		
+
 		if (!player.hasMovedBlock()) {
 			fail("Player has actually moved a block");
 		}
 	}
-	
+
 	@Ignore @Test
 	public void testIsSwitchingToMe() {
 		//TODO
 	}
-	
+
 	@Test
 	public void testGetAdjacentBlock() {		
 		boolean correct = false;
-		
+
 		player.setDirection(Direction.LEFT);
 		correct = !(player.getAdjacentBlock() == block);
-		
+
 		player.setDirection(Direction.RIGHT);
 		correct &= (player.getAdjacentBlock() == block);
-		
+
 		assertTrue(correct);
 	}
-	
+
 	@Test
 	public void testGrabBlock() {
 		boolean correct = false;
-		
+
 		//#1
 		player.setDirection(Direction.RIGHT);
 		player.startInteraction();
 		correct = !player.isGrabbingBlock();
 		player.endInteraction();
-		
+
 		//#2
 		player.setDirection(Direction.LEFT);
 		player.startInteraction();
 		correct &= !player.isGrabbingBlock();
 		player.endInteraction();
-		
+
 		//#3
 		player.setDirection(Direction.RIGHT);
 		block.setProperty("movable");
 		player.startInteraction();
 		correct &= player.isGrabbingBlock();
 		player.endInteraction();
-		
+
 		//#4
 		player.setDirection(Direction.LEFT);
 		player.startInteraction();
 		correct &= !player.isGrabbingBlock();
 		player.endInteraction();
-		
+
 		assertTrue(correct);
 	}
-	
+
 	@Test
 	public void testIsNextToBlock() {
-		
+
 		//#1 Left side of block
 		if (!player.isNextToBlock(block)) {
 			fail("Player should be next to block");
 		}
-		
+
 		//#2 Right side of block
 		player.setDirection(Direction.LEFT);
 		player.setX(512);
 		if (!player.isNextToBlock(block)) {
 			fail("Player should be next to block");
 		}
-		
+
 		//#3
 		player.setY(0);
 		if (player.isNextToBlock(block)) {
 			fail("Player shouldn't be next to block");
 		}
 	}
-	 @Test
-	 public void testMove() {
-		 final Vector2f vector = new Vector2f(10,10);
-		 
-		 //#1
-		 final float prevPos = player.getX();
-		 player.move(vector);
-		 
-		 final float tolerance = 0.0001f;
-		 
-		 assertTrue(Math.abs(prevPos - player.getX()) > tolerance);
-	 }
-	 
-	 @Test
-	 public void testInteract() {
-		 player.setDirection(Direction.LEFT);
-		 player.interact();
-		 
-		 if (player.getVelocity().x == 0) {
-			 fail("Should be moving freely");
-		 }
-	 }
-	 
-	 @Test
-	 public void testLiftBlockSuccess() {
-		 
-		 player.setDirection(Direction.RIGHT);
-		 block.setProperty("liftable");
-		 block.setProperty("movable");
-		 player.startInteraction(); 
-		 player.liftBlock();
-		 
-		 if (!player.isLiftingBlock()) {
-			 fail("Should be lifting block");
-		 }
-	 }
-	 
-	 @Test
-	 public void testLiftBlockCantLift() {
-		 
-		 player.setDirection(Direction.RIGHT);
-		 block.setProperty("liftable");
-		 block.setProperty("movable");
-		 player.liftBlock();
-		 
-		 if (player.isLiftingBlock()) {
-			 fail("Should not be lifting block");
-		 }
-	 }
-	 
-	 @Test
-	 public void testLiftBlockCantBeLifted() {
-		 
-		 player.setDirection(Direction.RIGHT);
-		 block.setProperty("movable");
-		 player.startInteraction(); 
-		 player.liftBlock();
-		 
-		 if (player.isLiftingBlock()) {
-			 fail("Should not be lifting block");
-		 }
-	 }
-	 
-	 @Test
-	 public void testLiftBlockNeitherPreconditions() {
-		 player.setDirection(Direction.RIGHT);
-		 player.liftBlock();
-		 
-		 if (player.isLiftingBlock()) {
-			 fail("Should not be lifting block");
-		 }
-	 }
-	 
-	 
-	 
-	 @Test
-	 public void testCollidedHorizontally() {
-		 
-		 //#1
-		 boolean correct = !player.collidedHorisontally();
-		 
-		 //#2
-		 player.move(new Vector2f(128, 0));
-		 correct &= player.collidedHorisontally();
-		 
-		 assertTrue(correct);
-	 }
-	 
-	 @Test
-	 public void testCollidedVerticaly() {
-		 //#1
-		 final Block tempBlock = new Block(2, 1, blockMap);
-		 tempBlock.setProperty("solid");
-		 blockMap.insertBlock(tempBlock);
-		 player.move(new Vector2f(0, -128));
-		 boolean correct = player.collidedVertically();
+	
+	@Test
+	public void testMove() {
+		final Vector2f vector = new Vector2f(10,10);
+		final float tolerance = 0.0001f;
 
-		 //#2
-		 player.move(new Vector2f(128, 44));
-		 correct &= !player.collidedHorisontally();
-		 
-		 assertTrue(correct); 
-	 }
-	 
-	 @Test
-	 public void testEndGrabInteraction() {
-		 block.setProperty("movable");
-		 player.setDirection(Direction.RIGHT);
-		 
-		 player.startInteraction();
-		 if (!player.isGrabbingBlock()) {
-			 fail("Invalid precondition");
-		 }
-		 player.endInteraction();
-		 if (player.isGrabbingBlock()) {
-			 fail("Should no longer be grabbing a block");
-		 }
+		final float prevPos = player.getX();
+		player.move(vector);
 
-	 }
-	 
-	 @Test
-	 public void testEndLiftInteractionRight() {
-		 block.setProperty("movable");
-		 block.setProperty("liftable");
-		 player.setDirection(Direction.RIGHT);
-		 
-		 player.startInteraction();
-		 if (!player.isGrabbingBlock()) {
-			 fail("Invalid precondition");
-		 }
-		 player.updatePosition(5);
-		 player.liftBlock();
-		 player.updatePosition(5);
-		 block.getAnimationState().updatePosition(5);
-		 if (!player.isLiftingBlock()) {
-			 fail("Invalid precondition");
-		 }
-		 
-		 player.endInteraction();
-		 if (player.isLiftingBlock()) {
-			 fail("Should no longer be lifting a block");
-		 }
-		 if (block.getAnimationState().getMovement() != Movement.PLACE_RIGHT) {
-			 fail("Should be placing block");
-		 }
-	 }
-	 
-	 @Test
-	 public void testEndLiftInteractionLeft() {
-		 Block anotherBlock = new Block(1, 2, blockMap);
-		 anotherBlock.setProperty("movable");
-		 anotherBlock.setProperty("liftable");
-		 blockMap.insertBlock(anotherBlock);
-		 player.setDirection(Direction.LEFT);
-		 
-		 player.startInteraction();
-		 if (!player.isGrabbingBlock()) {
-			 fail("Invalid precondition");
-		 }
-		 player.updatePosition(5);
-		 player.liftBlock();
-		 player.updatePosition(5);
-		 anotherBlock.getAnimationState().updatePosition(5);
-		 if (!player.isLiftingBlock()) {
-			 fail("Invalid precondition");
-		 }
-		 
-		 player.endInteraction();
-		 if (player.isLiftingBlock()) {
-			 fail("Should no longer be lifting a block");
-		 }
-		 if (anotherBlock.getAnimationState().getMovement() != Movement.PLACE_LEFT) {
-			 fail("Should be placing block");
-		 }
-	 }
-	 
-	 
-	 @Test
-	 public void testGetProcessedBlock() {
-		 player.setDirection(Direction.RIGHT);
-		 block.setProperty("movable");
-		 player.startInteraction();
 
-		 assertTrue(player.getProcessedBlock() == block);
-	 }
-	 
-	 @Test
-	 public void testUpdatePosition() {
-		 boolean correct = false;
-		 player.setVelocityX(-100);
-		 player.setVelocityY(100);
-		 
-		 //#1
-		 float lastXPos = player.getOriginX();
-		 player.updatePosition(0.1f);
-		 final float playerX = player.getX();
-		 correct = (lastXPos != playerX);
-		 
-		 //#2
-		 lastXPos = playerX;
-		 AnimationState animState = new AnimationState(Movement.MOVE_LEFT);
-		 player.setAnimationState(animState);
-		 player.updatePosition(1f);
-		 
-		 final float tolerance = 0.0001f;
-		 
-		 correct &= (Math.abs(lastXPos - player.getX()) > tolerance);
-		 
-		 assertTrue(correct);
-	 }
-	 
-	 @Test
-	 public void testClimbBlock() {
-		 player.setDirection(Direction.RIGHT);
-		 player.climbBlock();
-		 if (player.getAnimationState().getMovement()
-				 					!= Movement.CLIMB_RIGHT) {
-			 fail("Should be climbing block");
-		 } 
-	 }
-	 
-	 @Test
-	 public void testClimbEmptyBlock() {
-		 player.setDirection(Direction.RIGHT);
-		 blockMap.removeBlock(block);
-		 player.climbBlock();
-		 if (player.getAnimationState().getMovement() != Movement.NONE) {
-			 fail("Shouldn't be climbing block");
-		 }
-	 }
-	 
-	 @Test
-	 public void testClimbLeft() {
-		 Block solidBlock = new Block(1, 2, blockMap);
-		 solidBlock.setProperty("solid");
-		 blockMap.insertBlock(solidBlock);
-		 player.setDirection(Direction.LEFT);
-		 player.climbBlock();
-		 if (player.getAnimationState().getMovement()
-				 					!= Movement.CLIMB_LEFT) {
-			 fail("Should be climbing block");
-		 } 
-	 }
-	 
-	 @Test
-	 public void testClimbLiftingBlockLeft() {
-		 Block anotherBlock = new Block(1, 2, blockMap);
-		 anotherBlock.setProperty("solid");
-		 block.setProperty("liftable");
-		 blockMap.insertBlock(anotherBlock);
-		 
-		 player.setDirection(Direction.RIGHT);
-		 player.startInteraction();
-		 player.liftBlock();
-		 
-		 player.updatePosition(5);
-		 block.getAnimationState().updatePosition(5);
-		 block.moveToNextPosition();
-		 blockMap.insertBlock(block);
-		 
-		 player.setDirection(Direction.LEFT);
-		 player.climbBlock();
-		 
-		 if (player.getAnimationState().getMovement() != Movement.LIFTING_CLIMB_LEFT) {
-			 fail("Should be climbing with block");
-		 }
-	 }
-	 
-	 @Test
-	 public void testClimbLiftingBlockRight() {
-		 Block anotherBlock = new Block(1, 2, blockMap);
-		 anotherBlock.setProperty("liftable");
-		 blockMap.insertBlock(anotherBlock);
-		 
-		 player.setDirection(Direction.LEFT);
-		 player.startInteraction();
-		 player.liftBlock();
-		 
-		 player.updatePosition(5);
-		 anotherBlock.getAnimationState().updatePosition(5);
-		 anotherBlock.moveToNextPosition();
-		 blockMap.insertBlock(anotherBlock);
-		 
-		 player.setDirection(Direction.RIGHT);
-		 player.climbBlock();
-		 
-		 if (player.getAnimationState().getMovement() != Movement.LIFTING_CLIMB_RIGHT) {
-			 fail("Should be climbing with block");
-		 }
-	 }
-	 
-	 @Test
-	 public void testClimbWhileGrabbing() {
-		 block.setProperty("movable");
-		 
-		 player.setDirection(Direction.RIGHT);
-		 player.startInteraction();
-		 player.climbBlock();
-		 if (player.getAnimationState().getMovement() != Movement.GRAB_RIGHT) {
-			 fail("Should still be grabbing");
-		 }
-	 }
-	 
-	 @Test
-	 public void testEnterTeleporter() {
-		 boolean correct = false;
-		 block.setProperty("teleporter");
-		 
-		 //#1
-		 player.setDirection(Direction.RIGHT);
-		 player.startInteraction();
-		 correct = (player.getAnimationState().getMovement() == Movement.MOVE_RIGHT);
-				 
-		 //#2
-		 Player player2 = new Player(4, 2, blockMap, World.DAY);
-		 player2.setDirection(Direction.LEFT);
-		 player2.startInteraction();
-		 correct &= (player2.getAnimationState().getMovement() == Movement.MOVE_LEFT);
-		 
-		 assertTrue(correct);		 
-	 }
+		if (Math.abs(prevPos - player.getX()) <= tolerance) {
+			fail("Didn't move");
+		}
+	}
+	
+	@Test
+	public void testMoveAndCollideDown() {
+		final Vector2f vector = new Vector2f(0,-32);
+		Block solidBlock = new Block(2, 1, blockMap);
+				
+		solidBlock.setProperty("solid");
+		blockMap.insertBlock(solidBlock);
+		player.move(vector);
+
+		if (!player.collidedVertically()) {
+			fail("Moved");
+		}
+	}
+	
+	@Test
+	public void testMoveAndCollideUp() {
+		final Vector2f vector = new Vector2f(0, 130 - player.getHeight());
+		Block solidBlock = new Block(2, 3, blockMap);
+				
+		solidBlock.setProperty("solid");
+		blockMap.insertBlock(solidBlock);
+		player.move(vector);
+
+		if (!player.collidedVertically()) {
+			fail("Moved");
+		}
+	}
+
+	@Test
+	public void testInteract() {
+		player.setDirection(Direction.LEFT);
+		player.interact();
+
+		if (player.getVelocity().x == 0) {
+			fail("Should be moving freely");
+		}
+	}
+
+	@Test
+	public void testLiftBlockSuccess() {
+
+		player.setDirection(Direction.RIGHT);
+		block.setProperty("liftable");
+		block.setProperty("movable");
+		player.startInteraction(); 
+		player.liftBlock();
+
+		if (!player.isLiftingBlock()) {
+			fail("Should be lifting block");
+		}
+	}
+
+	@Test
+	public void testLiftBlockCantLift() {
+
+		player.setDirection(Direction.RIGHT);
+		block.setProperty("liftable");
+		block.setProperty("movable");
+		player.liftBlock();
+
+		if (player.isLiftingBlock()) {
+			fail("Should not be lifting block");
+		}
+	}
+
+	@Test
+	public void testLiftBlockCantBeLifted() {
+
+		player.setDirection(Direction.RIGHT);
+		block.setProperty("movable");
+		player.startInteraction(); 
+		player.liftBlock();
+
+		if (player.isLiftingBlock()) {
+			fail("Should not be lifting block");
+		}
+	}
+
+	@Test
+	public void testLiftBlockNeitherPreconditions() {
+		player.setDirection(Direction.RIGHT);
+		player.liftBlock();
+
+		if (player.isLiftingBlock()) {
+			fail("Should not be lifting block");
+		}
+	}
+
+
+
+	@Test
+	public void testCollidedHorizontally() {
+
+		//#1
+		boolean correct = !player.collidedHorisontally();
+
+		//#2
+		player.move(new Vector2f(128, 0));
+		correct &= player.collidedHorisontally();
+
+		assertTrue(correct);
+	}
+
+	@Test
+	public void testCollidedVerticaly() {
+		//#1
+		final Block tempBlock = new Block(2, 1, blockMap);
+		tempBlock.setProperty("solid");
+		blockMap.insertBlock(tempBlock);
+		player.move(new Vector2f(0, -128));
+		boolean correct = player.collidedVertically();
+
+		//#2
+		player.move(new Vector2f(128, 44));
+		correct &= !player.collidedHorisontally();
+
+		assertTrue(correct); 
+	}
+
+	@Test
+	public void testEndGrabInteraction() {
+		block.setProperty("movable");
+		player.setDirection(Direction.RIGHT);
+
+		player.startInteraction();
+		if (!player.isGrabbingBlock()) {
+			fail("Invalid precondition");
+		}
+		player.endInteraction();
+		if (player.isGrabbingBlock()) {
+			fail("Should no longer be grabbing a block");
+		}
+
+	}
+
+	@Test
+	public void testEndLiftInteractionRight() {
+		block.setProperty("movable");
+		block.setProperty("liftable");
+		player.setDirection(Direction.RIGHT);
+
+		player.startInteraction();
+		if (!player.isGrabbingBlock()) {
+			fail("Invalid precondition");
+		}
+		player.updatePosition(5);
+		player.liftBlock();
+		player.updatePosition(5);
+		block.getAnimationState().updatePosition(5);
+		if (!player.isLiftingBlock()) {
+			fail("Invalid precondition");
+		}
+
+		player.endInteraction();
+		if (player.isLiftingBlock()) {
+			fail("Should no longer be lifting a block");
+		}
+		if (block.getAnimationState().getMovement() != Movement.PLACE_RIGHT) {
+			fail("Should be placing block");
+		}
+	}
+
+	@Test
+	public void testEndLiftInteractionLeft() {
+		Block anotherBlock = new Block(1, 2, blockMap);
+		anotherBlock.setProperty("movable");
+		anotherBlock.setProperty("liftable");
+		blockMap.insertBlock(anotherBlock);
+		player.setDirection(Direction.LEFT);
+
+		player.startInteraction();
+		if (!player.isGrabbingBlock()) {
+			fail("Invalid precondition");
+		}
+		player.updatePosition(5);
+		player.liftBlock();
+		player.updatePosition(5);
+		anotherBlock.getAnimationState().updatePosition(5);
+		if (!player.isLiftingBlock()) {
+			fail("Invalid precondition");
+		}
+
+		player.endInteraction();
+		if (player.isLiftingBlock()) {
+			fail("Should no longer be lifting a block");
+		}
+		if (anotherBlock.getAnimationState().getMovement() != Movement.PLACE_LEFT) {
+			fail("Should be placing block");
+		}
+	}
+
+
+	@Test
+	public void testGetProcessedBlock() {
+		player.setDirection(Direction.RIGHT);
+		block.setProperty("movable");
+		player.startInteraction();
+
+		assertTrue(player.getProcessedBlock() == block);
+	}
+
+	@Test
+	public void testUpdatePosition() {
+		boolean correct = false;
+		player.setVelocityX(-100);
+		player.setVelocityY(100);
+
+		//#1
+		float lastXPos = player.getOriginX();
+		player.updatePosition(0.1f);
+		final float playerX = player.getX();
+		correct = (lastXPos != playerX);
+
+		//#2
+		lastXPos = playerX;
+		AnimationState animState = new AnimationState(Movement.MOVE_LEFT);
+		player.setAnimationState(animState);
+		player.updatePosition(1f);
+
+		final float tolerance = 0.0001f;
+
+		correct &= (Math.abs(lastXPos - player.getX()) > tolerance);
+
+		assertTrue(correct);
+	}
+
+	@Test
+	public void testClimbBlock() {
+		player.setDirection(Direction.RIGHT);
+		player.climbBlock();
+		if (player.getAnimationState().getMovement()
+				!= Movement.CLIMB_RIGHT) {
+			fail("Should be climbing block");
+		} 
+	}
+
+	@Test
+	public void testClimbEmptyBlock() {
+		player.setDirection(Direction.RIGHT);
+		blockMap.removeBlock(block);
+		player.climbBlock();
+		if (player.getAnimationState().getMovement() != Movement.NONE) {
+			fail("Shouldn't be climbing block");
+		}
+	}
+
+	@Test
+	public void testClimbLeft() {
+		Block solidBlock = new Block(1, 2, blockMap);
+		solidBlock.setProperty("solid");
+		blockMap.insertBlock(solidBlock);
+		player.setDirection(Direction.LEFT);
+		player.climbBlock();
+		if (player.getAnimationState().getMovement()
+				!= Movement.CLIMB_LEFT) {
+			fail("Should be climbing block");
+		} 
+	}
+
+	@Test
+	public void testClimbLiftingBlockLeft() {
+		Block anotherBlock = new Block(1, 2, blockMap);
+		anotherBlock.setProperty("solid");
+		block.setProperty("liftable");
+		blockMap.insertBlock(anotherBlock);
+
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		player.liftBlock();
+
+		player.updatePosition(5);
+		block.getAnimationState().updatePosition(5);
+		block.moveToNextPosition();
+		blockMap.insertBlock(block);
+
+		player.setDirection(Direction.LEFT);
+		player.climbBlock();
+
+		if (player.getAnimationState().getMovement() != Movement.LIFTING_CLIMB_LEFT) {
+			fail("Should be climbing with block");
+		}
+	}
+
+	@Test
+	public void testClimbLiftingBlockRight() {
+		Block anotherBlock = new Block(1, 2, blockMap);
+		anotherBlock.setProperty("liftable");
+		blockMap.insertBlock(anotherBlock);
+
+		player.setDirection(Direction.LEFT);
+		player.startInteraction();
+		player.liftBlock();
+
+		player.updatePosition(5);
+		anotherBlock.getAnimationState().updatePosition(5);
+		anotherBlock.moveToNextPosition();
+		blockMap.insertBlock(anotherBlock);
+
+		player.setDirection(Direction.RIGHT);
+		player.climbBlock();
+
+		if (player.getAnimationState().getMovement() != Movement.LIFTING_CLIMB_RIGHT) {
+			fail("Should be climbing with block");
+		}
+	}
+
+	@Test
+	public void testClimbWhileGrabbing() {
+		block.setProperty("movable");
+
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		player.climbBlock();
+		if (player.getAnimationState().getMovement() != Movement.GRAB_RIGHT) {
+			fail("Should still be grabbing");
+		}
+	}
+
+	@Test
+	public void testEnterTeleporter() {
+		boolean correct = false;
+		block.setProperty("teleporter");
+
+		//#1
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		correct = (player.getAnimationState().getMovement() == Movement.MOVE_RIGHT);
+
+		//#2
+		Player player2 = new Player(4, 2, blockMap, World.DAY);
+		player2.setDirection(Direction.LEFT);
+		player2.startInteraction();
+		correct &= (player2.getAnimationState().getMovement() == Movement.MOVE_LEFT);
+
+		assertTrue(correct);		 
+	}
 }
