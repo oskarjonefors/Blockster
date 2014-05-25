@@ -104,10 +104,6 @@ public class PlayerView {
 		return arrayOfAnimation.get(move).getKeyFrame(animTime, true);
 	}
 
-	private TextureRegion getPushPullAnim(Movement movement) {
-		return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
-	}
-
 	private TextureRegion getWalkingPic() {
 		lastMovement = player.getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
 		return walkAnimations.get(player.getDirection()).getKeyFrame(animTime, true);
