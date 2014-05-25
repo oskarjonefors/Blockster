@@ -9,8 +9,8 @@ public class ScaledObject implements PhysicalObject {
 	private float y;
 	protected float height;
 	protected float width;
-	private float scaleX;
-	private float scaleY;
+	private final float scaleX;
+	private final float scaleY;
 	
 	public ScaledObject(float x, float y, float scaleX, float scaleY) {
 		this.x = x * scaleX;

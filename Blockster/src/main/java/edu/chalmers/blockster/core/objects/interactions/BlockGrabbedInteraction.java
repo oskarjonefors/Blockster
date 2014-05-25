@@ -39,10 +39,10 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 		int checkX = (int) interacted.getX();
 		
 		while (blockLayer.hasBlock(checkX, origY)) {
-			boolean noBlockAbove = !blockLayer.hasBlock(checkX, origY + 1);
-			boolean noWeightAbove = !blockLayer.getBlock(checkX, origY + 1).hasWeight();
-			boolean isMovable = blockLayer.getBlock(checkX, origY).isMovable();
-			boolean notCrossingBounds = checkX > 0  && checkX < blockLayer.getWidth() - 1;
+			final boolean noBlockAbove = !blockLayer.hasBlock(checkX, origY + 1);
+			final boolean noWeightAbove = !blockLayer.getBlock(checkX, origY + 1).hasWeight();
+			final boolean isMovable = blockLayer.getBlock(checkX, origY).isMovable();
+			final boolean notCrossingBounds = checkX > 0  && checkX < blockLayer.getWidth() - 1;
 			
 			if ((noBlockAbove || noWeightAbove) && isMovable && notCrossingBounds) {
 				movingBlocks.add((Interactable) blockLayer.getBlock(checkX, origY));
@@ -76,14 +76,14 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 
 	private boolean isInReach() {
 		return Math.abs(interacted.getX()
-				- (Math.round(interactor.getX()) / interactor.getScaleX())) <= 1.1f
+				- Math.round(interactor.getX()) / interactor.getScaleX()) <= 1.1f
 				&& Math.abs(interacted.getY()
-						- (Math.round(interactor.getY()) / interactor
-								.getScaleY())) <= 0.2f;
+						- Math.round(interactor.getY()) / interactor
+								.getScaleY()) <= 0.2f;
 	}
 
 	private void pullBlock(Direction dir) {
-		Movement movement = Movement.getPullMovement(dir);
+		final Movement movement = Movement.getPullMovement(dir);
 		if (canPerformMove(dir)) {
 			LOG.log(Level.INFO, "Can pull");
 			interacted.setAnimationState(new AnimationState(movement));
@@ -93,8 +93,8 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	}
 
 	private void pushBlocks(Direction dir) {
-		Movement movement = Movement.getPushMovement(dir);
-		List<Interactable> moveableInteractables = getMoveableInteractables(movement
+		final Movement movement = Movement.getPushMovement(dir);
+		final List<Interactable> moveableInteractables = getMoveableInteractables(movement
 				.getDirection());
 
 		if (!moveableInteractables.isEmpty()) {
@@ -108,11 +108,11 @@ public class BlockGrabbedInteraction extends PlayerInteraction {
 	}
 	
 	public boolean canPerformMove(Direction dir) {
-		boolean interactorCanMove = interactor.canMove(dir);
-		boolean collisionBeneathNext = interactor.collisionBeneathNext(dir);
-		boolean noBlockAbove = !blockLayer.hasBlock((int) interacted.getX(),
+		final boolean interactorCanMove = interactor.canMove(dir);
+		final boolean collisionBeneathNext = interactor.collisionBeneathNext(dir);
+		final boolean noBlockAbove = !blockLayer.hasBlock((int) interacted.getX(),
 				(int) interacted.getY() + 1);
-		boolean weightless = !blockLayer.getBlock((int) interacted.getX(),
+		final boolean weightless = !blockLayer.getBlock((int) interacted.getX(),
 				(int) interacted.getY() + 1).hasWeight();
 		return collisionBeneathNext && interactorCanMove && (noBlockAbove 
 				|| weightless);
