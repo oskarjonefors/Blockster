@@ -81,14 +81,16 @@ public class PlayerView {
 	}
 
 	private TextureRegion getAnimations(Movement movement) {
+		TextureRegion region;
 		switch (movement) {
-		case PUSH_LEFT: return getPushPullAnim(movement);
-		case PUSH_RIGHT: return getPushPullAnim(movement); 
-		case PULL_LEFT: return getPushPullAnim(movement);
-		case PULL_RIGHT: return getPushPullAnim(movement);
-		case FALL_DOWN: return getFallAnim();
-		default: return getMovingAnim(movement); 		
+		case PUSH_LEFT: region = getPushPullAnim(movement); break;
+		case PUSH_RIGHT: region = getPushPullAnim(movement); break; 
+		case PULL_LEFT: region = getPushPullAnim(movement); break;
+		case PULL_RIGHT: region = getPushPullAnim(movement); break;
+		case FALL_DOWN: region = getFallAnim(); break;
+		default: region = getMovingAnim(movement); break; 		
 		}
+		return region;
 	}
 
 	private TextureRegion getMovingAnim(Movement movement) {
