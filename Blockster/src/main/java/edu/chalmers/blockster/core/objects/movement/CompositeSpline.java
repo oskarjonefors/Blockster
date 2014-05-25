@@ -26,7 +26,7 @@ public class CompositeSpline implements Spline {
 	 * @return
 	 */
 	private Vector2f sumOfSplines(int highestIndex) {
-		Vector2f splineOffset = new Vector2f();
+		final Vector2f splineOffset = new Vector2f();
 		
 		for (int i = 0; i <= Math.min(directions.length, highestIndex); i++) {
 			final Direction dir = directions[i];
@@ -63,7 +63,7 @@ public class CompositeSpline implements Spline {
 	public Direction getDirection() {
 		int deltaX = 0;
 		int deltaY = 0;
-		for (LinearSpline spline : partialSplines) {
+		for (final LinearSpline spline : partialSplines) {
 			final Direction dir = spline.getDirection();
 			deltaX += dir.getDeltaX();
 			deltaY += dir.getDeltaY();

@@ -1,13 +1,6 @@
 package edu.chalmers.blockster.core.objects.movement;
 
-import static edu.chalmers.blockster.core.objects.movement.Direction.DOWN;
-import static edu.chalmers.blockster.core.objects.movement.Direction.DOWN_LEFT;
-import static edu.chalmers.blockster.core.objects.movement.Direction.DOWN_RIGHT;
-import static edu.chalmers.blockster.core.objects.movement.Direction.LEFT;
-import static edu.chalmers.blockster.core.objects.movement.Direction.RIGHT;
-import static edu.chalmers.blockster.core.objects.movement.Direction.UP;
-import static edu.chalmers.blockster.core.objects.movement.Direction.UP_LEFT;
-import static edu.chalmers.blockster.core.objects.movement.Direction.UP_RIGHT;
+import static edu.chalmers.blockster.core.objects.movement.Direction.*;
 import static edu.chalmers.blockster.core.util.Calculations.BLOCK_FALL_DURATION;
 import static edu.chalmers.blockster.core.util.Calculations.GRAB_BLOCK_DURATION;
 import static edu.chalmers.blockster.core.util.Calculations.MOVE_LIFTED_BLOCK_DURATION;
