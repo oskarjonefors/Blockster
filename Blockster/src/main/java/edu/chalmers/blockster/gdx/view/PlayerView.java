@@ -86,7 +86,7 @@ public class PlayerView {
 		case PUSH_RIGHT: return getPushPullAnim(movement); 
 		case PULL_LEFT: return getPushPullAnim(movement);
 		case PULL_RIGHT: return getPushPullAnim(movement);
-		case FALL_DOWN: return getFallAnim(movement);
+		case FALL_DOWN: return getFallAnim();
 		}
 
 		if (player.isGrabbingBlock()) { 
@@ -96,7 +96,7 @@ public class PlayerView {
 		}
 	}
 
-	private TextureRegion getFallAnim(Movement movement) {
+	private TextureRegion getFallAnim() {
 		Movement move = player.getDirection() == Direction.LEFT ? Movement.MOVE_LEFT : Movement.MOVE_RIGHT;
 		return arrayOfAnimation.get(move).getKeyFrame(animTime, true);
 	}
