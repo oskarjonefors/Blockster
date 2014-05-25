@@ -52,12 +52,12 @@ public class Block extends BlocksterObject implements GridObject, Interactable {
 	}
 
 	public void fallDown() {
-		boolean collisionBelow = blockMap.hasBlock((int) getX(), (int) (getY() - 1)) &&
+		final boolean collisionBelow = blockMap.hasBlock((int) getX(), (int) (getY() - 1)) &&
 				blockMap.getBlock((int) getX(), (int) (getY() - 1)).isSolid();
 		
 		if ( !collisionBelow && hasWeight()) {
 			if (isLifted()) {
-				Interactor interactor = getInteraction().getInteractor();
+				final Interactor interactor = getInteraction().getInteractor();
 				if(!interactor.collisionBeneathNext(Direction.NONE)) {
 					interactor.setAnimationState(new AnimationState(Movement.FALL_DOWN));
 					setAnimationState(new AnimationState(Movement.FALL_DOWN));
