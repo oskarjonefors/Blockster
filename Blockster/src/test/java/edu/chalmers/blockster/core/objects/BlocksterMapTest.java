@@ -49,7 +49,7 @@ public class BlocksterMapTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void constructorFailureTestBlockHeigth() {
-		blockMap = new BlocksterMap(1, 1, 48, 48, startPos);
+		blockMap = new BlocksterMap(1, 1, 48, -48, startPos);
 		assertTrue(false);
 	}
 	
@@ -63,7 +63,7 @@ public class BlocksterMapTest {
 	public void constructorFailureTestStartPosX() {
 			final List<Point> starts = new ArrayList<Point>();
 			starts.add(new Point(-1, 1));
-			starts.add(new Point(2, 2));
+			starts.add(new Point(-2, 2));
 			blockMap = new BlocksterMap(1, 1, 48, 48, starts);
 		
 
@@ -74,7 +74,7 @@ public class BlocksterMapTest {
 	public void constructorFailureTestStartPosY() {
 			final List<Point> starts = new ArrayList<Point>();
 			starts.add(new Point(1, -1));
-			starts.add(new Point(2, 2));
+			starts.add(new Point(2, -2));
 			blockMap = new BlocksterMap(1, 1, 48, 48, starts);
 
 			assertTrue(false);
@@ -149,6 +149,14 @@ public class BlocksterMapTest {
 		}
 	}
 	
+	@Test(expected=IllegalArgumentException.class) 
+	public void insertNullBlockTest() {
+		Block nullBlock = null;
+		blockMap.insertBlock(nullBlock);
+		
+		assertTrue(false);
+	}
+	
 	@Test
 	public void removeBlockTest() {
 		Block block = new Block(3, 2, blockMap);
@@ -161,6 +169,15 @@ public class BlocksterMapTest {
 		if (blockMap.getBlock(3, 2) == block) {
 			fail("block wasn't removed");
 		}
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void removeNullBlockTest() {
+		Block nullBlock = null;
+		blockMap.removeBlock(nullBlock);
+		
+		assertTrue(false);
+
 	}
 	
 	@Test

@@ -103,7 +103,9 @@ public class BlocksterMap implements GridMap, BlockMap {
 	 */
 	@Override
 	public void removeBlock(Block block) {
-		assert block != null : "Block does not exist, cannot be removed.";
+		if (block == null ) {
+			throw new IllegalArgumentException("Block does not exist, cannot be removed.");
+		}
 
 		final int x = Math.round(block.getX());
 		final int y = Math.round(block.getY());
@@ -119,7 +121,9 @@ public class BlocksterMap implements GridMap, BlockMap {
 	 */
 	@Override
 	public void insertBlock(Block block) {
-		assert block != null : "Block does not exist, cannot be inserted.";
+		if (block == null ) {
+			throw new IllegalArgumentException("Block does not exist, cannot be inserted.");
+		}
 
 		final int x = Math.round(block.getX());
 		final int y = Math.round(block.getY());
