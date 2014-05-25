@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import javax.vecmath.Vector2f;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CompositeSplineTest {

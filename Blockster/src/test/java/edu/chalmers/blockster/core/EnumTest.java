@@ -2,7 +2,6 @@ package edu.chalmers.blockster.core;
 
 import static org.junit.Assert.*;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.World;
