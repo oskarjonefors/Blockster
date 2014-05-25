@@ -93,7 +93,7 @@ public class BlockView implements TiledMapTile {
 			playerMovement = ((Player) interaction.getInteractor()).getAnimationState().getMovement();
 		}
 		
-		return !blockMovement.equals(Movement.NONE) && blockMovement.equals(playerMovement);
+		return blockMovement != Movement.NONE && blockMovement == playerMovement;
 	}
 
 	private boolean isMovementAnimationDiagonal() {
