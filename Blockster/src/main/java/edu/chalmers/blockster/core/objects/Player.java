@@ -202,15 +202,19 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 	}
 
 	public boolean isNextToBlock(AbstractBlocksterObject block) {
-		boolean isNextToBlock = isLiftingBlock() && block != null
+		if (block == null) {
+			return false;
+		}
+		
+		boolean isNextToBlock = isLiftingBlock()
 				&& Math.abs((int) block.getX()
 						- (int) (getX() / blockMap.getBlockWidth())) <= 1
 				&& Math.abs(block.getY() - getY() / blockMap.getBlockHeight()) <= 0.2f;
-		isNextToBlock |= getDirection().getDeltaX() < 0 && block != null
+		isNextToBlock |= getDirection().getDeltaX() < 0
 				&& Math.abs(block.getX() + 1
 						- Math.round(getX()) / blockMap.getBlockWidth()) <= 0.1f
 				&& Math.abs(block.getY() - getY() / blockMap.getBlockHeight()) <= 0.2f;
-		isNextToBlock |= block != null && Math.abs(block.getX() - (getX() + getWidth())
+		isNextToBlock |= Math.abs(block.getX() - (getX() + getWidth())
 				/ getScaleX()) <= 0.25f && Math.abs(block.getY() - getY() /
 						blockMap.getBlockHeight()) <= 0.2f;
 		
