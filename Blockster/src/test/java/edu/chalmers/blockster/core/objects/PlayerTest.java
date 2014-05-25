@@ -252,9 +252,19 @@ public class PlayerTest {
 		}
 	}
 
-	@Ignore @Test
+	@Test
 	public void testIsSwitchingToMe() {
-		//TODO
+		if (player.isSwitchingToMe()) {
+			fail("Shouldn't be switching to player");
+		}
+		player.switchingToMe(true);
+		if (!player.isSwitchingToMe()) {
+			fail("Should be switching to player");
+		}
+		player.switchingToMe(false);
+		if (player.isSwitchingToMe()) {
+			fail("Shouldn't be switching to player");
+		}
 	}
 
 	@Test
