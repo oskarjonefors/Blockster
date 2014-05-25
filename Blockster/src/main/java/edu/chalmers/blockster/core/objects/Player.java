@@ -24,7 +24,7 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
  * @author Emilia Nilsson and Eric Bjuhr
  * 
  */
-public class Player extends BlocksterObject implements Interactor {
+public class Player extends AbstractBlocksterObject implements Interactor {
 	
 	private static final Logger LOG = Logger.getLogger(Player.class.getName());
 	private final Block none;
@@ -201,7 +201,7 @@ public class Player extends BlocksterObject implements Interactor {
 		return liftingBlock;
 	}
 
-	public boolean isNextToBlock(BlocksterObject block) {
+	public boolean isNextToBlock(AbstractBlocksterObject block) {
 		boolean isNextToBlock = isLiftingBlock() && block != null
 				&& Math.abs((int) block.getX()
 						- (int) (getX() / blockMap.getBlockWidth())) <= 1

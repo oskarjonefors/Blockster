@@ -16,7 +16,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import edu.chalmers.blockster.core.Factory;
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlocksterMap;
-import edu.chalmers.blockster.core.objects.BlocksterObject;
+import edu.chalmers.blockster.core.objects.AbstractBlocksterObject;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.World;
 
@@ -129,7 +129,7 @@ public class GdxFactory implements Factory {
 		return startingPositions;
 	}
 	
-	public void initPortalViews(String property, BlocksterObject block) {
+	public void initPortalViews(String property, AbstractBlocksterObject block) {
 		if ("blue".equals(property)) {
 			bluePortalView = new PortalView(block.getX()*blockWidth, block.getY()*blockHeight, animFactory.getPortalAnimation(0));
 		} else if ("yellow".equals(property)) {

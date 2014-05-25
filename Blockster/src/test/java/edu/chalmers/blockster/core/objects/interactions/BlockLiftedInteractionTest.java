@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.Block;
 import edu.chalmers.blockster.core.objects.BlocksterMap;
-import edu.chalmers.blockster.core.objects.BlocksterObject;
+import edu.chalmers.blockster.core.objects.AbstractBlocksterObject;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.World;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
@@ -103,7 +103,7 @@ public class BlockLiftedInteractionTest {
 		}
 	}
 	
-	private void finishAnimation(BlocksterObject object) {
+	private void finishAnimation(AbstractBlocksterObject object) {
 		AnimationState anim = object.getAnimationState();
 		anim.updatePosition(anim.getMovement().getDuration());
 		

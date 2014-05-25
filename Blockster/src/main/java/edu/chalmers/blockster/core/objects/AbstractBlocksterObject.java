@@ -8,9 +8,9 @@ import javax.vecmath.Vector2f;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
-public abstract class BlocksterObject extends ScaledObject {
+public abstract class AbstractBlocksterObject extends ScaledObject {
 
-	private static final Logger LOG = Logger.getLogger(BlocksterObject.class
+	private static final Logger LOG = Logger.getLogger(AbstractBlocksterObject.class
 			.getName());
 
 	private float totalTime;
@@ -21,7 +21,7 @@ public abstract class BlocksterObject extends ScaledObject {
 	protected BlockMap blockMap;
 	protected boolean directionChanged = false;
 
-	public BlocksterObject(float startX, float startY, BlockMap blockMap,
+	public AbstractBlocksterObject(float startX, float startY, BlockMap blockMap,
 			float scaleX, float scaleY) {
 		super(startX, startY, scaleX, scaleY);
 		this.blockMap = blockMap;

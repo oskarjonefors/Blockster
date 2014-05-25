@@ -14,7 +14,7 @@ import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 import edu.chalmers.blockster.core.util.GridObject;
 
-public class Block extends BlocksterObject implements GridObject, Interactable {
+public class Block extends AbstractBlocksterObject implements GridObject, Interactable {
 
 	private static final Logger LOG = Logger.getLogger(Block.class.getName());
 	
