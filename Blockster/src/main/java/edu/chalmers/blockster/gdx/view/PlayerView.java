@@ -20,7 +20,8 @@ public class PlayerView {
 
 	private final Player player;
 	private final Sprite sprite;
-	private TextureRegion standLeft, standRight;
+	private final TextureRegion standLeft;
+	private final TextureRegion standRight;
 	private final Map<Movement, Animation> arrayOfAnimation;
 	private final Map<Direction, Animation> walkAnimations;
 	private float animTime;
@@ -43,13 +44,16 @@ public class PlayerView {
 	}
 
 	public void draw(SpriteBatch batch, boolean isActive){
-		TextureRegion region = chooseAnimation();
-		int width = region.getRegionWidth(), height = region.getRegionHeight();
+		final TextureRegion region = chooseAnimation();
+		final int width = region.getRegionWidth();
+		final int height = region.getRegionHeight();
 
 		sprite.setRegion(region);
 		setSize(width, height);
 
-		if (!isActive) {
+		if (isActive) {
+			batch.draw(sprite,  getX(),  getY());
+		} else {
 			final Color color = batch.getColor();
 			final float a = color.a;
 			color.a = a * 0.3f;
@@ -57,8 +61,6 @@ public class PlayerView {
 			batch.draw(sprite, getX(), getY(), getX(), getY(), width, height, 1f, 1f, 0);
 			color.a = a;
 			batch.setColor(color);
-		} else {
-			batch.draw(sprite,  getX(),  getY());
 		}
 	}
 
@@ -92,7 +94,7 @@ public class PlayerView {
 				return arrayOfAnimation.get(Movement.GRAB_LEFT).getKeyFrame(animTime);
 			}
 		} else if (movement == Movement.FALL_DOWN)  {
-			Movement move = player.getDirection() == Direction.LEFT ? Movement.MOVE_LEFT : Movement.MOVE_RIGHT;
+			final Movement move = player.getDirection() == Direction.LEFT ? Movement.MOVE_LEFT : Movement.MOVE_RIGHT;
 			return arrayOfAnimation.get(move).getKeyFrame(animTime, true);
 		} else {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);

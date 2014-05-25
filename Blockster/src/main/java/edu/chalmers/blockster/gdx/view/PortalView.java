@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class PortalView {
-	private Sprite sprite;
+	private final Sprite sprite;
 	private final Animation animations;
-	private float time, posX, posY;
+	private float time;
+	private final float posX;
+	private final float posY;
 	
 	public PortalView(float posX, float posY, Animation animations) {
 		this.posX = posX;
