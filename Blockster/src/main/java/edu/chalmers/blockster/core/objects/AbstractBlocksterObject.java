@@ -1,17 +1,11 @@
 package edu.chalmers.blockster.core.objects;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.vecmath.Vector2f;
 
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 
 public abstract class AbstractBlocksterObject extends ScaledObject {
-
-	private static final Logger LOG = Logger.getLogger(AbstractBlocksterObject.class
-			.getName());
 
 	private float totalTime;
 	private final Vector2f velocity;
@@ -99,8 +93,6 @@ public abstract class AbstractBlocksterObject extends ScaledObject {
 
 	public void setAnimationState(AnimationState anim) {
 		if (this.anim.isDone()) {
-			LOG.log(Level.FINE, "Giving animation state " + anim + " to "
-					+ this);
 			this.anim = anim;
 		}
 	}
