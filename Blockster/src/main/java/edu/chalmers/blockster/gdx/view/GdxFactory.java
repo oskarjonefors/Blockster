@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import edu.chalmers.blockster.core.Factory;
 import edu.chalmers.blockster.core.objects.Block;
+import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.BlocksterMap;
 import edu.chalmers.blockster.core.objects.AbstractBlocksterObject;
 import edu.chalmers.blockster.core.objects.Player;
@@ -100,7 +101,7 @@ public class GdxFactory implements Factory {
 	}
 	
 	@Override
-	public Player createPlayer(float startX, float startY, BlocksterMap blockLayer,
+	public Player createPlayer(float startX, float startY, BlockMap blockLayer,
 			World world) {
 		return new Player(startX, startY, blockLayer, world);
 	}

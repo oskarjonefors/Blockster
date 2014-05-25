@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import edu.chalmers.blockster.core.objects.Block;
-import edu.chalmers.blockster.core.objects.BlocksterMap;
+import edu.chalmers.blockster.core.objects.BlockMap;
 import edu.chalmers.blockster.core.objects.GameEventListener;
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.World;
@@ -22,7 +22,7 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
  */
 public class Model implements Comparable<Model>, GameEventListener {
 	
-	private BlocksterMap map;
+	private BlockMap map;
 	private Player activePlayer;
 	private List<Player> players;
 	private Set<Block> activeBlocks;
@@ -86,7 +86,7 @@ public class Model implements Comparable<Model>, GameEventListener {
 		return activePlayer;
 	}
 	
-	public BlocksterMap getMap() {
+	public BlockMap getMap() {
 		return map;
 	}
 
