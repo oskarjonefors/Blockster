@@ -152,5 +152,31 @@ public class MovementDirectionTest {
 		
 		assertTrue(success);
 	}
+	
+	@Test
+	public void testGetOpposite() {
+		if (Direction.getOpposite(Direction.LEFT) != Direction.RIGHT) {
+			fail("Logical error");
+		}
+		if (Direction.getOpposite(Direction.UP_LEFT) != Direction.DOWN_RIGHT) {
+			fail("Logical error");
+		}
+		if (Direction.getOpposite(Direction.UP) != Direction.DOWN) {
+			fail("Logical error");
+		}
+	}
+	
+	@Test
+	public void testIsPull() {
+		if (Movement.isPull(null)) {
+			fail("Null can never be a pull movement");
+		}
+		if (Movement.isPull(Movement.CLIMB_DOWN_LEFT)) {
+			fail("Should not be a pull movement");
+		}
+		if (!Movement.isPull(Movement.PULL_LEFT)) {
+			fail("Should be a pull movement");
+		}
+	}
 
 }
