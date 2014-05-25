@@ -104,7 +104,8 @@ public class GdxView implements ApplicationListener, Disposable {
 			SpriteBatch batch = new SpriteBatch();
 			
 			batch.begin();
-			batch.draw(winPic, 370, 150);
+			batch.draw(winPic, (Gdx.graphics.getWidth() - winPic.getWidth())/2,
+							(Gdx.graphics.getHeight() - winPic.getHeight())/2);
 			batch.end();
 		}
 	}
