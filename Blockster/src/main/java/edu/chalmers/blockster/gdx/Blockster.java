@@ -49,7 +49,7 @@ public final class Blockster extends Game implements MapChangeListener {
 			final FileHandle file = Gdx.files.internal("music/gourmet_race.mp3");
 			final Music music = Gdx.audio.newMusic(file);
 			music.setLooping(true);
-			/* add music.play() here to make the music start. */
+			music.play();
 
 			loadStages();
 
