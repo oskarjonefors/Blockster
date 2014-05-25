@@ -176,7 +176,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 					directionChanged = false;
 					wait = 0;
 				}
-			} else if (blockMap.collisionAt((int) (getX()/getScaleX()), (int) (getX()/getScaleX()) - 1)) {
+			} else if (blockMap.collisionAt((int) (getX()/getScaleX()), (int) (getY()/getScaleY()) - 1)) {
 				interaction.interact(dir);
 				movedBlock = true;
 				directionChanged = false;
