@@ -176,7 +176,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 					directionChanged = false;
 					wait = 0;
 				}
-			} else if (interaction.canPerformMove(dir)) {
+			} else if (interaction.canPerformMove(Direction.NONE)) {
 				interaction.interact(dir);
 				movedBlock = true;
 				directionChanged = false;
