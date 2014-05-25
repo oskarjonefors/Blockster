@@ -72,10 +72,7 @@ public final class Blockster extends Game implements MapChangeListener {
 		addStagesToMap(stages, maps);
 	}
 
-	@Override
-	public void pause () {
-	}
-
+	
 	@Override
 	public void render () {
 		/*Update the world controller with the time
@@ -102,10 +99,6 @@ public final class Blockster extends Game implements MapChangeListener {
 		 */
 		viewer.resize(width, height);
 		}
-
-	@Override
-	public void resume () {
-	}
 	
 	@Override
 	public void stageChanged(Model stage) {
