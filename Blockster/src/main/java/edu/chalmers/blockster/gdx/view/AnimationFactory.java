@@ -150,8 +150,8 @@ public class AnimationFactory {
 		Animation carryRight = new Animation(ZERO_ONE_TIME, tempCarryRight);
 		carryLeft.setPlayMode(Animation.REVERSED);
 		
-		Animation jumpLeft = new Animation(ZERO_THREE_TIME, tempJumpLeft);
-		Animation jumpRight = new Animation(ZERO_THREE_TIME, tempJumpRight);
+		Animation jumpLeft = new Animation(ZERO_ONE_TIME, tempJumpLeft);
+		Animation jumpRight = new Animation(ZERO_ONE_TIME, tempJumpRight);
 		
 		Animation liftJumpLeft = new Animation(ZERO_ONE_TIME, tempLiftJumpLeft);
 		Animation liftJumpRight = new Animation(ZERO_ONE_TIME, tempLiftJumpRight);
