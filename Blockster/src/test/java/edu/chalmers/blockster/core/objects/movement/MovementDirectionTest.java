@@ -155,6 +155,9 @@ public class MovementDirectionTest {
 	
 	@Test
 	public void testGetOpposite() {
+		if (Direction.getOpposite(null) != Direction.NONE) {
+			fail("Logical error");
+		}
 		if (Direction.getOpposite(Direction.LEFT) != Direction.RIGHT) {
 			fail("Logical error");
 		}
@@ -179,4 +182,36 @@ public class MovementDirectionTest {
 		}
 	}
 
+	@Test
+	public void testGetPlayerPlaceMovement() {
+		if (Movement.getPlayerPlaceMovement(Direction.LEFT) 
+				!= Movement.PLAYER_PLACE_LEFT) {
+			fail("Logical error!");
+		}
+		if (Movement.getPlayerPlaceMovement(Direction.RIGHT) 
+				!= Movement.PLAYER_PLACE_RIGHT) {
+			fail("Logical error!");
+		}
+		if (Movement.getPlayerPlaceMovement(Direction.NONE) 
+				!= Movement.NONE) {
+			fail("Logical error!");
+		}
+	}
+	
+	@Test
+	public void testGetClimbDownMovement() {
+		if (Movement.getClimbDownMovement(Direction.LEFT) 
+				!= Movement.CLIMB_DOWN_LEFT) {
+			fail("Logical error!");
+		}
+		if (Movement.getClimbDownMovement(Direction.RIGHT) 
+				!= Movement.CLIMB_DOWN_RIGHT) {
+			fail("Logical error!");
+		}
+		if (Movement.getClimbDownMovement(Direction.NONE) 
+				!= Movement.NONE) {
+			fail("Logical error!");
+		}
+	}
+	
 }
