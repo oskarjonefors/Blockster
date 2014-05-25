@@ -109,4 +109,9 @@ public class BlockLiftedInteraction extends AbstractPlayerInteraction {
 
 	}
 
+	@Override
+	public boolean canPerformMove(Direction dir) {
+		return getMovePerformType(dir) != CANNOT_MOVE;
+	}
+
 }

@@ -34,6 +34,11 @@ public abstract class AbstractPlayerInteraction {
 		public void startInteraction() {
 			/* Does nothing */
 		}
+
+		@Override
+		public boolean canPerformMove(Direction dir) {
+			return true;
+		}
 		
 	}
 	
@@ -50,5 +55,7 @@ public abstract class AbstractPlayerInteraction {
 	public final Interactable getInteracted() {
 		return interacted;
 	}
+	
+	public abstract boolean canPerformMove(Direction dir);
 	
 }
