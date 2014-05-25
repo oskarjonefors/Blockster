@@ -1,6 +1,6 @@
 package edu.chalmers.blockster.core.objects;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -60,12 +60,12 @@ public class BlockTest {
 	public void testCanMove() {
 		final Movement movementRight = Movement.PULL_RIGHT;
 		Direction dir = movementLeft.getDirection();
-		block.setAnimationState(new AnimationState(movementLeft));
 		
 		//#1 Can move
 		if (!block.canMove(dir)) {
 			fail("Block should be able to move");
 		}
+		block.setAnimationState(new AnimationState(movementLeft));
 		
 		//#2 Can not move
 		Block newBlock = new Block(startX - 1, startY, blockMap);
