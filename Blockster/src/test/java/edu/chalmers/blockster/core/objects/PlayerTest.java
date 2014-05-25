@@ -242,20 +242,32 @@ public class PlayerTest {
 			fail("Player has not actually moved a block");
 		}
 
-		Block floor = new Block(3, 1, blockMap);
-		floor.setProperty("solid");
+		Block floor1 = new Block(3, 1, blockMap);
+		Block floor2 = new Block(2, 1, blockMap);
+		floor1.setProperty("solid");
+		floor2.setProperty("solid");
 
 		block.setProperty("movable");
 		player.setDirection(Direction.RIGHT);
 		player.startInteraction();
 		player.updatePosition(5);
 		player.interact();
+		
+		
+		if (player.hasMovedBlock()) {
+			fail("Player has not yet moved a block");
+		}
+		
+		blockMap.insertBlock(floor1);
+		blockMap.insertBlock(floor2);
+		player.interact();
 
 		if (player.hasMovedBlock() && 
 				player.getAnimationState().getMovement().getDuration() == 0) {
 			fail("Player has not actually moved a block");
 		}
-
+		
+		
 		if (!player.hasMovedBlock()) {
 			fail("Player has actually moved a block");
 		}
@@ -783,8 +795,18 @@ public class PlayerTest {
 		}
 		
 		player.interact();
-		if (!player.hasMovedBlock()) {
+		if (player.hasMovedBlock()) {
 			fail("Should not have moved a block yet");
+		}
+		
+		Block solidBlock = new Block((int) (player.getX() / player.getScaleX()), 
+				(int) (player.getY() / player.getScaleY()) - 1, blockMap);
+		solidBlock.setProperty("solid");
+		blockMap.insertBlock(solidBlock);
+		
+		player.interact();
+		if (!player.hasMovedBlock()) {
+			fail("Should have moved a block by now");
 		}
 	}
 	
