@@ -268,8 +268,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 			movedBlock = false;
 			processedBlock = none;
 			Direction correctDir;
-			if (lastMovement == Movement.PULL_LEFT
-					|| lastMovement == Movement.PULL_RIGHT) {
+			if (lastMovement != null && lastMovement.isPullMovement()) {
 				correctDir = getDirection() == Direction.LEFT ? Direction.RIGHT
 						: Direction.LEFT;
 			} else {

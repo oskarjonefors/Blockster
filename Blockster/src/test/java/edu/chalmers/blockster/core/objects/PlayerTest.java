@@ -917,4 +917,38 @@ public class PlayerTest {
 		}
 	}
 	
+	@Test
+	public void testSetGrabbingFalse() {
+		Block floor1 = new Block(1, 1, blockMap);
+		Block floor2 = new Block(2, 1, blockMap);
+		
+		floor1.setProperty("solid");
+		floor2.setProperty("solid");
+		block.setProperty("movable");
+		blockMap.insertBlock(floor1);
+		blockMap.insertBlock(floor2);
+		
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		player.updatePosition(5);
+		player.setDirection(Direction.LEFT);
+		
+		if (!player.isGrabbingBlock()) {
+			fail("Incorrect preconditions");
+		}
+		
+		player.interact();
+		
+		if (!player.getAnimationState().getMovement().isPullMovement()) {
+			fail("Incorrect preconditions");
+		}
+		
+		player.updatePosition(5);
+		player.setGrabbing(false);
+		
+		if (player.getDirection() == Direction.LEFT) {
+			fail("Incorrect direction");
+		}
+	}
+	
 }
