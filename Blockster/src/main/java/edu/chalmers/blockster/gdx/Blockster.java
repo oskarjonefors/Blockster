@@ -27,11 +27,6 @@ public final class Blockster extends Game implements MapChangeListener {
 	private Model stage;
 	private Map<Model, GdxView> stages;
 	
-	public Blockster() {
-		super();
-		create();
-	}
-	
 	private void addStagesToMap(Map<Model, GdxView> stageMap, FileHandle... maps) {
 		final TmxMapLoader loader = new TmxMapLoader();
 		for (final FileHandle mapFile : maps) {
