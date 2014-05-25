@@ -21,31 +21,7 @@ import edu.chalmers.blockster.core.objects.Player;
 
 public class MiniMap implements BlockMapListener, ActiveBlockListener {
 
-
-	
-	private static class Bounds {
-		
-		private final float x, y, width, height;
-		
-		public Bounds(float x, float y, float width, float height) {
-			this.x = x;
-			this.y = y;
-			this.width = width;
-			this.height = height;
-		}
-		
-		public boolean contains(float x, float y) {
-			return x >= this.x - 3 && x < this.x + width + 3
-					&& y >= this.y - 3 && y < this.y + height + 3;
-		}
-		
-		public String toString() {
-			return "Bounds X:" + x + " Y: " + y +
-					" Width: " + width + " Height: " + height;
-		}
-	}
 	private final Set<Block> activeBlocks;
-	
 	private final Set<Block> staticBlocks;
 	private int scaleX;
 	
@@ -69,6 +45,28 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	public static final int ACTIVE_PLAYER = Color.rgba8888(1f, 1f, 0, 1f);
 	
 	public static final int INACTIVE_PLAYER = Color.rgba8888(0, 0, 1f, 1f);
+	
+	private static class Bounds {
+		
+		private final float x, y, width, height;
+		
+		public Bounds(float x, float y, float width, float height) {
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+		}
+		
+		public boolean contains(float x, float y) {
+			return x >= this.x - 3 && x < this.x + width + 3
+					&& y >= this.y - 3 && y < this.y + height + 3;
+		}
+		
+		public String toString() {
+			return "Bounds X:" + x + " Y: " + y +
+					" Width: " + width + " Height: " + height;
+		}
+	}
 	
 	public MiniMap (int mapWidth, int mapHeight, Player activePlayer) {
 		this.scaleX = 1;
@@ -131,7 +129,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 		
 		prepareSprite(minimapSprite, spriteTexture);
 		
-		Color previousColor = batch.getColor();
+		final Color previousColor = batch.getColor();
 		batch.setColor(previousColor.r, previousColor.g, previousColor.b, 0.6f);
 		
 		batch.draw(minimapSprite, 5, 5);
@@ -140,9 +138,9 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	}
 	
 	private void drawActiveBlocks(Pixmap pixmap, Bounds bounds) {
-		for (Block block : activeBlocks) {
-			float x = block.getX();
-			float y = block.getY();
+		for (final Block block : activeBlocks) {
+			final float x = block.getX();
+			final float y = block.getY();
 			if (bounds.contains(x, y)) {
 				pixmap.setColor(getColor(block));
 				pixmap.fillRectangle(Math.round(x * scaleX), 
@@ -160,7 +158,7 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	private void drawPlayers(Pixmap pixmap, Bounds bounds) {
 		pixmap.setColor(INACTIVE_PLAYER);
-		for(Point2D.Float point : playerPos) {
+		for(final Point2D.Float point : playerPos) {
 			final int r = (int) Math.round(scaleX*0.5);
 			if (bounds.contains(point.x, point.y)) {
 				pixmap.setColor(ACTIVE_PLAYER);
@@ -173,9 +171,9 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	}
 	
 	private void drawStaticBlocks(Pixmap pixmap, Bounds bounds) {
-		for (Block block : staticBlocks) {
-			float x = block.getX();
-			float y = block.getY() + 1;
+		for (final Block block : staticBlocks) {
+			final float x = block.getX();
+			final float y = block.getY() + 1;
 			if (bounds.contains(x, y)) {
 				pixmap.setColor(getColor(block));
 				pixmap.fillRectangle(Math.round(x * scaleX), 
@@ -188,8 +186,8 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 
 	private void drawViewport(Pixmap pixmap) {
 		pixmap.setColor(VIEWPORT);
-		int x = Math.max(1, Math.round(viewX * scaleX));
-		int y = Math.max(1, Math.round(viewY * scaleY));
+		final int x = Math.max(1, Math.round(viewX * scaleX));
+		final int y = Math.max(1, Math.round(viewY * scaleY));
 		int recWidth = Math.round(viewportWidth * scaleX);
 		int recHeight = Math.round(viewportHeight * scaleY);
 
@@ -217,14 +215,14 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	private Bounds getDrawBounds() {
 		//Make the side two times the offset long (one time for each side of the center)
-		float boundsWidth = 2 * OFFSET_X;
-		float boundsHeight = 2 * OFFSET_Y;
+		final float boundsWidth = 2 * OFFSET_X;
+		final float boundsHeight = 2 * OFFSET_Y;
 		
 		//Get the center point of the player, then subtract by offset
-		float x = (activePlayer.getX() + activePlayer.getWidth() / 2f) 
+		final float x = (activePlayer.getX() + activePlayer.getWidth() / 2f) 
 				/ activePlayer.getScaleX() - OFFSET_X;
 
-		float y = (activePlayer.getY() + activePlayer.getHeight() / 2f) 
+		final float y = (activePlayer.getY() + activePlayer.getHeight() / 2f) 
 				/ activePlayer.getScaleY() - OFFSET_Y + 1;
 		
 		return new Bounds(x, y, boundsWidth, boundsHeight);
@@ -260,24 +258,24 @@ public class MiniMap implements BlockMapListener, ActiveBlockListener {
 	
 	private Bounds getTextureBounds() {
 		//Make the side two times the offset long (one time for each side of the center)
-		float boundsWidth = 2 * OFFSET_X;
-		float boundsHeight = 2 * OFFSET_Y;
+		final float boundsWidth = 2 * OFFSET_X;
+		final float boundsHeight = 2 * OFFSET_Y;
 		
 		//Get the center point of the player, then subtract by offset
-		float x = (activePlayer.getX() + activePlayer.getWidth() / 2f) 
+		final float x = (activePlayer.getX() + activePlayer.getWidth() / 2f) 
 				/ activePlayer.getScaleX() - OFFSET_X;
-		float y = (activePlayer.getY() - activePlayer.getHeight() / 2f) 
+		final float y = (activePlayer.getY() - activePlayer.getHeight() / 2f) 
 				/ activePlayer.getScaleY() + OFFSET_Y + 1;
 		
 		return new Bounds(x, y, boundsWidth, boundsHeight);
 	}
 
 	private void prepareSprite(Sprite sprite, Texture texture) {
-		Bounds bounds = getTextureBounds();
-		float textX = bounds.x * scaleX;
-		float textY = (height - bounds.y) * scaleY;
-		float textWidth = bounds.width * scaleX;
-		float textHeight = bounds.height * scaleY;
+		final Bounds bounds = getTextureBounds();
+		final float textX = bounds.x * scaleX;
+		final float textY = (height - bounds.y) * scaleY;
+		final float textWidth = bounds.width * scaleX;
+		final float textHeight = bounds.height * scaleY;
 		
 		sprite.setTexture(texture);
 		sprite.setRegion((int) textX, (int) textY, (int) textWidth, (int) textHeight);

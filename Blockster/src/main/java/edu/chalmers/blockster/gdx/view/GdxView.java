@@ -40,7 +40,7 @@ public class GdxView implements ApplicationListener, Disposable {
 	private Stage stage;
 	private Map<Player, PlayerView> players;
 	private BackgroundImage background;
-	private GdxFactory factory;
+	private final GdxFactory factory;
 	private GdxMap gdxMap;
 	private MiniMap miniMap;
 
@@ -100,8 +100,8 @@ public class GdxView implements ApplicationListener, Disposable {
 			drawObjects();
 			
 		} else if (model.getGameState() == GameState.GAME_WON) {
-			Texture winPic = new Texture("menuPics/logo.png");
-			SpriteBatch batch = new SpriteBatch();
+			final Texture winPic = new Texture("menuPics/logo.png");
+			final SpriteBatch batch = new SpriteBatch();
 			
 			batch.begin();
 			batch.draw(winPic, (Gdx.graphics.getWidth() - winPic.getWidth())/2,
@@ -307,8 +307,8 @@ public class GdxView implements ApplicationListener, Disposable {
 		
 		final List<Player> playerList = model.getPlayers();
 		final List<Point2D.Float> playerPos = new ArrayList<Point2D.Float>();
-		for (Player player : playerList) {
-			playerPos.add(new Point2D.Float(player.getX() / scaleX, (player.getY() + (player.getHeight() / 2f)) / scaleY));
+		for (final Player player : playerList) {
+			playerPos.add(new Point2D.Float(player.getX() / scaleX, (player.getY() + player.getHeight() / 2f) / scaleY));
 		}
 		
 		miniMap.setPlayerLocations(playerPos);

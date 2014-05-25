@@ -17,8 +17,8 @@ import edu.chalmers.blockster.core.objects.World;
 public class BackgroundImage {
 	
 	private final Map<World, TextureRegion> backgrounds;
-	private float width;
-	private float height;
+	private final float width;
+	private final float height;
 	private float scaleX;
 	private float scaleY;
 	private float x;

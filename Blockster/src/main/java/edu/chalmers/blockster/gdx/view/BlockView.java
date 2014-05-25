@@ -29,8 +29,8 @@ public class BlockView implements TiledMapTile {
 	private final Sprite sprite;
 
 	private float rotation;
-	private float previousRotation = 0;
-	private boolean hasSetPreviousRotation = false;
+	private float previousRotation;
+	private boolean hasSetPreviousRotation;
 
 	public BlockView(Block block, TiledMapTile tile) {
 		this.block = block;
@@ -86,18 +86,18 @@ public class BlockView implements TiledMapTile {
 	}
 
 	private boolean playerHasSameMovement() {
-		Movement blockMovement = block.getAnimationState().getMovement();
+		final Movement blockMovement = block.getAnimationState().getMovement();
 		Movement playerMovement = Movement.NONE;
 		AbstractPlayerInteraction interaction = block.getInteraction();
 		if (interaction != AbstractPlayerInteraction.NONE) {
 			playerMovement = ((Player) interaction.getInteractor()).getAnimationState().getMovement();
 		}
 		
-		return blockMovement != Movement.NONE && blockMovement == playerMovement;
+		return !blockMovement.equals(Movement.NONE) && blockMovement.equals(playerMovement);
 	}
 
 	private boolean isMovementAnimationDiagonal() {
-		Direction dir = block.getAnimationState().getMovement().getDirection();
+		final Direction dir = block.getAnimationState().getMovement().getDirection();
 		return Math.abs(dir.getDeltaX()) + Math.abs(dir.getDeltaY()) == 2;
 	}
 
@@ -116,7 +116,7 @@ public class BlockView implements TiledMapTile {
 			sprite.setRotation(getTotalRotation());
 			hasSetPreviousRotation = false;
 		} else {
-			sprite.setRotation(getOrtagonalDegrees());
+			sprite.setRotation(getOrthogonalDegrees());
 		}
 
 	}
@@ -125,15 +125,16 @@ public class BlockView implements TiledMapTile {
 		return previousRotation + rotation;
 	}
 
-	public int getOrtagonalDegrees() {
-		int dif = 45, targetVal = Math.round(getTotalRotation()) % 360;
+	public int getOrthogonalDegrees() {
+		final int dif = 45;
+		final int targetVal = Math.round(getTotalRotation()) % 360;
 		int[] ortagonalDegrees = { 0, 90, 180, 270 };
 		return  Calculations.getClosestNumber(targetVal, dif, 0, ortagonalDegrees);
 	}
 
 	private void updateRotation() {
 		final AnimationState anim = block.getAnimationState();
-		Vector2f v = anim.getRelativePosition();
+		final Vector2f v = anim.getRelativePosition();
 		switch (anim.getMovement().getDirection()) {
 		case UP_LEFT:
 			rotation = (float) (360d * Math.atan2(v.y, 1 + v.x) / (2 * Math.PI));

@@ -32,7 +32,7 @@ public class GdxFactory implements Factory {
 	private final int blockHeight;
 	private final List<Point> playerStartingPositions;
 	private final TiledMapTileLayer tileLayer;
-	private AnimationFactory animFactory = new AnimationFactory();
+	private final AnimationFactory animFactory = new AnimationFactory();
 
 	private PortalView bluePortalView;
 	private PortalView yellowPortalView;
@@ -116,7 +116,7 @@ public class GdxFactory implements Factory {
 		
 		final MapProperties mapProps = map.getProperties();
 		
-		int	nbrOfPlayers = Integer.parseInt((String)mapProps.get("nbrOfPlayers"));
+		final int nbrOfPlayers = Integer.parseInt((String)mapProps.get("nbrOfPlayers"));
 		
 		final List<Point> startingPositions = new ArrayList<Point>();
 		
