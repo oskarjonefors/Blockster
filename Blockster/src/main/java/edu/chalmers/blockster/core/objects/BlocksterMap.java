@@ -287,7 +287,7 @@ public class BlocksterMap implements GridMap, BlockMap {
 					+ posi);
 		}
 		
-		if (height <= 0) {
+		if (blockHeight <= 0) {
 			throw new IllegalArgumentException("Height of blocks is " + blockHeight
 					+ posi);
 		}
