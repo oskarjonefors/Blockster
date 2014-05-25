@@ -267,15 +267,9 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 			setInteraction(AbstractPlayerInteraction.NONE);
 			movedBlock = false;
 			processedBlock = none;
-			Direction correctDir;
-			if (lastMovement != null && lastMovement.isPullMovement()) {
-				correctDir = getDirection() == Direction.LEFT ? Direction.RIGHT
-						: Direction.LEFT;
-			} else {
-				correctDir = getDirection() == Direction.LEFT ? Direction.LEFT
-						: Direction.RIGHT;
+			if (Movement.isPull(lastMovement)) {
+				setDirection(Direction.getOpposite(getDirection()));
 			}
-			setDirection(correctDir);
 		}
 	}
 

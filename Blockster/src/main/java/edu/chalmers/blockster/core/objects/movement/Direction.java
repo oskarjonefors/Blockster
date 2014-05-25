@@ -24,6 +24,16 @@ public enum Direction {
 		return (x1	- x2) > 0 ? Direction.LEFT : Direction.RIGHT;
 	}
 	
+	public static Direction getOpposite(Direction dir) {
+		for (Direction d : values()) {
+			if (d.deltaX == -dir.deltaX && d.deltaY == -dir.deltaY) {
+				return d;
+			}
+		}
+		
+		return NONE;
+	}
+	
 	public int getDeltaX() {
 		return deltaX;
 	}
