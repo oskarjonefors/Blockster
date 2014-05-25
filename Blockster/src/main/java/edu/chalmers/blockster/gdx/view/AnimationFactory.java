@@ -80,7 +80,6 @@ public class AnimationFactory {
 		final Texture carry = new Texture(Gdx.files.internal(prefix + "lift_animation.png"));
 		final Texture jump = new Texture(Gdx.files.internal(prefix + "jump.png"));
 		final Texture liftJump = new Texture(Gdx.files.internal(prefix + "jump_with_block.png"));
-		
 
 		final TextureRegion[][] grabPics = TextureRegion.split(grab, grab.getWidth()/THREE_PIC_WIDTH, grab.getHeight()/NBR_PIC_HEIGHT);
 
@@ -109,8 +108,8 @@ public class AnimationFactory {
 		
 		//Get grab&Lift Animations
 		for (int i = 0; i < THREE_PIC_WIDTH; i++) {
-			tempGrabLeft[i] = grabPics[0][i];
-			tempGrabRight[i] = grabPics[1][i];
+			tempGrabRight[i] = grabPics[0][i];
+			tempGrabLeft[i] = grabPics[1][i];
 		}
 
 		// Get push and carry Animations
@@ -135,9 +134,9 @@ public class AnimationFactory {
 		}
 
 		// Set arrayOfAnimation
-		final Animation grabLeft = new Animation(ZERO_ONE_TIME, tempGrabLeft);
-		final Animation grabRight = new Animation(ZERO_ONE_TIME, tempGrabRight);
-		grabRight.setPlayMode(Animation.REVERSED);
+		Animation grabLeft = new Animation(ZERO_ONE_TIME, tempGrabLeft);
+		Animation grabRight = new Animation(ZERO_ONE_TIME, tempGrabRight);
+		grabLeft.setPlayMode(Animation.REVERSED);
 
 		final Animation pushLeft = new Animation(ZERO_ONE_TIME, tempPushLeft);
 		final Animation pushRight = new Animation(ZERO_ONE_TIME, tempPushRight);

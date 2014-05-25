@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.core.objects.World;
-import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 
@@ -66,9 +65,7 @@ public class PlayerView {
 
 
 	public TextureRegion chooseAnimation(){
-
-		final AnimationState animState = player.getAnimationState();
-		final Movement movement = animState.getMovement();
+		final Movement movement = player.getAnimationState().getMovement();
 		animTime += Gdx.graphics.getDeltaTime();
 
 		if (!player.isGrabbingBlock() && movement == Movement.NONE ||
@@ -84,58 +81,64 @@ public class PlayerView {
 	}
 
 	private TextureRegion getAnimations(Movement movement) {
-		if (movement == Movement.PUSH_LEFT || movement == Movement.PUSH_RIGHT) {
-			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
+		switch (movement) {
+		case PUSH_LEFT: return getPushPullAnim(movement);
+		case PUSH_RIGHT: return getPushPullAnim(movement); 
+		case PULL_LEFT: return getPushPullAnim(movement);
+		case PULL_RIGHT: return getPushPullAnim(movement);
+		case FALL_DOWN: return getFallAnim(movement);
+		}
 
-		} else if (player.isGrabbingBlock() && movement != Movement.PULL_LEFT && movement != Movement.PULL_RIGHT) {
-			if (lastMovement == Movement.GRAB_LEFT) {
-				return arrayOfAnimation.get(Movement.GRAB_RIGHT).getKeyFrame(animTime);
-			} else {
-				return arrayOfAnimation.get(Movement.GRAB_LEFT).getKeyFrame(animTime);
-			}
-		} else if (movement == Movement.FALL_DOWN)  {
-			final Movement move = player.getDirection() == Direction.LEFT ? Movement.MOVE_LEFT : Movement.MOVE_RIGHT;
-			return arrayOfAnimation.get(move).getKeyFrame(animTime, true);
+		if (player.isGrabbingBlock()) { 
+			return arrayOfAnimation.get(lastMovement == Movement.GRAB_LEFT ? Movement.GRAB_LEFT :Movement.GRAB_RIGHT).getKeyFrame(animTime);
 		} else {
 			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
 		}
 	}
 
-		private TextureRegion getWalkingPic() {
-			lastMovement = player.getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
-			return walkAnimations.get(player.getDirection()).getKeyFrame(animTime, true);
-		}
-
-		private TextureRegion getStillPic() {
-			if (player.isLiftingBlock()) {
-				return player.getDirection() == Direction.LEFT ? 
-						arrayOfAnimation.get(Movement.MOVE_LEFT).getKeyFrame(animTime) :
-							arrayOfAnimation.get(Movement.MOVE_RIGHT).getKeyFrame(animTime);
-			} else {
-				return player.getDirection() == Direction.LEFT ? standLeft : standRight;
-			}
-		}
-
-		public TextureRegion getCurrentAnimation(AnimationState anim, Float time){
-			return arrayOfAnimation.get(anim.getMovement()).getKeyFrame(time, true);
-		}
-
-		public final void setSize(float width, float height) {
-			sprite.setSize(width, height);
-			player.setWidth(width);
-			player.setHeight(width);
-		}
-
-		public Player getPlayer() {
-			return player;
-		}
-
-		public float getX() {
-			return player.getX();
-		}
-
-		public float getY() {
-			return player.getY();
-		}
-
+	private TextureRegion getFallAnim(Movement movement) {
+		Movement move = player.getDirection() == Direction.LEFT ? Movement.MOVE_LEFT : Movement.MOVE_RIGHT;
+		return arrayOfAnimation.get(move).getKeyFrame(animTime, true);
 	}
+
+	private TextureRegion getPushPullAnim(Movement movement) {
+		return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
+	}
+
+	private TextureRegion getWalkingPic() {
+		lastMovement = player.getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
+		return walkAnimations.get(player.getDirection()).getKeyFrame(animTime, true);
+	}
+
+	private TextureRegion getStillPic() {
+		if (player.isLiftingBlock()) {
+			Movement move = Movement.getMoveMovement(player.getDirection());
+			return arrayOfAnimation.get(move).getKeyFrame(animTime);
+		} else {
+			return player.getDirection() == Direction.LEFT ? standLeft : standRight;
+		}
+	}
+
+//	public TextureRegion getCurrentAnimation(AnimationState anim, Float time){
+//		return arrayOfAnimation.get(anim.getMovement()).getKeyFrame(time, true);
+//	}
+
+	public final void setSize(float width, float height) {
+		sprite.setSize(width, height);
+		player.setWidth(width);
+		player.setHeight(width);
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public float getX() {
+		return player.getX();
+	}
+
+	public float getY() {
+		return player.getY();
+	}
+
+}
