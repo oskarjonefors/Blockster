@@ -42,6 +42,12 @@
 		<Bug code="PRMC" />
 	</Match>
 
+    <!-- Ignore error about fields not being initialized in constructor. Superclass constructor calls other fields to initialize these. -->
+	<Match>
+		<Class name="edu.chalmers.blockster.gdx.Blockster" />
+		<Bug code="UwF" />
+	</Match>
+
 	<!-- Disable certain bugs (often false positives) in JUnit tests -->
 	<Match>
 		<Class name="~.*\.*Test" />
