@@ -57,6 +57,7 @@ public final class Blockster extends Game implements MapChangeListener {
 			
 			controller.setModel(model);
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
