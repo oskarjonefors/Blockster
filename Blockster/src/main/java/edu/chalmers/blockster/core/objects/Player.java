@@ -319,7 +319,6 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 		} else {
 			LOG.log(Level.FINE, "Moving " + this);
 			lastMovement = getAnimationState().getMovement();
-			System.out.println(lastMovement);
 			anim.updatePosition(deltaTime);
 		}
 	}

@@ -87,6 +87,7 @@ public class PlayerView {
 		case PULL_LEFT: return getPushPullAnim(movement);
 		case PULL_RIGHT: return getPushPullAnim(movement);
 		case FALL_DOWN: return getFallAnim();
+		default:; 		
 		}
 
 		if (player.isGrabbingBlock()) { 
@@ -118,10 +119,6 @@ public class PlayerView {
 			return player.getDirection() == Direction.LEFT ? standLeft : standRight;
 		}
 	}
-
-//	public TextureRegion getCurrentAnimation(AnimationState anim, Float time){
-//		return arrayOfAnimation.get(anim.getMovement()).getKeyFrame(time, true);
-//	}
 
 	public final void setSize(float width, float height) {
 		sprite.setSize(width, height);
