@@ -129,7 +129,16 @@ public class BlockLiftedInteractionTest {
 	public void testEndInteractionSuccess() {
 		interaction.startInteraction();
 		interaction.endInteraction();
-		assertTrue(!player.isLiftingBlock());
+		if (!player.isLiftingBlock()) {
+			fail("Should still be lifting the block");
+		}
+		
+
+		block.getAnimationState().updatePosition(5);
+		interaction.endInteraction();
+		if (player.isLiftingBlock()) {
+			fail("Should no longer be lifting the block");
+		}
 	}
 	
 	@Test
