@@ -2,6 +2,7 @@ package edu.chalmers.blockster.gdx;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 /**
  * Application to launch an instance of the game.
@@ -13,12 +14,14 @@ public final class BlocksterLauncher {
 
 	public static void main(String [] args) {
 		final ApplicationListener listener = new Blockster();
-		final String title = "Blockster";
 		
-		final int width = 800;
-		final int height = 600;
+		final LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.width = 800;
+		config.height = 600;
+		config.resizable = false;
+		config.useGL20 = true;
+		config.title = "Blockster";
 		
-		final boolean useOpenGLES2 = true;
-		new LwjglApplication(listener, title, width, height, useOpenGLES2);
+		new LwjglApplication(listener, config);
 	}
 }
