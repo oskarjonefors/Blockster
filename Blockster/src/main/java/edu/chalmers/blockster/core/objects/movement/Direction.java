@@ -25,9 +25,11 @@ public enum Direction {
 	}
 	
 	public static Direction getOpposite(Direction dir) {
-		for (Direction d : values()) {
-			if (d.deltaX == -dir.deltaX && d.deltaY == -dir.deltaY) {
-				return d;
+		if (dir != null) {
+			for (Direction d : values()) {
+				if (d.deltaX == -dir.deltaX && d.deltaY == -dir.deltaY) {
+					return d;
+				}
 			}
 		}
 		
