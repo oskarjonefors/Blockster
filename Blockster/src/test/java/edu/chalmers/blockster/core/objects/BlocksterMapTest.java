@@ -18,6 +18,7 @@ public class BlocksterMapTest {
 	private BlocksterMap blockMap;
 	private MiniMap map;
 	private List<Point> startPos;
+	private Block block;
 	
 	@Before
 	public void setUp() {
@@ -141,7 +142,7 @@ public class BlocksterMapTest {
 	
 	@Test
 	public void insertBlockTest() {
-		Block block = new Block(2, 1, blockMap);
+		block = new Block(2, 1, blockMap);
 		
 		blockMap.insertBlock(block);
 		if (blockMap.getBlock(2, 1) != block) {
@@ -151,15 +152,13 @@ public class BlocksterMapTest {
 	
 	@Test(expected=IllegalArgumentException.class) 
 	public void insertNullBlockTest() {
-		Block nullBlock = null;
-		blockMap.insertBlock(nullBlock);
-		
+		blockMap.insertBlock(block);
 		assertTrue(false);
 	}
 	
 	@Test
 	public void removeBlockTest() {
-		Block block = new Block(3, 2, blockMap);
+		block = new Block(3, 2, blockMap);
 		
 		blockMap.insertBlock(block);	
 		if (blockMap.getBlock(3, 2) != block) {
@@ -173,9 +172,7 @@ public class BlocksterMapTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void removeNullBlockTest() {
-		Block nullBlock = null;
-		blockMap.removeBlock(nullBlock);
-		
+		blockMap.removeBlock(block);
 		assertTrue(false);
 
 	}
