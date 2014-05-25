@@ -169,14 +169,15 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 	public void interact() {
 		if (isInteracting() && getAnimationState().isDone() 
 				&& processedBlock.getAnimationState().isDone()) {
+			Direction dir = getDirection();
 			if (directionChanged && isLiftingBlock()) {
 				wait++;
 				if (wait > 2) {
 					directionChanged = false;
 					wait = 0;
 				}
-			} else {
-				interaction.interact(getDirection());
+			} else if (interaction.canPerformMove(dir)) {
+				interaction.interact(dir);
 				movedBlock = true;
 				directionChanged = false;
 			}
