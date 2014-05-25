@@ -6,8 +6,6 @@ import static edu.chalmers.blockster.core.objects.movement.Direction.RIGHT;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -21,15 +19,9 @@ import edu.chalmers.blockster.core.objects.Player;
 import edu.chalmers.blockster.gdx.view.GdxView;
 
 /**
- * Class to handle input and updating the model.
- * 
- * @author Eric Bjuhr, Oskar Jönefors
- * 
+ * Class to handle input and updating the model
  */
 public class Controller extends InputAdapter implements Disposable {
-
-	private static final Logger LOG = Logger.getLogger(Controller.class
-			.getName());
 
 	private volatile int keyFlags;
 	private volatile int miscFlags;
@@ -82,7 +74,6 @@ public class Controller extends InputAdapter implements Disposable {
 		if ((keyFlags & MENU_BUTTON_UP_FLAG) != 0) {
 			// Opening the level menu
 			keyFlags &= ~MENU_BUTTON_UP_FLAG;
-			LOG.log(Level.INFO, "Removing flag: " + MENU_BUTTON_UP_FLAG);
 		}
 
 		if ((keyFlags & SWITCH_CHARACTER_BUTTON_UP_FLAG) != 0) {
@@ -122,7 +113,6 @@ public class Controller extends InputAdapter implements Disposable {
 				activePlayer.liftBlock();
 			}
 			keyFlags &= ~GRAB_BUTTON_UP_FLAG;
-			LOG.log(Level.INFO, "Removing flag: " + GRAB_BUTTON_UP_FLAG);
 		}
 	}
 
@@ -208,20 +198,6 @@ public class Controller extends InputAdapter implements Disposable {
 
 	/**
 	 * This method is called each time a key as been released.
-	 * 
-	 * @see com.badl if ((keyFlags & GRAB_BUTTON_DOWN_FLAG) != 0) { //Try to
-	 *      grab the adjacent block if possible and there is one.
-	 *      model.getActivePlayer().grabBlock();
-	 * 
-	 *      }
-	 * 
-	 *      if ((keyFlags & GRAB_BUTTON_UP_FLAG) != 0) { //Grab button was
-	 *      released if (!hasMovedBlock && !model.isLiftingBlock()) {
-	 *      model.getActivePlayer().liftBlock(); } else {
-	 *      model.stopProcessingBlock(); hasMovedBlock = false; } keyFlags &=
-	 *      ~GRAB_BUTTON_UP_FLAG;
-	 *      System.out.println("Removing flag: "+GRAB_BUTTON_UP_FLAG);
-	 *      }ogic.gdx.InputAdapter#keyUp(int)
 	 */
 	@Override
 	public boolean keyUp(int keyCode) {
@@ -281,7 +257,6 @@ public class Controller extends InputAdapter implements Disposable {
 
 	public void setView(GdxView view) {
 		this.view = view;
-		LOG.log(Level.INFO, "Set the view to " + view);
 	}
 
 	/**
@@ -291,11 +266,8 @@ public class Controller extends InputAdapter implements Disposable {
 	 *            The time between the current frame and the last one.
 	 */
 	public void update() {
-
 		handleMovement();
 		handleInteractions();
 		handleGameConditions();
-
 	}
-
 }

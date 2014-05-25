@@ -3,20 +3,16 @@ package edu.chalmers.blockster.core.objects;
 import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import edu.chalmers.blockster.core.objects.interactions.AbstractPlayerInteraction;
 import edu.chalmers.blockster.core.objects.interactions.Interactable;
 import edu.chalmers.blockster.core.objects.interactions.Interactor;
-import edu.chalmers.blockster.core.objects.interactions.AbstractPlayerInteraction;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 import edu.chalmers.blockster.core.util.GridObject;
 
 public class Block extends AbstractBlocksterObject implements GridObject, Interactable {
-
-	private static final Logger LOG = Logger.getLogger(Block.class.getName());
 	
 	private final Set<String> properties;
 
@@ -103,7 +99,6 @@ public class Block extends AbstractBlocksterObject implements GridObject, Intera
 
 	@Override
 	public void moveToNextPosition() {
-		LOG.log(Level.FINE, "Removing" + this);
 		super.moveToNextPosition();
 	}
 
@@ -139,5 +134,4 @@ public class Block extends AbstractBlocksterObject implements GridObject, Intera
 		return isLiftable() && !blockMap.hasBlock((int) getX(), 
 				(int) getY()+1);
 	}
-	
 }

@@ -1,17 +1,11 @@
 package edu.chalmers.blockster.core.objects.interactions;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlockLiftedInteraction extends AbstractPlayerInteraction {
-
-	private static final Logger LOG = Logger
-			.getLogger(BlockLiftedInteraction.class.getName());
 
 	private final Interactor interactor;
 	private final Interactable interacted;
@@ -31,12 +25,10 @@ public class BlockLiftedInteraction extends AbstractPlayerInteraction {
 
 	@Override
 	public void interact(Direction dir) {
-		LOG.log(Level.INFO, "Interacting: " + dir.name());
 		Movement move;
 		
 		switch (getMovePerformType(dir)) {
 			case CAN_MOVE:
-				LOG.log(Level.INFO, "Can move");
 				move = Movement.getMoveMovement(dir);
 				break;
 			case CAN_CLIMB_DOWN:
@@ -44,7 +36,6 @@ public class BlockLiftedInteraction extends AbstractPlayerInteraction {
 				break;
 			default: return;
 		}
-		
 
 		interactor.setAnimationState(new AnimationState(move));
 		interacted.setAnimationState(new AnimationState(move));
@@ -72,8 +63,6 @@ public class BlockLiftedInteraction extends AbstractPlayerInteraction {
 			interactor.setLifting(false);
 			interacted.setLifted(false);
 			interacted.removeFromGrid();
-		} else {
-			LOG.log(Level.INFO, "Could not end interaction");
 		}
 	}
 
@@ -108,5 +97,4 @@ public class BlockLiftedInteraction extends AbstractPlayerInteraction {
 		}
 
 	}
-
 }

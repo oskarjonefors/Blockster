@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.util.GridMap;
@@ -18,8 +16,6 @@ import edu.chalmers.blockster.core.util.GridMap;
 
 public class BlocksterMap implements GridMap, BlockMap {
 
-	private static final Logger LOG = Logger
-			.getLogger(BlocksterMap.class.getName());
 	private Block[][] blockMap;
 	private final List<Point> playerStartingPositions;
 	private final float blockWidth, blockHeight;
@@ -50,57 +46,36 @@ public class BlocksterMap implements GridMap, BlockMap {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#addActiveBlockListener(edu.chalmers.blockster.core.objects.ActiveBlockListener)
-	 */
 	@Override
 	public void addActiveBlockListener(ActiveBlockListener listener) {
 		activeBlockListeners.add(listener);
 	}
 	
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#getActiveBlockListener()
-	 */
 	@Override
 	public List<ActiveBlockListener> getActiveBlockListener(){
 		return activeBlockListeners;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#removeActiveBlockListener(edu.chalmers.blockster.core.objects.ActiveBlockListener)
-	 */
 	@Override
 	public void removeActiveBlockListener(ActiveBlockListener listener) {
 		activeBlockListeners.remove(listener);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#addListener(edu.chalmers.blockster.core.objects.BlockMapListener)
-	 */
 	@Override
 	public void addListener(BlockMapListener listener) {
 		listeners.add(listener);
 	}
-	
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#getListeners()
-	 */
+
 	@Override
 	public List<BlockMapListener> getListeners(){
 		return listeners;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#removeListener(edu.chalmers.blockster.core.objects.BlockMapListener)
-	 */
 	@Override
 	public void removeListener(BlockMapListener listener) {
 		listeners.remove(listener);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#removeBlock(edu.chalmers.blockster.core.objects.Block)
-	 */
 	@Override
 	public void removeBlock(Block block) {
 		if (block == null ) {
@@ -116,9 +91,6 @@ public class BlocksterMap implements GridMap, BlockMap {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#insertBlock(edu.chalmers.blockster.core.objects.Block)
-	 */
 	@Override
 	public void insertBlock(Block block) {
 		if (block == null ) {
@@ -134,41 +106,26 @@ public class BlocksterMap implements GridMap, BlockMap {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#getBlockWidth()
-	 */
 	@Override
 	public float getBlockWidth() {
 		return blockWidth;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#getBlockHeight()
-	 */
 	@Override
 	public float getBlockHeight() {
 		return blockHeight;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#getHeight()
-	 */
 	@Override
 	public int getHeight() {
 		return blockMap[0].length;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#getWidth()
-	 */
 	@Override
 	public int getWidth() {
 		return blockMap.length;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#setBlock(int, int, edu.chalmers.blockster.core.objects.Block)
-	 */
 	@Override
 	public void setBlock(int x, int y, Block block) {
 		if(x < getWidth() && y < getHeight()
@@ -177,9 +134,6 @@ public class BlocksterMap implements GridMap, BlockMap {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#getBlock(int, int)
-	 */
 	@Override
 	public Block getBlock(int x, int y) {
 		if(x >= getWidth() || y >= getHeight()) {
@@ -188,9 +142,6 @@ public class BlocksterMap implements GridMap, BlockMap {
 		return blockMap[x][y];
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#hasBlock(int, int)
-	 */
 	@Override
 	public boolean hasBlock(int x, int y) {
 		if (x < 0 || x >= getWidth()) {
@@ -213,9 +164,6 @@ public class BlocksterMap implements GridMap, BlockMap {
 		return hasBlock(x, y) && getBlock(x,y).isSolid();
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#getBlocks()
-	 */
 	@Override
 	public Set<Block> getBlocks() {
 		final Set<Block> blocks = new HashSet<Block>();
@@ -225,34 +173,23 @@ public class BlocksterMap implements GridMap, BlockMap {
 		return blocks;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#getActiveBlocks()
-	 */
 	@Override
 	public Set<Block> getActiveBlocks() {
 		return new HashSet<Block>(activeBlocks);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#getPlayerStartingPositions()
-	 */
 	@Override
 	public List<Point> getPlayerStartingPositions() {
 		return new ArrayList<Point>(playerStartingPositions);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#updateActiveBlocks(float)
-	 */
 	@Override
 	public void updateActiveBlocks(float deltaTime) {
 		final Set<Block> blockSet = new HashSet<Block>(activeBlocks);
 		for (final Block block : blockSet) {
 			final AnimationState anim = block.getAnimationState();
 			anim.updatePosition(deltaTime);
-			LOG.log(Level.FINE, "Updating " + block);
 			if (anim.isDone()) {
-				LOG.log(Level.FINE, "Animation on " + block + " is done");
 				block.moveToNextPosition();
 				insertFinishedBlock(block);
 			}
@@ -273,7 +210,8 @@ public class BlocksterMap implements GridMap, BlockMap {
 		}
 	}
 	
-	private void verifyMapMeasurements(int width, int height, float blockWidth, float blockHeight) {
+	private void verifyMapMeasurements(int width, int height, float blockWidth,
+			float blockHeight) {
 		
 		final String posi = ". Must be positive.";
 		
@@ -315,9 +253,6 @@ public class BlocksterMap implements GridMap, BlockMap {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.chalmers.blockster.core.objects.BlockMap#addActiveBlock(edu.chalmers.blockster.core.objects.Block)
-	 */
 	@Override
 	public void addActiveBlock(Block block) {
 		activeBlocks.add(block);

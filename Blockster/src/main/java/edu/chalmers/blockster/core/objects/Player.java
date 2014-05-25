@@ -5,28 +5,22 @@ import static edu.chalmers.blockster.core.util.Calculations.collisionEitherCorne
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.vecmath.Vector2f;
 
+import edu.chalmers.blockster.core.objects.interactions.AbstractPlayerInteraction;
 import edu.chalmers.blockster.core.objects.interactions.BlockGrabbedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.BlockLiftedInteraction;
 import edu.chalmers.blockster.core.objects.interactions.Interactor;
-import edu.chalmers.blockster.core.objects.interactions.AbstractPlayerInteraction;
 import edu.chalmers.blockster.core.objects.movement.AnimationState;
 import edu.chalmers.blockster.core.objects.movement.Direction;
 import edu.chalmers.blockster.core.objects.movement.Movement;
 
 /**
  * The model representing a player in the game Blockster
- * 
- * @author Emilia Nilsson and Eric Bjuhr
- * 
  */
 public class Player extends AbstractBlocksterObject implements Interactor {
 	
-	private static final Logger LOG = Logger.getLogger(Player.class.getName());
 	private final Block none;
 	private Block processedBlock;
 	private boolean grabbingBlock;
@@ -91,14 +85,11 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 		final int checkY = (int) (getOriginY() / getScaleY()) + dir.getDeltaY();
 	
 		return checkY >= 0 && getBlockMap().hasBlock(checkX, checkY - 1);
-	}		
-
+	}
 
 	public void climbBlock() {
 		final Block block = getAdjacentBlock(); 
-		LOG.log(Level.FINE, "Can we climb block?");
 		if (!isGrabbingBlock() && canClimbBlock(block) && block.canBeClimbed()) {
-			LOG.log(Level.FINE, "We can climb block!");
 			final Direction dir = Direction.getDirection(
 					getX() / blockMap.getBlockWidth(), block.getX());
 			if (isLiftingBlock()) {
@@ -127,7 +118,6 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 
 	public void endInteraction() {
 		interaction.endInteraction();
-		LOG.log(Level.FINE, "Ending interaction");
 	}
 
 	public Block getProcessedBlock() {
@@ -139,8 +129,6 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 		if (block.isTeleporter()){
 			enterTeleport();
 		} else if (canGrabBlock(block) && block.canBeGrabbed()) {
-			LOG.log(Level.FINE, "Can grab block at " + block.getX() + " "
-					+ block.getY());
 			processedBlock = block;
 			grabbingBlock = true;
 			setInteraction(new BlockGrabbedInteraction(this, block, blockMap));
@@ -176,7 +164,8 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 					directionChanged = false;
 					wait = 0;
 				}
-			} else if (blockMap.collisionAt((int) (getX()/getScaleX()), (int) (getY()/getScaleY()) - 1)) {
+			} else if (blockMap.collisionAt((int) (getX() / getScaleX()),
+					(int) (getY() / getScaleY()) - 1)) {
 				interaction.interact(dir);
 				movedBlock = true;
 				directionChanged = false;
@@ -223,10 +212,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 	}
 
 	public void liftBlock() {
-		LOG.log(Level.FINE, "Trying to lift block " + processedBlock);
 		if (canLiftBlock(processedBlock) && processedBlock.canBeLifted()) {
-			LOG.log(Level.FINE, "Can lift block at " + processedBlock.getX()
-					+ " " + processedBlock.getY());
 			setInteraction(new BlockLiftedInteraction(this, processedBlock,
 					blockMap));
 			interaction.startInteraction();
@@ -269,7 +255,8 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 	public void setGrabbing(boolean b) {
 		grabbingBlock = b;
 		if (b) {
-			final Movement move = getDirection() == Direction.LEFT ? Movement.GRAB_LEFT : Movement.GRAB_RIGHT;
+			final Movement move = getDirection() == Direction.LEFT ? Movement.GRAB_LEFT
+					: Movement.GRAB_RIGHT;
 			setAnimationState(new AnimationState(move));
 		} else {
 			setAnimationState(AnimationState.NONE);
@@ -289,7 +276,8 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 	public void setLifting(boolean lift) {
 		liftingBlock = lift;
 		if (lift) {
-			setAnimationState(getDirection() == Direction.LEFT ? new AnimationState(Movement.PLAYER_LIFT_LEFT)
+			setAnimationState(getDirection() == Direction.LEFT ? new AnimationState(
+					Movement.PLAYER_LIFT_LEFT)
 					: new AnimationState(Movement.PLAYER_LIFT_RIGHT));
 		} else {
 			setAnimationState(getDirection() == Direction.LEFT ? new AnimationState(Movement.PLAYER_PLACE_LEFT)
@@ -318,7 +306,6 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 			}
 
 		} else {
-			LOG.log(Level.FINE, "Moving " + this);
 			lastMovement = getAnimationState().getMovement();
 			anim.updatePosition(deltaTime);
 		}
@@ -357,4 +344,3 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 		processedBlock.setInteraction(interaction);
 	}
 }
-
