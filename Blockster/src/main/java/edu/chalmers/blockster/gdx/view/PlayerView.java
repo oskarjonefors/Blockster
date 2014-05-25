@@ -87,9 +87,11 @@ public class PlayerView {
 		case PULL_LEFT: return getPushPullAnim(movement);
 		case PULL_RIGHT: return getPushPullAnim(movement);
 		case FALL_DOWN: return getFallAnim();
-		default:; 		
+		default: return getMovingAnim(movement); 		
 		}
+	}
 
+	private TextureRegion getMovingAnim(Movement movement) {
 		if (player.isGrabbingBlock()) { 
 			return arrayOfAnimation.get(lastMovement == Movement.GRAB_LEFT ? Movement.GRAB_LEFT :Movement.GRAB_RIGHT).getKeyFrame(animTime);
 		} else {
