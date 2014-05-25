@@ -9,7 +9,6 @@ import java.util.List;
 import javax.vecmath.Vector2f;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.chalmers.blockster.core.objects.World;
@@ -452,7 +451,7 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void testCollidedVerticaly() {
+	public void testCollidedVertically() {
 		//#1
 		final Block tempBlock = new Block(2, 1, blockMap);
 		tempBlock.setProperty("solid");
@@ -739,5 +738,64 @@ public class PlayerTest {
 		}
 	}
 	
+	@Test
+	public void testInteractWhenLifting() {
+		block.setProperty("liftable");
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		player.liftBlock();
+		if (!player.isInteracting()) {
+			fail("Incorrect preconditions");
+		}
+		
+		player.interact();
+		if (player.hasMovedBlock()) {
+			fail("Should not have moved a block yet");
+		}
+		
+		player.updatePosition(5);
+		player.getProcessedBlock().getAnimationState().updatePosition(5);
+		
+		//Direction changed, reset the wait counter.
+		player.interact();
+		player.interact();
+		player.interact();
+		if (player.hasMovedBlock()) {
+			fail("Should still not have moved yet");
+		}
+		
+		player.interact();
+		if (!player.hasMovedBlock()) {
+			fail("Should not have moved a block yet");
+		}
+	}
+	
+	@Test
+	public void testInteractWhenLiftedBlockNotDone() {
+		block.setProperty("liftable");
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		player.liftBlock();
+		
+		player.updatePosition(5);
+		player.interact();
+		if (player.hasMovedBlock()) {
+			fail("Should not have moved a block yet");
+		}
+	}
+	
+	@Test
+	public void testInteractWhenLiftingPlayerNotDone() {
+		block.setProperty("liftable");
+		player.setDirection(Direction.RIGHT);
+		player.startInteraction();
+		player.liftBlock();
+		
+		player.getProcessedBlock().getAnimationState().updatePosition(5);
+		player.interact();
+		if (player.hasMovedBlock()) {
+			fail("Should not have moved a block yet");
+		}
+	}
 	
 }
