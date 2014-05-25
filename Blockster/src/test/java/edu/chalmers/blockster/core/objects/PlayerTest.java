@@ -684,4 +684,20 @@ public class PlayerTest {
 
 		assertTrue(correct);		 
 	}
+	
+	@Test
+	public void isMoving() {
+		if (player.isMoving()) {
+			fail("Should not be moving yet");
+		}
+		
+		player.setDefaultVelocity(Direction.LEFT);
+		player.updatePosition(5);
+		
+		if (!player.isMoving()) {
+			fail("Should be moving");
+		}
+		
+	}
+	
 }
