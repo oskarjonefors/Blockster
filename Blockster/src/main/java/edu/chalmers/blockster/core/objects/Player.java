@@ -20,7 +20,7 @@ import edu.chalmers.blockster.core.objects.movement.Movement;
  * The model representing a player in the game Blockster
  */
 public class Player extends AbstractBlocksterObject implements Interactor {
-	
+
 	private final Block none;
 	private Block processedBlock;
 	private boolean grabbingBlock;
@@ -34,10 +34,10 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 	private final List<GameEventListener> listeners;
 	private boolean switchFromMe, moving;
 	private Movement lastMovement;
-	
+
 	public Player(float startX, float startY, BlockMap blockMap, World world) {
-		super(startX, startY, blockMap, blockMap.getBlockWidth(),
-				blockMap.getBlockHeight());
+		super(startX, startY, blockMap, blockMap.getBlockWidth(), blockMap
+				.getBlockHeight());
 		defaultVelocity = new Vector2f(4 * blockMap.getBlockWidth(),
 				55 * blockMap.getBlockHeight());
 		none = EmptyBlock.getInstance();
@@ -45,12 +45,11 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 		listeners = new ArrayList<GameEventListener>();
 		this.world = world;
 	}
-	
+
 	private boolean canClimbBlock(Block block) {
 		if (block instanceof EmptyBlock) {
 			return false;
 		}
-		
 		return isNextToBlock(block) && !climbingCollision();
 	}
 
@@ -58,7 +57,8 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 		final int playerGridX = (int) (getX() / getScaleX());
 		final int playerGridY = (int) (getY() / getScaleY());
 		if (blockMap.hasBlock(playerGridX, playerGridY + 1)) {
-			final Block blockAbove = blockMap.getBlock(playerGridX, playerGridY + 1);
+			final Block blockAbove = blockMap.getBlock(playerGridX,
+					playerGridY + 1);
 			return !blockAbove.equals(processedBlock);
 		} else {
 			return false;
@@ -77,33 +77,34 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 		final int checkX = (int) (getOriginX() / getScaleX()) + dir.getDeltaX();
 		final int checkY = (int) (getOriginY() / getScaleY()) + dir.getDeltaY();
 
-		return !getBlockMap().collisionAt(checkX , checkY);
+		return !getBlockMap().collisionAt(checkX, checkY);
 	}
-	
+
 	public boolean collisionBeneathNext(Direction dir) {
 		final int checkX = (int) (getOriginX() / getScaleX()) + dir.getDeltaX();
 		final int checkY = (int) (getOriginY() / getScaleY()) + dir.getDeltaY();
-	
+
 		return checkY >= 0 && getBlockMap().hasBlock(checkX, checkY - 1);
 	}
 
 	public void climbBlock() {
-		final Block block = getAdjacentBlock(); 
+		final Block block = getAdjacentBlock();
 		if (!isGrabbingBlock() && canClimbBlock(block) && block.canBeClimbed()) {
 			final Direction dir = Direction.getDirection(
 					getX() / blockMap.getBlockWidth(), block.getX());
 			if (isLiftingBlock()) {
-				final Movement state = getDirection() == Direction.LEFT ?
-						Movement.LIFTING_CLIMB_LEFT : Movement.LIFTING_CLIMB_RIGHT;
-		
+				final Movement state = getDirection() == Direction.LEFT ? Movement.LIFTING_CLIMB_LEFT
+						: Movement.LIFTING_CLIMB_RIGHT;
+
 				setAnimationState(new AnimationState(state));
-				
+
 				processedBlock.setAnimationState(new AnimationState(state));
 			} else {
-			setAnimationState(new AnimationState(Movement.getClimbMovement(dir)));
-			processedBlock.removeFromGrid();
-			processedBlock.setAnimationState(new AnimationState(Movement.
-												getClimbMovement(dir)));
+				setAnimationState(new AnimationState(
+						Movement.getClimbMovement(dir)));
+				processedBlock.removeFromGrid();
+				processedBlock.setAnimationState(new AnimationState(Movement
+						.getClimbMovement(dir)));
 			}
 		}
 	}
@@ -126,7 +127,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 
 	public void startInteraction() {
 		final Block block = getAdjacentBlock();
-		if (block.isTeleporter()){
+		if (block.isTeleporter()) {
 			enterTeleport();
 		} else if (canGrabBlock(block) && block.canBeGrabbed()) {
 			processedBlock = block;
@@ -135,11 +136,12 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 			interaction.startInteraction();
 		}
 	}
-	
+
 	public Block getAdjacentBlock() {
 		final Direction dir = getDirection();
 		if (dir == Direction.LEFT || dir == Direction.RIGHT) {
-			return blockMap.getBlock((int) (getX() / getScaleX()) + dir.getDeltaX(),
+			return blockMap.getBlock(
+					(int) (getX() / getScaleX()) + dir.getDeltaX(),
 					(int) ((2 * getY() + getHeight()) / 2 / getScaleY()));
 		} else {
 			return EmptyBlock.getInstance();
@@ -149,13 +151,13 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 	public World getWorld() {
 		return world;
 	}
-	
+
 	public boolean hasMovedBlock() {
 		return movedBlock;
 	}
 
 	public void interact() {
-		if (isInteracting() && getAnimationState().isDone() 
+		if (isInteracting() && getAnimationState().isDone()
 				&& processedBlock.getAnimationState().isDone()) {
 			Direction dir = getDirection();
 			if (directionChanged && isLiftingBlock()) {
@@ -195,19 +197,21 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 		if (block == null) {
 			return false;
 		}
-		
+
 		boolean isNextToBlock = isLiftingBlock()
 				&& Math.abs((int) block.getX()
 						- (int) (getX() / blockMap.getBlockWidth())) <= 1
 				&& Math.abs(block.getY() - getY() / blockMap.getBlockHeight()) <= 0.2f;
+
 		isNextToBlock |= getDirection().getDeltaX() < 0
-				&& Math.abs(block.getX() + 1
-						- Math.round(getX()) / blockMap.getBlockWidth()) <= 0.1f
+				&& Math.abs(block.getX() + 1 - Math.round(getX())
+						/ blockMap.getBlockWidth()) <= 0.1f
 				&& Math.abs(block.getY() - getY() / blockMap.getBlockHeight()) <= 0.2f;
+
 		isNextToBlock |= Math.abs(block.getX() - (getX() + getWidth())
-				/ getScaleX()) <= 0.25f && Math.abs(block.getY() - getY() /
-						blockMap.getBlockHeight()) <= 0.2f;
-		
+				/ getScaleX()) <= 0.25f
+				&& Math.abs(block.getY() - getY() / blockMap.getBlockHeight()) <= 0.2f;
+
 		return isNextToBlock;
 	}
 
@@ -264,10 +268,13 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 			movedBlock = false;
 			processedBlock = none;
 			Direction correctDir;
-			if (lastMovement == Movement.PULL_LEFT || lastMovement == Movement.PULL_RIGHT) {
-				correctDir = getDirection() == Direction.LEFT ? Direction.RIGHT : Direction.LEFT;
+			if (lastMovement == Movement.PULL_LEFT
+					|| lastMovement == Movement.PULL_RIGHT) {
+				correctDir = getDirection() == Direction.LEFT ? Direction.RIGHT
+						: Direction.LEFT;
 			} else {
-				correctDir = getDirection() == Direction.LEFT ? Direction.LEFT : Direction.RIGHT;
+				correctDir = getDirection() == Direction.LEFT ? Direction.LEFT
+						: Direction.RIGHT;
 			}
 			setDirection(correctDir);
 		}
@@ -277,21 +284,24 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 		liftingBlock = lift;
 		if (lift) {
 			setAnimationState(getDirection() == Direction.LEFT ? new AnimationState(
-					Movement.PLAYER_LIFT_LEFT)
-					: new AnimationState(Movement.PLAYER_LIFT_RIGHT));
+					Movement.PLAYER_LIFT_LEFT) : new AnimationState(
+					Movement.PLAYER_LIFT_RIGHT));
 		} else {
-			setAnimationState(getDirection() == Direction.LEFT ? new AnimationState(Movement.PLAYER_PLACE_LEFT)
-					: new AnimationState(Movement.PLAYER_PLACE_RIGHT));
+			setAnimationState(getDirection() == Direction.LEFT ? new AnimationState(
+					Movement.PLAYER_PLACE_LEFT) : new AnimationState(
+					Movement.PLAYER_PLACE_RIGHT));
 			setInteraction(AbstractPlayerInteraction.NONE);
 			movedBlock = false;
 			processedBlock = none;
 		}
 	}
-	
+
 	public boolean isLiftingOrPlacing() {
 		final Movement move = getAnimationState().getMovement();
-		return move == Movement.PLAYER_PLACE_LEFT || move == Movement.PLAYER_PLACE_RIGHT ||
-				move == Movement.PLAYER_LIFT_LEFT || move == Movement.PLAYER_LIFT_RIGHT;
+		return move == Movement.PLAYER_PLACE_LEFT
+				|| move == Movement.PLAYER_PLACE_RIGHT
+				|| move == Movement.PLAYER_LIFT_LEFT
+				|| move == Movement.PLAYER_LIFT_RIGHT;
 	}
 
 	public void updatePosition(float deltaTime) {
@@ -314,31 +324,31 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 	public void switchingToMe(boolean bool) {
 		switchFromMe = bool;
 	}
-	
+
 	public boolean isSwitchingToMe() {
 		return switchFromMe;
 	}
-	
-	public void addGameEventListener(GameEventListener e){
+
+	public void addGameEventListener(GameEventListener e) {
 		listeners.add(e);
 	}
-	
-	public void enterTeleport(){
+
+	public void enterTeleport() {
 		if (getDirection() == Direction.LEFT) {
 			setAnimationState(new AnimationState(Movement.MOVE_LEFT));
 		} else {
 			setAnimationState(new AnimationState(Movement.MOVE_RIGHT));
 		}
-		
+
 		for (final GameEventListener listener : listeners) {
 			listener.playerReachedGoal();
-		}	
+		}
 	}
-	
+
 	public boolean isMoving() {
 		return moving;
 	}
-	
+
 	private void setInteraction(AbstractPlayerInteraction interaction) {
 		this.interaction = interaction;
 		processedBlock.setInteraction(interaction);
