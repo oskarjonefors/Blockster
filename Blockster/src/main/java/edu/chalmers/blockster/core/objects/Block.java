@@ -103,7 +103,7 @@ public class Block extends AbstractBlocksterObject implements GridObject, Intera
 
 	@Override
 	public void moveToNextPosition() {
-		LOG.log(Level.INFO, "Removing" + this);
+		LOG.log(Level.FINE, "Removing" + this);
 		super.moveToNextPosition();
 	}
 
