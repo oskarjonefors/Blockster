@@ -81,14 +81,13 @@ public class PlayerView {
 	}
 
 	private TextureRegion getAnimations(Movement movement) {
-		TextureRegion region;
-		switch (movement) {
-		case PUSH_LEFT: return getPushPullAnim(movement); 
-		case PUSH_RIGHT: return getPushPullAnim(movement);  
-		case PULL_LEFT: return getPushPullAnim(movement);
-		case PULL_RIGHT: return getPushPullAnim(movement); 
-		case FALL_DOWN: return getFallAnim(); 
-		default: return getMovingAnim(movement);  		
+		if (movement == Movement.PULL_LEFT || movement == Movement.PULL_RIGHT ||
+				movement == Movement.PUSH_LEFT || movement == Movement.PUSH_RIGHT) {
+			return arrayOfAnimation.get(movement).getKeyFrame(animTime, true);
+		} else if ( movement == Movement.FALL_DOWN) {
+			return getFallAnim();
+		} else { 
+			return getMovingAnim(movement);  		
 		}
 	}
 
