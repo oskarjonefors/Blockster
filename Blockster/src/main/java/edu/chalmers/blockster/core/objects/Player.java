@@ -172,7 +172,7 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 			Direction dir = getDirection();
 			if (directionChanged && isLiftingBlock()) {
 				wait++;
-				if (wait > 2) {
+				if (wait > 6) {
 					directionChanged = false;
 					wait = 0;
 				}
