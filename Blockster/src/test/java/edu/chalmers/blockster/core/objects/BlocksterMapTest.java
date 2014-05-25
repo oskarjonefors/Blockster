@@ -149,6 +149,22 @@ public class BlocksterMapTest {
 			fail("block was not inserted in blockmap");
 		}
 	}
+	
+	@Test
+	public void setBlock() {
+		block = new Block(2, 1, blockMap);
+		blockMap.setBlock(9, 6, block);
+		
+		if (blockMap.getBlock(9, 6) == block) {
+			fail("Set a block outside map");
+		}
+		
+		blockMap.setBlock(6, 13, block);
+		
+		if (blockMap.getBlock(6, 13) == block) {
+			fail("Set a block outside map");
+		}
+	}
 
 	@Test(expected=IllegalArgumentException.class) 
 	public void insertNullBlockTest() {
