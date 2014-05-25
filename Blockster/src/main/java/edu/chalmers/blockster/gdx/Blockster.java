@@ -20,12 +20,17 @@ import edu.chalmers.blockster.gdx.controller.Controller;
 import edu.chalmers.blockster.gdx.view.GdxFactory;
 import edu.chalmers.blockster.gdx.view.GdxView;
 
-public class Blockster extends Game implements MapChangeListener {
+public final class Blockster extends Game implements MapChangeListener {
 	
 	private Controller controller;
 	private GdxView viewer;
 	private Model stage;
 	private Map<Model, GdxView> stages;
+	
+	public Blockster() {
+		super();
+		create();
+	}
 	
 	private void addStagesToMap(Map<Model, GdxView> stageMap, FileHandle... maps) {
 		final TmxMapLoader loader = new TmxMapLoader();
@@ -41,7 +46,7 @@ public class Blockster extends Game implements MapChangeListener {
 	}
 	
 	@Override
-	public void create () {
+	public final void create () {
 		controller = new Controller();
 		controller.addMapChangeListener(this);
 		try {
