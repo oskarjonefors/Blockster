@@ -9,7 +9,7 @@ public final class EmptyBlock extends Block {
 		super(0, 0, null);
 	}
 	
-	public synchronized static EmptyBlock getInstance() {
+	public static synchronized EmptyBlock getInstance() {
 		if(instance == null) {
 			synchronized (EmptyBlock.class) {
 				instance = new EmptyBlock();

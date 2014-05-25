@@ -21,7 +21,6 @@ public class AnimationFactory {
 	private final Animation bluePortalAnimations, yellowPortalAnimations;
 
 	private static final float ZERO_ONE_TIME = 0.1f;
-	private static final float ZERO_THREE_TIME = 0.3f;
 	
 	private static final int NBR_PIC_HEIGHT = 2;
 	private static final int NBR_PORTAL_PIC_WIDTH = 4;
