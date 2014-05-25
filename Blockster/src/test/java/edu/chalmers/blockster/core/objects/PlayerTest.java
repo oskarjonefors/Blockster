@@ -686,7 +686,7 @@ public class PlayerTest {
 	}
 	
 	@Test
-	public void isMoving() {
+	public void testIsMoving() {
 		if (player.isMoving()) {
 			fail("Should not be moving yet");
 		}
@@ -697,7 +697,47 @@ public class PlayerTest {
 		if (!player.isMoving()) {
 			fail("Should be moving");
 		}
-		
 	}
+	
+	@Test
+	public void testIsLiftingOrPlacingPlaceLeft() {
+		player.setAnimationState(new AnimationState(Movement.PLAYER_PLACE_LEFT));
+		if (!player.isLiftingOrPlacing()) {
+			fail("Player is actually lifting or placing");
+		}
+	}
+	
+	@Test
+	public void testIsLiftingOrPlacingPlaceRight() {
+		player.setAnimationState(new AnimationState(Movement.PLAYER_PLACE_RIGHT));
+		if (!player.isLiftingOrPlacing()) {
+			fail("Player is actually lifting or placing");
+		}
+	}
+	
+	@Test
+	public void testIsLiftingOrPlacingLiftLeft() {
+		player.setAnimationState(new AnimationState(Movement.PLAYER_LIFT_LEFT));
+		if (!player.isLiftingOrPlacing()) {
+			fail("Player is actually lifting or placing");
+		}
+	}
+	
+	@Test
+	public void testIsLiftingOrPlacingLiftRight() {
+		player.setAnimationState(new AnimationState(Movement.PLAYER_LIFT_RIGHT));
+		if (!player.isLiftingOrPlacing()) {
+			fail("Player is actually lifting or placing");
+		}
+	}
+	
+	@Test
+	public void testNotLiftingOrPlacing() {
+		player.setAnimationState(AnimationState.NONE);
+		if (player.isLiftingOrPlacing()) {
+			fail("Player is actually  neither lifting nor placing");
+		}
+	}
+	
 	
 }
