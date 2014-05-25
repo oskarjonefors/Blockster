@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -57,7 +58,7 @@ public final class Blockster extends Game implements MapChangeListener {
 			
 			controller.setModel(model);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.getGlobal().throwing("Blockster", "create", e);
 		}
 	}
 	
