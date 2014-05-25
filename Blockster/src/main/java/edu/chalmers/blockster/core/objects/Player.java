@@ -295,7 +295,7 @@ public class Player extends BlocksterObject implements Interactor {
 	}
 
 	public void updatePosition(float deltaTime) {
-		moving = !(getVelocity().x == 0);
+		moving = getVelocity().x != 0;
 		final AnimationState anim = getAnimationState();
 		if (anim == AnimationState.NONE) {
 			final Vector2f velocity = getVelocity();
