@@ -790,6 +790,10 @@ public class PlayerTest {
 		player.interact();
 		player.interact();
 		player.interact();
+		player.interact();
+		player.interact();
+		player.interact();
+		player.interact();
 		if (player.hasMovedBlock()) {
 			fail("Should still not have moved yet");
 		}
