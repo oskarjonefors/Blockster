@@ -103,11 +103,6 @@ public class Block extends AbstractBlocksterObject implements GridObject,
 		return properties.contains("teleporter");
 	}
 
-	@Override
-	public void moveToNextPosition() {
-		super.moveToNextPosition();
-	}
-
 	public void removeFromGrid() {
 		blockMap.removeBlock(this);
 	}
