@@ -29,7 +29,7 @@ public class Model implements Comparable<Model>, GameEventListener {
 	private final Factory factory;
 	private final String name;
 	private GameState gameState = GameState.GAME_RUNNING;
-	private boolean activePlayerEnteringTeleporter = false;
+	private boolean activePlayerEnteringTeleporter;
 
 	public Model(Factory factory, String name) {
 		this.factory = factory;
@@ -45,7 +45,7 @@ public class Model implements Comparable<Model>, GameEventListener {
 		setStartPositions();
 		activePlayer = players.get(0);
 		
-		for(Player player : players){
+		for(final Player player : players){
 			player.addGameEventListener(this);
 		}
 	}
@@ -147,14 +147,14 @@ public class Model implements Comparable<Model>, GameEventListener {
 	
 	private void checkGoals() {
 		if (activePlayerEnteringTeleporter) {
-			Player previousActivePlayer = activePlayer;
+			final Player previousActivePlayer = activePlayer;
 			
 			if (gameIsWon()) {
 				setGameState(GameState.GAME_WON);
 			}
 			
 			nextPlayer();
-			if (previousActivePlayer != activePlayer) {
+			if (!previousActivePlayer.equals(activePlayer)) {
 				players.remove(previousActivePlayer);
 				activePlayerEnteringTeleporter = false;
 			}
@@ -162,9 +162,9 @@ public class Model implements Comparable<Model>, GameEventListener {
 	}
 	
 	private boolean gameIsWon() {
-		boolean activePlayerMovementDone = getActivePlayer()
+		final boolean activePlayerMovementDone = getActivePlayer()
 				.getAnimationState().getMovement() == Movement.NONE;
-		boolean lastPlayerToPortal = players.size() == 1;
+		final boolean lastPlayerToPortal = players.size() == 1;
 		return activePlayerMovementDone && lastPlayerToPortal;
 	}
 
