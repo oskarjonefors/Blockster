@@ -39,14 +39,14 @@ public class AnimationFactory {
 		dayArrayOfAnimations = generateAnimationMap(World.DAY);
 		nightArrayOfAnimations = generateAnimationMap(World.NIGHT);
 
-		Texture bluePortal = new Texture(Gdx.files.internal("Animations/blue_portal.png"));
-		Texture yellowPortal = new Texture(Gdx.files.internal("Animations/yellow_portal.png"));
+		final Texture bluePortal = new Texture(Gdx.files.internal("Animations/blue_portal.png"));
+		final Texture yellowPortal = new Texture(Gdx.files.internal("Animations/yellow_portal.png"));
 		
 		//split all the images into the TextureRegion matrix
-		TextureRegion[][] bluePortalPics = TextureRegion.split(bluePortal, bluePortal.getWidth()/NBR_PORTAL_PIC_WIDTH,
+		final TextureRegion[][] bluePortalPics = TextureRegion.split(bluePortal, bluePortal.getWidth()/NBR_PORTAL_PIC_WIDTH,
 				bluePortal.getHeight()/NBR_PIC_HEIGHT);
 
-		TextureRegion[][] yellowPortalPics = TextureRegion.split(yellowPortal, yellowPortal.getWidth()/NBR_PORTAL_PIC_WIDTH,
+		final TextureRegion[][] yellowPortalPics = TextureRegion.split(yellowPortal, yellowPortal.getWidth()/NBR_PORTAL_PIC_WIDTH,
 				yellowPortal.getHeight()/NBR_PIC_HEIGHT);
 
 		TextureRegion[] tempBluePortal = new TextureRegion[NBR_PORTAL_PIC_WIDTH*NBR_PIC_HEIGHT];
@@ -75,25 +75,25 @@ public class AnimationFactory {
 		final Map<Movement, Animation> animationMap = new HashMap<Movement, Animation>();
 		final String prefix = world == World.DAY ? "Animations/" : "Animations/night_";
 
-		Texture grab = new Texture(Gdx.files.internal(prefix + "grab_animation.png"));
-		Texture push = new Texture(Gdx.files.internal(prefix + "push_animation.png"));
-		Texture pull = new Texture(Gdx.files.internal(prefix + "pull_animation.png"));
-		Texture carry = new Texture(Gdx.files.internal(prefix + "lift_animation.png"));
-		Texture jump = new Texture(Gdx.files.internal(prefix + "jump.png"));
-		Texture liftJump = new Texture(Gdx.files.internal(prefix + "jump_with_block.png"));
+		final Texture grab = new Texture(Gdx.files.internal(prefix + "grab_animation.png"));
+		final Texture push = new Texture(Gdx.files.internal(prefix + "push_animation.png"));
+		final Texture pull = new Texture(Gdx.files.internal(prefix + "pull_animation.png"));
+		final Texture carry = new Texture(Gdx.files.internal(prefix + "lift_animation.png"));
+		final Texture jump = new Texture(Gdx.files.internal(prefix + "jump.png"));
+		final Texture liftJump = new Texture(Gdx.files.internal(prefix + "jump_with_block.png"));
 		
 
-		TextureRegion[][] grabPics = TextureRegion.split(grab, grab.getWidth()/THREE_PIC_WIDTH, grab.getHeight()/NBR_PIC_HEIGHT);
+		final TextureRegion[][] grabPics = TextureRegion.split(grab, grab.getWidth()/THREE_PIC_WIDTH, grab.getHeight()/NBR_PIC_HEIGHT);
 
-		TextureRegion[][] pushPics = TextureRegion.split(push, push.getWidth()/SIX_PIC_WIDTH, push.getHeight()/NBR_PIC_HEIGHT);
+		final TextureRegion[][] pushPics = TextureRegion.split(push, push.getWidth()/SIX_PIC_WIDTH, push.getHeight()/NBR_PIC_HEIGHT);
 
-		TextureRegion[][] carryPics = TextureRegion.split(carry, carry.getWidth()/SIX_PIC_WIDTH, carry.getHeight()/NBR_PIC_HEIGHT);
+		final TextureRegion[][] carryPics = TextureRegion.split(carry, carry.getWidth()/SIX_PIC_WIDTH, carry.getHeight()/NBR_PIC_HEIGHT);
 
-		TextureRegion[][] jumpPics = TextureRegion.split(jump, jump.getWidth()/TWO_PIC_WIDTH, jump.getHeight()/NBR_PIC_HEIGHT);
+		final TextureRegion[][] jumpPics = TextureRegion.split(jump, jump.getWidth()/TWO_PIC_WIDTH, jump.getHeight()/NBR_PIC_HEIGHT);
 		
-		TextureRegion[][] jumpWithBlockPics = TextureRegion.split(liftJump, liftJump.getWidth()/TWO_PIC_WIDTH, liftJump.getHeight()/NBR_PIC_HEIGHT);
+		final TextureRegion[][] jumpWithBlockPics = TextureRegion.split(liftJump, liftJump.getWidth()/TWO_PIC_WIDTH, liftJump.getHeight()/NBR_PIC_HEIGHT);
 		
-		TextureRegion[][] pullPics = TextureRegion.split(pull, pull.getWidth()/SIX_PIC_WIDTH, pull.getHeight()/NBR_PIC_HEIGHT);
+		final TextureRegion[][] pullPics = TextureRegion.split(pull, pull.getWidth()/SIX_PIC_WIDTH, pull.getHeight()/NBR_PIC_HEIGHT);
 
 		TextureRegion[] tempGrabLeft = new TextureRegion[THREE_PIC_WIDTH];
 		TextureRegion[] tempGrabRight = new TextureRegion[THREE_PIC_WIDTH];
@@ -136,25 +136,25 @@ public class AnimationFactory {
 		}
 
 		// Set arrayOfAnimation
-		Animation grabLeft = new Animation(ZERO_ONE_TIME, tempGrabLeft);
-		Animation grabRight = new Animation(ZERO_ONE_TIME, tempGrabRight);
+		final Animation grabLeft = new Animation(ZERO_ONE_TIME, tempGrabLeft);
+		final Animation grabRight = new Animation(ZERO_ONE_TIME, tempGrabRight);
 		grabRight.setPlayMode(Animation.REVERSED);
 
-		Animation pushLeft = new Animation(ZERO_ONE_TIME, tempPushLeft);
-		Animation pushRight = new Animation(ZERO_ONE_TIME, tempPushRight);
+		final Animation pushLeft = new Animation(ZERO_ONE_TIME, tempPushLeft);
+		final Animation pushRight = new Animation(ZERO_ONE_TIME, tempPushRight);
 		
-		Animation pullRight = new Animation(ZERO_ONE_TIME, tempPullRight);
-		Animation pullLeft = new Animation(ZERO_ONE_TIME, tempPullLeft);
+		final Animation pullRight = new Animation(ZERO_ONE_TIME, tempPullRight);
+		final Animation pullLeft = new Animation(ZERO_ONE_TIME, tempPullLeft);
 
-		Animation carryLeft = new Animation(ZERO_ONE_TIME, tempCarryLeft);
-		Animation carryRight = new Animation(ZERO_ONE_TIME, tempCarryRight);
+		final Animation carryLeft = new Animation(ZERO_ONE_TIME, tempCarryLeft);
+		final Animation carryRight = new Animation(ZERO_ONE_TIME, tempCarryRight);
 		carryLeft.setPlayMode(Animation.REVERSED);
 		
-		Animation jumpLeft = new Animation(ZERO_ONE_TIME, tempJumpLeft);
-		Animation jumpRight = new Animation(ZERO_ONE_TIME, tempJumpRight);
+		final Animation jumpLeft = new Animation(ZERO_ONE_TIME, tempJumpLeft);
+		final Animation jumpRight = new Animation(ZERO_ONE_TIME, tempJumpRight);
 		
-		Animation liftJumpLeft = new Animation(ZERO_ONE_TIME, tempLiftJumpLeft);
-		Animation liftJumpRight = new Animation(ZERO_ONE_TIME, tempLiftJumpRight);
+		final Animation liftJumpLeft = new Animation(ZERO_ONE_TIME, tempLiftJumpLeft);
+		final Animation liftJumpRight = new Animation(ZERO_ONE_TIME, tempLiftJumpRight);
 		
 		/**
 		 * link the the AnimationState to the correct animation
@@ -191,14 +191,14 @@ public class AnimationFactory {
 		final Map<Direction, Animation> walkMap = new HashMap<Direction, Animation>();
 		final String prefix = world == World.DAY ? "" : "night_";
 
-		Texture playerWalk = new Texture(Gdx.files.internal("Animations/" +
+		final Texture playerWalk = new Texture(Gdx.files.internal("Animations/" +
 				prefix + "walk_animation1.png"));
 
 		//split all the images into the TextureRegion matrix
-		TextureRegion[][] walkPics = TextureRegion.split(playerWalk, 
+		final TextureRegion[][] walkPics = TextureRegion.split(playerWalk, 
 				playerWalk.getWidth()/NBR_WALK_PIC_WIDTH, playerWalk.getHeight()/NBR_PIC_HEIGHT);
-		TextureRegion[] tempWalkLeft = new TextureRegion[NBR_WALK_PIC_WIDTH];
-		TextureRegion[] tempWalkRight = new TextureRegion[NBR_WALK_PIC_WIDTH];
+		final TextureRegion[] tempWalkLeft = new TextureRegion[NBR_WALK_PIC_WIDTH];
+		final TextureRegion[] tempWalkRight = new TextureRegion[NBR_WALK_PIC_WIDTH];
 
 		// Get walk animations
 		for (int i = 0; i < NBR_WALK_PIC_WIDTH; i++) {
@@ -206,7 +206,7 @@ public class AnimationFactory {
 			tempWalkLeft[i] = walkPics[1][i];
 		}
 
-		Animation ani = new Animation(ZERO_ONE_TIME, tempWalkLeft);
+		final Animation ani = new Animation(ZERO_ONE_TIME, tempWalkLeft);
 		ani.setPlayMode(Animation.LOOP_REVERSED);
 
 		walkMap.put(Direction.LEFT, ani);

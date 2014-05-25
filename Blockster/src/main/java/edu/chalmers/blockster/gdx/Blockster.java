@@ -55,8 +55,8 @@ public class Blockster extends Game implements MapChangeListener {
 		controller = new Controller();
 		controller.addMapChangeListener(this);
 		try {
-			FileHandle file = Gdx.files.internal("music/gourmet_race.mp3");
-			Music music = Gdx.audio.newMusic(file);
+			final FileHandle file = Gdx.files.internal("music/gourmet_race.mp3");
+			final Music music = Gdx.audio.newMusic(file);
 			music.setLooping(true);
 			/* add music.play() here to make the music start. */
 			
@@ -80,7 +80,7 @@ public class Blockster extends Game implements MapChangeListener {
 	}
 
 	private void loadStages() throws IOException {
-		FileHandle[] maps = {Gdx.files.internal("maps/stage1.tmx")};
+		final FileHandle[] maps = {Gdx.files.internal("maps/stage1.tmx")};
 		
 		stages = Collections.synchronizedSortedMap(new TreeMap<Model, GdxView>());
 		addStagesToMap(stages, maps);

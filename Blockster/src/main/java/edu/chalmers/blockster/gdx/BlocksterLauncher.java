@@ -12,13 +12,13 @@ public final class BlocksterLauncher {
 	}
 
 	public static void main(String [] args) {
-		ApplicationListener listener = new Blockster();
-		String title = "Blockster";
+		final ApplicationListener listener = new Blockster();
+		final String title = "Blockster";
 		
-		int width = 800;
-		int height = 600;
+		final int width = 800;
+		final int height = 600;
 		
-		boolean useOpenGLES2 = true;
+		final boolean useOpenGLES2 = true;
 		new LwjglApplication(listener, title, width, height, useOpenGLES2);
 	}
 }

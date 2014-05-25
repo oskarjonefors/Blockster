@@ -57,6 +57,7 @@ public class Controller extends InputAdapter implements Disposable {
 	 * an InputAdapter.
 	 */
 	public Controller() {
+		super();
 		init();
 	}
 
