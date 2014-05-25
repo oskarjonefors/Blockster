@@ -137,6 +137,10 @@ public class ModelTest {
 		if (!model2.equals(model3)) {
 			fail("The two models should be equal");
 		}
+		
+		if (model.equals(null)) {
+			fail("Model should not equal null");
+		}
 	}
 
 	@Test
