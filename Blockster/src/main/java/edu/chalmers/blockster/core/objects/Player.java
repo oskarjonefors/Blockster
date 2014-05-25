@@ -38,9 +38,9 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 	private int wait;
 	private boolean movedBlock;
 	private final List<GameEventListener> listeners;
-	private boolean switchFromMe;
-	private boolean moving;
-
+	private boolean switchFromMe, moving;
+	private Movement lastMovement;
+	
 	public Player(float startX, float startY, BlockMap blockMap, World world) {
 		super(startX, startY, blockMap, blockMap.getBlockWidth(),
 				blockMap.getBlockHeight());
@@ -275,6 +275,13 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 			setInteraction(AbstractPlayerInteraction.NONE);
 			movedBlock = false;
 			processedBlock = none;
+			Direction correctDir;
+			if (lastMovement == Movement.PULL_LEFT || lastMovement == Movement.PULL_RIGHT) {
+				correctDir = getDirection() == Direction.LEFT ? Direction.RIGHT : Direction.LEFT;
+			} else {
+				correctDir = getDirection() == Direction.LEFT ? Direction.LEFT : Direction.RIGHT;
+			}
+			setDirection(correctDir);
 		}
 	}
 
@@ -311,6 +318,8 @@ public class Player extends AbstractBlocksterObject implements Interactor {
 
 		} else {
 			LOG.log(Level.FINE, "Moving " + this);
+			lastMovement = getAnimationState().getMovement();
+			System.out.println(lastMovement);
 			anim.updatePosition(deltaTime);
 		}
 	}
