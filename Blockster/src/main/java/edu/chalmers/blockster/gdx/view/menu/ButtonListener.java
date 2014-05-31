@@ -5,8 +5,6 @@ import java.util.Locale;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import edu.chalmers.blockster.gdx.view.menu.MenuTable.MenuLocation;
-
 class ButtonListener extends ClickListener {
 	
 	private final ButtonClickedStrategy strategy;

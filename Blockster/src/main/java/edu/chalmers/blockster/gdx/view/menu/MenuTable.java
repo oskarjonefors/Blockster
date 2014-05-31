@@ -11,22 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 public class MenuTable extends Table implements ButtonClickedStrategy,
 			ModelButtonClickedStrategy {
 	
-	public enum MenuLocation {
-		START("Select Stage", "Options", "Quit"),
-		SELECT_STAGE("Back"),
-		OPTIONS("Back"),
-		QUIT();
-		
-		private final String[] content;
-		private MenuLocation(String...content) {
-			this.content = content;
-		}
-		
-		public String[] getMenuButtons() {
-			return content;
-		}
-	}
-	
 	private MenuLocation location;
 	private final ButtonListener buttonListener;
 	private final MainMenuParent parent;
