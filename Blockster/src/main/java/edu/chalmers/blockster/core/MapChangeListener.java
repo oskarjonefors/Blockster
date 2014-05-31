@@ -7,6 +7,6 @@ package edu.chalmers.blockster.core;
  */
 public interface MapChangeListener {
 
-	void stageChanged(Model stage);
+	void stageChanged(String name);
 	
 }

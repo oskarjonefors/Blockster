@@ -251,7 +251,7 @@ public class Controller extends InputAdapter implements Disposable {
 	public void setModel(Model model) {
 		this.model = model;
 		for (final MapChangeListener sl : stageListenerList) {
-			sl.stageChanged(model);
+			sl.stageChanged(model != null ? model.getName() : "Menu");
 		}
 	}
 
@@ -266,8 +266,10 @@ public class Controller extends InputAdapter implements Disposable {
 	 *            The time between the current frame and the last one.
 	 */
 	public void update() {
-		handleMovement();
-		handleInteractions();
-		handleGameConditions();
+		if (model != null) {
+			handleMovement();
+			handleInteractions();
+			handleGameConditions();
+		}
 	}
 }

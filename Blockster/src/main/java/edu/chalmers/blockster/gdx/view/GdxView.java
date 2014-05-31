@@ -29,7 +29,7 @@ import edu.chalmers.blockster.core.objects.World;
 /**
  * @author Joel Tegman, Oskar Jönefors
  */
-public class GdxView implements ApplicationListener, Disposable {
+public class GdxView extends AbstractView {
 
 	private static final Logger LOG = Logger.getLogger(GdxView.class.getName());
 
@@ -37,7 +37,6 @@ public class GdxView implements ApplicationListener, Disposable {
 	private SpriteBatch hudBatch;
 	private final Model model;
 	private OrthogonalTiledMapRenderer renderer;
-	private Stage stage;
 	private Map<Player, PlayerView> players;
 	private BackgroundImage background;
 	private final GdxFactory factory;
@@ -119,8 +118,6 @@ public class GdxView implements ApplicationListener, Disposable {
 			players.put(player, createPlayerView(player));
 		}
 
-		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
-				true);
 		camera = new OrthographicCamera();
 		gdxMap = factory.getGdxMap();
 		renderer = new OrthogonalTiledMapRenderer(gdxMap);
