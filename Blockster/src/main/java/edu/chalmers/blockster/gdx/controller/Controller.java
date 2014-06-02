@@ -50,7 +50,6 @@ public class Controller extends InputAdapter implements Disposable {
 	 */
 	public Controller() {
 		super();
-		init();
 	}
 
 	/**
@@ -86,9 +85,7 @@ public class Controller extends InputAdapter implements Disposable {
 		if ((keyFlags & RESTART_STAGE_BUTTON_R_FLAG) != 0) {
 			// Restart stage
 			keyFlags &= ~RESTART_STAGE_BUTTON_R_FLAG;
-			model.init();
 			setModel(model);
-			model.setGameState(GameState.GAME_RUNNING);
 		}
 
 		if ((miscFlags & TOGGLE_FULLSCREEN_FLAG) != 0) {
@@ -151,7 +148,7 @@ public class Controller extends InputAdapter implements Disposable {
 	/**
 	 * Initiates the listener.
 	 */
-	private void init() {
+	public void init() {
 		Gdx.input.setInputProcessor(this);
 	}
 

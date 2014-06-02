@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
+import edu.chalmers.blockster.core.GameState;
 import edu.chalmers.blockster.core.MapChangeListener;
 import edu.chalmers.blockster.core.Model;
 import edu.chalmers.blockster.gdx.controller.Controller;
@@ -82,6 +83,7 @@ public final class Blockster extends Game implements MapChangeListener, MainMenu
 		for (AbstractView view : views.values()) {
 			view.dispose();
 		}
+		controller.dispose();
 	}
 
 	private void loadStages() throws IOException {
@@ -123,12 +125,14 @@ public final class Blockster extends Game implements MapChangeListener, MainMenu
 	public void stageChanged(String name) {
 		model = models.get(name);
 		view = views.get(name);
-		
+
 		if (view instanceof GdxView) {
+			model.init();
+			model.setGameState(GameState.GAME_RUNNING);
 			GdxView gdxView = (GdxView) view;
 			controller.setView(gdxView);
-			gdxView.refreshRenderer();
-			gdxView.refreshStage();
+			gdxView.init();
+			controller.init();
 		}
 	}
 

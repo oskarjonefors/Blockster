@@ -42,11 +42,13 @@ public class GdxView extends AbstractView {
 	private final GdxFactory factory;
 	private GdxMap gdxMap;
 	private MiniMap miniMap;
+	private boolean initiated;
 
 	private PortalView bluePortalView;
 	private PortalView yellowPortalView;
 
 	public GdxView(Model model, GdxFactory factory) {
+		this.initiated = false;
 		this.model = model;
 		this.factory = factory;
 	}
@@ -64,7 +66,7 @@ public class GdxView extends AbstractView {
 	public void render() {
 
 		if (model.getGameState() == GameState.GAME_RUNNING) {
-
+			
 			/* Checks if the camera should transit between the players */
 			if (model.getActivePlayer().isSwitchingToMe()) {
 				transitCamera();
@@ -113,32 +115,22 @@ public class GdxView extends AbstractView {
 	 * Initialize the view.
 	 */
 	public void init() {
-		players = new HashMap<Player, PlayerView>();
-		for (final Player player : model.getPlayers()) {
-			players.put(player, createPlayerView(player));
+		if (!initiated) {
+			hudBatch = new SpriteBatch();
+			camera = new OrthographicCamera();
+			renderer = new OrthogonalTiledMapRenderer(null);
+			background = new BackgroundImage(new TextureRegion(new Texture("images/background_day.jpg")),
+					new TextureRegion(new Texture("images/background_night.jpg")));
+			bluePortalView = factory.getPortalView(0);
+			yellowPortalView = factory.getPortalView(1);
+	
+			/* Set the window size to match the screen resolution */
+			setWindowMode();
 		}
-
-		camera = new OrthographicCamera();
-		gdxMap = factory.getGdxMap();
-		renderer = new OrthogonalTiledMapRenderer(gdxMap);
-		stage.setCamera(camera);
-
-		/* Set the window size to match the screen resolution */
-		setWindowMode();
-
-		/* Add the background */
-		background = new BackgroundImage(new TextureRegion(new Texture("images/background_day.jpg")),
-				new TextureRegion(new Texture("images/background_night.jpg")));
 		
-
-		hudBatch = new SpriteBatch();
-		miniMap = factory.getMiniMap();
-		miniMap.setScaleX(8);
-		miniMap.setScaleY(8);
-		
-		bluePortalView = factory.getPortalView(0);
-		yellowPortalView = factory.getPortalView(1);
-		
+		refreshPlayers();
+		refreshRenderer();
+		refreshStage();
 	}
 	
 	public void transitCamera() {
@@ -168,6 +160,13 @@ public class GdxView extends AbstractView {
 		}
 	}
 
+	public void refreshPlayers() {
+		players = new HashMap<Player, PlayerView>();
+		for (final Player player : model.getPlayers()) {
+			players.put(player, createPlayerView(player));
+		}
+	}
+	
 	public void refreshRenderer() {
 		gdxMap = factory.getGdxMap();
 		miniMap = factory.getMiniMap();
