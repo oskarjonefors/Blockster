@@ -55,8 +55,11 @@ public class GdxView extends AbstractView {
 
 	@Override
 	public void dispose() {
-		stage.dispose();
-		renderer.dispose();
+		if (initiated) {
+			stage.dispose();
+			renderer.dispose();
+		}
+		initiated = false;
 	}
 
 	/**
@@ -116,6 +119,7 @@ public class GdxView extends AbstractView {
 	 */
 	public void init() {
 		if (!initiated) {
+			createStage();
 			hudBatch = new SpriteBatch();
 			camera = new OrthographicCamera();
 			renderer = new OrthogonalTiledMapRenderer(null);
@@ -125,12 +129,13 @@ public class GdxView extends AbstractView {
 			yellowPortalView = factory.getPortalView(1);
 	
 			/* Set the window size to match the screen resolution */
-			setWindowMode();
+			Screen.setWindowMode();
 		}
 		
 		refreshPlayers();
 		refreshRenderer();
 		refreshStage();
+		setZoom();
 	}
 	
 	public void transitCamera() {
@@ -188,17 +193,7 @@ public class GdxView extends AbstractView {
 		LOG.log(Level.INFO, "Resizing to " + width + " x " + height);
 	}
 
-	private void setFullScreenMode() {
-		Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode());
-		setZoom();
-	}
 
-	private void setWindowMode() {
-		final DisplayMode desktop = Gdx.graphics.getDesktopDisplayMode();
-		Gdx.graphics.setDisplayMode((int) (desktop.width * 0.75),
-				(int) (desktop.height * 0.75), false);
-		setZoom();
-	}
 
 	private void setZoom() {
 		camera.zoom = 4 * model.getMap().getBlockWidth() / Gdx.graphics.getWidth();
@@ -206,15 +201,16 @@ public class GdxView extends AbstractView {
 
 	public void toggleFullScreen() {
 		if (Gdx.graphics.isFullscreen()) {
-			setWindowMode();
+			Screen.setWindowMode();
 		} else {
-			setFullScreenMode();
+			Screen.setFullScreenMode();
 		}
+		setZoom();
 	}
 
 	@Override
 	public void create() {
-		/* Currently unused */
+		init();
 	}
 
 	@Override

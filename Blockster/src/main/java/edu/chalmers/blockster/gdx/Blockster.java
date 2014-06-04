@@ -23,6 +23,7 @@ import edu.chalmers.blockster.gdx.controller.Controller;
 import edu.chalmers.blockster.gdx.view.AbstractView;
 import edu.chalmers.blockster.gdx.view.GdxFactory;
 import edu.chalmers.blockster.gdx.view.GdxView;
+import edu.chalmers.blockster.gdx.view.Screen;
 import edu.chalmers.blockster.gdx.view.menu.MainMenu;
 import edu.chalmers.blockster.gdx.view.menu.MainMenuParent;
 
@@ -45,7 +46,6 @@ public final class Blockster extends Game implements MapChangeListener, MainMenu
 			final GdxFactory factory = new GdxFactory(map);
 			final Model model = new Model(factory, mapFile.name());
 			final GdxView view = new GdxView(model, factory);
-			view.init();
 			
 			views.put(mapFile.name(), view);
 			models.put(mapFile.name(), model);
@@ -125,13 +125,14 @@ public final class Blockster extends Game implements MapChangeListener, MainMenu
 	public void stageChanged(String name) {
 		model = models.get(name);
 		view = views.get(name);
-
+		
+		if (view != null) {
+			view.create();
+		}
+		
 		if (view instanceof GdxView) {
-			model.init();
 			model.setGameState(GameState.GAME_RUNNING);
-			GdxView gdxView = (GdxView) view;
-			controller.setView(gdxView);
-			gdxView.init();
+			controller.setView((GdxView) view);
 			controller.init();
 		}
 	}
@@ -145,4 +146,7 @@ public final class Blockster extends Game implements MapChangeListener, MainMenu
 	public void setModel(String name) {
 		controller.setModel(models.get(name));
 	}
+
+
+	
 }
