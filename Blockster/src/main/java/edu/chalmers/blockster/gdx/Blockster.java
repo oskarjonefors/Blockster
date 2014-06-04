@@ -32,33 +32,32 @@ public final class Blockster extends Game implements MapChangeListener, MainMenu
 	private Controller controller;
 	private ApplicationListener view;
 	private Model model;
-	private Map<String, AbstractView> views;
-	private Map<String, Model> models;
-	private MainMenu mainMenu;
+	private final Map<String, AbstractView> views;
+	private final Map<String, Model> models;
+	
+	public Blockster() {
+		views = new TreeMap<String, AbstractView>();
+		models = new TreeMap<String, Model>();
+	}
 	
 	private void addStagesToMap(FileHandle... maps) {
-		views = Collections.synchronizedSortedMap(new TreeMap<String, AbstractView>());
-		models = Collections.synchronizedSortedMap(new TreeMap<String, Model>());
-		
 		final TmxMapLoader loader = new TmxMapLoader();
 		for (final FileHandle mapFile : maps) {
+			final String fileName = mapFile.name();
 			final TiledMap map = loader.load(mapFile.path());
 			final GdxFactory factory = new GdxFactory(map);
-			final Model model = new Model(factory, mapFile.name());
+			final Model model = new Model(factory, fileName);
 			final GdxView view = new GdxView(model, factory);
 			
-			views.put(mapFile.name(), view);
-			models.put(mapFile.name(), model);
+			views.put(fileName, view);
+			models.put(fileName, model);
 		}
-		
-		views.put("Menu", mainMenu);
 	}
 	
 	@Override
 	public final void create () {
+		MainMenu mainMenu = new MainMenu(this);
 		controller = new Controller();
-		mainMenu = new MainMenu(this);
-		
 		mainMenu.create();
 		controller.addMapChangeListener(this);
 		try {
@@ -68,7 +67,8 @@ public final class Blockster extends Game implements MapChangeListener, MainMenu
 			music.play();
 
 			loadStages();
-
+			views.put("Menu", mainMenu);
+			
 			/*final Iterator<Model> modelIterator = stages.keySet().iterator();
 			final Model model = modelIterator.next();*/
 			

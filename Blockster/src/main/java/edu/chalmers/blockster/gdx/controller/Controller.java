@@ -50,6 +50,8 @@ public class Controller extends InputAdapter implements Disposable {
 	 */
 	public Controller() {
 		super();
+		model = null;
+		view = null;
 	}
 
 	/**

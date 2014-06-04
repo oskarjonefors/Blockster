@@ -19,7 +19,7 @@ class ButtonListener extends ClickListener {
 		
 		final String buttonText = event.getListenerActor().getName();
 		final String locationName;
-		if (buttonText.equals("Back")) {
+		if ("Back".equals(buttonText)) {
 			locationName = "START";
 		} else{
 			locationName = buttonText.replaceAll(" ", "_")

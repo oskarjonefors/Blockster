@@ -12,6 +12,6 @@ public enum MenuLocation {
 	}
 	
 	public String[] getMenuButtons() {
-		return content;
+		return content.clone();
 	}
 }
