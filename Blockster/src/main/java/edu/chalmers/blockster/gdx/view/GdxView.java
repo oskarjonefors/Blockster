@@ -118,6 +118,7 @@ public class GdxView extends AbstractView {
 	 * Initialize the view.
 	 */
 	public void init() {
+		
 		if (!initiated) {
 			createStage();
 			hudBatch = new SpriteBatch();
@@ -130,12 +131,13 @@ public class GdxView extends AbstractView {
 	
 			/* Set the window size to match the screen resolution */
 			Screen.setWindowMode();
+			setZoom();
+			initiated = true;
 		}
-		
+
+		refreshStage();
 		refreshPlayers();
 		refreshRenderer();
-		refreshStage();
-		setZoom();
 	}
 	
 	public void transitCamera() {

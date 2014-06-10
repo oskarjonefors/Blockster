@@ -10,12 +10,6 @@ public abstract class AbstractView extends WidgetGroup
 		implements ApplicationListener, Disposable {
 
 	protected Stage stage;
-
-	public AbstractView() {
-		super();
-		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
-				true);
-	}
 	
 	protected final void createStage() {
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
