@@ -11,6 +11,7 @@ public class MainMenu extends AbstractView {
 	
 	public MainMenu(MainMenuParent parent) {
 		super();
+		createStage();
         table = new MenuTable(parent);
 	}
 	
