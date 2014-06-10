@@ -126,12 +126,16 @@ public final class Blockster extends Game implements MapChangeListener, MainMenu
 		model = models.get(name);
 		view = views.get(name);
 		
+		if (model != null) {
+			model.init();
+			model.setGameState(GameState.GAME_RUNNING);
+		}
+		
 		if (view != null) {
 			view.create();
 		}
 		
 		if (view instanceof GdxView) {
-			model.setGameState(GameState.GAME_RUNNING);
 			controller.setView((GdxView) view);
 			controller.init();
 		}
